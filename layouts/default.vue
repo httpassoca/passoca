@@ -1,8 +1,45 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto bg-backcolor dark:bg-darkColor">
+    <VueToggles
+      v-model="darkMode"
+      height="30"
+      width="70"
+      dot-color="#100f10"
+      checked-text="Dark"
+      unchecked-text="Light"
+      checked-bg="#66ef73"
+      unchecked-bg="white"
+      checked-color="black"
+      unchecked-color="black"
+      font-size="14"
+      @click="changeTheme"
+    />
     <Nuxt />
   </div>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+import VueToggles from 'vue-toggles/dist/vue-toggles.ssr'
+import 'vue-toggles/dist/vue-toggles.ssr.css'
+
+Vue.component('VueToggles', VueToggles)
+
+export default Vue.extend({
+  name: 'Default',
+  data () {
+    return {
+      darkMode: true
+    }
+  },
+  methods: {
+    changeTheme () {
+      this.darkMode = !this.darkMode
+      this.$colorMode.preference = this.darkMode ? 'dark-mode' : 'light'
+    }
+  }
+})
+</script>
 
 <style>
 html {
@@ -16,8 +53,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  background-color: #100F10;
-  color: #e0e0e0;
 }
 
 *,
