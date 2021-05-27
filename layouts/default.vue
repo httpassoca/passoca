@@ -32,8 +32,11 @@ export default Vue.extend({
       darkMode: true
     }
   },
+  beforeMount () {
+    this.$colorMode.preference = 'dark-mode'
+  },
   methods: {
-    changeTheme () {
+    changeTheme (): void {
       this.darkMode = !this.darkMode
       this.$colorMode.preference = this.darkMode ? 'dark-mode' : 'light'
     }
