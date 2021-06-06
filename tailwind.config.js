@@ -11,16 +11,25 @@ module.exports = {
   theme: {
     darkSelector: '.dark-mode',
     colors: {
-      primary: '#66ef73',
-      backcolor: '#FBF5F1',
-      darkColor: '#100f10',
-      darkText: '#e0e0e0'
+      accent: '#66ef73',
+      background: '#FBF5F1',
+      darkBackground: '#100f10',
+      darkText: '#e0e0e0',
+      gray: '#b1b1b1',
+      darkGray: '#1b1b1b'
     },
     screens: {
       sm: '475px',
       md: '1024px',
       lg: '1440px',
       xl: '1980px'
+    },
+    container: {
+      padding: {
+        DEFAULT: '1rem',
+        sm: '1rem',
+        lg: '2rem'
+      }
     }
   },
   variants: {

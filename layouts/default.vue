@@ -1,45 +1,20 @@
 <template>
-  <div class="container mx-auto bg-backcolor dark:bg-darkColor">
-    <VueToggles
-      v-model="darkMode"
-      height="30"
-      width="70"
-      dot-color="#100f10"
-      checked-text="Dark"
-      unchecked-text="Light"
-      checked-bg="#66ef73"
-      unchecked-bg="white"
-      checked-color="black"
-      unchecked-color="black"
-      font-size="14"
-      @click="changeTheme"
-    />
-    <Nuxt />
+  <div class="container-fluid bg-background dark:bg-darkBackground">
+    <div class="container mx-auto">
+      <Nuxt />
+    </div>
+    <AppFooter />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import VueToggles from 'vue-toggles/dist/vue-toggles.ssr'
-import 'vue-toggles/dist/vue-toggles.ssr.css'
-
-Vue.component('VueToggles', VueToggles)
+import { mapState } from 'vuex'
 
 export default Vue.extend({
-  name: 'Default',
-  data () {
-    return {
-      darkMode: true
-    }
-  },
+  computed: mapState(['darkMode']),
   beforeMount () {
-    this.$colorMode.preference = 'dark-mode'
-  },
-  methods: {
-    changeTheme (): void {
-      this.darkMode = !this.darkMode
-      this.$colorMode.preference = this.darkMode ? 'dark-mode' : 'light'
-    }
+    this.$colorMode.preference = this.darkMode ? 'dark-mode' : 'light'
   }
 })
 </script>
@@ -50,12 +25,10 @@ html {
     'Source Sans Pro',
     sans-serif;
   font-size: 16px;
-  word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
 }
 
 *,
@@ -65,5 +38,6 @@ html {
   margin: 0;
   padding: 0;
   outline: none;
+  transition: all .25s cubic-bezier(0.215,0.61,0.355,1);
 }
 </style>
