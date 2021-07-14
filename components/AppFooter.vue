@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState, mapMutations } from 'vuex'
 import VueToggles from 'vue-toggles/dist/vue-toggles.ssr'
 import 'vue-toggles/dist/vue-toggles.ssr.css'
 
@@ -29,13 +28,11 @@ Vue.component('VueToggles', VueToggles)
 export default Vue.extend({
   name: 'AppFooter',
   computed: {
-    ...mapState(['darkMode'])
+    darkMode () { return this.$colorMode.preference === 'dark-mode' }
   },
   methods: {
-    ...mapMutations({ storeChangeTheme: 'CHANGE_THEME' }),
     changeTheme (): void {
-      this.storeChangeTheme()
-      this.$colorMode.preference = this.darkMode ? 'dark-mode' : 'light'
+      this.$colorMode.preference = this.darkMode ? 'light' : 'dark-mode'
     }
   }
 })
