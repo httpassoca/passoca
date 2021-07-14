@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex'
 
 export const state = () => ({
-  darkMode: true
+  darkMode: false
 })
 
 export type RootState = ReturnType<typeof state>
