@@ -14,16 +14,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import VueToggles from 'vue-toggles/dist/vue-toggles.ssr'
-import 'vue-toggles/dist/vue-toggles.ssr.css'
-
 import OhVueIcon from 'oh-vue-icons'
 
 import { BiCloudSun, IoCloudyNightOutline } from 'oh-vue-icons/icons'
 OhVueIcon.add(BiCloudSun, IoCloudyNightOutline)
 
 Vue.component('VIcon', OhVueIcon)
-Vue.component('VueToggles', VueToggles)
 
 export default Vue.extend({
   name: 'AppFooter',

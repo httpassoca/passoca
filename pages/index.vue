@@ -2,6 +2,7 @@
   div(class="w-full h-screen flex flex-col items-center justify-center")
     img(src="/logo.svg" alt="logo" class="logo")
     h1(class="dark:text-darkText") Passoca
+    <AppMain/>
 </template>
 
 <script lang="ts">
