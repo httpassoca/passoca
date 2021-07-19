@@ -1,6 +1,7 @@
 <template>
-  <div class="container-fluid bg-background dark:bg-darkBackground">
-    <div class="container mx-auto">
+  <div class="container-fluid bg-background dark:bg-darkBackground dark:text-darkText">
+    <div class="container mx-auto main-content">
+      <AppHeader />
       <Nuxt />
     </div>
     <AppFooter />
@@ -21,7 +22,7 @@ export default Vue.extend({
 
 <style>
 html {
-  font-family:
+  font-family: 'Noto Sans JP',
     'Source Sans Pro',
     sans-serif;
   font-size: 16px;
@@ -39,5 +40,8 @@ html {
   padding: 0;
   outline: none;
   transition: all .25s cubic-bezier(0.215,0.61,0.355,1);
+}
+.main {
+  min-height: calc(100vh - 400px);
 }
 </style>
