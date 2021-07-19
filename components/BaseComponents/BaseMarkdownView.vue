@@ -1,27 +1,28 @@
 <template>
-  <BaseMarkdownView :value="'# hello\n---'" />
+  <div
+    class="text-darkGray dark:text-gray markdown--view"
+    v-html="compiledMarkdown"
+  />
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import marked from 'marked'
 
 import hljs from 'highlight.js/lib/core'
 import jsHighlight from 'highlight.js/lib/languages/javascript'
 
-interface Top {
-  input: String;
-}
 export default Vue.extend({
-  name: 'AppMain',
-  data (): Top {
-    return {
-      input: '# hello'
+  name: 'BaseMarkdownView',
+  props: {
+    value: {
+      type: String as PropType<String>,
+      required: true
     }
   },
   computed: {
     compiledMarkdown (): void {
-      return marked(this.input, {
+      return marked(this.value, {
         highlight (markdown:any) {
           return hljs.highlightAuto(markdown).value
         }
@@ -36,7 +37,7 @@ export default Vue.extend({
 </script>
 
 <style lang="sass">
-.markdown-area
+.markdown--view
   h1
     font-size: 2.2rem
   h2

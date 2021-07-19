@@ -16,7 +16,7 @@ module.exports = {
       darkBackground: '#100f10',
       darkText: '#e0e0e0',
       gray: '#b1b1b1',
-      darkGray: '#1b1b1b'
+      darkGray: '#272727'
     },
     screens: {
       sm: '475px',
