@@ -1,5 +1,5 @@
 <template>
-  <BaseMarkdownView :value="'# hello\n---'" />
+  <BaseMarkdownView :value="''" />
 </template>
 
 <script lang="ts">

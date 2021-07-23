@@ -1,7 +1,7 @@
 <template lang="pug">
-  div(class="w-full h-screen flex flex-col items-center justify-center")
+  section(class="profile")
     img(src="/logo.svg" alt="logo" class="logo")
-    h1(class="dark:text-darkText") Passoca
+    h1(class="font-boston") Passoca
     <AppMain/>
 </template>
 
@@ -12,14 +12,10 @@ export default Vue.extend({})
 </script>
 
 <style lang="sass" scoped>
+.profile
+  @apply w-full h-screen flex flex-col items-center justify-center
 .logo
   transform: scale(.6)
 h1
-  font-family: 'Boston Black It'
   font-size: 2.5rem
-@font-face
-  font-family: 'Boston Black It'
-  font-style: normal
-  font-display: swap
-  src: url('~assets/fonts/Boston-BlackIt.otf')
 </style>
