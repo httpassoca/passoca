@@ -1,10 +1,12 @@
 <template>
-  <div v-scroll="onScroll" class="container-fluid bg-background dark:bg-darkBackground dark:text-darkText">
-    <div class="container mx-auto main-content relative">
-      <AppHeader v-model="onTop" />
-      <Nuxt />
+  <div id="canvas">
+    <div v-scroll="onScroll" class="container-fluid bg-background dark:bg-darkBackground dark:text-darkText">
+      <div class="container mx-auto main-content relative min-h-screen">
+        <AppHeader v-model="onTop" />
+        <Nuxt />
+      </div>
+      <AppFooter />
     </div>
-    <AppFooter />
   </div>
 </template>
 
@@ -57,5 +59,11 @@ html
 
 .font-boston
   font-family: 'Boston Black It'
+
+canvas
+  position: absolute
+  top: 0
+  left: 0
+  z-index: 0
 
 </style>
