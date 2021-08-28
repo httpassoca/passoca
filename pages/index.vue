@@ -1,8 +1,11 @@
 <template lang="pug">
-  section(class="profile")
+div
+  Content
     img(src="/logo.svg" alt="logo" class="logo")
     h1(class="font-boston") Passoca
-    <AppMain/>
+  Content
+    img(src="/logo.svg" alt="logo" class="logo")
+    h1(class="font-boston") Passoca
 </template>
 
 <script lang="ts">

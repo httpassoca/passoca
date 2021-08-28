@@ -2,10 +2,20 @@
   <div class="bg-background dark:bg-darkBackground dark:text-darkText">
     <div id="canvas">
       <ChangeTheme />
-      <Nuxt />
+      <Nuxt class="min-h-screen" />
     </div>
   </div>
 </template>
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  mounted () {
+    const radar = require('@/canvas.js')
+    const P5 = require('p5')
+    const dieEslint = new P5(radar.main)
+  }
+})
+</script>
 
 <style lang="sass">
 
@@ -39,7 +49,7 @@ html
   font-family: 'Boston Black It'
 
 canvas
-  position: absolute
+  position: fixed
   top: 0
   left: 0
   z-index: 0
