@@ -1,18 +1,16 @@
 <template>
-  <div class="bg-background dark:bg-darkBackground dark:text-darkText">
-    <div id="canvas">
-      <ChangeTheme />
-      <Nuxt class="screen-content" />
-    </div>
+  <div id="canvas" class="bg-background dark:bg-darkBackground dark:text-darkText">
+    <ChangeTheme />
+    <Nuxt class="screen-content" />
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
   mounted () {
-    const radar = require('@/canvas.js')
+    const background = require('@/components/Canvas')
     const P5 = require('p5')
-    const dieEslint = new P5(radar.main)
+    const dieEslint = new P5(background.main)
   }
 })
 </script>
@@ -56,5 +54,6 @@ canvas
 
 .screen-content
   min-height: 100vh
-  z-index: 99
+  z-index: 1
+  position: relative
 </style>

@@ -10,12 +10,18 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'ChangeTheme',
-  computed: {
-    darkMode () { return this.$colorMode.preference === 'dark-mode' }
+  data () {
+    return {
+      darkMode: true
+    }
+  },
+  mounted () {
+    this.darkMode = this.$colorMode.preference === 'dark-mode'
   },
   methods: {
     changeTheme (): void {
       this.$colorMode.preference = this.darkMode ? 'light' : 'dark-mode'
+      this.darkMode = !this.darkMode
     }
   }
 })
