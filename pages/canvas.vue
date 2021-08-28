@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-100" />
+  <div class="min-h-screen" />
 </template>
 <script lang="ts">
 import Vue from 'vue'

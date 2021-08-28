@@ -1,33 +1,11 @@
 <template>
-  <div id="canvas">
-    <div v-scroll="onScroll" class="container-fluid bg-background dark:bg-darkBackground dark:text-darkText">
-      <div class="container mx-auto main-content relative min-h-screen">
-        <AppHeader v-model="onTop" />
-        <Nuxt />
-      </div>
-      <AppFooter />
+  <div class="bg-background dark:bg-darkBackground dark:text-darkText">
+    <div id="canvas">
+      <ChangeTheme />
+      <Nuxt />
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import Vue from 'vue'
-import { scroll } from '@/plugins/directives'
-
-export default Vue.extend({
-  directives: { scroll },
-  data () {
-    return {
-      onTop: true
-    }
-  },
-  methods: {
-    onScroll () {
-      if (window.scrollY === 0) { this.onTop = true } else { this.onTop = false }
-    }
-  }
-})
-</script>
 
 <style lang="sass">
 

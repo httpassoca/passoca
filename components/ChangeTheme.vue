@@ -1,5 +1,5 @@
 <template>
-  <div @click="changeTheme">
+  <div class="changeTheme" @click="changeTheme">
     <v-icon
       :name="darkMode ? 'bi-cloud-sun' : 'io-cloudy-night-outline'"
       scale="2"
@@ -29,3 +29,12 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="sass" scoped>
+.changeTheme
+  position: fixed
+  top: 10px
+  right: 10px
+  cursor: pointer
+  z-index: 99
+</style>
