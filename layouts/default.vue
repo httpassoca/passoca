@@ -2,7 +2,7 @@
   <div class="bg-background dark:bg-darkBackground dark:text-darkText">
     <div id="canvas">
       <ChangeTheme />
-      <Nuxt class="min-h-screen" />
+      <Nuxt class="screen-content" />
     </div>
   </div>
 </template>
@@ -54,4 +54,7 @@ canvas
   left: 0
   z-index: 0
 
+.screen-content
+  min-height: 100vh
+  z-index: 99
 </style>

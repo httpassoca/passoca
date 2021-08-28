@@ -1,21 +1,12 @@
 <template>
-  <div class="changeTheme" @click="changeTheme">
-    <v-icon
-      :name="darkMode ? 'bi-cloud-sun' : 'io-cloudy-night-outline'"
-      scale="2"
-      class="text-darkGray dark:text-gray cursor-pointer"
-    />
+  <div class="changeTheme h-8 w-8" @click="changeTheme">
+    <OutlineSunIcon v-if="darkMode" />
+    <OutlineMoonIcon v-else />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import OhVueIcon from 'oh-vue-icons'
-
-import { BiCloudSun, IoCloudyNightOutline } from 'oh-vue-icons/icons'
-OhVueIcon.add(BiCloudSun, IoCloudyNightOutline)
-
-Vue.component('VIcon', OhVueIcon)
 
 export default Vue.extend({
   name: 'ChangeTheme',

@@ -34,7 +34,8 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxt-hero-icons/outline/nuxt'
   ],
   colorMode: {
     classSuffix: ''
