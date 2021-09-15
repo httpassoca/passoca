@@ -1,5 +1,5 @@
 <template lang="pug">
-Content(classe="justify-between")
+Content(classe="flex-col md:flex-row items-center justify-center md:justify-between")
   .info
     .header
       img(src="/logo.svg" alt="logo" class="logo")
