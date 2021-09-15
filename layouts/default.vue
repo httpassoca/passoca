@@ -1,22 +1,11 @@
 <template>
-  <div id="canvas" class="bg-background dark:bg-darkBackground dark:text-darkText">
+  <div class="bg-background dark:bg-darkBackground dark:text-darkText">
     <ChangeTheme />
     <Nuxt class="screen-content" />
   </div>
 </template>
-<script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  mounted () {
-    const background = require('@/components/Canvas')
-    const P5 = require('p5')
-    const dieEslint = new P5(background.main)
-  }
-})
-</script>
 
 <style lang="sass">
-
 @font-face
   font-family: 'Boston Black It'
   font-style: normal

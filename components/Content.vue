@@ -1,7 +1,22 @@
 <template lang="pug">
   section
-    slot
+    .container
+      .flex.w-full(:class="classe")
+        slot
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'Content',
+  props: {
+    classe: {
+      type: String,
+      default: ''
+    }
+  }
+})
+</script>
 
 <style lang="sass" scoped>
 section

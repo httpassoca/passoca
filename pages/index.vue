@@ -1,24 +1,27 @@
 <template lang="pug">
-div
-  Content
-    img(src="/logo.svg" alt="logo" class="logo")
-    h1(class="font-boston") Passoca
-  Content
-    img(src="/logo.svg" alt="logo" class="logo")
-    h1(class="font-boston") Passoca
+Content(classe="justify-between")
+  .info
+    .header
+      img(src="/logo.svg" alt="logo" class="logo")
+      h1.font-boston Rafael Passoca
+    h2.mt-2 Frontend Engineer
+  img.profile-pic(src="https://avatars.githubusercontent.com/u/49541181?v=4" alt="me")
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({})
-</script>
-
 <style lang="sass" scoped>
-.profile
-  @apply w-full h-screen flex flex-col items-center justify-center
-.logo
-  transform: scale(.6)
+.profile-pic
+  @apply rounded-full m-4
+  width: 300px
+  height: 300px
+.info
+  .header
+    display: flex
+    flex-grow: 1
+  img
+    height: 56px
+    margin-right: 20px
 h1
   font-size: 2.5rem
+Content
+  width: 100%
 </style>
