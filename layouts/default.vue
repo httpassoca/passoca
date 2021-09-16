@@ -1,6 +1,6 @@
 <template>
   <div class="bg-background dark:bg-darkBackground dark:text-darkText">
-    <ChangeTheme />
+    <AppHeader />
     <Nuxt class="screen-content" />
   </div>
 </template>
@@ -14,7 +14,8 @@
 
 html
   font-family: 'Noto Sans JP', 'Source Sans Pro', sans-serif
-  font-size: 16px
+  font-size: 20px
+  line-height: 1.3
   -ms-text-size-adjust: 100%
   -webkit-text-size-adjust: 100%
   -moz-osx-font-smoothing: grayscale

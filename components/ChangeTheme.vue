@@ -29,9 +29,6 @@ export default Vue.extend({
 
 <style lang="sass" scoped>
 .changeTheme
-  position: fixed
-  top: 10px
-  right: 10px
   cursor: pointer
   z-index: 99
 </style>
