@@ -20,7 +20,7 @@ export default Vue.extend({
 
 <style lang="sass" scoped>
 section
-  height: 100vh
+  min-height: calc(100vh - 85px)
   display: flex
   justify-content: center
   align-items: center

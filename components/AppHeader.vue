@@ -5,14 +5,8 @@
 </template>
 
 <style lang="sass" scoped>
-section
-  height: 100vh
-  display: flex
-  justify-content: center
-  align-items: center
 header
-  @apply container w-full flex justify-between py-4 absolute left-1/2
-  transform: translateX(-50%)
+  @apply container w-full flex justify-between py-4 mx-auto
 img
   height: 45px
 </style>
