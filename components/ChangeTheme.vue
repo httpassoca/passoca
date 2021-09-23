@@ -1,5 +1,5 @@
 <template>
-  <div class="changeTheme h-8 w-8" @click="changeTheme">
+  <div class="changeTheme h-6 w-6" @click="changeTheme">
     <OutlineSunIcon v-if="darkMode" />
     <OutlineMoonIcon v-else />
   </div>
