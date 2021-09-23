@@ -1,7 +1,10 @@
 <template>
-  <div class="bg-background dark:bg-darkBackground dark:text-darkText">
-    <AppHeader />
-    <Nuxt class="screen-content" />
+  <div>
+    <div class="bg-background dark:bg-darkBackground dark:text-darkText">
+      <AppHeader />
+      <Nuxt class="screen-content" />
+    </div>
+    <!-- <AppFooter /> -->
   </div>
 </template>
 
