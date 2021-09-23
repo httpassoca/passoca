@@ -26,8 +26,8 @@ export default {
   ],
   postcss: {
     plugins: [
-      require('postcss-import'),
-      require('tailwindcss')
+      require('tailwindcss'),
+      require('postcss-import')
     ]
   },
 
