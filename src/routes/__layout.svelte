@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import AppHeader from '$lib/AppHeader.svelte';
+	import 'tailwindcss/tailwind.css';
 	let dark = true;
 </script>
 

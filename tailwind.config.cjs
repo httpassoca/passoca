@@ -41,6 +41,5 @@ module.exports = {
 		textColor: ['dark', 'dark-hover', 'dark-active']
 	},
 
-	plugins: [require('tailwindcss-dark-mode')()],
 	mode: 'jit'
 };
