@@ -3,6 +3,7 @@
     name?: string;
     icon?: string;
     color?: string;
+    link?: string;
     title?: boolean;
     skills?: skill[];
     whiteColor?: string;
@@ -21,13 +22,21 @@
   }
 </script>
 
-<div class="flex items-center gap-2 text-sm">
-  <SVG
-    src={skill.icon}
-    alt={`${skill.name} icon`}
-    fill={color}
-    height="23"
-    width="23"
-  />
-  <span>{skill.name}</span>
+<div>
+  <a href={skill.link || ""} target="blank" class:cursor-default={!skill.link}>
+    <SVG
+      src={skill.icon}
+      alt={`${skill.name} icon`}
+      fill={color}
+      height="23"
+      width="23"
+    />
+    <span>{skill.name}</span>
+  </a>
 </div>
+
+<style lang="sass">
+a
+  @apply flex items-center gap-2 text-sm
+  width: fit-content
+</style>
