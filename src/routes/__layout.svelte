@@ -1,18 +1,18 @@
 <script lang="ts">
-	import '../app.css';
-	import AppHeader from '$lib/AppHeader.svelte';
-	import 'tailwindcss/tailwind.css';
-	let dark = true;
+  import "../app.css";
+  import AppHeader from "$lib/AppHeader.svelte";
+  import "tailwindcss/tailwind.css";
+  import { dark } from "../stores/store";
 </script>
 
-<main class:dark>
-	<div>
-		<div class="bg-background dark:bg-darkBackground dark:text-darkText">
-			<AppHeader bind:dark />
-			<slot class="screen-content" />
-		</div>
-		<!-- <AppFooter /> -->
-	</div>
+<main class:dark={$dark}>
+  <div>
+    <div class="bg-background dark:bg-darkBackground dark:text-darkText">
+      <AppHeader />
+      <slot class="screen-content" />
+    </div>
+    <!-- <AppFooter /> -->
+  </div>
 </main>
 
 <style lang="sass">
