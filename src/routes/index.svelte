@@ -5,7 +5,6 @@
 <script lang="ts">
   import Content from "$lib/AppContent.svelte";
   import Profile from "$lib/Sections/SectionProfile.svelte";
-  import Button from "$lib/AppButton.svelte";
   import Skills from "$lib/Sections/SectionSkills.svelte";
 </script>
 

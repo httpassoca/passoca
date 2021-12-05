@@ -4,7 +4,7 @@
   import Button from "$lib/AppButton.svelte";
   let y;
   function goToSkills() {
-    y = 263;
+    y = window.innerHeight;
   }
 </script>
 
