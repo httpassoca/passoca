@@ -35,6 +35,11 @@
 		padding: 0
 		outline: none
 		transition: all .25s cubic-bezier(0.215,0.61,0.355,1)
+		scroll-behavior: smooth
+
+	*::selection
+		background-color: #66ef73
+		color: black
 
 	.main
 		min-height: calc(100vh - 400px)

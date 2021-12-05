@@ -25,7 +25,7 @@
 <div>
   <a href={skill.link || ""} target="blank" class:cursor-default={!skill.link}>
     <SVG
-      src={skill.icon}
+      src={`/icons/${skill.icon}.svg`}
       alt={`${skill.name} icon`}
       fill={color}
       height="23"
