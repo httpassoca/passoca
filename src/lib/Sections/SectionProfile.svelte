@@ -1,20 +1,34 @@
 <script>
+  import SVG from "svelte-inline-svg";
   import Content from "$lib/AppContent.svelte";
+  import Button from "$lib/AppButton.svelte";
+  let y;
+  function goToSkills() {
+    y = 263;
+  }
 </script>
 
-<Content
-  page
-  class="flex flex-col md:flex-row items-center justify-center md:justify-between"
->
+<svelte:window bind:scrollY={y} />
+<Content page class="flex md:flex-row sm:items-center sm:justify-center">
   <div class="info">
-    <h1 class="font-boston">Hi, I'm Rafael Passoca</h1>
+    <h1 class="font-boston">Hi, I'm Rafael Passoca.</h1>
     <h2 class="font-boston">And I code.</h2>
     <p>
       As a Frontend Engineer, I believe that appearence and praticy are the best
       influences to the user.
     </p>
-    <p>For me, <b>it is that matters. And I love to make it happen.</b></p>
     <p>
+      For me,
+      <b>it is what matters. And I love to make it happen.</b>
+    </p>
+    <div class="flex mt-4 justify-center">
+      <Button on:click={goToSkills}>
+        See more
+        <SVG src="/icons/arrow_down.svg" width="16" height="16" />
+      </Button>
+    </div>
+
+    <!-- <p>
       Currently, I'm working at <a
         href="https://jmvtechnology.com/"
         target="_blank"
@@ -22,24 +36,23 @@
         JMV Technology
       </a>
       in <b> Nochalks</b>, a distance education project.
-    </p>
+    </p> -->
   </div>
-  <img
-    class="profile-pic"
-    src="https://avatars.githubusercontent.com/u/49541181?v=4"
-    alt="me"
-  />
 </Content>
 
 <style lang="sass">
   .profile-pic
     @apply rounded-full m-4
-    width: 300px
-    height: 300px
+    width: 260px
+    height: 260px
+    &.phone
+      margin: 8px
+      width: 120px
+      height: 120px
   h1
-    font-size: clamp(35px, 8vw, 70px)
+    font-size: clamp(36px, 8vw, 54px)
   h2
-    font-size: 2rem
+    font-size: clamp(24px, 6vw, 48px)
     font-weight: 200
     margin-bottom: .8rem
   a
