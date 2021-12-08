@@ -1,3 +1,5 @@
+@tailwind base;
+@tailwind utilities;
 @font-face {
   font-family: 'Boston Black It';
   font-style: normal;
