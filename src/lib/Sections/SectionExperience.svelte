@@ -24,7 +24,7 @@
 
 <Content class="mb-8">
   <Title>Experiences</Title>
-  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2">
+  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5">
     <Experience experience={jmvExperience}>
       <li>
         Get knowledge of git control with <span class="font-mono">git-flow</span

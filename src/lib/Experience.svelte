@@ -22,7 +22,7 @@
   }
 </script>
 
-<div class="experience">
+<div class="experience mt-8 sm:mt-0">
   <SVG
     src={`/icons/${experience.icon}.svg`}
     height="48"
