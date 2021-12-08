@@ -21,6 +21,10 @@
 			For me,
 			<b>it is what matters. And I love to make it happen.</b>
 		</p>
+		<p class="text-base">
+			If you just want my resume
+			<a target="_blank" href="/src/assets/resume.pdf" title="">click here</a>
+		</p>
 		<div class="flex mt-4 justify-center">
 			<Button on:click={goToSkills}>
 				See more
@@ -47,4 +51,6 @@
     font-size: clamp(24px, 6vw, 48px)
     font-weight: 200
     margin-bottom: .8rem
+  a
+    border-bottom: 1px solid var(--color-accent)
 </style>
