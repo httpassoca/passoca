@@ -65,6 +65,8 @@
   }
 
   div {
+    position: relative;
+    left: -12px;
     padding: 12px;
     overflow: hidden;
     line-height: 0.8;

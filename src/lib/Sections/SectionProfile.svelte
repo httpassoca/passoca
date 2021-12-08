@@ -1,34 +1,34 @@
 <script>
-  import SVG from "svelte-inline-svg";
-  import Content from "$lib/AppContent.svelte";
-  import Button from "$lib/AppButton.svelte";
-  let y;
-  function goToSkills() {
-    y = window.innerHeight;
-  }
+	import SVG from "svelte-inline-svg";
+	import Content from "$lib/AppContent.svelte";
+	import Button from "$lib/AppButton.svelte";
+	let y;
+	function goToSkills() {
+		y = window.innerHeight * 0.8 - 85;
+	}
 </script>
 
 <svelte:window bind:scrollY={y} />
-<Content page class="flex md:flex-row sm:items-center sm:justify-center">
-  <div class="info">
-    <h1 class="font-boston">Hi, I'm Rafael Passoca.</h1>
-    <h2 class="font-boston">And I code.</h2>
-    <p>
-      As a Frontend Engineer, I believe that appearence and praticy are the best
-      influences to the user.
-    </p>
-    <p>
-      For me,
-      <b>it is what matters. And I love to make it happen.</b>
-    </p>
-    <div class="flex mt-4 justify-center">
-      <Button on:click={goToSkills}>
-        See more
-        <SVG src="/icons/arrow_down.svg" width="16" height="16" />
-      </Button>
-    </div>
+<Content page class="flex md:flex-row sm:justify-center vh-full">
+	<div class="info">
+		<h1 class="font-boston">Hi, I'm Rafael Passoca.</h1>
+		<h2 class="font-boston">And I code.</h2>
+		<p>
+			As a Frontend Engineer, I believe that appearence and praticy are the best
+			influences to the user.
+		</p>
+		<p>
+			For me,
+			<b>it is what matters. And I love to make it happen.</b>
+		</p>
+		<div class="flex mt-4 justify-center">
+			<Button on:click={goToSkills}>
+				See more
+				<SVG src="/icons/arrow_down.svg" width="16" height="16" />
+			</Button>
+		</div>
 
-    <!-- <p>
+		<!-- <p>
       Currently, I'm working at <a
         href="https://jmvtechnology.com/"
         target="_blank"
@@ -37,7 +37,7 @@
       </a>
       in <b> Nochalks</b>, a distance education project.
     </p> -->
-  </div>
+	</div>
 </Content>
 
 <style lang="sass">

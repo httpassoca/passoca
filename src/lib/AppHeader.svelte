@@ -6,34 +6,42 @@
   import { dark } from "../stores/store";
 </script>
 
-<header class="px-4 md:container md:px-0">
-  <img class="logo" src="/logo.svg" alt="logo" />
-  <div class="icons">
-    <a href="https://github.com/httpassoca" target="_blank">
-      <SVG
-        src="/icons/github.svg"
-        width="23"
-        height="23"
-        fill={$dark ? "#e0e0e0" : "black"}
-      />
-    </a>
-    <a href="https://linkedin.com/in/passoca" target="_blank">
-      <SVG
-        src="/icons/linkedin.svg"
-        width="23"
-        height="23"
-        fill={$dark ? "#e0e0e0" : "black"}
-      />
-    </a>
-    <div on:click|preventDefault={() => dark.set(!$dark)}>
-      <Icon src={$dark ? Sun : Moon} size="23" />
+<header>
+  <div class="md:container md:px-0">
+    <img class="logo" src="/logo.svg" alt="logo" />
+    <div class="icons">
+      <a href="https://github.com/httpassoca" target="_blank">
+        <SVG
+          src="/icons/github.svg"
+          width="23"
+          height="23"
+          fill={$dark ? "#e0e0e0" : "black"}
+        />
+      </a>
+      <a href="https://linkedin.com/in/passoca" target="_blank">
+        <SVG
+          src="/icons/linkedin.svg"
+          width="23"
+          height="23"
+          fill={$dark ? "#e0e0e0" : "black"}
+        />
+      </a>
+      <div on:click|preventDefault={() => dark.set(!$dark)}>
+        <Icon src={$dark ? Sun : Moon} size="23" />
+      </div>
     </div>
   </div>
 </header>
 
 <style lang="sass">
 header
-  @apply w-full flex justify-between py-4 mx-auto relative
+  @apply fixed z-10
+  width: 100vw
+  left: 50%
+  transform: translateX(-50%)
+  background-color: var(--color-background)
+  & > div
+    @apply flex justify-between p-4 mx-auto
 .icons
   @apply flex h-full items-center my-auto gap-2
   a

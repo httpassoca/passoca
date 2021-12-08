@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let page = false;
+	export let page = false;
 </script>
 
 <section class="px-4 md:container md:px-0" class:page>
-  <div class={`w-full ${$$props.class}`}>
-    <slot />
-  </div>
+	<div class={`w-full ${$$props.class}`}>
+		<slot />
+	</div>
 </section>
 
 <style lang="sass">
@@ -14,6 +14,7 @@ section
   display: flex
   &.page
     justify-content: center
-    align-items: center
-    min-height: calc(100vh - 85px)
+    min-height: 60vh
+    & > div
+      align-items: center
 </style>
