@@ -3,9 +3,9 @@
 </script>
 
 <script lang="ts">
-  import Content from "$lib/AppContent.svelte";
   import Profile from "$lib/Sections/SectionProfile.svelte";
   import Skills from "$lib/Sections/SectionSkills.svelte";
+  import Experience from "$lib/Sections/SectionExperience.svelte";
 </script>
 
 <svelte:head>
@@ -14,6 +14,7 @@
 
 <Profile />
 <Skills />
+<Experience />
 <!-- <Content page>
   <div class="info">
     <Button>ASD</Button>
