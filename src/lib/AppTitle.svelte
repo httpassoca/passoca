@@ -75,5 +75,6 @@
     animation-name: animateShadow;
     animation-duration: 0.9s;
     animation-iteration-count: infinite;
+    margin-bottom: 1rem;
   }
 </style>

@@ -37,6 +37,6 @@
 
 <style lang="sass">
 a
-  @apply flex items-center gap-2 text-sm
+  @apply flex items-center gap-2 text-base
   width: fit-content
 </style>

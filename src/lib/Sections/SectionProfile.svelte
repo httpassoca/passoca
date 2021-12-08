@@ -41,36 +41,10 @@
 </Content>
 
 <style lang="sass">
-  .profile-pic
-    @apply rounded-full m-4
-    width: 260px
-    height: 260px
-    &.phone
-      margin: 8px
-      width: 120px
-      height: 120px
   h1
     font-size: clamp(36px, 8vw, 54px)
   h2
     font-size: clamp(24px, 6vw, 48px)
     font-weight: 200
     margin-bottom: .8rem
-  a
-    text-decoration: none
-    font-weight: 600
-    position: relative
-    &:before
-      content: ''
-      background-color: #10951c
-      width: 100%
-      position: absolute
-      left: 0
-      bottom: 1px
-      height: 1px
-      transition: all .35s cubic-bezier(0.215,0.61,0.355,1)
-    &:hover
-      &:before
-        box-shadow: 0px -9.6px 18px rgb(102, 239, 115), 0px -26.4px 32.8px rgb(102, 239, 115), 0px -63.6px 65.2px rgb(102, 239, 115), 0px -211px 137px rgb(102, 239, 115)
-        background-color: rgb(102, 239, 115)
-        height: 2px
 </style>

@@ -1,15 +1,14 @@
 <script lang="ts">
   import "../app.css";
   import AppHeader from "$lib/AppHeader.svelte";
-  import "tailwindcss/tailwind.css";
   import { dark } from "../stores/store";
 </script>
 
 <main class:dark={$dark}>
   <div>
-    <div class="bg-background dark:bg-darkBackground dark:text-darkText">
+    <div class="bg-background dark:bg-darkBackground dark:text-darkText pb-32">
       <AppHeader />
-      <slot class="screen-content" />
+      <slot />
     </div>
     <!-- <AppFooter /> -->
   </div>
@@ -38,23 +37,20 @@
 		scroll-behavior: smooth
 
 	*::selection
-		background-color: #66ef73
+		background-color: var(--color-accent)
 		color: black
 
-	.main
-		min-height: calc(100vh - 400px)
+	main
+		--color-accent: #66ef73
+		color: var(--color-text)
 
 	.font-boston
 		font-family: 'Boston Black It'
 
-	canvas
-		position: fixed
-		top: 0
-		left: 0
-		z-index: 0
-
-	.screen-content
-		min-height: 100vh
-		z-index: 1
-		position: relative
+	main.dark
+		--color-triangle: #66ef73
+		--color-text: #e0e0e0
+	main:not(.dark)
+		--color-triangle: #000
+		--color-text: #000
 </style>
