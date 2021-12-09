@@ -6,7 +6,7 @@
   import { dark } from "../stores/store";
 </script>
 
-<header>
+<header class="px-4 md:px-0">
   <div class="md:container md:px-0">
     <img class="logo" src="/logo.svg" alt="logo" />
     <div class="icons">
@@ -41,7 +41,7 @@ header
   transform: translateX(-50%)
   background-color: var(--color-background)
   & > div
-    @apply flex justify-between p-4 mx-auto
+    @apply flex justify-between py-4 mx-auto
 .icons
   @apply flex h-full items-center my-auto gap-2
   a
