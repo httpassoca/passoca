@@ -23,7 +23,7 @@
     </p>
     <p class="text-base">
       If you just want my resume
-      <a target="_blank" href="/src/assets/resume.pdf" title="">click here</a>
+      <a target="_blank" href="/resume.pdf" title="">click here</a>
     </p>
     <div class="flex mt-4 justify-center">
       <Button on:click={goToSkills}>
