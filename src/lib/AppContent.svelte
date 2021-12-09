@@ -14,6 +14,7 @@ section
   display: flex
   max-width: 875px !important
   &.page
+    margin-top: 16px
     justify-content: center
     min-height: 60vh
     & > div

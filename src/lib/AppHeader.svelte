@@ -10,17 +10,9 @@
   <div class="md:container md:px-0">
     <img class="logo" src="/logo.svg" alt="logo" />
     <div class="icons">
-      <a href="https://github.com/httpassoca" target="_blank">
+      <a href="https://github.com/httpassoca/passoca" target="_blank">
         <SVG
           src="/icons/github.svg"
-          width="23"
-          height="23"
-          fill={$dark ? "#e0e0e0" : "black"}
-        />
-      </a>
-      <a href="https://linkedin.com/in/passoca" target="_blank">
-        <SVG
-          src="/icons/linkedin.svg"
           width="23"
           height="23"
           fill={$dark ? "#e0e0e0" : "black"}
@@ -38,6 +30,7 @@ header
   @apply fixed z-10
   width: 100vw
   left: 50%
+  top: 0
   transform: translateX(-50%)
   background-color: var(--color-background)
   & > div
