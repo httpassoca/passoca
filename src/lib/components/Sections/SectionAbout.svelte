@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { dark } from "../../stores/store";
+  import { dark } from "../../stores/theme.store.ts";
   import SVG from "svelte-inline-svg";
-  import Content from "$lib/AppContent.svelte";
-  import Title from "$lib/AppTitle.svelte";
-  import Link from "$lib/AppLink.svelte";
+  import Content from "$lib/components/Base/AppContent.svelte";
+  import Title from "$lib/components/Base/AppTitle.svelte";
+  import Link from "$lib/components/Base/AppLink.svelte";
 
   type icon = {
     icon: string;

@@ -1,7 +1,7 @@
 <script>
   import SVG from "svelte-inline-svg";
-  import Content from "$lib/AppContent.svelte";
-  import Button from "$lib/AppButton.svelte";
+  import Content from "$lib/components/Base/AppContent.svelte";
+  import Button from "$lib/components/Base/AppButton.svelte";
   let y;
   function goToSkills() {
     y = window.innerHeight * 0.8 - 85;

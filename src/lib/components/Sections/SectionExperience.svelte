@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Content from "$lib/AppContent.svelte";
-  import Title from "$lib/AppTitle.svelte";
-  import Link from "$lib/AppLink.svelte";
-  import Experience, { experience } from "$lib/Experience.svelte";
+  import Content from "$lib/components/Base/AppContent.svelte";
+  import Title from "$lib/components/Base/AppTitle.svelte";
+  import Link from "$lib/components/Base/AppLink.svelte";
+  import Experience, { experience } from "$lib/components/Experience.svelte";
 
   const jmvExperience: experience = {
     name: "JMV Technology",

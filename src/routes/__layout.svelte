@@ -1,13 +1,13 @@
 <script lang="ts">
   import "../app.css";
-  import AppHeader from "$lib/AppHeader.svelte";
-  import { dark } from "../stores/store";
+  import Header from "$lib/components/Base/AppHeader.svelte";
+  import { dark } from "$lib/stores/theme.store";
 </script>
 
 <main class:dark={$dark}>
   <div>
     <div class="content dark:text-darkText pb-32">
-      <AppHeader />
+      <Header />
       <slot />
     </div>
     <!-- <AppFooter /> -->

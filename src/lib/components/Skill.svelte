@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import { dark } from "../stores/store";
+  import { dark } from "$lib/stores/theme.store.ts";
   import SVG from "svelte-inline-svg";
 
   export let skill: skill;

@@ -3,7 +3,7 @@
   import Icon from "svelte-hero-icons/Icon.svelte";
   import { Moon, Sun } from "svelte-hero-icons";
 
-  import { dark } from "../stores/store";
+  import { dark } from "$lib/stores/theme.store.ts";
 </script>
 
 <header class="px-4 md:px-0">
