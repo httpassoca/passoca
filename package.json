@@ -43,5 +43,10 @@
     "svelte-hero-icons": "^3.0.0",
     "svelte-inline-svg": "^1.0.8",
     "tailwindcss-dark-mode": "^1.1.7"
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
   }
 }

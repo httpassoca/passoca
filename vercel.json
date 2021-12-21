@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "redirects": [
+    {
+      "source": "/github",
+      "permanent": false,
+      "destination": "https://github.com/httpassoca"
+    },
+    {
+      "source": "/linkedin",
+      "permanent": false,
+      "destination": "https://linkedin.com/in/passoca/"
+    }
+  ]
+}
