@@ -2,6 +2,7 @@
   import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Button from "$lib/components/Base/AppButton.svelte";
+  import { theme } from "$lib/stores/theme.store";
   let y;
   function goToSkills() {
     y = window.innerHeight * 0.8 - 85;
@@ -28,7 +29,11 @@
     <div class="flex mt-4 justify-center">
       <Button on:click={goToSkills}>
         See more
-        <SVG src="/icons/arrow_down.svg" width="16" height="16" />
+        <SVG
+          src="/icons/arrow_down.svg"
+          width="16"
+          fill={$theme === "coffee" ? "#f9dec9" : ""}
+        />
       </Button>
     </div>
   </div>

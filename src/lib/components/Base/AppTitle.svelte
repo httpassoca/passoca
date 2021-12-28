@@ -5,23 +5,12 @@
 </div>
 
 <style lang="scss">
-  // #D92525 -- red
-  // #F25C05 -- orange
-  // #88A61B -- green
-  // #0E3D59 -- blue
-  // #572D8C -- purple
-  // $c: #D92525;
-  // $c2: #F25C05;
-  // $c3: #88A61B;
-  // $c4: #0E3D59;
-  // $c5: #572D8C;
-
-  // Grays
-  $c: #021704aa;
-  $c2: #07450daa;
-  $c3: #0c7316aa;
-  $c4: #11a21faa;
-  $c5: #16d027aa;
+  // Colors
+  $c: var(--app-color-title-1);
+  $c2: var(--app-color-title-2);
+  $c3: var(--app-color-title-3);
+  $c4: var(--app-color-title-4);
+  $c5: var(--app-color-title-5);
 
   @function makelongshadow($c, $c2, $c3, $c4, $c5) {
     $val: 0px 0px $c;
@@ -78,5 +67,9 @@
     animation-duration: 0.9s;
     animation-iteration-count: infinite;
     margin-bottom: 1rem;
+  }
+
+  h1 {
+    color: var(--app-color-title);
   }
 </style>
