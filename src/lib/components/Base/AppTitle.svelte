@@ -79,4 +79,8 @@
     animation-iteration-count: infinite;
     margin-bottom: 1rem;
   }
+
+  h1 {
+    color: white;
+  }
 </style>

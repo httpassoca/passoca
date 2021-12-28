@@ -11,14 +11,14 @@
 </script>
 
 <script lang="ts">
-  import { dark } from "$lib/stores/theme.store.ts";
+  import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
 
   export let experience: experience;
   let color = experience.color || "";
 
   $: if (experience.whiteColor) {
-    color = $dark ? experience.color : experience.whiteColor;
+    color = $theme === "dark" ? experience.color : experience.whiteColor;
   }
 </script>
 
@@ -52,9 +52,9 @@
   display: flex
   gap: 20px
   span
-    color: #aaa
+    color: var(--app-color-gray-text)
   a
-    color: #aaa
+    color: var(--app-color-gray-text)
     display: flex
     align-items: center
     gap: 6px
@@ -73,7 +73,7 @@
       left: -14px
       border-left: 3px solid transparent
       border-right: 3px solid transparent
-      border-bottom: 5px solid var(--color-triangle)
+      border-bottom: 5px solid var(--app-color-triangle)
       top: 11px
       transform: rotate(90deg)
 

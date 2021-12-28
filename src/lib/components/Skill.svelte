@@ -11,14 +11,14 @@
 </script>
 
 <script lang="ts">
-  import { dark } from "$lib/stores/theme.store.ts";
+  import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
 
   export let skill: skill;
   let color = skill.color;
 
   $: if (skill.whiteColor) {
-    color = $dark ? skill.color : skill.whiteColor;
+    color = $theme === "dark" ? skill.color : skill.whiteColor;
   }
 </script>
 
