@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { dark } from "../../stores/theme.store.ts";
+  import { theme } from "../../stores/theme.store";
   import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
@@ -43,7 +43,7 @@
             <SVG
               src={`/icons/${social.icon}.svg`}
               alt={`${social.icon} icon`}
-              fill={$dark ? "#EEE" : "#111"}
+              fill={$theme === "dark" ? "#EEE" : "#111"}
               height="23"
               width="23"
             />

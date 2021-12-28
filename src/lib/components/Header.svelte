@@ -1,12 +1,14 @@
 <script lang="ts">
   import SVG from "svelte-inline-svg";
-  import ChangeTheme from "../ChangeTheme.svelte";
+  import ChangeTheme from "./ChangeTheme.svelte";
   import { theme } from "$lib/stores/theme.store";
 </script>
 
 <header class="px-4 md:px-0">
   <div class="md:container md:px-0">
-    <img class="logo" src="/logo.svg" alt="logo" />
+    <div class="logo">
+      <SVG src="/logo.svg" height="45" />
+    </div>
     <div class="icons">
       <a href="/github" target="_blank">
         <SVG
@@ -31,6 +33,8 @@ header
   background-color: var(--app-color-background)
   & > div
     @apply flex justify-between py-4 mx-auto
+  .logo
+    color: var(--app-color-primary)
 .icons
   @apply flex h-full items-center my-auto gap-2
   a
@@ -47,9 +51,8 @@ header
       right: -14px
       border-left: 3px solid transparent
       border-right: 3px solid transparent
-      border-bottom: 5px solid #66ef63
+      border-bottom: 5px solid var(--app-color-primary)
       top: 53%
       transform: translateY(-50%)
-img
-  height: 45px
+
 </style>

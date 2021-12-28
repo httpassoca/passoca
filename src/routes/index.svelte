@@ -1,36 +1,11 @@
-<script context="module" lang="ts">
-  export const prerender = true;
-</script>
-
-<script lang="ts">
+<script>
   import Profile from "$lib/components/Sections/SectionProfile.svelte";
   import About from "$lib/components/Sections/SectionAbout.svelte";
   import Skills from "$lib/components/Sections/SectionSkills.svelte";
   import Experience from "$lib/components/Sections/SectionExperience.svelte";
 </script>
 
-<svelte:head>
-  <title>Passoca</title>
-</svelte:head>
-
 <Profile />
 <About />
 <Skills />
 <Experience />
-<!-- <Content page>
-  <div class="info">
-    <Button>ASD</Button>
-  </div>
-</Content>
-<Content
-  page
-  classe="flex-col md:flex-row items-center justify-center md:justify-between"
->
-  <div class="info">Projects</div>
-</Content>
-<Content
-  page
-  classe="flex-col md:flex-row items-center justify-center md:justify-between"
->
-  <div class="info">Experience</div>
-</Content> -->
