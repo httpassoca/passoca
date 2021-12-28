@@ -1,26 +1,22 @@
 <script lang="ts">
   import SVG from "svelte-inline-svg";
-  import Icon from "svelte-hero-icons/Icon.svelte";
-  import { Moon, Sun } from "svelte-hero-icons";
-
-  import { dark } from "$lib/stores/theme.store.ts";
+  import ChangeTheme from "../ChangeTheme.svelte";
+  import { theme } from "$lib/stores/theme.store";
 </script>
 
 <header class="px-4 md:px-0">
   <div class="md:container md:px-0">
     <img class="logo" src="/logo.svg" alt="logo" />
     <div class="icons">
-      <a href="https://github.com/httpassoca/passoca" target="_blank">
+      <a href="/github" target="_blank">
         <SVG
           src="/icons/github.svg"
           width="23"
           height="23"
-          fill={$dark ? "#e0e0e0" : "black"}
+          fill={$theme === "dark" ? "#e0e0e0" : "black"}
         />
       </a>
-      <div on:click|preventDefault={() => dark.set(!$dark)}>
-        <Icon src={$dark ? Sun : Moon} size="23" />
-      </div>
+      <ChangeTheme />
     </div>
   </div>
 </header>
@@ -32,7 +28,7 @@ header
   left: 50%
   top: 0
   transform: translateX(-50%)
-  background-color: var(--color-background)
+  background-color: var(--app-color-background)
   & > div
     @apply flex justify-between py-4 mx-auto
 .icons
