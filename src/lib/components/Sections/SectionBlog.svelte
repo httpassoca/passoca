@@ -5,6 +5,7 @@
 
   const blogs: blog[] = [
     {
+      id: "my-website",
       name: "My website",
       img: "/blog/any-theme-card.jpg",
       tags: ["svelte", "typescript", "blog"],

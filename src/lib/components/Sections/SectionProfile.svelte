@@ -13,7 +13,6 @@
 <Content page class="flex md:flex-row sm:justify-center vh-full">
   <div class="info">
     <h1 class="font-boston">Hi, I'm Rafael Passoca.</h1>
-    <h2 class="font-boston">And I code.</h2>
     <p>
       As a Frontend Engineer, I believe that appearence and praticy are the best
       influences to the user.

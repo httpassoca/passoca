@@ -1,8 +1,8 @@
 <script lang="ts" context="module">
   export type blog = {
+    id: string;
     name: string;
     tags: string[];
-    link?: string;
     img?: string;
     date: string;
   };
@@ -14,7 +14,7 @@
     "background: linear-gradient(0deg, rgba(var(--app-color-primary-rgb),.4) -20%, rgba(0,0,0,0.8) 110%)";
 </script>
 
-<div class="blog mt-8 sm:mt-0">
+<a class="blog mt-8 sm:mt-0" href={`/blog/${blog.id}`}>
   <div class="header" style={`${headerStyle}, url('${blog.img}')`}>
     <div>
       <ul class="tags">
@@ -30,7 +30,7 @@
       {blog.name}
     </h2>
   </div>
-</div>
+</a>
 
 <style lang="sass">
 .blog
