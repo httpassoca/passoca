@@ -24,7 +24,7 @@
     </p>
     <p class="text-base">
       If you just want my resume
-      <a target="_blank" href="/resume.pdf" title="">click here</a>
+      <a target="_blank" href="/resume.pdf" title="resume">click here</a>
     </p>
     <div class="flex mt-4 justify-center">
       <Button on:click={goToSkills}>
@@ -47,5 +47,5 @@
     font-weight: 200
     margin-bottom: .8rem
   a
-    border-bottom: 1px solid var(--color-accent)
+    border-bottom: 1px solid var(--app-color-primary)
 </style>

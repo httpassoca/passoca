@@ -33,7 +33,7 @@
     <div class="flex justify-between">
       <div>
         <h3>{experience.name}</h3>
-        <a href={experience.link} target="_blank">
+        <a href={experience.link} target="_blank" title="website">
           {experience.site}
         </a>
       </div>
@@ -73,7 +73,7 @@
       left: -14px
       border-left: 3px solid transparent
       border-right: 3px solid transparent
-      border-bottom: 5px solid var(--app-color-triangle)
+      border-bottom: 5px solid var(--app-color-primary)
       top: 11px
       transform: rotate(90deg)
 

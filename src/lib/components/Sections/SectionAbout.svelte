@@ -74,7 +74,7 @@
 <style lang="sass">
 .info
   a
-    border-bottom: 1px solid var(--color-accent)
+    border-bottom: 1px solid var(--app-color-primary)
 .image
   position: relative
   width: 200px
