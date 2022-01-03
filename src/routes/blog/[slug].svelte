@@ -27,7 +27,7 @@
     const filteredPost = posts.find(
       (p) => p.slug.toLowerCase() === slug.toLowerCase()
     );
-    console.log(filteredPost);
+
     return {
       props: {
         page: filteredPost.post.default,

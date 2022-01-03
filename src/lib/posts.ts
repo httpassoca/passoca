@@ -1,6 +1,21 @@
-const imports = import.meta.globEager('./posts/*.md');
+const imports = import.meta.globEager('./blog/*.md');
 
-const posts = [];
+export type Post = {
+  post: Record<
+    string,
+    {
+      [key: string]: any;
+    }
+  >;
+  title: string
+  slug: string
+  date: string
+  description: string
+  hidden?: boolean
+  tags: string[]
+}
+
+const posts: Post[] = [];
 for (const path in imports) {
 	const post = imports[path];
 	if (post) {
@@ -10,7 +25,7 @@ for (const path in imports) {
     // as a component later on.
 		posts.push({
 			...post.metadata,
-			...post.default.render()
+			...post.default
 		});
 	}
 }
@@ -25,6 +40,5 @@ const filteredPosts = posts
 			? 1
 			: 0
 	)
-
 // Expose this info to other files
 export default filteredPosts;
