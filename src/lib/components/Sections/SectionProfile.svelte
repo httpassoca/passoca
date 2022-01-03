@@ -41,10 +41,6 @@
 <style lang="sass">
   h1
     font-size: clamp(36px, 8vw, 54px)
-  h2
-    font-size: clamp(24px, 6vw, 48px)
-    font-weight: 200
-    margin-bottom: .8rem
   a
     border-bottom: 1px solid var(--app-color-primary)
 </style>
