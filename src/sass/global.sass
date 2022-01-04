@@ -2,6 +2,14 @@
 @import './fonts'
 
 
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  outline: none
+  transition: background-color .6s cubic-bezier(0.215,0.61,0.355,1)
+  scroll-behavior: smooth
+
 html
   font-family: 'Noto Sans JP', 'Source Sans Pro', sans-serif
   font-size: 20px
@@ -11,17 +19,10 @@ html
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
 
-*
-  box-sizing: border-box
-  margin: 0
-  padding: 0
-  outline: none
-  transition: background-color .6s cubic-bezier(0.215,0.61,0.355,1)
-  scroll-behavior: smooth
-
 *::selection
   background-color: var(--app-color-primary)
   color: black
+
 .vh-full
   min-height: 100vh
 main
@@ -34,3 +35,5 @@ main
   font-family: 'Boston Black It'
 .font-boston-semibold
   font-family: 'Boston SemiBold'
+.font-pt
+  font-family: 'PT Sans'

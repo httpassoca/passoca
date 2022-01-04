@@ -1,0 +1,21 @@
+$breakpoint-sm: 600px
+$breakpoint-md: 875px
+$breakpoint-lg: 1440px
+$breakpoint-xl: 1980px
+
+@mixin screen-sm
+	@media (min-width: $breakpoint-sm)
+		@content
+
+@mixin screen-md
+	@media (min-width: $breakpoint-md)
+		@content
+
+@mixin screen-lg
+	@media (min-width: $breakpoint-lg)
+		@content
+
+@mixin screen-xl
+	@media (min-width: $breakpoint-xl)
+		@content
+
