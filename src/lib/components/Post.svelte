@@ -1,7 +1,7 @@
 <script lang="ts">
   import { formatDate } from "$lib/helpers/formatDate";
-
   import type { Post } from "$lib/posts";
+
   export let post: Post;
   const headerStyle =
     "background: linear-gradient(0deg, rgba(var(--app-color-primary-rgb),.4) -20%, rgba(0,0,0,0.8) 110%)";

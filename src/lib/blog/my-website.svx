@@ -3,7 +3,7 @@ title: My website
 slug: my-website
 date: 2022-01-5
 description: "Test description"
-tags: [Meta]
+tags: [Svelte, Tailwind]
 ---
 
 
