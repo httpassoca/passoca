@@ -18,9 +18,16 @@
   :global
     .info
       color: var(--app-color-gray-text)
+    .heading-link
+      margin-right: 8px
+      border-bottom: 2px solid transparent
+      transition: all .3s ease
+      &:hover
+        border-bottom: 2px solid var(--app-color-primary)
     h1, h2
       font-weight: bold
       margin-top: 20px
+      position: relative
     h1
       font-size: 2rem
       text-align: center
@@ -28,7 +35,7 @@
       font-size: 1.6rem
     p
       margin-top: 20px
-    a
+    a:not([href^='#'])
       font-weight: bold
       border-bottom: 2px solid var(--app-color-primary)
 </style>

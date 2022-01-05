@@ -11,7 +11,7 @@ Hi, reader. First, I want to appreciate **you** for being here. Second, I need t
 
 Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last [here](https://old.passoca.com.br), but dont judge. I did it with **React** (while I learn it) and **p5.js**. This was made with [SvelteKit](https://kit.svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/). I did try with [NuxtJS](https://nuxtjs.org/), actually I made it, but decide migrate to **Svelte** because it is faster, easier and a new skill to learn!
 
-## 🎨 The colors
+## The colors
 
 Well, green is my favorite color, so I made it the main. In the beggining, I used to create all websites in dark themes. But we know that exist people that don't like it , so I did a white theme. And just for fun, a coffee theme.
 

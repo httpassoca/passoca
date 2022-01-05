@@ -14,7 +14,20 @@ const config = {
 		}),
     mdsvex({
 			extensions: ['.svelte', '.md', '.svx'],
-      rehypePlugins: [ rehypeAutolink, rehypeSlug ]
+      rehypePlugins: [
+        rehypeSlug,
+        [
+          rehypeAutolink, { // Adds hyperlinks to the headings, requires rehypeSlug
+            behavior: 'prepend',
+            content: {
+              type: 'element',
+              tagName: 'span',
+              properties: {className:['heading-link']},
+              children: [{type: 'text', value: '#'}]
+            }
+          }
+        ],
+      ]
 		})
 	],
   extensions: ['.svelte', '.md', '.svx'],
