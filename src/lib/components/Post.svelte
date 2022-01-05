@@ -1,33 +1,26 @@
-<script lang="ts" context="module">
-  export type blog = {
-    id: string;
-    name: string;
-    tags: string[];
-    img?: string;
-    date: string;
-  };
-</script>
-
 <script lang="ts">
-  export let blog: blog;
+  import { formatDate } from "$lib/helpers/formatDate";
+
+  import type { Post } from "$lib/posts";
+  export let post: Post;
   const headerStyle =
     "background: linear-gradient(0deg, rgba(var(--app-color-primary-rgb),.4) -20%, rgba(0,0,0,0.8) 110%)";
 </script>
 
-<a class="blog mt-8 sm:mt-0" href={`/blog/${blog.id}`}>
-  <div class="header" style={`${headerStyle}, url('${blog.img}')`}>
+<a class="blog mt-8 sm:mt-0" href={`/blog/${post.slug}`}>
+  <div class="header" style={`${headerStyle})`}>
     <div>
       <ul class="tags">
-        {#each blog.tags as tag}
+        {#each post.tags as tag}
           <li>{tag}</li>
         {/each}
       </ul>
-      <span>{blog.date}</span>
+      <span>{formatDate(post.date)}</span>
     </div>
   </div>
   <div class="body">
     <h2 class="font-boston-semibold">
-      {blog.name}
+      {post.title}
     </h2>
   </div>
 </a>

@@ -1,4 +1,4 @@
-const imports = import.meta.globEager('./blog/*.md');
+const imports = import.meta.globEager('./blog/*');
 
 export type Post = {
   post: Record<
