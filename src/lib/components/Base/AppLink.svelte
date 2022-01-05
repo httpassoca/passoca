@@ -14,7 +14,7 @@ a
   position: relative
   &:before
     content: ''
-    background-color: #10951c
+    background-color: var(--app-color-primary)
     width: 100%
     position: absolute
     left: 0
@@ -23,7 +23,7 @@ a
     transition: all .35s cubic-bezier(0.215,0.61,0.355,1)
   &:hover
     &:before
-      box-shadow: 0px -9.6px 18px rgb(102, 239, 115), 0px -26.4px 32.8px rgb(102, 239, 115), 0px -63.6px 65.2px rgb(102, 239, 115), 0px -211px 137px rgb(102, 239, 115)
-      background-color: rgb(102, 239, 115)
+      box-shadow: 0px -9.6px 18px var(--app-color-title-2), 0px -26.4px 32.8px var(--app-color-title-3), 0px -63.6px 65.2px var(--app-color-title-4), 0px -211px 137px var(--app-color-title-5)
+      background-color: var(--app-color-primary)
       height: 2px
 </style>

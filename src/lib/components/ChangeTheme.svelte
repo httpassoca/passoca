@@ -7,7 +7,7 @@
   import type { Theme } from "../stores/theme.store";
 
   // List of themes
-  const themes: Theme[] = ["light", "dark", "coffee"];
+  const themes: Theme[] = ["dark", "light", "coffee"];
   let currentThemeIndex = 0;
 
   function nextTheme() {
@@ -19,17 +19,8 @@
   onMount(() => {
     // Initialize with localstorage
     const localTheme = localStorage.getItem("theme");
-    const browserPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    currentThemeIndex = !localTheme
-      ? browserPrefersDark
-        ? 2
-        : 0
-      : themes.indexOf(localTheme as any);
+    currentThemeIndex = !localTheme ? 1 : themes.indexOf(localTheme as any);
   });
-
   $: $theme = themes[currentThemeIndex];
 </script>
 
@@ -42,9 +33,9 @@
 
 <button aria-label={themes[currentThemeIndex]} on:click={nextTheme}>
   {#if currentThemeIndex === 0}
-    <Icon src={Sun} size="23" />
-  {:else if currentThemeIndex === 1}
     <Icon src={Moon} size="23" />
+  {:else if currentThemeIndex === 1}
+    <Icon src={Sun} size="23" />
   {:else}
     <SVG
       src="/icons/coffee.svg"

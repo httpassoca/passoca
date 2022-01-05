@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
+import { mdsvex } from 'mdsvex';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -8,10 +9,13 @@ const config = {
 	preprocess: [
 		preprocess({
 			postcss: true
+		}),
+    mdsvex({
+			extensions: ['.svelte', '.md', '.svx'],
 		})
 	],
-
-	kit: {
+  extensions: ['.svelte', '.md', '.svx'],
+  kit: {
 		adapter: adapter(),
 
 		// hydrate the <div id="svelte"> element in src/app.html

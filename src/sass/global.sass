@@ -1,5 +1,13 @@
 @import './theme'
+@import './fonts'
 
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  outline: none
+  scroll-behavior: smooth
 
 html
   font-family: 'Noto Sans JP', 'Source Sans Pro', sans-serif
@@ -10,24 +18,22 @@ html
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
 
-*
-  box-sizing: border-box
-  margin: 0
-  padding: 0
-  outline: none
-  transition: background-color .6s cubic-bezier(0.215,0.61,0.355,1)
-  scroll-behavior: smooth
-
 *::selection
   background-color: var(--app-color-primary)
-  color: black
+  color: var(--app-color-contrast-text)
+
 .vh-full
   min-height: 100vh
 main
   padding-top: 16px
   position: relative
   color: var(--app-color-text)
+  transition: background-color .6s cubic-bezier(0.215,0.61,0.355,1)
   background-color: var(--app-color-background)
 
 .font-boston
   font-family: 'Boston Black It'
+.font-boston-semibold
+  font-family: 'Boston SemiBold'
+.font-pt
+  font-family: 'PT Sans'

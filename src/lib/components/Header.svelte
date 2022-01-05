@@ -6,9 +6,9 @@
 
 <header class="px-4 md:px-0">
   <div class="md:container md:px-0">
-    <div class="logo">
+    <a href="/" class="logo">
       <SVG src="/logo.svg" height="45" />
-    </div>
+    </a>
     <div class="icons">
       <a href="/github" target="_blank">
         <SVG
@@ -33,7 +33,7 @@ header
   background-color: var(--app-color-background)
   & > div
     @apply flex justify-between py-4 mx-auto
-  .logo
+  a.logo
     color: var(--app-color-primary)
 .icons
   @apply flex h-full items-center my-auto gap-2
