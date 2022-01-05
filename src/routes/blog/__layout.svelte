@@ -16,10 +16,16 @@
   @include screen-md
     width: 720px
   :global
+    .info
+      color: var(--app-color-gray-text)
+    h1, h2
+      font-weight: bold
+      margin-top: 20px
     h1
       font-size: 2rem
-      font-weight: bold
       text-align: center
+    h2
+      font-size: 1.6rem
     p
       margin-top: 20px
     a

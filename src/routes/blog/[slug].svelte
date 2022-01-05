@@ -52,6 +52,6 @@
 </script>
 
 <h1>{metadata.title}</h1>
-<span>{formatDate(metadata.date)}</span>
+<span class="info">{formatDate(metadata.date)}</span>
 <!-- Here we'll load the component of the blog post page itself -->
 <svelte:component this={page} />
