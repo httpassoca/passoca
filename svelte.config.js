@@ -11,10 +11,10 @@ const config = {
 			postcss: true
 		}),
     mdsvex({
-			extensions: ['.svelte', '.md'],
+			extensions: ['.svelte', '.md', '.svx'],
 		})
 	],
-  extensions: ['.svelte', '.md'],
+  extensions: ['.svelte', '.md', '.svx'],
   kit: {
 		adapter: adapter(),
 

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   // https://fantinel.dev/blog-development-sveltekit/ <3
-  const imports = import.meta.globEager("../../lib/blog/*.md");
+  const imports = import.meta.globEager("../../lib/blog/*");
 
   type PostType = {
     post: Record<
