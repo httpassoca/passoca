@@ -7,7 +7,6 @@
   margin: 0
   padding: 0
   outline: none
-  transition: background-color .6s cubic-bezier(0.215,0.61,0.355,1)
   scroll-behavior: smooth
 
 html
@@ -21,7 +20,7 @@ html
 
 *::selection
   background-color: var(--app-color-primary)
-  color: black
+  color: var(--app-color-contrast-text)
 
 .vh-full
   min-height: 100vh
@@ -29,6 +28,7 @@ main
   padding-top: 16px
   position: relative
   color: var(--app-color-text)
+  transition: background-color .6s cubic-bezier(0.215,0.61,0.355,1)
   background-color: var(--app-color-background)
 
 .font-boston

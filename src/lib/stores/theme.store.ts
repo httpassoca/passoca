@@ -1,19 +1,14 @@
 import { writable } from "svelte/store";
 import { browser } from '$app/env';
 
-export type Theme = 'light' | 'dark' | 'coffee';
-
-export const theme = writable<Theme>('dark');
+export type Theme = 'dark' | 'light' | 'coffee';
 
 let initialized = false;
+export const theme = writable<Theme>('dark');
 
 theme.subscribe((val) => {
   if (!browser) return;
-  // Don't do anything if its first value
   if (!initialized) return (initialized = true);
-
-  const { dataset } = document.body;
-  dataset.theme = val;
-
+  document.body.dataset.theme = val;
   localStorage.setItem('theme', val);
 });

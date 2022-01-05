@@ -17,12 +17,8 @@
   <div id="svelte">%svelte.body%</div>
   <script>
     const localTheme = localStorage.getItem('theme');
-    const prefersTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    const theme = localTheme || (prefersTheme ? 'dark' : 'light');
-
+    const theme = localTheme || 'dark';
     document.body.dataset.theme = theme;
-
     localStorage.setItem('theme', theme);
   </script>
 </body>
