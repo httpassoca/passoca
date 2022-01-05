@@ -31,15 +31,27 @@
     return {
       props: {
         page: filteredPost.post.default,
+        metadata: filteredPost.post.metadata,
       },
     };
   }
 </script>
 
-<script>
-  // Declare the page variable to use on the client
-  export let page;
+<script lang="ts">
+  import { formatDate } from "$lib/helpers/formatDate";
+
+  type Metadata = {
+    title: string;
+    slug: string;
+    date: string;
+    description: string;
+    tags: string[];
+  };
+  export let page: Pick<PostType, "post">;
+  export let metadata: Metadata;
 </script>
 
+<h1>{metadata.title}</h1>
+<span>{formatDate(metadata.date)}</span>
 <!-- Here we'll load the component of the blog post page itself -->
 <svelte:component this={page} />

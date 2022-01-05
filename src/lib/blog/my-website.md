@@ -7,8 +7,6 @@ tags: [Svelte, Tailwind]
 ---
 
 
-# {title}
-
 Hi, reader. First, I want to appreciate **you** for being here. Second, I need to say thanks to [PuruVJ](https://www.puruvj.dev/) and [Matt Fantinel](https://fantinel.dev/) that inspire (and principally, help) me in this website.
 
 Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last [here](https://old.passoca.com.br), but dont judge. I did it with **React** (while I learn it) and **p5.js**. This was made with [SvelteKit](https://kit.svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/). I did try with [NuxtJS](https://nuxtjs.org/), actually I made it, but decide migrate to **Svelte** because it is faster, easier and a new skill to learn!
@@ -16,7 +14,6 @@ Ah, now let me tell that this isn't my first personal site. Probably is the thir
 ## The colors
 
 Well, green is my favorite color, so I made it the main. In the beggining, I used to create all websites in dark themes. But we know that exist people that don't like it , so I did a white theme. And just for fun, a coffee theme.
-
 
 
 {#each colorThemes as theme}
