@@ -111,7 +111,7 @@ Well, green is my favorite color, so I made it the main. In the beggining, I use
   display: grid
   cursor: pointer
   place-items: center
-  color: rgba(0,0,0,.1)
+  color: rgba(0,0,0,.3)
   transition: all .3s
   font-size: 1rem
   &:hover
