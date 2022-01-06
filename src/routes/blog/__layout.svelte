@@ -22,6 +22,7 @@ hr
 .thanks
   font-size: .875rem
   color: var(--app-color-gray-text)
+  margin-bottom: 12px
 
 .blog
   margin: 0 auto

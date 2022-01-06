@@ -1,9 +1,27 @@
+<script context="module" lang="ts">
+  export async function load() {
+    const url =
+      "https://api.spotify.com/v1/me/player/currently-playing?market=ES";
+    const headers = new Headers();
+    headers.set(
+      "Authorization",
+      `Bearer ${import.meta.env.VITE_SPOTIFY_TOKEN}`
+    );
+    const res = await fetch(url, {
+      headers,
+    });
+    const actualMusic = await res.json();
+    return { props: { actualMusic } };
+  }
+</script>
+
 <script lang="ts">
   import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
+  export let actualMusic;
 
   type icon = {
     icon: string;
@@ -67,6 +85,19 @@
           email
         </a>
       </p>
+      {#if actualMusic.is_playing}
+        <div>
+          Right now I am listening to:
+          <b>
+            {actualMusic.item.name}
+          </b>
+          from
+          <b>
+            {actualMusic.item.artists[0].name}
+          </b>
+          <img src={actualMusic.item.album.images[1].url} alt="actual_album" />
+        </div>
+      {/if}
     </div>
   </div>
 </Content>
