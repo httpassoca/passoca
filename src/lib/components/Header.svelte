@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { blur } from "svelte/transition";
   import SVG from "svelte-inline-svg";
   import ChangeTheme from "./ChangeTheme.svelte";
   import { theme } from "$lib/stores/theme.store";
@@ -9,6 +10,12 @@
     <a href="/" class="logo">
       <SVG src="/logo.svg" height="45" />
     </a>
+    <nav>
+      <a href="/about" transition:blur>about</a>
+      <a href="/career" transition:blur>career</a>
+      <a href="/skills" transition:blur>skills</a>
+      <a href="/blog" transition:blur>blog</a>
+    </nav>
     <div class="icons">
       <a href="/github" target="_blank">
         <SVG
@@ -35,6 +42,11 @@ header
     @apply flex justify-between py-4 mx-auto
   a.logo
     color: var(--app-color-primary)
+  nav
+    display: flex
+    align-items: center
+    gap: 16px
+    font-size: .875rem
 .icons
   @apply flex h-full items-center my-auto gap-2
   a

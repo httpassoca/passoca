@@ -10,7 +10,7 @@
 @import '../../sass/breakpoints'
 
 .blog--container
-  margin-top: 160px
+  padding-top: 160px
 
 hr
   width: 100%
