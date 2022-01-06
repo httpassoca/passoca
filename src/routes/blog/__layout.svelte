@@ -1,6 +1,8 @@
 <div class="blog--container px-4 md:container md:px-0 mx-auto">
   <div class="blog font-pt">
     <slot />
+    <hr />
+    <span class="thanks"> Thanks for reading! </span>
   </div>
 </div>
 
@@ -8,7 +10,18 @@
 @import '../../sass/breakpoints'
 
 .blog--container
-  margin-top: 80px
+  margin-top: 160px
+
+hr
+  width: 100%
+  background-color: var(--app-color-gray-text)
+  height: 1px
+  margin: 40px 0 10px 0
+  border: 0
+
+.thanks
+  font-size: .875rem
+  color: var(--app-color-gray-text)
 
 .blog
   margin: 0 auto
@@ -26,7 +39,7 @@
         border-bottom: 2px solid var(--app-color-primary)
     h1, h2
       font-weight: bold
-      margin-top: 20px
+      margin-top: 18px
       position: relative
     h1
       font-size: 2rem
@@ -34,7 +47,7 @@
     h2
       font-size: 1.6rem
     p
-      margin-top: 20px
+      margin-top: 18px
     a:not([href^='#'])
       font-weight: bold
       border-bottom: 2px solid var(--app-color-primary)
