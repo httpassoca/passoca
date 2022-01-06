@@ -100,7 +100,7 @@
   ];
 </script>
 
-<Content page class="mb-8">
+<Content page>
   <Title>Skills</Title>
   <div class="grid-icons md:grid-cols-4 grid-cols-2">
     {#each icons as skill (skill.name)}

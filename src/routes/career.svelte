@@ -22,7 +22,7 @@
   };
 </script>
 
-<Content page class="mb-8">
+<Content page>
   <Title>Experiences</Title>
   <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5">
     <Experience experience={jmvExperience}>

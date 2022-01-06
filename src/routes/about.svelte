@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { theme } from "../../stores/theme.store";
+  import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";

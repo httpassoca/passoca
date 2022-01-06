@@ -9,7 +9,7 @@
   <link rel="icon" href="/favicons/{$theme}-logo.svg" />
 </svelte:head>
 
-<main class="content pb-32">
+<main class="content">
   <Header />
   <slot />
 </main>
