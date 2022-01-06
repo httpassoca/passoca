@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { blur } from "svelte/transition";
   import SVG from "svelte-inline-svg";
   import ChangeTheme from "./ChangeTheme.svelte";
   import { theme } from "$lib/stores/theme.store";
@@ -11,10 +10,10 @@
       <SVG src="/logo.svg" height="45" />
     </a>
     <nav>
-      <a href="/about" transition:blur>about</a>
-      <a href="/career" transition:blur>career</a>
-      <a href="/skills" transition:blur>skills</a>
-      <a href="/blog" transition:blur>blog</a>
+      <a href="/about">about</a>
+      <a href="/career">career</a>
+      <a href="/skills">skills</a>
+      <a href="/blog">blog</a>
     </nav>
     <div class="icons">
       <a href="/github" target="_blank">

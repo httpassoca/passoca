@@ -1,8 +1,18 @@
+<script context="module">
+  export const load = async ({ page }) => ({
+    props: {
+      key: page.path,
+    },
+  });
+</script>
+
 <script lang="ts">
+  import PageTransition from "$lib/components/PageTransition.svelte";
   import "../app.css";
   import "../sass/global.sass";
   import Header from "$lib/components/Header.svelte";
   import { theme } from "$lib/stores/theme.store";
+  export let key;
 </script>
 
 <svelte:head>
@@ -11,5 +21,7 @@
 
 <main class="content">
   <Header />
-  <slot />
+  <PageTransition refresh={key}>
+    <slot />
+  </PageTransition>
 </main>
