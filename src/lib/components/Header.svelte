@@ -2,6 +2,7 @@
   import SVG from "svelte-inline-svg";
   import ChangeTheme from "./ChangeTheme.svelte";
   import { theme } from "$lib/stores/theme.store";
+  import { page } from "$app/stores";
 </script>
 
 <header class="px-4 md:px-0">
@@ -10,10 +11,10 @@
       <SVG src="/logo.svg" height="45" />
     </a>
     <nav>
-      <a href="/about">about</a>
-      <a href="/career">career</a>
-      <a href="/skills">skills</a>
-      <a href="/blog">blog</a>
+      <a class:actual={$page.path === "/about"} href="/about">about</a>
+      <a class:actual={$page.path === "/career"} href="/career">career</a>
+      <a class:actual={$page.path === "/skills"} href="/skills">skills</a>
+      <a class:actual={$page.path === "/blog"} href="/blog">blog</a>
     </nav>
     <div class="icons">
       <a href="/github" target="_blank">
@@ -45,7 +46,11 @@ header
     display: flex
     align-items: center
     gap: 16px
-    font-size: .875rem
+    a
+      transition: all .35s
+      font-size: .8rem
+    .actual
+      color: var(--app-color-primary)
 .icons
   @apply flex h-full items-center my-auto gap-2
   a
