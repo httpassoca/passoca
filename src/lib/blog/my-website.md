@@ -7,13 +7,13 @@ tags: [Svelte, Tailwind]
 ---
 
 
-Hi, reader. First, I want to appreciate **you** for being here. Second, I need to say thanks to [PuruVJ](https://www.puruvj.dev/), [Matt Fantinel](https://fantinel.dev/) and [Zeno Rocha](https://www.zenorocha.com/) that inspire (and principally, help) me in this website.
+Hi, reader. First, I want to appreciate **you** for being here. Second, I need to say thanks to [PuruVJ](https://www.puruvj.dev/), [Matt Fantinel](https://fantinel.dev/) and [Zeno Rocha](https://www.zenorocha.com/) who inspire (and principally, help) me in this website.
 
-Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last [here](https://old.passoca.com.br), but dont judge. I did it with **React** (while I learn it) and **p5.js**. This was made with [SvelteKit](https://kit.svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/). I did try with [NuxtJS](https://nuxtjs.org/), actually I made it, but decide migrate to **Svelte** because it is faster, easier and a new skill to learn!
+Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last [here](https://old.passoca.com.br), but dont judge. I did it with **React** (while I was learning it) and **p5.js**. This one however, was made with [SvelteKit](https://kit.svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/). I did try with [NuxtJS](https://nuxtjs.org/), actually I even made it, but decided to migrate to **Svelte** because it is faster, easier and a new skill to learn for me!
 
 ## The colors 🎨
 
-Well, green is my favorite color, so I made it the main. Of course, not easy like this. I've been looking for the best green in the world since ages ago, so if you can't decide your color, I swear, it is comprehensible. In the beggining, I used to create all websites in dark themes. But we know that exist people that don't like it , so I did a white theme. And just for fun, a coffee theme.
+Well, green is my favorite color, so I made it the main here. Of course, not easy like this. I've been looking for the best green in the world since ages, so if you can't decide your color, I swear, it is completely comprehensible. In the beggining, I used to create all websites in dark themes. But we know that there exist people that don't like it , so I did a white theme. And just for fun, a coffee theme.
 
 
 {#each colorThemes as theme}
@@ -43,17 +43,17 @@ Well, green is my favorite color, so I made it the main. Of course, not easy lik
 
 ## The layout 📐
 
-So, when I had 14~16 years I discovered that I really liked **Photoshop**, and I tried to be a **designer**. But when the things starts to get harder and I saw some really professional designs, I just accept that I wouldn't go that far and, being honest with myself, I didn't want it. Yes sad story.
+So, when I had 14~16 years old, I discovered that I really liked **Photoshop**, and I tried to be a **designer**. But when the things started to get harder and I saw some really professional designs, I just accept that I wouldn't go that far in it and, being honest with myself, I didn't want it. Yes sad story.
 
-But I found something better than design, making design happen! I believe that my "desginer" background brought me some graphic skills to web development and increase my taste for **frontend**. So everything I try to do, I try let it beautiful. At least not ugly, c'mon.
+But I found something even better than design, making design happen! I believe that my "desginer" background brought me some graphic skills to web development and helped increase my taste for **frontend**. So everything I try to do, I try let it beautiful. At least not ugly, c'mon.
 
 Okay, no more lero-lero, lets get straight to the point. I noticed something when was looking to Zeno's website. If you will do a website based on content in sections, is better to **center the content** in the page and make **one page for each section**. I say because I didn't do it and didn't appreciate the result either. Seems like the contents are too alone or too close together. So, if the website is going to have less content, I think is better to make it more presentable and tasty to browse. Otherwise, a simple layout to make the content lighter to read looks better.
 
-About the blog, I did the layout clear as possible, inspirated on [write.as](https://write.as/).
+About the blog, I did the layout as clear as possible, inspirated by [write.as](https://write.as/).
 
 ## The blog 🗒️
 
-Definitively the hardest thing. I had to use things I've never used and it isn't over yet. I basically mixed **PuruVJ**'s and **Matt Fantinel** blog. PuruVJ did **EVERYTHING** by itself (*seriously, I don't doubt he considered do his own Svelte,* [check it](https://www.puruvj.dev/blog/how-i-created-personal-site-part-1)). And Matt, my brazilian *camarada*, uses [mdsvex](https://mdsvex.pngwn.io/). Strange, because I decide to use too 🤔, a few seconds after seeing him website, what a coincidence!
+Definitively the hardest thing. I had to use things I've never used and it isn't over yet. I basically mixed **PuruVJ**'s and **Matt Fantinel** blog. PuruVJ did **EVERYTHING** by itself (*seriously, I don't doubt he considered to do his own Svelte,* [check it out](https://www.puruvj.dev/blog/how-i-created-personal-site-part-1)). And Matt, my brazilian *camarada*, uses [mdsvex](https://mdsvex.pngwn.io/). Strange, because I decide to use too 🤔, a few seconds after seeing him website, what a coincidence!
 
 
 
