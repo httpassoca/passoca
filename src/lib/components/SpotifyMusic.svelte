@@ -71,8 +71,8 @@
   &:after
     content: ''
     display: block
-    height: 15px
-    width: 15px
+    height: 12px
+    width: 12px
     border-radius: 50%
     position: absolute
     top: 50%
@@ -92,6 +92,7 @@
   background-color: var(--app-color-gray-text)
   overflow: hidden
   > div
+    transition: width 1.8s
     height: 3px
     position: absolute
     top: 0
