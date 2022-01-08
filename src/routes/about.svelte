@@ -15,6 +15,7 @@
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
+  import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   export let music = null;
 
   type icon = {
@@ -77,25 +78,8 @@
         </a>
       </p>
       {#if music}
-        Right now I am listening to:
-        <div class="flex items-center gap-3 mt-2">
-          <img
-            src={music.album.images[1].url}
-            class="rounded-full"
-            height="80"
-            width="80"
-            alt="actual_music_cover"
-          />
-          <div>
-            <b>
-              {music.name}
-            </b>
-            <br />
-            <span class="italic">
-              {music.artists[0].name}
-            </span>
-          </div>
-        </div>
+        <p class="mt-2">Right now I am listening to:</p>
+        <SpotifyMusic {music} />
       {/if}
     </div>
   </div>
