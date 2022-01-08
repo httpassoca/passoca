@@ -1,17 +1,11 @@
 <script context="module" lang="ts">
   export async function load() {
-    const url =
-      "https://api.spotify.com/v1/me/player/currently-playing?market=ES";
-    const headers = new Headers();
-    headers.set(
-      "Authorization",
-      `Bearer ${import.meta.env.VITE_SPOTIFY_TOKEN}`
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/now-playing`).then(
+      (res) => res.json()
     );
-    const res = await fetch(url, {
-      headers,
-    });
-    const actualMusic = await res.json();
-    return { props: { actualMusic } };
+    let music = null;
+    if (res.isPlaying) music = res.music;
+    return { props: { music } };
   }
 </script>
 
@@ -21,7 +15,7 @@
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
-  export let actualMusic;
+  export let music = null;
 
   type icon = {
     icon: string;
@@ -74,28 +68,33 @@
         I learned programming at
         <Link to="https://www.senaimg.com.br/">SENAI.</Link>
         I started with <b>C++</b>, then <b>MySQL</b>, then <b>C#</b>, <b>PHP</b>
-        and <b>HTML / CSS / JS</b>.
-      </p>
-      <p>
-        Just playing with CSS doing fantasy websites I realize that I love
-        create interfaces. And today I live by that.
+        and <b>HTML / CSS / JS</b>. Just playing with CSS doing fantasy websites
+        I realize I love create interfaces. And today I live by this.
       </p>
       <p>
         You can contact me via <a href="mailto: trabsom.rafael@gmail.com">
-          email
+          email.
         </a>
       </p>
-      {#if actualMusic.is_playing}
-        <div>
-          Right now I am listening to:
-          <b>
-            {actualMusic.item.name}
-          </b>
-          from
-          <b>
-            {actualMusic.item.artists[0].name}
-          </b>
-          <img src={actualMusic.item.album.images[1].url} alt="actual_album" />
+      {#if music}
+        Right now I am listening to:
+        <div class="flex items-center gap-3 mt-2">
+          <img
+            src={music.album.images[1].url}
+            class="rounded-full"
+            height="80"
+            width="80"
+            alt="actual_music_cover"
+          />
+          <div>
+            <b>
+              {music.name}
+            </b>
+            <br />
+            <span class="italic">
+              {music.artists[0].name}
+            </span>
+          </div>
         </div>
       {/if}
     </div>
