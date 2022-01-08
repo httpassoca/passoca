@@ -1,8 +1,14 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { msToTime } from "$lib/helpers/formatTime";
   import type { TrackObjectFull } from "$lib/types/spotify";
   export let music: TrackObjectFull;
-  let musicPercentage = Math.round(
+
+  const updatePercentage = () =>
+    (musicPercentage = Math.floor(
+      (music.progress_ms / music.duration_ms) * 100
+    ));
+  let musicPercentage = Math.floor(
     (music.progress_ms / music.duration_ms) * 100
   );
 
@@ -12,19 +18,15 @@
     );
     if (res.isPlaying) {
       music = res.music;
-      musicPercentage = Math.round(
-        (music.progress_ms / music.duration_ms) * 100
-      );
+      updatePercentage();
     } else music = null;
   }
 
   onMount(async () => {
     setInterval(() => {
       music.progress_ms += 2000;
-      musicPercentage = Math.round(
-        (music.progress_ms / music.duration_ms) * 100
-      );
-      if (musicPercentage >= 100) {
+      updatePercentage();
+      if (musicPercentage >= 101) {
         getMusic();
       }
     }, 2000);
@@ -34,13 +36,15 @@
 {#if music}
   <p class="mt-2">Right now I am listening to:</p>
   <div class="flex items-center gap-3 mt-2">
-    <img
-      src={music.album.images[1].url}
-      class="rounded-full"
-      height="80"
-      width="80"
-      alt="actual_music_cover"
-    />
+    <div class="img">
+      <img
+        src={music.album.images[1].url}
+        class="rounded-full"
+        height="80"
+        width="80"
+        alt="actual_music_cover"
+      />
+    </div>
     <div>
       <a class="font-bold" href={music.external_urls.spotify} target="_blank">
         {music.name}
@@ -50,15 +54,38 @@
         {music.artists[0].name}
       </span>
       <br />
-      <div class="progress--container">
-        <div style="width: {musicPercentage * 2}px;" />
+      <div class="flex gap-1 items-center text-sm">
+        <div class="progress--container">
+          <div style="width: {musicPercentage * 2}px;" />
+        </div>
+        {msToTime(music.duration_ms)}
       </div>
     </div>
   </div>
 {/if}
 
 <style lang="sass">
+.img
+  animation: spin 16s linear infinite
+  position: relative
+  &:after
+    content: ''
+    display: block
+    height: 15px
+    width: 15px
+    border-radius: 50%
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%,-50%)
+    background-color: var(--app-color-background)
+
+@keyframes spin
+  100%
+    transform: rotate(360deg)
+
 .progress--container
+  margin-top: 4px
   position: relative
   width: 200px
   height: 3px
