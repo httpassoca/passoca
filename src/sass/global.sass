@@ -1,3 +1,4 @@
+@import './breakpoints'
 @import './theme'
 @import './fonts'
 
@@ -17,7 +18,6 @@ html
   -webkit-text-size-adjust: 100%
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
-
 *::selection
   background-color: var(--app-color-primary)
   color: var(--app-color-contrast-text)
@@ -39,6 +39,10 @@ main
   color: var(--app-color-text)
   transition: background-color .6s cubic-bezier(0.215,0.61,0.355,1)
   background-color: var(--app-color-background)
+
+  padding-bottom: 40px
+  @include screen-md
+    padding-bottom: unset
 
 .font-boston
   font-family: 'Boston Black It'

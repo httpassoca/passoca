@@ -78,7 +78,6 @@
         </a>
       </p>
       {#if music}
-        <p class="mt-2">Right now I am listening to:</p>
         <SpotifyMusic {music} />
       {/if}
     </div>

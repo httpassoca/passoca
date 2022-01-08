@@ -77,4 +77,5 @@ export interface TrackObjectFull extends TrackObjectSimplified {
   external_ids: ExternalIdObject;
   popularity: number;
   is_local?: boolean | undefined;
+  progress_ms: number;
 }
