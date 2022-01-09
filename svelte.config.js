@@ -27,7 +27,8 @@ const config = {
             }
           }
         ],
-      ]
+      ],
+      smartypants: true,
 		})
 	],
   extensions: ['.svelte', '.md', '.svx'],

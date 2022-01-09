@@ -10,7 +10,8 @@
 @import '../../sass/breakpoints'
 
 .blog--container
-  padding-top: 160px
+  padding-top: 120px
+  min-height: 100vh
 
 hr
   width: 100%
@@ -27,11 +28,21 @@ hr
 .blog
   margin: 0 auto
   width: 100%
+
   @include screen-md
     width: 720px
   :global
+    pre
+      margin: 20px 0
+      code
+        font-family: 'Caskaydia Cove'
+        line-height: 1
+    code
+      font-size: .8rem
     .info
       color: var(--app-color-gray-text)
+      margin-top: 12px
+      font-size: .875rem
     .heading-link
       margin-right: 8px
       border-bottom: 2px solid transparent
@@ -51,5 +62,5 @@ hr
       margin-top: 18px
     a:not([href^='#'])
       font-weight: bold
-      border-bottom: 2px solid var(--app-color-primary)
+      border-bottom: 1px solid var(--app-color-primary)
 </style>
