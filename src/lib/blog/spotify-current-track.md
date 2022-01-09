@@ -8,6 +8,7 @@ tags: [Spotify, API]
 
 <script lang="ts">
   import Link from '../components/Base/AppLink.svelte';
+  import Image from '../components/Base/AppImage.svelte';
 </script>
 
 I saw this on <Link to="https://cristianbgp.com/">Cristian Granda</Link> website and thought it was cool, had never seen it. So I put it on my website. I took two days to made it, but I will teach you how to do it fast ⚡.
@@ -19,7 +20,8 @@ After I saw the <Link to="https://developer.spotify.com/console/get-users-curren
 Start creating an integration in <Link to="https://developer.spotify.com/dashboard/">Spotify Dashboard</Link>
 . After do it, click on **edit settings** and add `https://getyourspotifyrefreshtoken.herokuapp.com/callback` on **Redirect URIs**.
 
-![example img](https://ik.imagekit.io/passoca/teste.jpg?updatedAt=1641748037446)
+<Image img="spotify-integration" alt="Spotify Integration"/>
+
 Next, copy the *client id* and *client secret* and put them at <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">this</Link> website. Then mark `user-read-currently-playing` and press submit it.
 
 So, now you have the refresh token of your Spotify integration, you will use it to get an access token. I made it in my personal API, with Node.js. Here the function that get the access token: 

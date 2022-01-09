@@ -40,12 +40,13 @@ hr
       line-height: 1
       font-size: .8rem
   code:not([class*="language-"])
-    font-size: .75rem
+    font-size: .78rem
     word-break: break-word
     background-color: var(--app-color-code-background)
     padding: 2px 6px
     border-radius: 4px
-
+  img
+    margin: 12px auto 0 auto
   h1, h2
     font-weight: bold
     margin-top: 18px
