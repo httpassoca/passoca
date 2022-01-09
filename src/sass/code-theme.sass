@@ -1,0 +1,367 @@
+/**
+ * MIT License
+ * Copyright (c) 2018 Sarah Drasner
+ * Sarah Drasner's[@sdras] Night Owl
+ * Ported by Sara vieria [@SaraVieira]
+ * Added by Souvik Mandal [@SimpleIndian]
+ */
+
+[data-theme="dark"]
+  code[class*="language-"]
+    color: #d6deeb
+    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    line-height: 1.2
+    -moz-tab-size: 4
+    -o-tab-size: 4
+    tab-size: 4
+    -webkit-hyphens: none
+    -moz-hyphens: none
+    -ms-hyphens: none
+    hyphens: none
+
+  pre[class*="language-"]
+    color: #d6deeb
+    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    line-height: 1.2
+    -moz-tab-size: 4
+    -o-tab-size: 4
+    tab-size: 4
+    -webkit-hyphens: none
+    -moz-hyphens: none
+    -ms-hyphens: none
+    hyphens: none
+    border-radius: 0.3em
+
+    &::-moz-selection, ::-moz-selection
+      text-shadow: none
+      background: rgba(29, 59, 83, 0.99)
+
+  code[class*="language-"]
+    &::-moz-selection, ::-moz-selection
+      text-shadow: none
+      background: rgba(29, 59, 83, 0.99)
+
+  pre[class*="language-"]
+    &::selection, ::selection
+      text-shadow: none
+      background: rgba(29, 59, 83, 0.99)
+
+  code[class*="language-"]
+    &::selection, ::selection
+      text-shadow: none
+      background: rgba(29, 59, 83, 0.99)
+
+  @media print
+    code[class*="language-"], pre[class*="language-"]
+      text-shadow: none
+
+  /* Code blocks
+
+  pre[class*="language-"]
+    padding: 1em
+    margin: 0.5em 0
+    overflow: auto
+
+  \:not(pre) > code[class*="language-"], pre[class*="language-"]
+    color: white
+    background: #011627
+
+  \:not(pre) > code[class*="language-"]
+    padding: 0.1em
+    border-radius: 0.3em
+    white-space: normal
+
+  .token
+    &.comment, &.prolog, &.cdata
+      color: rgb(99, 119, 119)
+      font-style: italic
+
+    &.punctuation
+      color: rgb(199, 146, 234)
+
+  .namespace
+    color: rgb(178, 204, 214)
+
+  .token
+    &.deleted
+      color: rgba(239, 83, 80, 0.56)
+      font-style: italic
+
+    &.symbol, &.property
+      color: rgb(128, 203, 196)
+
+    &.tag, &.operator, &.keyword
+      color: rgb(127, 219, 202)
+
+    &.boolean
+      color: rgb(255, 88, 116)
+
+    &.number
+      color: rgb(247, 140, 108)
+
+    &.constant, &.function, &.builtin, &.char
+      color: rgb(130, 170, 255)
+
+    &.selector, &.doctype
+      color: rgb(199, 146, 234)
+      font-style: italic
+
+    &.attr-name, &.inserted
+      color: rgb(173, 219, 103)
+      font-style: italic
+
+    &.string, &.url, &.entity
+      color: rgb(173, 219, 103)
+
+  .language-css .token.string, .style .token.string
+    color: rgb(173, 219, 103)
+
+  .token
+    &.class-name, &.atrule, &.attr-value
+      color: rgb(255, 203, 139)
+
+    &.regex, &.important, &.variable
+      color: rgb(214, 222, 235)
+
+    &.important, &.bold
+      font-weight: bold
+
+    &.italic
+      font-style: italic
+
+/**
+ * Dracula Theme originally by Zeno Rocha [@zenorocha]
+ * https://draculatheme.com/
+ *
+ * Ported for PrismJS by Albert Vallverdu [@byverdu]
+[data-theme="coffee"]
+  code[class*="language-"]
+    color: #f8f8f2
+    background: none
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3)
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    line-height: 1.2
+    -moz-tab-size: 4
+    -o-tab-size: 4
+    tab-size: 4
+    -webkit-hyphens: none
+    -moz-hyphens: none
+    -ms-hyphens: none
+    hyphens: none
+
+  pre[class*="language-"]
+    color: #f8f8f2
+    background: none
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3)
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    line-height: 1.2
+    -moz-tab-size: 4
+    -o-tab-size: 4
+    tab-size: 4
+    -webkit-hyphens: none
+    -moz-hyphens: none
+    -ms-hyphens: none
+    hyphens: none
+    padding: 1em
+    margin: .5em 0
+    overflow: auto
+    border-radius: 0.3em
+
+  /* Code blocks
+
+  \:not(pre) > code[class*="language-"], pre[class*="language-"]
+    background: #282a36
+
+  /* Inline code
+
+  \:not(pre) > code[class*="language-"]
+    padding: .1em
+    border-radius: .3em
+    white-space: normal
+
+  .token
+    &.comment, &.prolog, &.doctype, &.cdata
+      color: #6272a4
+
+    &.punctuation
+      color: #f8f8f2
+
+  .namespace
+    opacity: .7
+
+  .token
+    &.property, &.tag, &.constant, &.symbol, &.deleted
+      color: #ff79c6
+
+    &.boolean, &.number
+      color: #bd93f9
+
+    &.selector, &.attr-name, &.string, &.char, &.builtin, &.inserted
+      color: #50fa7b
+
+    &.operator, &.entity, &.url
+      color: #f8f8f2
+
+  .language-css .token.string, .style .token.string
+    color: #f8f8f2
+
+  .token
+    &.variable
+      color: #f8f8f2
+
+    &.atrule, &.attr-value, &.function, &.class-name
+      color: #f1fa8c
+
+    &.keyword
+      color: #8be9fd
+
+    &.regex
+      color: #ffb86c
+
+    &.important
+      color: #ffb86c
+      font-weight: bold
+
+    &.bold
+      font-weight: bold
+
+    &.italic
+      font-style: italic
+
+    &.entity
+      cursor: help
+
+
+/**
+ * Nord Theme Originally by Arctic Ice Studio
+ * https://nordtheme.com
+ *
+ * Ported for PrismJS by Zane Hitchcoxc (@zwhitchcox) and Gabriel Ramos (@gabrieluizramos)
+
+[data-theme="light"]
+  code[class*="language-"]
+    color: #f8f8f2
+    background: none
+    font-family: "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    line-height: 1.2
+    -moz-tab-size: 4
+    -o-tab-size: 4
+    tab-size: 4
+    -webkit-hyphens: none
+    -moz-hyphens: none
+    -ms-hyphens: none
+    hyphens: none
+
+  pre[class*="language-"]
+    color: #f8f8f2
+    background: none
+    font-family: "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    line-height: 1.2
+    -moz-tab-size: 4
+    -o-tab-size: 4
+    tab-size: 4
+    -webkit-hyphens: none
+    -moz-hyphens: none
+    -ms-hyphens: none
+    hyphens: none
+    padding: 1em
+    margin: .5em 0
+    overflow: auto
+    border-radius: 0.3em
+
+  /* Code blocks
+
+  \:not(pre) > code[class*="language-"], pre[class*="language-"]
+    background: #2E3440
+
+  /* Inline code
+
+  \:not(pre) > code[class*="language-"]
+    padding: .1em
+    border-radius: .3em
+    white-space: normal
+
+  .token
+    &.comment, &.prolog, &.doctype, &.cdata
+      color: #636f88
+
+    &.punctuation
+      color: #81A1C1
+
+  .namespace
+    opacity: .7
+
+  .token
+    &.property, &.tag, &.constant, &.symbol, &.deleted
+      color: #81A1C1
+
+    &.number
+      color: #B48EAD
+
+    &.boolean
+      color: #81A1C1
+
+    &.selector, &.attr-name, &.string, &.char, &.builtin, &.inserted
+      color: #A3BE8C
+
+    &.operator, &.entity, &.url
+      color: #81A1C1
+
+  .language-css .token.string, .style .token.string
+    color: #81A1C1
+
+  .token
+    &.variable
+      color: #81A1C1
+
+    &.atrule, &.attr-value, &.function, &.class-name
+      color: #88C0D0
+
+    &.keyword
+      color: #81A1C1
+
+    &.regex
+      color: #EBCB8B
+
+    &.important
+      color: #EBCB8B
+      font-weight: bold
+
+    &.bold
+      font-weight: bold
+
+    &.italic
+      font-style: italic
+
+    &.entity
+      cursor: help
