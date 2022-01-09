@@ -6,10 +6,47 @@ description: "Test description"
 tags: [Svelte, Tailwind]
 ---
 
+<script lang="ts">
+  import Link from '../components/Base/AppLink.svelte';
+  import { Moon, Sun, Duplicate } from "svelte-hero-icons";
+  import SVG from "svelte-inline-svg";
+  import Icon from "svelte-hero-icons/Icon.svelte";
+  const copy = async (color: string): string => {
+    await navigator.clipboard.writeText(color);
+  }
+  const colorThemes = [
+    {
+      name: 'dark',
+      icon: Moon,
+      colors: [
+      "#66EF73",
+      "#100F10",
+      "#E0E0E0",
+      "#AAAAAA",
+    ]},
+    {
+      name: 'light',
+      icon: Sun,
+      colors: [
+      "#66EF73",
+      "#FEFEFE",
+      "#000000",
+      "#AAAAAA",
+    ]},
+    {
+      name: 'coffee',
+      colors: [
+      "#6A461E",
+      "#F9DEC9",
+      "#000000",
+      "#9E9E9E",
+    ]}
+  ]
+</script>
 
-Hi, reader. First, I want to appreciate **you** for being here. Second, I need to say thanks to [PuruVJ](https://www.puruvj.dev/), [Matt Fantinel](https://fantinel.dev/) and [Zeno Rocha](https://www.zenorocha.com/) who inspire (and principally, help) me in this website.
+Hi, reader. First, I want to appreciate **you** for being here. Second, I need to say thanks to <Link to="https://www.puruvj.dev/">PuruVJ</Link>, <Link to="https://fantinel.dev/">Matt Fantinel</Link> and <Link to="https://www.zenorocha.com/">Zeno Rocha</Link> who inspire (and principally, help) me in this website.
 
-Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last [here](https://old.passoca.com.br), but dont judge. I did it with **React** (while I was learning it) and **p5.js**. This one however, was made with [SvelteKit](https://kit.svelte.dev/) and [Tailwind CSS](https://tailwindcss.com/). I did try with [NuxtJS](https://nuxtjs.org/), actually I even made it, but decided to migrate to **Svelte** because it is faster, easier and a new skill to learn for me!
+Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last <Link to="https://old.passoca.com.br">here</Link>, but dont judge. I did it with **React** (while I was learning it) and **p5.js**. This one however, was made with <Link to="https://kit.svelte.dev/">SvelteKit</Link> and <Link to="https://tailwindcss.com/">Tailwind CSS</Link>. I did try with <Link to="https://nuxtjs.org/">NuxtJS</Link>, actually I even made it, but decided to migrate to **Svelte** because it is faster, easier and a new skill to learn for me!
 
 ## The colors 🎨
 
@@ -49,50 +86,28 @@ But I found something even better than design, making design happen! I believe t
 
 Okay, no more lero-lero, lets get straight to the point. I noticed something when was looking to Zeno's website. If you will do a website based on content in sections, is better to **center the content** in the page and make **one page for each section**. I say because I didn't do it and didn't appreciate the result either. Seems like the contents are too alone or too close together. So, if the website is going to have less content, I think is better to make it more presentable and tasty to browse. Otherwise, a simple layout to make the content lighter to read looks better.
 
-About the blog, I did the layout as clear as possible, inspirated by [write.as](https://write.as/).
+About the blog, I did the layout as clear as possible, inspirated by <Link to="https://write.as/">write.as</Link>.
 
 ## The blog 🗒️
 
-Definitively the hardest thing. I had to use things I've never used and it isn't over yet. I basically mixed **PuruVJ**'s and **Matt Fantinel** blog. PuruVJ did **EVERYTHING** by itself (*seriously, I don't doubt he considered to do his own Svelte,* [check it out](https://www.puruvj.dev/blog/how-i-created-personal-site-part-1)). And Matt, my brazilian *camarada*, uses [mdsvex](https://mdsvex.pngwn.io/). Strange, because I decide to use too 🤔, a few seconds after seeing him website, what a coincidence!
+Definitively the hardest thing. I had to use things I've never used and it isn't over yet. I basically mixed **PuruVJ**'s and **Matt Fantinel** blog. PuruVJ did **EVERYTHING** by itself (*seriously, I don't doubt he considered to do his own Svelte,* <Link to="https://www.puruvj.dev/blog/how-i-created-personal-site-part-1">check it out</Link>). And Matt, my brazilian *camarada*, uses <Link to="https://mdsvex.pngwn.io/">mdsvex</Link>. Strange, because I decide to use too 🤔, a few seconds after seeing him website, what a coincidence!
+
+## Fonts
+
+<ul class="fonts">
+  <li>
+    <Link to="https://www.puruvj.dev/blog/how-i-created-personal-site-part-1"> 
+      How I created my personal site - PuruVJ
+    </Link>
+  </li>
+  <li>
+    <Link to="https://fantinel.dev/blog-development-sveltekit/"> 
+      How I built a blog with Svelte and SvelteKit - Matt Fantinel
+    </Link>
+  </li>
+</ul>
 
 
-
-<script lang="ts">
-  import { Moon, Sun, Duplicate } from "svelte-hero-icons";
-  import SVG from "svelte-inline-svg";
-  import Icon from "svelte-hero-icons/Icon.svelte";
-  const copy = async (color: string): string => {
-    await navigator.clipboard.writeText(color);
-  }
-  const colorThemes = [
-    {
-      name: 'dark',
-      icon: Moon,
-      colors: [
-      "#66EF73",
-      "#100F10",
-      "#E0E0E0",
-      "#AAAAAA",
-    ]},
-    {
-      name: 'light',
-      icon: Sun,
-      colors: [
-      "#66EF73",
-      "#FEFEFE",
-      "#000000",
-      "#AAAAAA",
-    ]},
-    {
-      name: 'coffee',
-      colors: [
-      "#6A461E",
-      "#F9DEC9",
-      "#000000",
-      "#9E9E9E",
-    ]}
-  ]
-</script>
 
 <style lang="sass">
 @import '../../sass/breakpoints'
