@@ -38,8 +38,13 @@ hr
     code
       font-family: 'Caskaydia Cove'
       line-height: 1
-  code
-    font-size: .8rem
+      font-size: .8rem
+  code:not([class*="language-"])
+    font-size: .75rem
+    word-break: break-word
+    background-color: var(--app-color-code-background)
+    padding: 2px 6px
+    border-radius: 4px
 
   h1, h2
     font-weight: bold
