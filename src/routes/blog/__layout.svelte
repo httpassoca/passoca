@@ -2,7 +2,7 @@
   <div class="blog font-pt">
     <slot />
     <hr />
-    <span class="thanks"> Thanks for reading! </span>
+    <div class="thanks">Thanks for reading!</div>
   </div>
 </div>
 
@@ -23,7 +23,7 @@ hr
 .thanks
   font-size: .875rem
   color: var(--app-color-gray-text)
-  margin-bottom: 12px
+  padding-bottom: 24px
 
 .blog
   margin: 0 auto
@@ -77,11 +77,12 @@ hr
     margin-top: 12px
     font-size: .875rem
   .heading-link
-    margin-left: 8px
+    margin-right: 8px
     opacity: .5
     border-bottom: 2px solid transparent
     transition: all .3s ease
     &:hover
+      opacity: 1
       border-bottom: 2px solid var(--app-color-primary)
   .fonts
     li

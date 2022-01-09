@@ -18,7 +18,7 @@ const config = {
         rehypeSlug,
         [
           rehypeAutolink, { // Adds hyperlinks to the headings, requires rehypeSlug
-            behavior: 'append',
+            behavior: 'prepend',
             content: {
               type: 'element',
               tagName: 'span',
