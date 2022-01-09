@@ -8,7 +8,7 @@
 <header class="px-4 md:px-0">
   <div class="md:container md:px-0">
     <a href="/" class="logo">
-      <SVG src="/logo.svg" height="45" />
+      <SVG src="/logo.svg" height="35" />
     </a>
     <nav>
       <a class:actual={$page.path === "/about"} href="/about">about</a>
