@@ -1,7 +1,7 @@
 @import './breakpoints'
 @import './theme'
 @import './fonts'
-
+@import './code-theme'
 
 *
   box-sizing: border-box
@@ -24,6 +24,7 @@ html
 
 ::-webkit-scrollbar
   width: 5px
+  height: 5px
 
 ::-webkit-scrollbar-track
   background: var(--app-color-background)
@@ -44,9 +45,3 @@ main
   @include screen-md
     padding-bottom: unset
 
-.font-boston
-  font-family: 'Boston Black It'
-.font-boston-semibold
-  font-family: 'Boston SemiBold'
-.font-pt
-  font-family: 'PT Sans'

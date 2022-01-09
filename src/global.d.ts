@@ -4,4 +4,4 @@ declare module '*.svg' {
   export default content;
 }
 
-declare module 'svelte-inline-svg'
+declare module 'svelte-inline-svg';
