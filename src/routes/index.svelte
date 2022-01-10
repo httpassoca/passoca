@@ -1,8 +1,6 @@
 <script>
-  import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
-  import { theme } from "$lib/stores/theme.store";
 </script>
 
 <Content page>
