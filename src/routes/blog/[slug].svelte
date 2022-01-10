@@ -54,10 +54,7 @@
 <svelte:head>
   <title>{metadata.title} | Passoca</title>
   <meta name="title" content={`${metadata.title} | Passoca"`} />
-  <meta
-    name="description"
-    content="Currently developing apps with Typescript"
-  />
+  <meta name="description" content={metadata.description} />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
@@ -66,11 +63,11 @@
     content={`https://passoca.dev/blog/${metadata.slug}`}
   />
   <meta property="og:title" content={`${metadata.title} | Passoca"`} />
+  <meta property="og:description" content={metadata.description} />
   <meta
-    property="og:description"
-    content="Currently developing apps with Typescript"
+    property="og:image"
+    content={`https://passoca.dev/blog/${metadata.slug}.webp`}
   />
-  <meta property="og:image" content={`/blog/${metadata.slug}.webp`} />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
@@ -83,7 +80,10 @@
     property="twitter:description"
     content="Currently developing apps with Typescript"
   />
-  <meta property="twitter:image" content={`/blog/${metadata.slug}.webp`} />
+  <meta
+    property="twitter:image"
+    content={`https://passoca.dev/blog/${metadata.slug}.webp`}
+  />
 </svelte:head>
 
 <h1>{metadata.title}</h1>

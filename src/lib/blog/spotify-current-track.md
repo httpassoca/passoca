@@ -2,7 +2,7 @@
 title: How to get your Spotify current track
 slug: spotify-current-track
 date: 2022-01-8
-description: "Test description"
+description: "I took two days to do it, you can do it in a half hour"
 tags: [Spotify, API]
 ---
 

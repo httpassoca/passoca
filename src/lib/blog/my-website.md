@@ -2,7 +2,7 @@
 title: My website
 slug: my-website
 date: 2022-01-5
-description: "Test description"
+description: "My first blog post, talking about the website construction"
 tags: [Svelte, Tailwind]
 ---
 
