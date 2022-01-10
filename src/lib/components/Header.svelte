@@ -28,10 +28,18 @@
     <nav>
       <a class:actual={$page.path === "/about"} href="/about">about</a>
       <a class:actual={$page.path === "/career"} href="/career">career</a>
-      <a class:actual={$page.path === "/skills"} href="/skills">skills</a>
+      <a class:actual={$page.path === "/projects"} href="/projects">projects</a>
       <a class:actual={$page.path === "/blog"} href="/blog">blog</a>
     </nav>
     <div class="icons">
+      <a href="/twitter" target="_blank">
+        <SVG
+          src="/icons/twitter.svg"
+          width="23"
+          height="23"
+          fill={$theme === "dark" ? "#e0e0e0" : "black"}
+        />
+      </a>
       <a href="/github" target="_blank">
         <SVG
           src="/icons/github.svg"
