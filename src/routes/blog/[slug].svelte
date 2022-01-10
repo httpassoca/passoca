@@ -51,6 +51,41 @@
   export let metadata: Metadata;
 </script>
 
+<svelte:head>
+  <title>{metadata.title} | Passoca</title>
+  <meta name="title" content={`${metadata.title} | Passoca"`} />
+  <meta
+    name="description"
+    content="Currently developing apps with Typescript"
+  />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:url"
+    content={`https://passoca.dev/blog/${metadata.slug}`}
+  />
+  <meta property="og:title" content={`${metadata.title} | Passoca"`} />
+  <meta
+    property="og:description"
+    content="Currently developing apps with Typescript"
+  />
+  <meta property="og:image" content={`/blog/${metadata.slug}.webp`} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta
+    property="twitter:url"
+    content={`https://passoca.dev/blog/${metadata.slug}`}
+  />
+  <meta property="twitter:title" content={`${metadata.title} | Passoca"`} />
+  <meta
+    property="twitter:description"
+    content="Currently developing apps with Typescript"
+  />
+  <meta property="twitter:image" content={`/blog/${metadata.slug}.webp`} />
+</svelte:head>
+
 <h1>{metadata.title}</h1>
 <div class="info">{formatDate(metadata.date)}</div>
 <!-- Here we'll load the component of the blog post page itself -->

@@ -12,7 +12,7 @@
   import "../sass/global.sass";
   import Header from "$lib/components/Header.svelte";
   import { theme } from "$lib/stores/theme.store";
-  export let key;
+  export let key: string;
 </script>
 
 <svelte:head>
