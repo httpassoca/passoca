@@ -40,7 +40,7 @@
 </script>
 
 <Content page>
-  <Title>About me</Title>
+  <Title>Me</Title>
   <div class="flex flex-col items-center md:items-start md:flex-row gap-4">
     <div>
       <div class="image">

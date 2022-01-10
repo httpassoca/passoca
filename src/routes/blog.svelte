@@ -6,7 +6,7 @@
 </script>
 
 <Content page>
-  <Title>My blog</Title>
+  <Title>Posts</Title>
   <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5">
     {#each posts as post (post.title)}
       <Post {post} />
