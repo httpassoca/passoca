@@ -76,10 +76,7 @@
     content={`https://passoca.dev/blog/${metadata.slug}`}
   />
   <meta property="twitter:title" content={`${metadata.title} | Passoca"`} />
-  <meta
-    property="twitter:description"
-    content="Currently developing apps with Typescript"
-  />
+  <meta property="twitter:description" content={metadata.description} />
   <meta
     property="twitter:image"
     content={`https://passoca.dev/blog/${metadata.slug}.webp`}
@@ -87,6 +84,7 @@
 </svelte:head>
 
 <h1>{metadata.title}</h1>
+<h1>{metadata.description}</h1>
 <div class="info">{formatDate(metadata.date)}</div>
 <!-- Here we'll load the component of the blog post page itself -->
 <svelte:component this={page} />
