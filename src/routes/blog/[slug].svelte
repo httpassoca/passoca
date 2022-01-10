@@ -56,7 +56,6 @@
   <meta name="title" content={`${metadata.title} | Passoca"`} />
   <meta name="description" content={metadata.description} />
 
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta
     property="og:url"
@@ -69,7 +68,6 @@
     content={`https://passoca.dev/blog/${metadata.slug}.webp`}
   />
 
-  <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta
     property="twitter:url"
@@ -84,7 +82,6 @@
 </svelte:head>
 
 <h1>{metadata.title}</h1>
-<h1>{metadata.description}</h1>
 <div class="info">{formatDate(metadata.date)}</div>
 <!-- Here we'll load the component of the blog post page itself -->
 <svelte:component this={page} />
