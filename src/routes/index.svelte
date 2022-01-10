@@ -21,14 +21,7 @@
       <a target="_blank" href="/resume.pdf" title="resume">click here</a>
     </p>
     <div class="flex mt-4 justify-center">
-      <Link to="/about" button blank={false}>
-        More about me
-        <SVG
-          src="/icons/arrow_down.svg"
-          width="16"
-          fill={$theme === "coffee" ? "#f9dec9" : ""}
-        />
-      </Link>
+      <Link to="/about" button blank={false}>More about me</Link>
     </div>
   </div>
 </Content>
