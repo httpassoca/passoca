@@ -1,14 +1,14 @@
 import { description, url, title } from "$lib/meta";
-import posts, {Post} from '$lib/posts';
+import posts, { Post } from '$lib/posts';
 
 export async function get() {
-	return {
-		headers: {
+  return {
+    headers: {
       'Cache-Control': 'max-age=0, s-maxage=3600',
       'Content-Type': 'application/xml'
     },
-		body: xml(posts),
-	};
+    body: xml(posts),
+  };
 }
 
 const xml = (posts: Post[]) => `
@@ -18,21 +18,20 @@ const xml = (posts: Post[]) => `
     <link>${url}</link>
     <description>${description}</description>
     ${posts
-      .map(
-        post => `
+    .map(
+      post => `
         <item>
           <title>${post.title}</title>
           <description>${post.description}</description>
           <link>${url}/${post.slug}/</link>
           <pubDate>${new Date(post.date).toISOString()}</pubDate>
-          ${
-            post.tags ?
-            post.tags.map(
-              tag => `<category term="${tag}" />`
-            ).join('') : ''
-          }
-          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="${url}/images/posts/${post.slug}/cover.jpg"/>
-          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="${url}/images/posts/${post.slug}/cover.jpg"/>
+          ${post.tags ?
+          post.tags.map(
+            tag => `<category term="${tag}" />`
+          ).join('') : ''
+        }
+          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="${url}/blog/${post.slug}.webp"/>
+          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="${url}/blog/${post.slug}.webp"/>
         </item>
       `).join('')}
   </channel>

@@ -1,3 +1,3 @@
 export const title = "Passoca"
-export const url = "passoca.com.br"
-export const description = "My personal website"
+export const url = "https://passoca.dev"
+export const description = "Currently developing apps with Typescript"
