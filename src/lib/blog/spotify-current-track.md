@@ -11,16 +11,16 @@ tags: [Spotify, API]
   import Image from '../components/Base/AppImage.svelte';
 </script>
 
-I saw this on <Link to="https://cristianbgp.com/">Cristian Granda</Link> website and thought it was cool, had never seen it. So I put it on my website. I took two days to made it, but I will teach you how to do it fast ⚡.
+I saw this on <Link to="https://cristianbgp.com/">Cristian Granda</Link> website and thought it was cool, had never seen it. I took two days to made it, but I will teach you how to do it fast ⚡.
 
-After I saw the <Link to="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=">API demo</Link> , I thought "*easy-peasy*", and it really is, but getting there isn't. Basically, you need create a Spotify integration, get a refresh token, get an auth code and then get the current track. I did get stucked on two steps: discover everything and get the *refresh token*. But I did find a <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">nicely website</Link> that makes me think I am not the only one burning the head to get a simple *refresh token* 😸.
+After I saw the <Link to="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=">API demo</Link> , I thought "*easy-peasy*", and it really is, but getting there isn't. Basically, you need create a Spotify integration, get a refresh token, get an auth code and then get the current track. I did get stucked on two steps: discover everything and get the *refresh token*. But I did find a <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">very nice website</Link> that makes me think I am not the only one burning the head to get a simple *refresh token* 😸.
 
 ## How to do it
 
 Start creating an integration in <Link to="https://developer.spotify.com/dashboard/">Spotify Dashboard</Link>
 . After do it, click on **edit settings** and add `https://getyourspotifyrefreshtoken.herokuapp.com/callback` on **Redirect URIs**.
 
-<Image img="spotify-integration" alt="Spotify Integration"/>
+<Image img="spotify-integration" alt="Spotify Integration example"/>
 
 Next, copy the *client id* and *client secret* and put them at <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">this</Link> website. Then mark `user-read-currently-playing` and press submit it.
 
@@ -66,8 +66,9 @@ const getNowPlaying = async () => {
 };
 ```
 
-If I'm listening Spotify right now, you will see in my [about page](../about)
+If I'm listening Spotify right now, you will see in my [about page](../about). Should be like this:
 
+<Image img="now-playing" alt="example in /about page"/>
 
 ## Fonts
 
