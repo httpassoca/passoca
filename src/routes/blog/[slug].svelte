@@ -53,10 +53,9 @@
 
 <svelte:head>
   <title>{metadata.title} | Passoca</title>
-  <meta name="title" content={`${metadata.title} | Passoca"`} />
+  <meta name="title" content={`${metadata.title} | Passoca`} />
   <meta name="description" content={metadata.description} />
 
-  <meta property="og:type" content="website" />
   <meta
     property="og:url"
     content={`https://passoca.dev/blog/${metadata.slug}`}
@@ -68,7 +67,6 @@
     content={`https://passoca.dev/blog/${metadata.slug}.webp`}
   />
 
-  <meta property="twitter:card" content="summary_large_image" />
   <meta
     property="twitter:url"
     content={`https://passoca.dev/blog/${metadata.slug}`}
