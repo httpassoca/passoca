@@ -56,25 +56,22 @@
   <meta name="title" content={`${metadata.title} | Passoca`} />
   <meta name="description" content={metadata.description} />
 
+  <meta name="og:url" content={`https://passoca.dev/blog/${metadata.slug}`} />
+  <meta name="og:title" content={`${metadata.title} | Passoca"`} />
+  <meta name="og:description" content={metadata.description} />
   <meta
-    property="og:url"
-    content={`https://passoca.dev/blog/${metadata.slug}`}
-  />
-  <meta property="og:title" content={`${metadata.title} | Passoca"`} />
-  <meta property="og:description" content={metadata.description} />
-  <meta
-    property="og:image"
+    name="og:image"
     content={`https://passoca.dev/blog/${metadata.slug}.webp`}
   />
 
   <meta
-    property="twitter:url"
+    name="twitter:url"
     content={`https://passoca.dev/blog/${metadata.slug}`}
   />
-  <meta property="twitter:title" content={`${metadata.title} | Passoca"`} />
-  <meta property="twitter:description" content={metadata.description} />
+  <meta name="twitter:title" content={`${metadata.title} | Passoca"`} />
+  <meta name="twitter:description" content={metadata.description} />
   <meta
-    property="twitter:image"
+    name="twitter:image"
     content={`https://passoca.dev/blog/${metadata.slug}.webp`}
   />
 </svelte:head>

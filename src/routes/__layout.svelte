@@ -18,15 +18,12 @@
 <svelte:head>
   <link rel="icon" href="/favicons/{$theme}-logo.svg" />
   {#if !key.includes("blog")}
-    <meta property="og:url" content="https://passoca.dev/" />
-    <meta property="og:title" content="Rafael Passoca | Frontend Engineer" />
-    <meta property="twitter:url" content="https://passoca.dev/" />
+    <meta name="og:url" content="https://passoca.dev/" />
+    <meta name="og:title" content="Rafael Passoca | Frontend Engineer" />
+    <meta name="twitter:url" content="https://passoca.dev/" />
+    <meta name="twitter:title" content="Rafael Passoca | Frontend Engineer" />
     <meta
-      property="twitter:title"
-      content="Rafael Passoca | Frontend Engineer"
-    />
-    <meta
-      property="twitter:description"
+      name="twitter:description"
       content="Currently developing apps with Typescript"
     />
   {/if}
