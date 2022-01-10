@@ -3,6 +3,7 @@
     url: string;
     width: number;
   }
+  import { theme } from "$lib/stores/theme.store";
   import { onMount } from "svelte";
 
   export let img: string;
@@ -24,4 +25,11 @@
     {/each}
     <img src={images[0].url} {alt} loading="lazy" />
   </picture>
+{:else}
+  <lottie-player
+    src={`/lottie/${$theme === "coffee" ? "coffee" : "dark"}.json`}
+    style="width: 100%; height: 120px"
+    loop
+    autoplay
+  />
 {/if}
