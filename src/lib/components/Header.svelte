@@ -32,9 +32,9 @@
       <a class:actual={$page.path === "/blog"} href="/blog">blog</a>
     </nav>
     <div class="icons">
-      <a href="/twitter" target="_blank">
+      <a href="/linkedin" target="_blank">
         <SVG
-          src="/icons/twitter.svg"
+          src="/icons/linkedin.svg"
           width="23"
           height="23"
           fill={$theme === "dark" ? "#e0e0e0" : "black"}

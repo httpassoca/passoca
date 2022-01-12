@@ -26,15 +26,15 @@
   const socials: icon[] = [
     {
       icon: "linkedin",
-      link: "https://linkedin.com/in/passoca",
-    },
-    {
-      icon: "github",
-      link: "https://github.com/httpassoca",
+      link: "/linkedin",
     },
     {
       icon: "instagram",
       link: "https://instagram.com/rafael.passoca",
+    },
+    {
+      icon: "twitter",
+      link: "/twitter",
     },
   ];
 </script>
