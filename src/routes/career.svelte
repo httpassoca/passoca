@@ -8,7 +8,7 @@
     name: "JMV Technology",
     icon: "jmv",
     site: "jmvtechnology.com",
-    time: "Apr 2020 - today",
+    time: "Apr 2020 - Jan 2022",
     link: "https://jmvtechnology.com/",
   };
   const spiryExperience: experience = {
@@ -19,6 +19,21 @@
     site: "spiry.ro",
     time: "Aug 2020 - Apr 2021 (8 mos)",
     link: "https://spiry.ro/",
+  };
+  const senaiExperience: experience = {
+    name: "SENAI",
+    icon: "senai",
+    color: "red",
+    site: "senaimg.com.br",
+    time: "Fev 2017 - Aug 2018",
+    link: "https://www.senaimg.com.br/",
+  };
+  const uemgExperience: experience = {
+    name: "UEMG",
+    image: "uemg",
+    site: "uemg.br",
+    time: "Fev 2020 - Oct 2020",
+    link: "https://www.uemg.br/",
   };
 </script>
 
@@ -46,6 +61,27 @@
         React, Styled Components)
       </li>
       <li>Developed internal projects using React</li>
+    </Experience>
+  </div>
+  <Title>Education</Title>
+  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <Experience experience={senaiExperience}>
+      <li>
+        Learned Progamming logic with:
+        <ul>
+          <li>C++</li>
+          <li>C#</li>
+          <li>SQL</li>
+          <li>HTML CSS</li>
+          <li>JS JQuery</li>
+          <li>Java (android studio)</li>
+        </ul>
+      </li>
+    </Experience>
+    <Experience experience={uemgExperience}>
+      <li>Learn philosophy</li>
+      <li>Realize that the university just was good at the end of 3 years</li>
+      <li>So I quit and focused on other jobs</li>
     </Experience>
   </div>
 </Content>

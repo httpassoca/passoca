@@ -3,6 +3,7 @@
     name: string;
     site?: string;
     icon?: string;
+    image?: string;
     link?: string;
     color?: string;
     time: string;
@@ -23,13 +24,22 @@
 </script>
 
 <div class="experience mt-8 sm:mt-0">
-  <SVG
-    src={`/icons/${experience.icon}.svg`}
-    height="48"
-    width="48"
-    fill={color}
-  />
-  <div>
+  <div class="w-12 h-12">
+    {#if experience.icon}
+      <SVG
+        src={`/icons/${experience.icon}.svg`}
+        width="50"
+        height="50"
+        fill={color}
+      />
+    {:else}
+      <img
+        src={`/imgs/${experience.image}.webp`}
+        alt={`${experience.name} image`}
+      />
+    {/if}
+  </div>
+  <div class="w-full">
     <div class="flex justify-between">
       <div>
         <h3>{experience.name}</h3>
