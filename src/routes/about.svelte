@@ -70,12 +70,15 @@
         <Link to="https://www.senaimg.com.br/">SENAI.</Link>
         I started with <b>C++</b>, then <b>MySQL</b>, then <b>C#</b>, <b>PHP</b>
         and <b>HTML / CSS / JS</b>. Just playing with CSS doing fantasy websites
-        I realize I love create interfaces. And today I live by this.
+        I realize I love create interfaces.
       </p>
       <p>
-        You can contact me via <a href="mailto: trabsom.rafael@gmail.com">
-          email.
-        </a>
+        I'm currently developing apps for myself and <Link
+          to="http://leagueofdevs.com">League of Devs</Link
+        >.
+      </p>
+      <p>
+        You can contact me via <a href="mailto: me@passoca.dev"> email. </a>
       </p>
       {#if music}
         <SpotifyMusic {music} />
