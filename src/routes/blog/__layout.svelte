@@ -2,7 +2,10 @@
   <div class="blog font-pt">
     <slot />
     <hr />
-    <div class="thanks">Thanks for reading!</div>
+    <div class="thanks">
+      <a href="/blog">posts</a>
+      <span> Thanks for reading! </span>
+    </div>
   </div>
 </div>
 
@@ -21,10 +24,27 @@ hr
   border: 0
 
 .thanks
+  display: flex
+  justify-content: space-between
   font-size: .875rem
   color: var(--app-color-gray-text)
   padding-bottom: 24px
-
+  a
+    border-bottom: 0px !important
+    &:before
+      content: ''
+      display: inline-block
+      height: 13px
+      width: 13px
+      mask: url('/icons/arrow_down.svg')
+      background-color: var(--app-color-gray-text)
+      margin-right: 8px
+      margin-bottom: -3px
+      transform: rotate(90deg)
+      -webkit-mask-repeat: space
+      transition: background-color .35s ease
+    &:hover:before
+      background-color: var(--app-color-primary)
 .blog
   margin: 0 auto
   width: 100%
@@ -55,7 +75,7 @@ hr
     font-size: 2rem
     text-align: center
   h2
-    font-size: 1.6rem
+    font-size: 1.4rem
   p
     margin-top: 14px
   a:not([href^='#'])
