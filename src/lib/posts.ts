@@ -12,6 +12,7 @@ export type Post = {
   date: string
   description: string
   hidden?: boolean
+  personal?: boolean
   tags: string[]
 }
 
