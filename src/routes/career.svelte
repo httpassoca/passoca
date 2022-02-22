@@ -4,6 +4,13 @@
   import Link from "$lib/components/Base/AppLink.svelte";
   import Experience, { experience } from "$lib/components/Experience.svelte";
 
+  const ctwExperience: experience = {
+    name: "Critical Techworks",
+    icon: "ctw",
+    site: "criticaltechworks.com",
+    time: "since Feb 2022",
+    link: "https://criticaltechworks.com/",
+  };
   const jmvExperience: experience = {
     name: "JMV Technology",
     icon: "jmv",
