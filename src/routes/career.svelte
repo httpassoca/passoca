@@ -9,7 +9,7 @@
     icon: "ctw",
     site: "criticaltechworks.com",
     time: "since Feb 2022",
-    link: "https://criticaltechworks.com/",
+    link: "https://www.criticaltechworks.com/",
   };
   const jmvExperience: experience = {
     name: "JMV Technology",
