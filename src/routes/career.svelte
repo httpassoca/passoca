@@ -6,7 +6,7 @@
 
   const ctwExperience: experience = {
     name: "Critical Techworks",
-    icon: "ctw",
+    image: "ctw",
     site: "criticaltechworks.com",
     time: "since Feb 2022",
     link: "https://www.criticaltechworks.com/",
