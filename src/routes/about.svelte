@@ -73,7 +73,9 @@
         I realize I love create interfaces.
       </p>
       <p>
-        I'm currently developing apps for myself and <Link
+        I'm currently developing apps for myself, <Link
+          to="https://www.criticaltechworks.com/">Critical Techworks</Link
+        > and <Link
           to="http://leagueofdevs.com">League of Devs</Link
         >.
       </p>
