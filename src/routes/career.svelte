@@ -46,7 +46,7 @@
 
 <Content page>
   <Title>Experiences</Title>
-  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5">
+  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5 mb-4">
     <Experience experience={ctwExperience} />
     <Experience experience={jmvExperience}>
       <li>
@@ -72,7 +72,7 @@
     </Experience>
   </div>
   <Title>Education</Title>
-  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5">
+  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
     <Experience experience={senaiExperience}>
       <li>
         Learned Progamming logic with:
