@@ -23,7 +23,7 @@
   }
 </script>
 
-<div class="experience mt-8 sm:mt-0">
+<div class="experience mt-8">
   <div class="w-12 h-12">
     {#if experience.icon}
       <SVG

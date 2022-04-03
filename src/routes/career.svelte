@@ -45,9 +45,12 @@
 </script>
 
 <Content page>
-  <Title>Experiences</Title>
-  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5 mb-4">
-    <Experience experience={ctwExperience} />
+  <Title>Work</Title>
+  <div class="my-6">
+    <Experience experience={ctwExperience}>
+      <li>Currently learning Angular and JAVA Spring</li>
+      <li>Programming on Windows 🧠</li>
+    </Experience>
     <Experience experience={jmvExperience}>
       <li>
         Get knowledge of git control with <span class="font-mono">git-flow</span
@@ -72,7 +75,7 @@
     </Experience>
   </div>
   <Title>Education</Title>
-  <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
+  <div class="my-6">
     <Experience experience={senaiExperience}>
       <li>
         Learned Progamming logic with:
