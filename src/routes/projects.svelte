@@ -101,7 +101,7 @@
 </script>
 
 <Content page>
-  <Title>Skills</Title>
+  <Title animated>Skills</Title>
   <div class="grid-icons md:grid-cols-4 grid-cols-2">
     {#each icons as skill (skill.name)}
       <Skill {skill} />

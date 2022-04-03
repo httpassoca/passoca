@@ -45,7 +45,7 @@
 </script>
 
 <Content page>
-  <Title>Work</Title>
+  <Title animated>Work</Title>
   <div class="my-6">
     <Experience experience={ctwExperience}>
       <li>Currently learning Angular and JAVA Spring</li>
@@ -74,7 +74,7 @@
       <li>Developed internal projects using React</li>
     </Experience>
   </div>
-  <Title>Education</Title>
+  <Title animated>Education</Title>
   <div class="my-6">
     <Experience experience={senaiExperience}>
       <li>

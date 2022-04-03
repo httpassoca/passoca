@@ -13,7 +13,6 @@
   import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
-  import Title from "$lib/components/Base/AppTitle.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   export let music = null;
@@ -40,7 +39,6 @@
 </script>
 
 <Content page>
-  <Title>Me</Title>
   <div class="flex flex-col items-center md:items-start md:flex-row gap-4">
     <div>
       <div class="image">
@@ -75,9 +73,7 @@
       <p>
         I'm currently developing apps for myself, <Link
           to="https://www.criticaltechworks.com/">Critical Techworks</Link
-        > and <Link
-          to="http://leagueofdevs.com">League of Devs</Link
-        >.
+        > and <Link to="http://leagueofdevs.com">League of Devs</Link>.
       </p>
       <p>
         You can contact me via <a href="mailto: me@passoca.dev"> email. </a>

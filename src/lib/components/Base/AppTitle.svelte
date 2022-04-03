@@ -1,4 +1,9 @@
-<div>
+<script>
+  export let animated = false;
+  export let centered = false;
+</script>
+
+<div class:animated class:centered>
   <h1>
     <slot />
   </h1>
@@ -55,21 +60,32 @@
 
   div {
     position: relative;
-    left: -12px;
-    padding: 12px;
-    overflow: hidden;
-    line-height: 0.8;
-    font-size: 2rem;
     font-family: "Boston Black It";
     color: #edeee9;
-    text-shadow: makelongshadow($c, $c2, $c3, $c4, $c5);
-    animation-name: animateShadow;
-    animation-duration: 0.9s;
-    animation-iteration-count: infinite;
+    font-size: 1.675rem;
     margin-bottom: 1rem;
-  }
 
-  h1 {
-    color: var(--app-color-title);
+    &.animated {
+      font-size: 2rem;
+      left: -12px;
+      padding: 12px;
+      overflow: hidden;
+      line-height: 0.8;
+      text-shadow: makelongshadow($c, $c2, $c3, $c4, $c5);
+      animation-name: animateShadow;
+      animation-duration: 0.9s;
+      animation-iteration-count: infinite;
+      h1 {
+        color: var(--app-color-title);
+      }
+    }
+
+    &.centered {
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--app-color-text);
+    }
   }
 </style>
