@@ -7,7 +7,7 @@
 
 <style lang="sass">
 input
-  padding: 12px 24px
+  padding: 12px
   width: 100%
 
   @apply my-2 rounded

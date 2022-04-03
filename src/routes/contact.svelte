@@ -31,7 +31,7 @@
     placeholder="What a cool website!! Are you interested in winning a hundred million dollars?"
     bind:value={message}
   />
-  <div class="flex gap-4 flex-col sm:flex-row">
+  <div class="flex gap-0 sm:gap-4 flex-col sm:flex-row">
     <Input placeholder="How should I call you? Heisenberg?" bind:value={name} />
     <Input
       placeholder="Your best contact, like t.me/httpassoca or me@passoca.dev"

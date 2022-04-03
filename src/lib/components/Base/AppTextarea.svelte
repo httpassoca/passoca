@@ -9,7 +9,7 @@
 textarea
   display: block
   width: 100%
-  padding: 12px 24px
+  padding: 12px
   @apply my-2 rounded
   &::placeholder
     font-style: italic
