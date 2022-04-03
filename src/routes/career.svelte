@@ -78,7 +78,7 @@
   <div class="my-6">
     <Experience experience={senaiExperience}>
       <li>
-        Learned Progamming logic with:
+        Learned Programming logic with:
         <ul>
           <li>C++</li>
           <li>C#</li>
@@ -90,6 +90,7 @@
       </li>
     </Experience>
     <Experience experience={uemgExperience}>
+      <li>Computer Engineering</li>
       <li>Learn philosophy</li>
       <li>Realize that the university just was good at the end of 3 years</li>
       <li>So I quit and focused on other jobs</li>
