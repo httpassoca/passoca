@@ -6,15 +6,16 @@
   import { theme } from "$lib/stores/theme.store";
   import { onMount } from "svelte";
 
+  export let post: string;
   export let img: string;
   export let alt: string;
 
   let images: Image[] = [];
 
   onMount(async () => {
-    images = await fetch(`${import.meta.env.VITE_API_URL}/img/${img}`).then(
-      (res) => res.json()
-    );
+    images = await fetch(
+      `${import.meta.env.VITE_API_URL}/img/${post}/${img}`
+    ).then((res) => res.json());
   });
 </script>
 

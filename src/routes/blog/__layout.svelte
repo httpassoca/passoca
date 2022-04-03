@@ -78,6 +78,8 @@ hr
     font-size: 1.4rem
   p
     margin-top: 14px
+    text-align: justify
+    line-height: 1.4
   a:not([href^='#'])
     font-weight: bold
     border-bottom: 1px solid rgba(var(--app-color-primary-rgb), .6)
@@ -110,20 +112,21 @@ hr
     &:hover
       opacity: 1
       border-bottom: 2px solid var(--app-color-primary)
+  li
+    margin: 6px 12px
+    text-align: justify
+    &:before
+      content: ''
+      display: inline-block
+      height: 4px
+      width: 4px
+      margin-right: 6px
+      margin-bottom: 4px
+      border-left: 3px solid transparent
+      border-right: 3px solid transparent
+      border-bottom: 5px solid var(--app-color-primary)
+      transform: rotate(90deg)
   .fonts
-    li
-      margin: 6px 0
-      &:before
-        content: ''
-        display: inline-block
-        height: 4px
-        width: 4px
-        margin-right: 6px
-        margin-bottom: 4px
-        border-left: 3px solid transparent
-        border-right: 3px solid transparent
-        border-bottom: 5px solid var(--app-color-primary)
-        transform: rotate(90deg)
 
     a
       border-bottom: 0px solid var(--app-color-primary)
