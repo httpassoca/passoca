@@ -30,7 +30,8 @@
       <a class:actual={$page.path === "/career"} href="/career">career</a>
       <a class:actual={$page.path === "/projects"} href="/projects">projects</a>
       <a class:actual={$page.path === "/blog"} href="/blog">blog</a>
-      <a class:actual={$page.path === "/contact"} href="/contact">contact</a>
+      <a class:actual={$page.path === "/notes"} href="/notes">notes</a>
+      <!-- <a class:actual={$page.path === "/contact"} href="/contact">contact</a> -->
     </nav>
     <div class="icons">
       <a href="/linkedin" target="_blank">
