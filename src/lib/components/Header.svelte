@@ -2,6 +2,7 @@
   import SVG from "svelte-inline-svg";
   import ChangeTheme from "./ChangeTheme.svelte";
   import { theme } from "$lib/stores/theme.store";
+  import Loader from "$lib/components/Base/AppLoader.svelte";
   import { page } from "$app/stores";
   let animation = false;
 </script>
@@ -15,12 +16,7 @@
       on:mouseleave={() => (animation = false)}
     >
       {#if animation}
-        <lottie-player
-          src={`/lottie/${$theme === "coffee" ? "coffee" : "dark"}.json`}
-          style="width: 40px; height: 35px; transform: scale(2.2)"
-          loop
-          autoplay
-        />
+        <Loader />
       {:else}
         <SVG src="/logo.svg" height="35" />
       {/if}

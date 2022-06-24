@@ -5,6 +5,7 @@
   }
   import { theme } from "$lib/stores/theme.store";
   import { onMount } from "svelte";
+  import AppLoader from "./AppLoader.svelte";
 
   export let post: string;
   export let img: string;
@@ -27,10 +28,7 @@
     <img src={images[0].url} {alt} loading="lazy" />
   </picture>
 {:else}
-  <lottie-player
-    src={`/lottie/${$theme === "coffee" ? "coffee" : "dark"}.json`}
-    style="width: 100%; height: 120px"
-    loop
-    autoplay
-  />
+  <div class="flex justify-center">
+    <AppLoader height={120} />
+  </div>
 {/if}
