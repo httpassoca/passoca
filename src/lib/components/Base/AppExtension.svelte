@@ -31,7 +31,7 @@
 
 <style lang="sass">
 .card
-  background-color: #1e1e1e
+  background-color: var(--app-color-lighter-background)
   margin-bottom: 8px
   padding: 10px 18px
   border-radius: 6px

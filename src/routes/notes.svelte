@@ -12,8 +12,6 @@
     return result;
   };
 
-  let promise;
-
   const notes: { user: string; seed: string; promise?: any }[] = [
     {
       user: "",
@@ -50,9 +48,15 @@
           <Loader />
         </div>
       {:then}
-        {note.user}
-      {:catch ERROR_VAR}
-        <b>Error block</b>
+        <div>
+          {note.user}
+        </div>
+      {:catch}
+        <b>Error 🙃</b> <br />
+        <span class="text-red-500"
+          >This was not supposed to happen 😢 If you are reading this send a
+          message to me@passoca.dev
+        </span>
       {/await}
     </Extension>
   {/each}
