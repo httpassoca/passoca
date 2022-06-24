@@ -1,12 +1,21 @@
 <script lang="ts">
   import Icon from "svelte-hero-icons/Icon.svelte";
   import { ChevronDown } from "svelte-hero-icons";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
   export let title: string = "";
   let open = false;
+
+  const extend = () => {
+    open = !open;
+    if (open) {
+      return dispatch("open");
+    }
+  };
 </script>
 
-<div class="card bg-gray-800" on:click={() => (open = !open)}>
+<div class="card bg-gray-800" on:click={extend}>
   <div class="header">
     <span>
       {title}
@@ -16,9 +25,7 @@
     </div>
   </div>
   <div class="content" class:active={open}>
-    <div>
-      <slot />
-    </div>
+    <slot />
   </div>
 </div>
 
@@ -38,12 +45,13 @@
       font-size: 18px
       color: #838383
   .content
-    margin-top: 8px
+    margin-top: 0px
     font-size: 16px
     max-height: 0px
     overflow: hidden
-    transition: max-height 1s ease
+    transition: max-height 1s ease, margin-top 1s ease
     &.active
+      margin-top: 8px
       max-height: 100vh
 
 </style>
