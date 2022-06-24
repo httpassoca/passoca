@@ -43,13 +43,13 @@
   {#each notes as note (note.seed)}
     <Extension
       title={note.seed}
-      on:open={() => (note.promise = getRandomUser(note.seed))}
+      on:open={() => (note.promise = note.promise || getRandomUser(note.seed))}
     >
       {#await note.promise}
         <div class="flex justify-center mt-4">
           <Loader />
         </div>
-      {:then users}
+      {:then}
         {note.user}
       {:catch ERROR_VAR}
         <b>Error block</b>
