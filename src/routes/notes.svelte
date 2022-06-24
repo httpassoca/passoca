@@ -3,45 +3,49 @@
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import Extension from "$lib/components/Base/AppExtension.svelte";
+  import { supabase } from "$lib/supabase";
+  import { onMount } from "svelte";
+  import { capitalize } from "$lib/helpers/helpers";
 
-  const getRandomUser = async (seed: string = "a") => {
-    var response = await fetch(`https://randomuser.me/api/?seed=${seed}`);
-    var result = await response.json();
-    notes.filter((note) => note.seed === seed)[0].user =
-      result.results[0].name.first;
-    return result;
+  interface Note {
+    name: string;
+    slug: string;
+    text?: string;
+    promise?: any;
+  }
+
+  const getRandomUser = async (slug: string = "a") => {
+    const md = await supabase.storage
+      .from("passoca")
+      .download(`notes/${slug}.md`);
+    notes.filter((note) => note.slug === slug)[0].text = await md.data.text();
+    return await md.data.text();
   };
 
-  const notes: { user: string; seed: string; promise?: any }[] = [
-    {
-      user: "",
-      seed: "ramon",
-    },
-    {
-      user: "",
-      seed: "dion",
-    },
-    {
-      user: "",
-      seed: "balestrin",
-    },
-    {
-      user: "",
-      seed: "julioon",
-    },
-    {
-      user: "",
-      seed: "ramoan",
-    },
-  ];
+  let notes: Note[] = [];
+
+  onMount(async () => {
+    const { data } = await supabase.storage.from("passoca").list("notes");
+    data.map((note) => {
+      let name = note.name.slice(0, -3).replace(/-/g, " ");
+      name = capitalize(name);
+      notes = [
+        ...notes,
+        {
+          name,
+          slug: note.name.slice(0, -3),
+        },
+      ];
+    });
+  });
 </script>
 
 <Content page>
   <Title centered>Quick code notes ⚡</Title>
-  {#each notes as note (note.seed)}
+  {#each notes as note (note.slug)}
     <Extension
-      title={note.seed}
-      on:open={() => (note.promise = note.promise || getRandomUser(note.seed))}
+      title={note.name}
+      on:open={() => (note.promise = note.promise || getRandomUser(note.slug))}
     >
       {#await note.promise}
         <div class="flex justify-center mt-4">
@@ -49,7 +53,7 @@
         </div>
       {:then}
         <div>
-          {note.user}
+          {note.text}
         </div>
       {:catch}
         <b>Error 🙃</b> <br />
