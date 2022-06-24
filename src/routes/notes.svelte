@@ -1,52 +1,59 @@
 <script lang="ts">
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
+  import Loader from "$lib/components/Base/AppLoader.svelte";
   import Extension from "$lib/components/Base/AppExtension.svelte";
-  import { theme } from "$lib/stores/theme.store";
 
-  const getRandomUser = async () => {
-    var response = await fetch("https://randomuser.me/api/");
+  const getRandomUser = async (seed: string = "a") => {
+    var response = await fetch(`https://randomuser.me/api/?seed=${seed}`);
     var result = await response.json();
+    notes.filter((note) => note.seed === seed)[0].user =
+      result.results[0].name.first;
     return result;
   };
 
   let promise;
+
+  const notes: { user: string; seed: string; promise?: any }[] = [
+    {
+      user: "",
+      seed: "ramon",
+    },
+    {
+      user: "",
+      seed: "dion",
+    },
+    {
+      user: "",
+      seed: "balestrin",
+    },
+    {
+      user: "",
+      seed: "julioon",
+    },
+    {
+      user: "",
+      seed: "ramoan",
+    },
+  ];
 </script>
 
 <Content page>
   <Title centered>Quick code notes ⚡</Title>
-  <Extension
-    title="How to install sass on Svelte (with Vite)"
-    on:open={() => (promise = getRandomUser())}
-  >
-    {#await promise}
-      <div class="flex justify-center mt-4">
-        <lottie-player
-          src={`/lottie/${$theme === "coffee" ? "coffee" : "dark"}.json`}
-          style="width: 40px; height: 35px; transform: scale(2.2)"
-          loop
-          autoplay
-        />
-      </div>
-    {:then users}
-      <b>{users?.results[0].name.first}</b><br />
-      <b>{users?.results[0].name.first}</b><br />
-      <b>{users?.results[0].name.first}</b><br />
-      <b>{users?.results[0].name.first}</b><br />
-      <b>{users?.results[0].name.first}</b><br />
-      <b>{users?.results[0].name.first}</b><br />
-      <b>{users?.results[0].name.first}</b><br />
-      <b>{users?.results[0].name.first}</b><br />
-    {:catch ERROR_VAR}
-      <b>Error block</b>
-    {/await}
-  </Extension>
-
-  <Extension
-    ><div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, voluptatum
-      ipsum! Esse, optio! Sint inventore saepe dolorem ipsam nihil corrupti hic,
-      dolor nemo iusto officia quod sit, placeat impedit tempore!
-    </div></Extension
-  >
+  {#each notes as note (note.seed)}
+    <Extension
+      title={note.seed}
+      on:open={() => (note.promise = getRandomUser(note.seed))}
+    >
+      {#await note.promise}
+        <div class="flex justify-center mt-4">
+          <Loader />
+        </div>
+      {:then users}
+        {note.user}
+      {:catch ERROR_VAR}
+        <b>Error block</b>
+      {/await}
+    </Extension>
+  {/each}
 </Content>
