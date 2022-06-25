@@ -5,12 +5,13 @@
   import Extension from "$lib/components/Base/AppExtension.svelte";
   import { supabase } from "$lib/supabase";
   import { onMount } from "svelte";
+  import { marked } from "marked";
   import { capitalize } from "$lib/helpers/helpers";
 
   interface Note {
     name: string;
     slug: string;
-    text?: string;
+    text?: any;
     promise?: any;
   }
 
@@ -18,7 +19,8 @@
     const md = await supabase.storage
       .from("passoca")
       .download(`notes/${slug}.md`);
-    notes.filter((note) => note.slug === slug)[0].text = await md.data.text();
+    const text = await md.data.text();
+    notes.filter((note) => note.slug === slug)[0].text = marked.parse(text);
     return await md.data.text();
   };
 
@@ -53,7 +55,7 @@
         </div>
       {:then}
         <div>
-          {note.text}
+          {@html note.text}
         </div>
       {:catch}
         <b>Error 🙃</b> <br />
