@@ -22,12 +22,16 @@
       {/if}
     </a>
     <nav>
-      <a class:actual={$page.path === "/about"} href="/about">about</a>
-      <a class:actual={$page.path === "/career"} href="/career">career</a>
-      <a class:actual={$page.path === "/projects"} href="/projects">projects</a>
-      <a class:actual={$page.path === "/blog"} href="/blog">blog</a>
-      <a class:actual={$page.path === "/notes"} href="/notes">notes</a>
-      <!-- <a class:actual={$page.path === "/contact"} href="/contact">contact</a> -->
+      <a class:actual={$page.url.pathname === "/about"} href="/about">about</a>
+      <a class:actual={$page.url.pathname === "/career"} href="/career"
+        >career</a
+      >
+      <a class:actual={$page.url.pathname === "/projects"} href="/projects"
+        >projects</a
+      >
+      <a class:actual={$page.url.pathname === "/blog"} href="/blog">blog</a>
+      <a class:actual={$page.url.pathname === "/notes"} href="/notes">notes</a>
+      <!-- <a class:actual={$page.url.pathname === "/contact"} href="/contact">contact</a> -->
     </nav>
     <div class="icons">
       <a href="/linkedin" target="_blank">

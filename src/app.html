@@ -12,12 +12,12 @@
   <meta name="og:title" content="Rafael Passoca | Frontend Engineer" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:creator" content="@httpassoca" />
-  %svelte.head%
+  %sveltekit.head%
 </head>
 
 
 <body>
-  <div id="svelte">%svelte.body%</div>
+  <div id="svelte">%sveltekit.body%</div>
   <script>
     const localTheme = localStorage.getItem('theme');
     const theme = localTheme || 'dark';
