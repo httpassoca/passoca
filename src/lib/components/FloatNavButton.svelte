@@ -28,7 +28,7 @@
 
   button
     padding: 15px
-    background-color: var(--app-color-lighter-background)
+    background-color: var(--app-color-background)
     border-bottom-left-radius: 50%
     border-bottom-right-radius: 50%
     border-top-left-radius: 50%
@@ -37,7 +37,7 @@
     float: right
     transition: opacity .3s ease-in-out, border-top-right-radius .3s ease-in-out
     &.active
-      opacity: .65
+      opacity: .85
       border-top-right-radius: 6px
   nav
     flex-direction: column
