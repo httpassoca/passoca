@@ -1,10 +1,39 @@
+<script context="module" lang="ts">
+  import { capitalize } from "$lib/helpers/helpers";
+  interface Note {
+    name: string;
+    slug: string;
+    text?: any;
+    promise?: any;
+  }
+  export async function load() {
+    const { data } = await supabase.storage.from("passoca").list("notes");
+    let notes: Note[] = [];
+    data.map((note) => {
+      let name = note.name.slice(0, -3).replace(/-/g, " ");
+      name = capitalize(name);
+      notes = [
+        ...notes,
+        {
+          name,
+          slug: note.name.slice(0, -3),
+        },
+      ];
+    });
+
+    return {
+      props: {
+        notes,
+      },
+    };
+  }
+</script>
+
 <script lang="ts">
-  import { onMount } from "svelte";
   import { marked } from "marked";
   import prism from "prismjs";
   import "prism-svelte";
   import { supabase } from "$lib/supabase";
-  import { capitalize } from "$lib/helpers/helpers";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Loader from "$lib/components/Base/AppLoader.svelte";
@@ -21,13 +50,6 @@
     },
   });
 
-  interface Note {
-    name: string;
-    slug: string;
-    text?: any;
-    promise?: any;
-  }
-
   const getNote = async (slug: string) => {
     const md = await supabase.storage
       .from("passoca")
@@ -39,22 +61,7 @@
     return markdownText;
   };
 
-  let notes: Note[] = [];
-
-  onMount(async () => {
-    const { data } = await supabase.storage.from("passoca").list("notes");
-    data.map((note) => {
-      let name = note.name.slice(0, -3).replace(/-/g, " ");
-      name = capitalize(name);
-      notes = [
-        ...notes,
-        {
-          name,
-          slug: note.name.slice(0, -3),
-        },
-      ];
-    });
-  });
+  export let notes: Note[] = [];
 </script>
 
 <Content page>
