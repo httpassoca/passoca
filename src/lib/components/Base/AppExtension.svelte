@@ -35,6 +35,7 @@
   margin-bottom: 8px
   padding: 10px 18px
   border-radius: 6px
+  font-size: 18px
   .header
     display: flex
     justify-content: space-between
@@ -42,11 +43,9 @@
     width: 100%
     cursor: pointer
     span
-      font-size: 18px
-      color: #838383
+      color: var(--app-color-gray-text)
   .content
     margin-top: 0px
-    font-size: 16px
     max-height: 0px
     overflow: hidden
     transition: max-height .5s ease, margin-top .5s ease-in-out
