@@ -21,7 +21,7 @@
         <SVG src="/logo.svg" height="35" />
       {/if}
     </a>
-    <nav>
+    <nav class="hidden md:flex">
       <a class:actual={$page.url.pathname === "/about"} href="/about">about</a>
       <a class:actual={$page.url.pathname === "/career"} href="/career"
         >career</a
@@ -68,7 +68,6 @@ header
   a.logo
     color: var(--app-color-primary)
   nav
-    display: flex
     align-items: center
     gap: 16px
     a

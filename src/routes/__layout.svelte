@@ -7,10 +7,11 @@
 </script>
 
 <script lang="ts">
-  import PageTransition from "$lib/components/PageTransition.svelte";
   import "../app.css";
   import "../sass/global.sass";
   import Header from "$lib/components/Header.svelte";
+  import FloatNavButton from "$lib/components/FloatNavButton.svelte";
+  import PageTransition from "$lib/components/PageTransition.svelte";
   import { theme } from "$lib/stores/theme.store";
   export let key: string;
 </script>
@@ -39,4 +40,5 @@
   <PageTransition refresh={key}>
     <slot />
   </PageTransition>
+  <FloatNavButton />
 </main>
