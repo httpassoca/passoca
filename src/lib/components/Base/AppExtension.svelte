@@ -15,8 +15,8 @@
   };
 </script>
 
-<div class="card bg-gray-800" on:click={extend}>
-  <div class="header">
+<div class="card bg-gray-800">
+  <div class="header" on:click={extend}>
     <span>
       {title}
     </span>
@@ -35,12 +35,12 @@
   margin-bottom: 8px
   padding: 10px 18px
   border-radius: 6px
-  cursor: pointer
   .header
     display: flex
     justify-content: space-between
     align-items: center
     width: 100%
+    cursor: pointer
     span
       font-size: 18px
       color: #838383
@@ -49,7 +49,7 @@
     font-size: 16px
     max-height: 0px
     overflow: hidden
-    transition: max-height 1s ease, margin-top 1s ease
+    transition: max-height .5s ease, margin-top .5s ease-in-out
     &.active
       margin-top: 8px
       max-height: 100vh
