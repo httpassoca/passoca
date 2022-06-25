@@ -9,6 +9,8 @@
 </section>
 
 <style lang="sass">
+@import '../../../sass/breakpoints'
+
 section
   margin: 0 auto
   display: flex
@@ -16,5 +18,7 @@ section
   &.page
     justify-content: center
     min-height: 100vh
-    padding-top: 250px
+    padding-top: 100px
+    @include screen-md
+      padding-top: 250px
 </style>

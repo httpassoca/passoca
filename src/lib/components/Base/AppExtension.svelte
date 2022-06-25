@@ -44,6 +44,7 @@
     cursor: pointer
     span
       color: var(--app-color-gray-text)
+      margin-right: 10px
   .content
     margin-top: 0px
     max-height: 0px
