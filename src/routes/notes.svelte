@@ -1,21 +1,16 @@
 <script context="module" lang="ts">
   import { capitalize } from "$lib/helpers/helpers";
-  interface Note {
-    name: string;
-    slug: string;
-    text?: any;
-    promise?: any;
-  }
+
   export async function load() {
     const { data } = await supabase.storage.from("passoca").list("notes");
     let notes: Note[] = [];
     data.map((note) => {
-      let name = note.name.slice(0, -3).replace(/-/g, " ");
-      name = capitalize(name);
+      let title = note.name.slice(0, -3).replace(/-/g, " ");
+      title = capitalize(title);
       notes = [
         ...notes,
         {
-          name,
+          title,
           slug: note.name.slice(0, -3),
         },
       ];
@@ -38,6 +33,7 @@
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import Extension from "$lib/components/Base/AppExtension.svelte";
+  import type { Note } from "$lib/posts";
 
   // Highlight the code
   marked.setOptions({
@@ -68,7 +64,7 @@
   <Title centered>Quick code notes ⚡</Title>
   {#each notes as note (note.slug)}
     <Extension
-      title={note.name}
+      title={note.title}
       on:open={() => (note.promise = note.promise || getNote(note.slug))}
     >
       {#await note.promise}
@@ -76,9 +72,9 @@
           <Loader />
         </div>
       {:then text}
-        <div class="note">
+        <a href="#{note.slug}" class="note">
           {@html text}
-        </div>
+        </a>
       {:catch}
         <b>Error 🙃</b> <br />
         <span class="text-red-500"

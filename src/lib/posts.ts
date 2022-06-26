@@ -16,6 +16,14 @@ export type Post = {
   tags: string[]
 }
 
+export type Note = {
+  title: string;
+  slug: string;
+  text?: any;
+  date?: string;
+  promise?: any;
+}
+
 const posts: Post[] = [];
 for (const path in imports) {
   const post = imports[path];
