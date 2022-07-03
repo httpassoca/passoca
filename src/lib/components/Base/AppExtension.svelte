@@ -4,7 +4,8 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  export let title: string = "";
+  export let title = "";
+  export let id = "";
   let open = false;
 
   const extend = () => {
@@ -15,7 +16,7 @@
   };
 </script>
 
-<div class="card bg-gray-800">
+<div {id} class="card bg-gray-800">
   <div class="header" on:click={extend}>
     <span>
       {title}

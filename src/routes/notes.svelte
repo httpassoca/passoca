@@ -2,7 +2,9 @@
   import { capitalize } from "$lib/helpers/helpers";
 
   export async function load() {
-    const { data } = await supabase.storage.from("passoca").list("notes");
+    const { data } = await supabase.storage
+      .from("passoca")
+      .list("notes", { sortBy: { column: "updated_at", order: "desc" } });
     let notes: Note[] = [];
     data.map((note) => {
       let title = note.name.slice(0, -3).replace(/-/g, " ");
@@ -64,6 +66,7 @@
   <Title centered>Quick code notes ⚡</Title>
   {#each notes as note (note.slug)}
     <Extension
+      id={note.slug}
       title={note.title}
       on:open={() => (note.promise = note.promise || getNote(note.slug))}
     >
@@ -72,9 +75,9 @@
           <Loader />
         </div>
       {:then text}
-        <a href="#{note.slug}" class="note">
+        <div class="note">
           {@html text}
-        </a>
+        </div>
       {:catch}
         <b>Error 🙃</b> <br />
         <span class="text-red-500"
@@ -92,5 +95,6 @@
     font-size: 15px
   pre code
     font-size: 15px
-
+  a
+    border-bottom: 1px solid var(--app-color-primary)
 </style>
