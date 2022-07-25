@@ -59,6 +59,7 @@
     return markdownText;
   };
 
+  console.log("geraldo top");
   export let notes: Note[] = [];
 </script>
 
