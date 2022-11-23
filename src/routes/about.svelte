@@ -5,7 +5,7 @@
     ).catch((err) => {
       console.log(err);
     });
-    if(!res) return;
+    if(!res) return {};
     let music = null;
     if (res.isPlaying) music = res.music;
     return { props: { music } };
