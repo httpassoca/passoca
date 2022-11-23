@@ -4,8 +4,8 @@
       (res) => res.json()
     ).catch((err) => {
       console.log(err);
-      return;
     });
+    if(!res) return;
     let music = null;
     if (res.isPlaying) music = res.music;
     return { props: { music } };
