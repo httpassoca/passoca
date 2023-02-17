@@ -71,7 +71,7 @@
         <Link to="https://www.senaimg.com.br/">SENAI.</Link>
         I started with <b>C++</b>, then <b>MySQL</b>, then <b>C#</b>, <b>PHP</b>
         and <b>HTML / CSS / JS</b>. Just playing with CSS doing fantasy websites
-        I realize I love create interfaces.
+        I realized I love creating interfaces.
       </p>
       <p>
         I'm currently developing apps for myself, <Link
