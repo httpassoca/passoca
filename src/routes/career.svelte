@@ -2,7 +2,8 @@
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
-  import Experience, { experience } from "$lib/components/Experience.svelte";
+  import Experience from "$lib/components/Experience.svelte";
+  import type { experience } from "$lib/components/Experience.svelte";
 
   const ctwExperience: experience = {
     name: "Critical Techworks",
@@ -48,30 +49,38 @@
   <Title animated>Work</Title>
   <div class="my-6">
     <Experience experience={ctwExperience}>
-      <li>Currently learning Angular and JAVA Spring</li>
-      <li>Programming on Windows 🧠</li>
+      <li>Scrum methodology</li>
+      <li>Tasks development alongside with PO and UX designers</li>
+      <li>Continous feedback shared with team</li>
+      <li>Maintained 4 internal projects including a design system</li>
+      <li>Learned DevOps principles</li>
+      <li>
+        <b>Tools used:</b> Jira, Bitbucket, Confluence, Windows, WSL, Docker
+      </li>
+      <li>
+        <b>Tech stack:</b> Angular 8-14, React, Jasmine, Java (Spring / Quarkus),
+        PostgreSQL, Jenkins, Kubernetes, Terraform, Ansible, Azure, NGINX,
+      </li>
     </Experience>
     <Experience experience={jmvExperience}>
       <li>
-        Get knowledge of git control with <span class="font-mono">git-flow</span
-        >
+        Maintained a distance education platform management project (<Link
+          to="https://nochalks.com/">Nochalks</Link
+        >)
       </li>
+
+      <li>Created an internal project to manage multiplatform social stream</li>
+      <li>Learned TDD with Vue</li>
+      <li><b>Tools used:</b> Gitlab, Linux and docker</li>
       <li>
-        Developing components for
-        <Link to="https://nochalks.com/">Nochalks</Link>
-        using <b>Vue 2</b> and <b>Vuetify</b>
+        <b>Tech stack:</b> Vue 2, PHP (Laravel), Node.js, Websocket, Jest.js, PostgreSQL
       </li>
-      <li>
-        Learned <b>TDD</b> with <span class="font-mono">vue-test-utils</span>
-      </li>
-      <li>Created Hub 2, a internal project with <b>Vue</b> and <b>TS</b></li>
     </Experience>
     <Experience experience={spiryExperience}>
       <li>
-        Developed frontend of <Link to="https://koinzaar.com/">Koinzaar</Link> (Next.js,
-        React, Styled Components)
+        Developed frontend of <Link to="https://koinzaar.com/">Koinzaar</Link>
       </li>
-      <li>Developed internal projects using React</li>
+      <li><b>Tech stack:</b> React, Next.js, PostgreSQL</li>
     </Experience>
   </div>
   <Title animated>Education</Title>
@@ -80,12 +89,7 @@
       <li>
         Learned Programming logic with:
         <ul>
-          <li>C++</li>
-          <li>C#</li>
-          <li>SQL</li>
-          <li>HTML CSS</li>
-          <li>JS JQuery</li>
-          <li>Java (android studio)</li>
+          <li>C++, C#, SQL, HTML CSS, JS JQuery and Java</li>
         </ul>
       </li>
     </Experience>
@@ -93,7 +97,7 @@
       <li>Computer Engineering</li>
       <li>Learn philosophy</li>
       <li>Realize that the university just was good at the end of 3 years</li>
-      <li>So I quit and focused on other jobs</li>
+      <li>Quit and focused on other jobs</li>
     </Experience>
   </div>
 </Content>

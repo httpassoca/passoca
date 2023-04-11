@@ -1,7 +1,8 @@
 <script lang="ts">
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
-  import Skill, { skill } from "$lib/components/Skill.svelte";
+  import Skill from "$lib/components/Skill.svelte";
+  import type { skill } from "$lib/components/Skill.svelte";
 
   const icons: skill[] = [
     {
