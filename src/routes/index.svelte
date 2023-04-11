@@ -7,13 +7,13 @@
   <div class="info">
     <h1 class="font-boston mb-2">Hi, I'm Rafael Passoca.</h1>
     <p>
-      As a Frontend Engineer, I believe that appearence and praticy are the best
+      As a Frontend Engineer, I believe that appearence and practicity are the best
       influences to the user. <b
-        >It is what matters. And I love to make it happen.</b
+        >This is what matters. And I love to make it happen.</b
       >
     </p>
     <p class="text-base">
-      If you just want my resume
+      If you just want my resumé
       <a target="_blank" href="/resume.pdf" title="resume">click here</a>
     </p>
     <div class="flex mt-4 justify-center">
