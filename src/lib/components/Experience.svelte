@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  export type experience = {
+  export type TExperience = {
     name: string;
     site?: string;
     icon?: string;
@@ -15,7 +15,7 @@
   import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
 
-  export let experience: experience;
+  export let experience: TExperience;
   let color = experience.color || "";
 
   $: if (experience.whiteColor) {

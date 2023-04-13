@@ -3,52 +3,14 @@
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
   import Experience from "$lib/components/Experience.svelte";
-  import type { experience } from "$lib/components/Experience.svelte";
 
-  const ctwExperience: experience = {
-    name: "Critical Techworks",
-    image: "ctw",
-    site: "criticaltechworks.com",
-    time: "since Feb 2022",
-    link: "https://www.criticaltechworks.com/",
-  };
-  const jmvExperience: experience = {
-    name: "JMV Technology",
-    icon: "jmv",
-    site: "jmvtechnology.com",
-    time: "Apr 2020 - Jan 2022",
-    link: "https://jmvtechnology.com/",
-  };
-  const spiryExperience: experience = {
-    name: "Spiry Capital",
-    icon: "spiry",
-    color: "white",
-    whiteColor: "black",
-    site: "spiry.ro",
-    time: "Aug 2020 - Apr 2021 (8 mos)",
-    link: "https://spiry.ro/",
-  };
-  const senaiExperience: experience = {
-    name: "SENAI",
-    icon: "senai",
-    color: "red",
-    site: "senaimg.com.br",
-    time: "Fev 2017 - Aug 2018",
-    link: "https://www.senaimg.com.br/",
-  };
-  const uemgExperience: experience = {
-    name: "UEMG",
-    image: "uemg",
-    site: "uemg.br",
-    time: "Fev 2020 - Oct 2020",
-    link: "https://www.uemg.br/",
-  };
+  import { ctw, jmv, senai, spiry, uemg } from "$lib/data/experiences";
 </script>
 
 <Content page>
   <Title animated>Work</Title>
   <div class="my-6">
-    <Experience experience={ctwExperience}>
+    <Experience experience={ctw}>
       <li>Scrum methodology</li>
       <li>Tasks development alongside with PO and UX designers</li>
       <li>Continous feedback shared with team</li>
@@ -62,7 +24,7 @@
         PostgreSQL, Jenkins, Kubernetes, Terraform, Ansible, Azure, NGINX,
       </li>
     </Experience>
-    <Experience experience={jmvExperience}>
+    <Experience experience={jmv}>
       <li>
         Maintained a distance education platform management project (<Link
           to="https://nochalks.com/">Nochalks</Link
@@ -76,7 +38,7 @@
         <b>Tech stack:</b> Vue 2, PHP (Laravel), Node.js, Websocket, Jest.js, PostgreSQL
       </li>
     </Experience>
-    <Experience experience={spiryExperience}>
+    <Experience experience={spiry}>
       <li>
         Developed frontend of <Link to="https://koinzaar.com/">Koinzaar</Link>
       </li>
@@ -85,7 +47,7 @@
   </div>
   <Title animated>Education</Title>
   <div class="my-6">
-    <Experience experience={senaiExperience}>
+    <Experience experience={senai}>
       <li>
         Learned Programming logic with:
         <ul>
@@ -93,7 +55,7 @@
         </ul>
       </li>
     </Experience>
-    <Experience experience={uemgExperience}>
+    <Experience experience={uemg}>
       <li>Computer Engineering</li>
       <li>Learn philosophy</li>
       <li>Realize that the university just was good at the end of 3 years</li>

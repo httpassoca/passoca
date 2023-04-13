@@ -1,11 +1,11 @@
 <script lang="ts" context="module">
-  export type skill = {
+  export type TSkill = {
     name?: string;
     icon?: string;
     color?: string;
     link?: string;
     title?: boolean;
-    skills?: skill[];
+    skills?: TSkill[];
     whiteColor?: string;
   };
 </script>
@@ -14,7 +14,7 @@
   import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
 
-  export let skill: skill;
+  export let skill: TSkill;
   let color = skill.color;
 
   $: if (skill.whiteColor) {
