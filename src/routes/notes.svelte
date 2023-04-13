@@ -2,9 +2,14 @@
   import { capitalize } from "$lib/helpers/helpers";
 
   export async function load() {
+    if (!supabase) {
+      return {};
+    }
+
     const { data } = await supabase.storage
       .from("passoca")
       .list("notes", { sortBy: { column: "updated_at", order: "desc" } });
+
     let notes: Note[] = [];
     data.map((note) => {
       let title = note.name.slice(0, -3).replace(/-/g, " ");
@@ -36,6 +41,7 @@
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import Extension from "$lib/components/Base/AppExtension.svelte";
   import type { Note } from "$lib/posts";
+  import AppError from "$lib/components/Base/AppError.svelte";
 
   // Highlight the code
   marked.setOptions({
@@ -49,6 +55,9 @@
   });
 
   const getNote = async (slug: string) => {
+    if (!supabase) {
+      return;
+    }
     const md = await supabase.storage
       .from("passoca")
       .download(`notes/${slug}.md`);
@@ -59,7 +68,6 @@
     return markdownText;
   };
 
-  console.log("geraldo top");
   export let notes: Note[] = [];
 </script>
 
@@ -80,14 +88,13 @@
           {@html text}
         </div>
       {:catch}
-        <b>Error 🙃</b> <br />
-        <span class="text-red-500"
-          >This was not supposed to happen 😢 If you are reading this send a
-          message to me@passoca.dev
-        </span>
+        <AppError />
       {/await}
     </Extension>
   {/each}
+  {#if !notes.length}
+    <AppError />
+  {/if}
 </Content>
 
 <style lang="sass">

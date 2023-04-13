@@ -19,6 +19,7 @@
 <svelte:head>
   <link rel="icon" href="/favicons/{$theme}-logo.svg" />
   {#if !key.includes("blog")}
+    <title>{key} | Passoca</title>
     <meta name="title" content="Rafael Passoca | Frontend Engineer" />
     <meta
       name="description"
