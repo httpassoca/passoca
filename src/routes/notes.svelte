@@ -99,10 +99,16 @@
 
 <style lang="sass">
 .note :global
+  padding-bottom: 2px
   code, pre
     font-size: 15px
   pre code
     font-size: 15px
   a
     border-bottom: 1px solid var(--app-color-primary)
+  img
+    margin: 1em auto
+    box-shadow:  0px 0px 8px 0px #0000009e
+    max-width: calc(100% - 14px)
+    border-radius: 4px
 </style>
