@@ -1,13 +1,14 @@
 <script lang="ts">
-  throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
   import "../app.css";
   import "../sass/global.sass";
   import Header from "$lib/components/Header.svelte";
   import FloatNavButton from "$lib/components/FloatNavButton.svelte";
   import PageTransition from "$lib/components/PageTransition.svelte";
   import { theme } from "$lib/stores/theme.store";
-  export let key: string;
+
+  /** @type {import('./$types').PageData} */
+  export let data;
+  let { key } = data;
 </script>
 
 <svelte:head>

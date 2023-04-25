@@ -1,6 +1,12 @@
-// https://fantinel.dev/blog-development-sveltekit/ <3
-const imports = import.meta.globEager("../../lib/blog/*");
+import { getSlug } from '$lib/helpers/helpers';
+import { error } from '@sveltejs/kit';
+import type { PageData } from './$types';
+export const prerender = 'auto';
 
+type GlobEntry = {
+  metadata: PostType;
+  default: unknown;
+};
 type PostType = {
   post: Record<
     string,
@@ -11,24 +17,27 @@ type PostType = {
   slug: string;
 };
 
-const posts: PostType[] = [];
-
-for (let path in imports) {
-  const post = imports[path];
-  const slug = post.metadata.slug;
-  const p = { post, slug };
-  posts.push(p);
-}
-
-export function load({ params }) {
+export const load = (({ params }) => {
   const { slug } = params;
-  // Find the post with the slug
-  const filteredPost = posts.find(
-    (p) => p.slug.toLowerCase() === slug.toLowerCase()
-  );
+
+  const posts = Object.entries(
+    import.meta.glob<GlobEntry>('/src/lib/blog/*.md', { eager: true })
+  )
+    .map(([filepath, globEntry]) => {
+      return {
+        metadata: globEntry.metadata,
+        content: globEntry.default,
+        slug: getSlug(filepath),
+      };
+    })
+  console.log(posts, slug);
+  const post = posts.find((post) => post.slug === slug);
+  if (!post) {
+    throw error(404, 'Post not found');
+  }
 
   return {
-  page: filteredPost.post.default,
-  metadata: filteredPost.post.metadata,
-};
-}
+    page: post.content,
+    metadata: post.metadata,
+  };
+}) satisfies PageData;
