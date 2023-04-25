@@ -10,7 +10,7 @@
 </div>
 
 <style lang="sass">
-@import '../../sass/breakpoints'
+@import '../../../sass/breakpoints'
 
 .blog--container
   padding-top: 120px
