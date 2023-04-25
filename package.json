@@ -11,6 +11,7 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "dependencies": {
+    "@sveltejs/adapter-vercel": "^2.4.2",
     "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
     "postcss-cli": "^7",
@@ -19,7 +20,6 @@
   },
   "devDependencies": {
     "@supabase/supabase-js": "^1.35.3",
-    "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "@types/cookie": "^0.4.1",
     "@types/marked": "^4.0.3",
