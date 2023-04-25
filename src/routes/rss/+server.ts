@@ -3,7 +3,7 @@ import { description, url, title } from "$lib/meta";
 import posts, { type Post, type Note } from '$lib/posts';
 import { supabase } from "$lib/supabase";
 
-export async function get() {
+export async function GET() {
   const { data } = await supabase.storage.from("passoca").list("notes");
   let notes: Note[] = [];
   data.map((note) => {
@@ -18,6 +18,14 @@ export async function get() {
       },
     ];
   });
+  throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)");
+  // Suggestion (check for correctness before using):
+  // return new Response(xml([...posts, ...notes]), {
+  //   headers: {
+  //     'Cache-Control': 'max-age=0, s-maxage=3600',
+  //     'Content-Type': 'application/xml'
+  //   }
+  // });
   return {
     headers: {
       'Cache-Control': 'max-age=0, s-maxage=3600',

@@ -1,43 +1,47 @@
 <script context="module" lang="ts">
-  // https://fantinel.dev/blog-development-sveltekit/ <3
-  const imports = import.meta.globEager("../../lib/blog/*");
+  throw new Error("@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)");
 
-  type PostType = {
-    post: Record<
-      string,
-      {
-        [key: string]: any;
-      }
-    >;
-    slug: string;
-  };
+  // // https://fantinel.dev/blog-development-sveltekit/ <3
+  // const imports = import.meta.globEager("../../lib/blog/*");
 
-  const posts: PostType[] = [];
+  // type PostType = {
+  //   post: Record<
+  //     string,
+  //     {
+  //       [key: string]: any;
+  //     }
+  //   >;
+  //   slug: string;
+  // };
 
-  for (let path in imports) {
-    const post = imports[path];
-    const slug = post.metadata.slug;
-    const p = { post, slug };
-    posts.push(p);
-  }
+  // const posts: PostType[] = [];
 
-  export function load({ params }) {
-    const { slug } = params;
-    // Find the post with the slug
-    const filteredPost = posts.find(
-      (p) => p.slug.toLowerCase() === slug.toLowerCase()
-    );
+  // for (let path in imports) {
+  //   const post = imports[path];
+  //   const slug = post.metadata.slug;
+  //   const p = { post, slug };
+  //   posts.push(p);
+  // }
 
-    return {
-      props: {
-        page: filteredPost.post.default,
-        metadata: filteredPost.post.metadata,
-      },
-    };
-  }
+  // export function load({ params }) {
+  //   const { slug } = params;
+  //   // Find the post with the slug
+  //   const filteredPost = posts.find(
+  //     (p) => p.slug.toLowerCase() === slug.toLowerCase()
+  //   );
+
+  //   return {
+  //     props: {
+  //       page: filteredPost.post.default,
+  //       metadata: filteredPost.post.metadata,
+  //     },
+  //   };
+  // }
 </script>
 
 <script lang="ts">
+  throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
   import { formatDate } from "$lib/helpers/formatDate";
 
   type Metadata = {

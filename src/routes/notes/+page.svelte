@@ -1,37 +1,41 @@
 <script context="module" lang="ts">
-  import { capitalize } from "$lib/helpers/helpers";
+  throw new Error("@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)");
 
-  export async function load() {
-    if (!supabase) {
-      return {};
-    }
+  // import { capitalize } from "$lib/helpers/helpers";
 
-    const { data } = await supabase.storage
-      .from("passoca")
-      .list("notes", { sortBy: { column: "updated_at", order: "desc" } });
+  // export async function load() {
+  //   if (!supabase) {
+  //     return {};
+  //   }
 
-    let notes: Note[] = [];
-    data.map((note) => {
-      let title = note.name.slice(0, -3).replace(/-/g, " ");
-      title = capitalize(title);
-      notes = [
-        ...notes,
-        {
-          title,
-          slug: note.name.slice(0, -3),
-        },
-      ];
-    });
+  //   const { data } = await supabase.storage
+  //     .from("passoca")
+  //     .list("notes", { sortBy: { column: "updated_at", order: "desc" } });
 
-    return {
-      props: {
-        notes,
-      },
-    };
-  }
+  //   let notes: Note[] = [];
+  //   data.map((note) => {
+  //     let title = note.name.slice(0, -3).replace(/-/g, " ");
+  //     title = capitalize(title);
+  //     notes = [
+  //       ...notes,
+  //       {
+  //         title,
+  //         slug: note.name.slice(0, -3),
+  //       },
+  //     ];
+  //   });
+
+  //   return {
+  //     props: {
+  //       notes,
+  //     },
+  //   };
+  // }
 </script>
 
 <script lang="ts">
+  throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
   import { marked } from "marked";
   import prism from "prismjs";
   import "prism-svelte";
