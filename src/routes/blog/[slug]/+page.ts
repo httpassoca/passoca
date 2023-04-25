@@ -7,6 +7,7 @@ type GlobEntry = {
   metadata: PostType;
   default: unknown;
 };
+
 type PostType = {
   post: Record<
     string,
@@ -30,8 +31,9 @@ export const load = (({ params }) => {
         slug: getSlug(filepath),
       };
     })
-  console.log(posts, slug);
+
   const post = posts.find((post) => post.slug === slug);
+
   if (!post) {
     throw error(404, 'Post not found');
   }
@@ -40,4 +42,5 @@ export const load = (({ params }) => {
     page: post.content,
     metadata: post.metadata,
   };
+
 }) satisfies PageData;

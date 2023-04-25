@@ -1,10 +1,13 @@
 <script lang="ts">
+  import type { PageData } from "./$types";
   import { theme } from "$lib/stores/theme.store";
   import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
-  export let music = null;
+
+  export let data: PageData;
+  export let { music } = data;
 
   type icon = {
     icon: string;
