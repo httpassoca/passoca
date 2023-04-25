@@ -1,6 +1,6 @@
 import type { PageData } from "./$types";
 
-export const load = (async ({ params }) => {
+export const load = (async () => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/now-playing`).then(
     (res) => res.json()
   ).catch((err) => {

@@ -31,10 +31,14 @@
   {/if}
 </svelte:head>
 
-<main class="content">
-  <Header />
-  <PageTransition refresh={key}>
-    <slot />
-  </PageTransition>
-  <FloatNavButton />
-</main>
+{#if !key.includes("notion")}
+  <main class="content">
+    <Header />
+    <PageTransition refresh={key}>
+      <slot />
+    </PageTransition>
+    <FloatNavButton />
+  </main>
+{:else}
+  <slot />
+{/if}
