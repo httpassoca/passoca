@@ -6,5 +6,5 @@
 </script>
 
 {#if music}
-  <SpotifyMusic {music} />
+  <SpotifyMusic {music} naked />
 {/if}
