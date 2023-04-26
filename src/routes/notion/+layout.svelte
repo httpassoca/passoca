@@ -5,7 +5,5 @@
 <style lang="sass">
 :global
   body
-    background-color: transparent
-  html
-    background-color: transparent
+    background-color: #191919
 </style>
