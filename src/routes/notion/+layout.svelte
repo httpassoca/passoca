@@ -3,6 +3,9 @@
 </div>
 
 <style lang="sass">
-:global(body)
-  background-color: transparent
+:global
+  body
+    background-color: transparent
+  html
+    background-color: transparent
 </style>
