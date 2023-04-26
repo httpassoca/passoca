@@ -1,6 +1,9 @@
 import { capitalize } from "$lib/helpers/helpers";
+import type { Note } from "$lib/posts";
+import { supabase } from "$lib/supabase";
+import type { PageData } from "./$types";
 
-export async function load() {
+export const load = (async () => {
   if (!supabase) {
     return {};
   }
@@ -23,6 +26,6 @@ export async function load() {
   });
 
   return {
-  notes,
-};
-}
+    notes,
+  };
+}) satisfies PageData;

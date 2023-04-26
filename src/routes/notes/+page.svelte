@@ -1,51 +1,17 @@
-<script context="module" lang="ts">
-  throw new Error("@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)");
-
-  // import { capitalize } from "$lib/helpers/helpers";
-
-  // export async function load() {
-  //   if (!supabase) {
-  //     return {};
-  //   }
-
-  //   const { data } = await supabase.storage
-  //     .from("passoca")
-  //     .list("notes", { sortBy: { column: "updated_at", order: "desc" } });
-
-  //   let notes: Note[] = [];
-  //   data.map((note) => {
-  //     let title = note.name.slice(0, -3).replace(/-/g, " ");
-  //     title = capitalize(title);
-  //     notes = [
-  //       ...notes,
-  //       {
-  //         title,
-  //         slug: note.name.slice(0, -3),
-  //       },
-  //     ];
-  //   });
-
-  //   return {
-  //     props: {
-  //       notes,
-  //     },
-  //   };
-  // }
-</script>
-
 <script lang="ts">
-  throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
   import { marked } from "marked";
   import prism from "prismjs";
   import "prism-svelte";
   import { supabase } from "$lib/supabase";
+  import type { PageData } from "./$types";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import Extension from "$lib/components/Base/AppExtension.svelte";
-  import type { Note } from "$lib/posts";
   import AppError from "$lib/components/Base/AppError.svelte";
+
+  export let data: PageData;
+  export let { notes } = data;
 
   // Highlight the code
   marked.setOptions({
@@ -71,8 +37,6 @@
     notes.filter((note) => note.slug === slug)[0].text = markdownText;
     return markdownText;
   };
-
-  export let notes: Note[] = [];
 </script>
 
 <Content page>
