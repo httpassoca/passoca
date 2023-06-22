@@ -74,9 +74,9 @@
         I realized I love creating interfaces.
       </p>
       <p>
-        I'm currently developing apps for myself, <Link
+        I'm currently developing apps for myself and <Link
           to="https://www.criticaltechworks.com/">Critical Techworks</Link
-        > and <Link to="http://leagueofdevs.com">League of Devs</Link>.
+        >.
       </p>
       <p>
         You can contact me via <a href="mailto: me@passoca.dev"> email. </a>
