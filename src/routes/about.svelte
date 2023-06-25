@@ -47,7 +47,7 @@
       <div class="image">
         <img
           loading="lazy"
-          src="https://avatars.githubusercontent.com/u/49541181?v=4"
+          src="https://media.licdn.com/dms/image/C4E03AQEOuNx84VoQDg/profile-displayphoto-shrink_200_200/0/1554059424606?e=1693440000&v=beta&t=5yW4t8wkR3p06iNtk37HtvGUtsMGi-a1__BzLYG1Umk"
           alt="my pic"
         />
       </div>
