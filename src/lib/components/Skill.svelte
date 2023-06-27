@@ -1,18 +1,18 @@
-<script lang="ts" context="module">
-  export type TSkill = {
+<script lang="ts">
+  import type { SVGNames } from "$lib/data/svgs";
+
+  import { theme } from "$lib/stores/theme.store";
+  import SVG from "./Base/AppSVG.svelte";
+
+  type TSkill = {
     name?: string;
-    icon?: string;
+    icon?: SVGNames;
     color?: string;
     link?: string;
     title?: boolean;
     skills?: TSkill[];
     whiteColor?: string;
   };
-</script>
-
-<script lang="ts">
-  import { theme } from "$lib/stores/theme.store";
-  import SVG from "svelte-inline-svg";
 
   export let skill: TSkill;
   let color = skill.color;
@@ -25,7 +25,7 @@
 <div>
   <a href={skill.link || ""} target="blank" class:cursor-default={!skill.link}>
     <SVG
-      src={`/icons/${skill.icon}.svg`}
+      name={skill.icon}
       alt={`${skill.name} icon`}
       fill={color}
       height="23"

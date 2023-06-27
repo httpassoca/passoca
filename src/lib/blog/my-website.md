@@ -7,9 +7,9 @@ tags: [Svelte, Tailwind]
 ---
 
 <script lang="ts">
+  import SVG from '../components/Base/AppSVG.svelte';
   import Link from '../components/Base/AppLink.svelte';
   import { Moon, Sun, Duplicate } from "svelte-hero-icons";
-  import SVG from "svelte-inline-svg";
   import Icon from "svelte-hero-icons/Icon.svelte";
   const copy = async (color: string): string => {
     await navigator.clipboard.writeText(color);
@@ -58,7 +58,7 @@ Well, green is my favorite color, so I made it the main here. Of course, not eas
     {#if ['light','dark'].includes(theme.name)}
       <Icon src={theme.icon} size="23" />
     {:else}
-      <SVG src="/icons/coffee.svg" width="23" height="23"/>
+      <SVG name="coffee" width="23" height="23"/>
     {/if}
 
     theme colors:

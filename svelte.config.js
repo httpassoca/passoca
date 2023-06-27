@@ -34,7 +34,6 @@ const config = {
   extensions: ['.svelte', '.md', '.svx'],
   kit: {
 		adapter: adapter(),
-
 		// hydrate the <div id="svelte"> element in src/app.html
 	}
 };

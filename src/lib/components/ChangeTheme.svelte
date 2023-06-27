@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SVG from "svelte-inline-svg";
+  import SVG from "./Base/AppSVG.svelte";
   import Icon from "svelte-hero-icons/Icon.svelte";
   import { Moon, Sun } from "svelte-hero-icons";
   import { onMount } from "svelte";
@@ -38,7 +38,7 @@
     <Icon src={Sun} size="23" />
   {:else}
     <SVG
-      src="/icons/coffee.svg"
+      name="coffee"
       width="23"
       height="23"
       fill={$theme === "dark" ? "#e0e0e0" : "black"}
