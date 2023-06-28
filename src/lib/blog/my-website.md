@@ -107,8 +107,6 @@ Definitively the hardest thing. I had to use things I've never used and it isn't
   </li>
 </ul>
 
-
-
 <style lang="sass">
 @import '../../sass/breakpoints'
 

@@ -5,16 +5,13 @@
   import FloatNavButton from "$lib/components/FloatNavButton.svelte";
   import PageTransition from "$lib/components/PageTransition.svelte";
   import { theme } from "$lib/stores/theme.store";
-
-  /** @type {import('./$types').PageData} */
-  export let data;
-  let { key } = data;
+  import { page } from "$app/stores";
 </script>
 
 <svelte:head>
   <link rel="icon" href="/favicons/{$theme}-logo.svg" />
-  {#if !key.includes("blog")}
-    <title>{key} | Passoca</title>
+  {#if !$page.url.pathname.includes("blog/")}
+    <title>Passoca</title>
     <meta name="title" content="Rafael Passoca | Frontend Engineer" />
     <meta
       name="description"
@@ -31,10 +28,10 @@
   {/if}
 </svelte:head>
 
-{#if !key.includes("notion")}
+{#if !$page.url.pathname.includes("notion/")}
   <main class="content">
     <Header />
-    <PageTransition refresh={key}>
+    <PageTransition key={$page.url.pathname} duration={1000}>
       <slot />
     </PageTransition>
     <FloatNavButton />

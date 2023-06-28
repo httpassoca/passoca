@@ -1,16 +1,17 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import { theme } from "$lib/stores/theme.store";
-  import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
+  import AppSvg from "$lib/components/Base/AppSVG.svelte";
+  import type { SVGNames } from "$lib/data/svgs";
 
   export let data: PageData;
   export let { music } = data;
 
   type icon = {
-    icon: string;
+    icon: SVGNames;
     link: string;
   };
 
@@ -43,8 +44,8 @@
       <div class="flex justify-center mt-4 gap-4">
         {#each socials as social (social.icon)}
           <a href={social.link} target="_blank" rel="noopener noreferrer">
-            <SVG
-              src={`/icons/${social.icon}.svg`}
+            <AppSvg
+              name={social.icon}
               alt={`${social.icon} icon`}
               fill={$theme === "dark" ? "#EEE" : "#111"}
               height="23"
