@@ -1,4 +1,29 @@
-const imports = import.meta.globEager('./blog/*');
+import { getSlug } from "./helpers/helpers";
+
+
+type GlobEntry = {
+  metadata: PostType;
+  default: any;
+};
+
+type PostType = {
+  post: Record<
+    string,
+    {
+      [key: string]: any;
+    }
+  >;
+  slug: string;
+};
+
+
+const imports = Object.entries(import.meta.glob<GlobEntry>('./blog/*', { eager: true })).map(([filepath, globEntry]) => {
+  return {
+    metadata: globEntry.metadata,
+    content: globEntry.default,
+    slug: getSlug(filepath),
+  };
+});
 
 export type Post = {
   post: Record<
@@ -34,7 +59,7 @@ for (const path in imports) {
     // as a component later on.
     posts.push({
       ...post.metadata,
-      ...post.default
+      ...post.content
     });
   }
 }

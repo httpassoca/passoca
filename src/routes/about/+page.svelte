@@ -1,27 +1,17 @@
-<script context="module" lang="ts">
-  export async function load() {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/now-playing`).then(
-      (res) => res.json()
-    ).catch((err) => {
-      console.log(err);
-    });
-    if(!res) return {};
-    let music = null;
-    if (res.isPlaying) music = res.music;
-    return { props: { music } };
-  }
-</script>
-
 <script lang="ts">
+  import type { PageData } from "./$types";
   import { theme } from "$lib/stores/theme.store";
-  import SVG from "svelte-inline-svg";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
-  export let music = null;
+  import AppSvg from "$lib/components/Base/AppSVG.svelte";
+  import type { SVGNames } from "$lib/data/svgs";
+
+  export let data: PageData;
+  export let { music } = data;
 
   type icon = {
-    icon: string;
+    icon: SVGNames;
     link: string;
   };
 
@@ -47,15 +37,15 @@
       <div class="image">
         <img
           loading="lazy"
-          src="https://media.licdn.com/dms/image/C4E03AQEOuNx84VoQDg/profile-displayphoto-shrink_200_200/0/1554059424606?e=1693440000&v=beta&t=5yW4t8wkR3p06iNtk37HtvGUtsMGi-a1__BzLYG1Umk"
-          alt="my pic"
+          src="https://tbnaluslgxzikblascgb.supabase.co/storage/v1/object/sign/passoca/images/profile_pic.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwYXNzb2NhL2ltYWdlcy9wcm9maWxlX3BpYy5wbmciLCJpYXQiOjE2ODgwNjk1MjIsImV4cCI6MTcxOTYwNTUyMn0.-2wlKr-QjliMAfmi4YToEQ7DDhFYKwbn0xbQhhfbrQo&t=2023-06-29T20%3A12%3A02.581Z"
+          alt="my profile"
         />
       </div>
       <div class="flex justify-center mt-4 gap-4">
         {#each socials as social (social.icon)}
           <a href={social.link} target="_blank" rel="noopener noreferrer">
-            <SVG
-              src={`/icons/${social.icon}.svg`}
+            <AppSvg
+              name={social.icon}
               alt={`${social.icon} icon`}
               fill={$theme === "dark" ? "#EEE" : "#111"}
               height="23"

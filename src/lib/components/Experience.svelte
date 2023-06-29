@@ -1,19 +1,19 @@
-<script lang="ts" context="module">
-  export type TExperience = {
+<script lang="ts">
+  import type { SVGNames } from "$lib/data/svgs";
+
+  import { theme } from "$lib/stores/theme.store";
+  import SVG from "./Base/AppSVG.svelte";
+
+  type TExperience = {
     name: string;
     site?: string;
-    icon?: string;
+    icon?: SVGNames;
     image?: string;
     link?: string;
     color?: string;
     time: string;
     whiteColor?: string;
   };
-</script>
-
-<script lang="ts">
-  import { theme } from "$lib/stores/theme.store";
-  import SVG from "svelte-inline-svg";
 
   export let experience: TExperience;
   let color = experience.color || "";
@@ -26,12 +26,7 @@
 <div class="experience mt-8">
   <div class="w-12 h-12">
     {#if experience.icon}
-      <SVG
-        src={`/icons/${experience.icon}.svg`}
-        width="50"
-        height="50"
-        fill={color}
-      />
+      <SVG name={experience.icon} width="50" height="50" fill={color} />
     {:else}
       <img
         src={`/imgs/${experience.image}.webp`}

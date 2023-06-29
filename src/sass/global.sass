@@ -18,23 +18,24 @@ html
   -webkit-text-size-adjust: 100%
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
+
 *::selection
   background-color: var(--app-color-primary)
   color: var(--app-color-contrast-text)
 
 ::-webkit-scrollbar
-  width: 5px
+  width: 3px
   height: 3px
 
 ::-webkit-scrollbar-track
   background: var(--app-color-background)
 
 ::-webkit-scrollbar-thumb
-  background: rgba(var(--app-color-primary-rgb), .8)
-
+  background: linear-gradient(24deg, var(--app-color-background) 0%, var(--app-color-primary) 50%, var(--app-color-background) 100%)
 
 .vh-full
   min-height: 100vh
+
 main
   position: relative
   color: var(--app-color-text)
