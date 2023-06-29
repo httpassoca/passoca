@@ -20,5 +20,5 @@ section
     min-height: 100vh
     padding-top: 100px
     @include screen-md
-      padding-top: 250px
+      padding-top: 200px
 </style>
