@@ -37,8 +37,8 @@
       <div class="image">
         <img
           loading="lazy"
-          src="https://avatars.githubusercontent.com/u/49541181?v=4"
-          alt="my pic"
+          src="https://tbnaluslgxzikblascgb.supabase.co/storage/v1/object/sign/passoca/images/profile_pic.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwYXNzb2NhL2ltYWdlcy9wcm9maWxlX3BpYy5wbmciLCJpYXQiOjE2ODgwNjk1MjIsImV4cCI6MTcxOTYwNTUyMn0.-2wlKr-QjliMAfmi4YToEQ7DDhFYKwbn0xbQhhfbrQo&t=2023-06-29T20%3A12%3A02.581Z"
+          alt="my profile"
         />
       </div>
       <div class="flex justify-center mt-4 gap-4">
@@ -64,9 +64,9 @@
         I realized I love creating interfaces.
       </p>
       <p>
-        I'm currently developing apps for myself, <Link
+        I'm currently developing apps for myself and <Link
           to="https://www.criticaltechworks.com/">Critical Techworks</Link
-        > and <Link to="http://leagueofdevs.com">League of Devs</Link>.
+        >.
       </p>
       <p>
         You can contact me via <a href="mailto: me@passoca.dev"> email. </a>
