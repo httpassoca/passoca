@@ -90,6 +90,14 @@ header
       font-size: .8rem
     .actual
       color: var(--app-color-primary)
+  &::after
+    content: ''
+    display: block
+    position: absolute
+    top: 100%
+    height: 80px
+    width: 100%
+    background-image: linear-gradient(to bottom, var(--app-color-background), transparent)
 .icons
   @apply flex h-full items-center my-auto gap-2
   a

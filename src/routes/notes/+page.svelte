@@ -40,7 +40,7 @@
 </script>
 
 <Content page>
-  <Title centered>Quick code notes ⚡</Title>
+  <Title centered line={false}>Quick code notes ⚡</Title>
   {#each notes as note (note.slug)}
     <Extension
       id={note.slug}
