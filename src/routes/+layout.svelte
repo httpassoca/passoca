@@ -31,7 +31,7 @@
 {#if !$page.url.pathname.includes("notion/")}
   <main class="content">
     <Header />
-    <PageTransition key={$page.url.pathname} duration={2000}>
+    <PageTransition key={$page.url.pathname}>
       <slot />
     </PageTransition>
     <FloatNavButton />
