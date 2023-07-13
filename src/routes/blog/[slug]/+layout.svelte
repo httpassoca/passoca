@@ -78,7 +78,6 @@ hr
     font-size: 1.4rem
   p
     margin-top: 14px
-    text-align: justify
     line-height: 1.4
   a:not([href^='#'])
     font-weight: bold
@@ -114,7 +113,6 @@ hr
       border-bottom: 2px solid var(--app-color-primary)
   li
     margin: 6px 12px
-    text-align: justify
     &:before
       content: ''
       display: inline-block

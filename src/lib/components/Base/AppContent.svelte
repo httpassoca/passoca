@@ -2,7 +2,7 @@
   export let page = false;
 </script>
 
-<section class="px-4 md:container md:px-0" class:page>
+<section class="px-4 md:container md:px-0 md:mt-4" class:page>
   <div class={`w-full ${$$props.class}`}>
     <slot />
   </div>
@@ -18,7 +18,7 @@ section
   &.page
     justify-content: center
     min-height: 100vh
-    padding-top: 100px
+    padding-top: 130px
     @include screen-md
       padding-top: 200px
 </style>
