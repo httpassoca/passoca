@@ -35,7 +35,6 @@
       {/if}
     </a>
     <nav class="hidden md:flex">
-      <a class:actual={$page.url.pathname === "/about"} href="/about">about</a>
       <a class:actual={$page.url.pathname === "/career"} href="/career"
         >career</a
       >
