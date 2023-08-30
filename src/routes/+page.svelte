@@ -98,8 +98,6 @@
 <style lang="sass">
   h1
     font-size: clamp(36px, 8vw, 54px)
-  a
-    border-bottom: 1px solid var(--app-color-primary)
 .info
   a
     border-bottom: 1px solid var(--app-color-primary)
