@@ -8,7 +8,7 @@
 
 <Content page>
   <BlogSelect />
-  <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
+  <div class="mt-8 flex flex-col gap-3">
     {#each posts as post (post.title)}
       {#if post.personal && $personalPosts}
         <Post {post} />

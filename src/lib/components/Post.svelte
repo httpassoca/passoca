@@ -5,17 +5,16 @@
   import { Tag } from "svelte-hero-icons";
 
   export let post: Post;
-  const headerStyle = `background-image: url(/blog/${post.slug}.webp)`;
 </script>
 
 <a class="post mt-8 sm:mt-0" href={`/blog/${post.slug}`}>
-  <div class="header" style={`${headerStyle}`}>
-    <span>{formatDate(post.date)}</span>
-  </div>
   <div class="body">
-    <h2 class="font-boston-semibold">
-      {post.title}
-    </h2>
+    <header class="flex justify-between">
+      <h2 class="font-boston-semibold">
+        {post.title}
+      </h2>
+      <span>{formatDate(post.date)}</span>
+    </header>
     <div class="flex items-center gap-1">
       <Icon src={Tag} size="16" solid class="rotate-90" />
       <ul class="tags">
@@ -29,12 +28,16 @@
 
 <style lang="sass">
 .post
+  background-color: var(--app-color-lighter-background)
+  padding: 10px 18px
+  border-radius: 6px
+  font-size: 18px
+  color: var(--app-color-text)
+
   cursor: pointer
   position: relative
   display: flex
   flex-direction: column
-  height: 200px
-  background: var(--app-color-primary)
   border-radius: .3em
   filter: drop-shadow(0px 0px 3px rgba(0,0,0,.3))
   > div
@@ -66,6 +69,5 @@
         content: '• '
   .body
     font-size: .875rem
-    color: var(--app-color-contrast-text)
 
 </style>
