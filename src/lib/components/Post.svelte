@@ -40,6 +40,11 @@
   flex-direction: column
   border-radius: .3em
   filter: drop-shadow(0px 0px 3px rgba(0,0,0,.3))
+  h2
+    transition: color .25s ease-in
+  &:hover
+    h2
+      color: var(--app-color-shine-text)
   > div
     padding: 8px
   .header

@@ -37,6 +37,12 @@
   padding: 10px 18px
   border-radius: 6px
   font-size: 18px
+
+  span
+    transition: color .25s ease-in
+  &:hover
+    span
+      color: var(--app-color-shine-text)
   .header
     display: flex
     justify-content: space-between
