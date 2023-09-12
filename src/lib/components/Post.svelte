@@ -7,7 +7,7 @@
   export let post: Post;
 </script>
 
-<a class="post mt-8 sm:mt-0" href={`/blog/${post.slug}`}>
+<a class="post" href={`/blog/${post.slug}`}>
   <div class="body">
     <header class="flex justify-between">
       <h2 class="font-boston-semibold">
@@ -38,7 +38,6 @@
   position: relative
   display: flex
   flex-direction: column
-  border-radius: .3em
   filter: drop-shadow(0px 0px 3px rgba(0,0,0,.3))
   h2
     transition: color .25s ease-in

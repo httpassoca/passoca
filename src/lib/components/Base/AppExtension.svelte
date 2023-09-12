@@ -37,11 +37,12 @@
   padding: 10px 18px
   border-radius: 6px
   font-size: 18px
+  filter: drop-shadow(0px 0px 3px rgba(0,0,0,.3))
 
   span
     transition: color .25s ease-in
   &:hover
-    span
+    .header span
       color: var(--app-color-shine-text)
   .header
     display: flex
