@@ -3,7 +3,7 @@ title: How to kill friends and calibrate people
 slug: kill-friends
 date: 2021-02-8
 description: "Dale Carnegie's book review"
-tags: [Review]
+tags: [Book review]
 personal: true
 ---
 
