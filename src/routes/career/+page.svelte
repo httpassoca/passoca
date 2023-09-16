@@ -8,7 +8,7 @@
 </script>
 
 <Content page>
-  <Title animated>Work</Title>
+  <Title>Work</Title>
   <div class="my-6">
     <Experience experience={ctw}>
       <li>Scrum methodology</li>
@@ -45,7 +45,7 @@
       <li><b>Tech stack:</b> React, Next.js, PostgreSQL</li>
     </Experience>
   </div>
-  <Title animated>Education</Title>
+  <Title>Education</Title>
   <div class="my-6">
     <Experience experience={senai}>
       <li>

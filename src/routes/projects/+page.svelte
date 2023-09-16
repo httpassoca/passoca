@@ -7,7 +7,7 @@
 </script>
 
 <Content page>
-  <Title animated>Skills</Title>
+  <Title>Skills</Title>
   <div class="grid-icons md:grid-cols-4 grid-cols-2">
     {#each icons as skill (skill.name)}
       <Skill {skill} />

@@ -1,8 +1,6 @@
 <script lang="ts">
   import { formatDate } from "$lib/helpers/formatDate";
   import type { Post } from "$lib/posts";
-  import Icon from "svelte-hero-icons/Icon.svelte";
-  import { Tag } from "svelte-hero-icons";
 
   export let post: Post;
 </script>
@@ -16,7 +14,6 @@
       <span>{formatDate(post.date)}</span>
     </header>
     <div class="flex items-center gap-1">
-      <Icon src={Tag} size="16" solid class="rotate-90" />
       <ul class="tags">
         {#each post.tags as tag}
           <li>{tag}</li>
