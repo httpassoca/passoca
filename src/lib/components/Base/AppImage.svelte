@@ -3,7 +3,6 @@
     url: string;
     width: number;
   }
-  import { theme } from "$lib/stores/theme.store";
   import { onMount } from "svelte";
   import AppLoader from "./AppLoader.svelte";
 
