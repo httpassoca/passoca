@@ -8,6 +8,7 @@
   <i>{quote.quote}</i>
   <br />
   <span class="text-gray-500">
-    - {quote.author} | {quote.font}
+    - {quote.author}
+    {quote.book && `| ${quote.book}`}
   </span>
 </div>
