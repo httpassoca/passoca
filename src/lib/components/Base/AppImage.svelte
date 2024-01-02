@@ -29,7 +29,7 @@
 
     // Image visualizer
     let lightbox = new PhotoSwipeLightbox({
-      gallery: `#${alt.split(" ").join("-")}`,
+      gallery: `#${img}`,
       children: "a",
       showHideAnimationType: "zoom",
       pswpModule: () => import("photoswipe"),
@@ -38,7 +38,7 @@
   });
 </script>
 
-<div class="pswp-gallery" id={alt.split(" ").join("-")}>
+<div class="pswp-gallery" id={img}>
   {#if images.imgs?.length}
     <a
       href={images.originalImage.url}
