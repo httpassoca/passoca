@@ -39,7 +39,6 @@
 </script>
 
 <div class="pswp-gallery" id={alt.split(" ").join("-")}>
-  {images.imgs?.length}
   {#if images.imgs?.length}
     <a
       href={images.originalImage.url}
