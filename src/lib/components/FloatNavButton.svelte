@@ -7,7 +7,6 @@
 
 <div class="floatnav md:hidden">
   <nav class:active={open}>
-    <a class:actual={$page.url.pathname === "/about"} href="/about">about</a>
     <a class:actual={$page.url.pathname === "/career"} href="/career">career</a>
     <a class:actual={$page.url.pathname === "/projects"} href="/projects"
       >projects</a
