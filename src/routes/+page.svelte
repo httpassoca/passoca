@@ -6,6 +6,8 @@
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import AppSvg from "$lib/components/Base/AppSVG.svelte";
   import type { SVGNames } from "$lib/data/svgs";
+  import { createPostsIndex, searchPostsIndex } from "$lib/helpers/search";
+  import { onMount } from "svelte";
 
   export let data: PageData;
   export let { music } = data;
@@ -29,10 +31,54 @@
       link: "/twitter",
     },
   ];
+  let search: "loading" | "ready" = "loading";
+  let searchTerm = "";
+  let results = [];
+
+  onMount(async () => {
+    // get the posts
+    const posts = await fetch("/search.json").then((res) => res.json());
+    console.log(posts);
+    // create search index
+    createPostsIndex(posts);
+    // we're in business 🤝
+    search = "ready";
+  });
+
+  $: if (search === "ready") {
+    // runs each time `searchTerm` updates
+    results = searchPostsIndex(searchTerm);
+  }
 </script>
 
 <Content page>
   <div class="info">
+    {#if search === "ready"}
+      <div class="search">
+        <input
+          bind:value={searchTerm}
+          placeholder="Search"
+          autocomplete="off"
+          spellcheck="false"
+          type="search"
+        />
+
+        <div class="results">
+          {#if results}
+            <ul>
+              {#each results as result}
+                <li>
+                  <a href="/{result.slug}">
+                    {@html result.title}
+                  </a>
+                  <p>{@html result.content}</p>
+                </li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
+      </div>
+    {/if}
     <h1 class="font-boston mb-2">Hi, I'm Rafael Passoca.</h1>
     <p class="text-base">
       As a Frontend Engineer, I believe that appearence and practicity are the
@@ -118,4 +164,51 @@
       transform: scale(2)
       top: 38%
       left: 10%
+.search
+  width: 90vw
+  max-width: 600px
+  position: fixed
+  left: 50%
+  top: 20%
+  translate: -50% -0%
+  border-radius: 0.5rem
+  box-shadow: 0px 0px 20px hsl(0 0% 0% / 40%)
+  overflow: hidden
+  z-index: 120
+
+  & input
+    width: 100%
+    padding: 1.5rem
+    color: hsl(220 10% 98%)
+    background-color: hsl(220 10% 20%)
+    font: inherit
+    border: none
+    outline: none
+
+.results
+  max-height: 48vh
+  padding: 1.5rem
+  background-color: hsl(220 10% 14%)
+  overflow-y: auto
+  scrollbar-width: thin
+
+  & ul
+    display: grid
+    gap: 1rem
+    padding: 0px
+    margin: 0px
+    list-style: none
+
+    & li:not(:last-child)
+      padding-block: 0.5rem
+      border-bottom: 1px solid hsl(220 10% 20%)
+
+  & a
+    display: block
+    color: hsl(220 10% 80%)
+    text-decoration: none
+    transition: color 0.3s ease
+
+    &:hover
+      color: aqua
 </style>
