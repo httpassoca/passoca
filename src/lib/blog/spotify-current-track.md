@@ -11,6 +11,9 @@ tags: [Spotify, API]
   import Image from '../components/Base/AppImage.svelte';
 </script>
 
+## Table of Contents
+
+## Introduction
 I saw this on <Link to="https://cristianbgp.com/">Cristian Granda</Link> website and thought it was cool, had never seen it. I took two days to made it, but I will teach you how to do it fast ⚡.
 
 After I saw the <Link to="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=">API demo</Link> , I thought "*easy-peasy*", and it really is, but getting there isn't. Basically, you need create a Spotify integration, get a refresh token, get an auth code and then get the current track. I did get stucked on two steps: discover everything and get the *refresh token*. But I did find a <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">very nice website</Link>, that makes me think I am not the only one burning the head to get a simple *refresh token* 😸.

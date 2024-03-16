@@ -11,6 +11,9 @@ tags: [Productivity, Notion]
   import Image from '../components/Base/AppImage.svelte';
 </script>
 
+## Table of Contents
+
+## Introduction
 In February, a few days after have arrived in Portugal, I read an article from <Link to="https://www.youtube.com/user/simulacrumsquared">Tiago Forte</Link> (*now, searching his Youtube Channel, I wonder why the url is “simulacrumsquared”* 🤔) explaining about an method to keep digital information (*in other words, every information*) and got kinda curious about it. I was in the middle of a country-changing and visualized it like a good way to start, this time really 😅, to organize my things.
 
 And today, after almost two months using it, I noticed that everyone should at least know it exists. For me, who have <Link to="https://www.psychiatry.org/patients-families/adhd/what-is-adhd">ADHD</Link> and use internet since 8 years old, it helps me to filter every information that I consume. If you are here, probably you pass much time browsing, receiving a million bytes of information per day. Of course, after years dealing with trash news and funny memes, you have built a natural filter in your brain that keep some data and throw away other, but this can be mastered when you write it down.

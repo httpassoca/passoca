@@ -69,13 +69,14 @@ hr
     margin: 12px auto 0 auto
   h1, h2
     font-weight: bold
-    margin-top: 18px
     position: relative
   h1
     font-size: 2rem
+    margin-top: 18px
     text-align: center
   h2
     font-size: 1.4rem
+    margin-top: 36px
   p
     margin-top: 14px
     line-height: 1.4

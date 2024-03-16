@@ -44,6 +44,9 @@ tags: [Svelte, Tailwind]
   ]
 </script>
 
+## Table of Contents
+
+## Introduction
 Hi, reader. First, I want to appreciate **you** for being here. Second, I need to say thanks to <Link to="https://www.puruvj.dev/">PuruVJ</Link>, <Link to="https://fantinel.dev/">Matt Fantinel</Link> and <Link to="https://www.zenorocha.com/">Zeno Rocha</Link> who inspire (and principally, help) me in this website.
 
 Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last <Link to="https://old.passoca.com.br">here</Link>, but dont judge. I did it with **React** (while I was learning it) and **p5.js**. This one however, was made with <Link to="https://kit.svelte.dev/">SvelteKit</Link> and <Link to="https://tailwindcss.com/">Tailwind CSS</Link>. I did try with <Link to="https://nuxtjs.org/">NuxtJS</Link>, actually I even made it, but decided to migrate to **Svelte** because it is faster, easier and a new skill to learn for me!

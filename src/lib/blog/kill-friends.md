@@ -8,6 +8,10 @@ personal: true
 ---
 
 *[This article was translated by Google]*
+## Table of Contents
+
+
+## Introduction
 
 Just to clarify, this title is due to the jokes I kept making with my friends not to say “How to make friends and influence people”. It took me a while to read this book, because I lost my reading habit and was stuck in other things, but it was a very calm and smooth read. There are many cases that Dale Carnegie (author) cites as an example for each lesson, so in the end it gets kind of boring and too specific. Let's say that he was able to absorb the book very well until he reached part 4, when it started to get repetitive and very specific.
 

@@ -10,6 +10,10 @@ tags: [Macbook, Windows, Linux, laptop]
   import Image from '../components/Base/AppImage.svelte';
 </script>
 
+## Table of Contents
+
+## Introduction
+
 I will be traveling with two computers, one personal and one from the company where I work. Until last week, I had a Lenovo Legion 5, a gaming laptop that could handle anything and was heavy, weighing around 5 kilograms including the charger, which is essential. This, combined to my company Thinkpad, was too heavy and occupied too much space for a 10-hour journey that would last more than a month on the other side of the ocean. Of course, this wasn't the only reason for my decision to purchase a Mac, but it was the tipping point. So, I bought a Macbook Air M1 2020 16gb 256gb.
 
 ## Unboxing and first impressions

@@ -22,10 +22,6 @@
   <meta name="og:url" content={`https://passoca.dev/blog/${metadata.slug}`} />
   <meta name="og:title" content={`${metadata.title} | Passoca"`} />
   <meta name="og:description" content={metadata.description} />
-  <meta
-    name="og:image"
-    content={`https://passoca.dev/blog/${metadata.slug}.webp`}
-  />
 
   <meta
     name="twitter:url"
@@ -33,13 +29,9 @@
   />
   <meta name="twitter:title" content={`${metadata.title} | Passoca"`} />
   <meta name="twitter:description" content={metadata.description} />
-  <meta
-    name="twitter:image"
-    content={`https://passoca.dev/blog/${metadata.slug}.webp`}
-  />
 </svelte:head>
 
 <h1>{metadata.title}</h1>
-<div class="info">{formatDate(metadata.date)}</div>
+<div class="info">{formatDate(metadata.date, true)}</div>
 <!-- Here we'll load the component of the blog post page itself -->
 <svelte:component this={page} />

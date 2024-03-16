@@ -75,6 +75,7 @@ header
   top: 0
   transform: translateX(-50%)
   background-color: var(--app-color-background)
+  box-shadow: 0px 0px 30px 20px var(--app-color-background)
   & > div
     @apply flex justify-between py-4 mx-auto
   a.logo
@@ -89,14 +90,7 @@ header
       font-size: .8rem
     .actual
       color: var(--app-color-primary)
-  &::after
-    content: ''
-    display: block
-    position: absolute
-    top: 100%
-    height: 80px
-    width: 100%
-    background-image: linear-gradient(to bottom, var(--app-color-background), transparent)
+
 .icons
   @apply flex h-full items-center my-auto gap-2
   a
