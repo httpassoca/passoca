@@ -13,10 +13,10 @@
       on:mouseleave={() => (animation = false)}
     >
       <lottie-player
-        src={`/lottie/about.json`}
+        src={`/lottie/logo.json`}
         loop
         autoplay
-        style="transform: scale(2.2)"
+        style="transform: scale(9.2)"
       />
     </a>
     <nav class="hidden md:flex">
