@@ -1,10 +1,5 @@
 import adapter from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
-import { mdsvex } from 'mdsvex';
-import rehypeAutolink from 'rehype-autolink-headings';
-import rehypeSlug from 'rehype-slug';
-import remarkToc from 'remark-toc';
-
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -14,29 +9,8 @@ const config = {
     preprocess({
       postcss: true
     }),
-    mdsvex({
-      extensions: ['.svelte', '.md', '.svx'],
-      remarkPlugins: [
-        [remarkToc]
-      ],
-      rehypePlugins: [
-        rehypeSlug,
-        [
-          rehypeAutolink, { // Adds hyperlinks to the headings, requires rehypeSlug
-            behavior: 'prepend',
-            content: {
-              type: 'element',
-              tagName: 'span',
-              properties: { className: ['heading-link'] },
-              children: [{ type: 'text', value: '#' }]
-            }
-          }
-        ],
-      ],
-      smartypants: true,
-    })
   ],
-  extensions: ['.svelte', '.md', '.svx'],
+  extensions: ['.svelte'],
   kit: {
     adapter: adapter(),
     // hydrate the <div id="svelte"> element in src/app.html

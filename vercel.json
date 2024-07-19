@@ -2,19 +2,9 @@
   "version": 2,
   "redirects": [
     {
-      "source": "/github",
+      "source": "/instagram",
       "permanent": false,
-      "destination": "https://github.com/httpassoca"
-    },
-    {
-      "source": "/linkedin",
-      "permanent": false,
-      "destination": "https://linkedin.com/in/passoca/"
-    },
-    {
-      "source": "/twitter",
-      "permanent": false,
-      "destination": "https://twitter.com/httpassoca"
+      "destination": "https://instagram.com/guilherns"
     }
   ]
 }

@@ -1,9 +1,7 @@
 <script lang="ts">
-  import ChangeTheme from "./ChangeTheme.svelte";
-  import { theme } from "$lib/stores/theme.store";
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import { page } from "$app/stores";
-  import SVG from "./Base/AppSVG.svelte";
+  import AppSvg from "./Base/AppSVG.svelte";
   let animation = false;
 </script>
 
@@ -35,35 +33,21 @@
       {/if}
     </a>
     <nav class="hidden md:flex">
-      <a class:actual={$page.url.pathname === "/career"} href="/career"
-        >career</a
-      >
       <a class:actual={$page.url.pathname === "/projects"} href="/projects"
-        >projects</a
+        >Projetos</a
       >
-      <a class:actual={$page.url.pathname === "/blog"} href="/blog">blog</a>
-      <a class:actual={$page.url.pathname === "/notes"} href="/notes">notes</a>
-      <!-- <a class:actual={$page.url.pathname === "/contact"} href="/contact">contact</a> -->
+      <a class:actual={$page.url.pathname === "/about"} href="/about">Sobre</a>
+      <a class:actual={$page.url.pathname === "/contact"} href="/contact"
+        >Contato</a
+      >
+      <AppSvg
+        name={"instagram"}
+        alt={`instagram icon`}
+        fill={"white"}
+        height="23"
+        width="23"
+      />
     </nav>
-    <div class="icons">
-      <a href="/linkedin" target="_blank">
-        <SVG
-          name="linkedin"
-          width="23"
-          height="23"
-          fill={$theme === "dark" ? "#e0e0e0" : "black"}
-        />
-      </a>
-      <a href="/github" target="_blank">
-        <SVG
-          name="github"
-          width="23"
-          height="23"
-          fill={$theme === "dark" ? "#e0e0e0" : "black"}
-        />
-      </a>
-      <ChangeTheme />
-    </div>
   </div>
 </header>
 
@@ -84,31 +68,10 @@ header
     width: 35px
   nav
     align-items: center
-    gap: 16px
+    gap: 48px
     a
       transition: all .35s
       font-size: .8rem
     .actual
       color: var(--app-color-primary)
-
-.icons
-  @apply flex h-full items-center my-auto gap-2
-  a
-    line-height: 24px
-    display: block
-    position: relative
-    margin-right: 14px
-    &::after
-      content: ''
-      height: 4px
-      width: 4px
-      display: block
-      position: absolute
-      right: -14px
-      border-left: 3px solid transparent
-      border-right: 3px solid transparent
-      border-bottom: 5px solid var(--app-color-primary)
-      top: 53%
-      transform: translateY(-50%)
-
 </style>

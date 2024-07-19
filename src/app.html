@@ -6,23 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="color-scheme" content="light dark coffee">
-  <meta name="author" content="Rafael Freitas" />
+  <meta name="author" content="Guilherme Henrique" />
   <meta name="og:type" content="website" />
-  <meta name="og:title" content="Rafael Passoca | Frontend Engineer" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:creator" content="@httpassoca" />
+  <meta name="og:title" content="Guilherme Henrique | Motion Design" />
   %sveltekit.head%
 </head>
 
 
 <body>
   <div id="svelte">%sveltekit.body%</div>
-  <script>
-    const localTheme = localStorage.getItem('theme');
-    const theme = localTheme || 'dark';
-    document.body.dataset.theme = theme;
-    localStorage.setItem('theme', theme);
-  </script>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </body>
 
