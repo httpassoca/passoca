@@ -9,7 +9,6 @@
     originalImage?: TImage;
   };
   import { onMount } from "svelte";
-  import AppLoader from "./AppLoader.svelte";
   import "photoswipe/style.css";
 
   import PhotoSwipeLightbox from "photoswipe/lightbox";
@@ -55,7 +54,7 @@
     </a>
   {:else}
     <div class="flex justify-center">
-      <AppLoader height={120} />
+      <!-- <AppLoader height={120} /> -->
     </div>
   {/if}
 </div>

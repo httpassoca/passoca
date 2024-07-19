@@ -4,13 +4,10 @@
 </script>
 
 <Content page>
-  <lottie-player src={`/lottie/projects.json`} loop autoplay />
+  <Title>Sobre</Title>
+  <lottie-player src={`/lottie/about.json`} loop autoplay />
 </Content>
 
 <style lang="sass">
-.grid-icons
-  margin-top: 15px
-  display: grid
-  grid-gap: 20px
 
 </style>
