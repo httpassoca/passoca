@@ -54,7 +54,7 @@
       <div class="image">
         <img
           loading="lazy"
-          src="https://tbnaluslgxzikblascgb.supabase.co/storage/v1/object/sign/passoca/images/profile_pic.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwYXNzb2NhL2ltYWdlcy9wcm9maWxlX3BpYy5wbmciLCJpYXQiOjE2ODgwNjk1MjIsImV4cCI6MTcxOTYwNTUyMn0.-2wlKr-QjliMAfmi4YToEQ7DDhFYKwbn0xbQhhfbrQo&t=2023-06-29T20%3A12%3A02.581Z"
+          src="https://tbnaluslgxzikblascgb.supabase.co/storage/v1/object/sign/passoca/images/profile_pic.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwYXNzb2NhL2ltYWdlcy9wcm9maWxlX3BpYy5wbmciLCJpYXQiOjE3Mjg2NTA3NTEsImV4cCI6MTg1NDc5NDc1MX0.LZ7jJYzAnDYYN7auNIDFQedh2UaPn5DhnOGHtYcPyXY&t=2024-10-11T12%3A45%3A51.986Z"
           alt="my profile"
         />
       </div>
@@ -114,8 +114,5 @@
     height: 100%
     width: 100%
     transition: all .65s cubic-bezier(0.215,0.61,0.355,1)
-    &:hover
-      transform: scale(2)
-      top: 38%
-      left: 10%
+
 </style>
