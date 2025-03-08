@@ -6,7 +6,9 @@ import { supabase } from "$lib/supabase";
 export const prerender = true;
 
 export async function GET() {
-  const { data } = await supabase.storage.from("passoca").list("notes");
+  let { data } = await supabase.storage.from("passoca").list("notes");
+  if (!data) data = [];
+
   let notes: Note[] = [];
   data.map((note) => {
     let title = note.name.slice(0, -3).replace(/-/g, " ");

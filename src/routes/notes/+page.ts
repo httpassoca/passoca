@@ -8,9 +8,10 @@ export const load = (async () => {
     return {};
   }
 
-  const { data } = await supabase.storage
+  let { data } = await supabase.storage
     .from("passoca")
     .list("notes", { sortBy: { column: "updated_at", order: "desc" } });
+  if (!data) data = [];
 
   let notes: Note[] = [];
   data.map((note) => {
