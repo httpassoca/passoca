@@ -17,7 +17,7 @@
 </script>
 
 <div {id} class="card bg-gray-800">
-  <div class="header" on:click={extend}>
+  <div class="header" on:click={extend} on:keypress={extend}>
     <span>
       {title}
     </span>

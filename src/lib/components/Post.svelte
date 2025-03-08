@@ -43,21 +43,6 @@
       color: var(--app-color-shine-text)
   > div
     padding: 8px
-  .header
-    display: grid
-    border-radius: .3em .3em 0 0
-    place-items: flex-end
-    height: 140px
-    background-size: cover
-    background-position: center
-    background-repeat: no-repeat
-    color: white
-    font-size: .8rem
-    filter: drop-shadow(0px 0px 3px black)
-    span
-      background-color: #000000cc
-      padding: 2px 6px
-      border-radius: 4px
   .tags
     display: flex
     gap: 6px

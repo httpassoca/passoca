@@ -74,6 +74,7 @@ Well, green is my favorite color, so I made it the main here. Of course, not eas
         class="color"
         style="background-color: {color}"
         on:click={() => copy(color)}
+        on:keydown={() => copy(color)}
       >
         <span class="flex gap-2">{color} <Icon src={Duplicate} size="23" /></span>
       </div>
