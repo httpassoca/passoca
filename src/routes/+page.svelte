@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { PageData } from "./$types";
-  import { theme } from "$lib/stores/theme.store";
   import Content from "$lib/components/Base/AppContent.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
-  import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import AppSvg from "$lib/components/Base/AppSVG.svelte";
+  import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import type { SVGNames } from "$lib/data/svgs";
+  import { theme } from "$lib/stores/theme.store";
+  import type { PageData } from "./$types";
 
   export let data: PageData;
   export let { music } = data;
@@ -54,8 +54,8 @@
       <div class="image">
         <img
           loading="lazy"
-          src="https://tbnaluslgxzikblascgb.supabase.co/storage/v1/object/sign/passoca/images/profile_pic.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwYXNzb2NhL2ltYWdlcy9wcm9maWxlX3BpYy5wbmciLCJpYXQiOjE3Mjg2NTA3NTEsImV4cCI6MTg1NDc5NDc1MX0.LZ7jJYzAnDYYN7auNIDFQedh2UaPn5DhnOGHtYcPyXY&t=2024-10-11T12%3A45%3A51.986Z"
-          alt="my profile"
+          src="https://tbnaluslgxzikblascgb.supabase.co/storage/v1/object/sign/passoca/images/profile.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwYXNzb2NhL2ltYWdlcy9wcm9maWxlLmpwZyIsImlhdCI6MTc0MjgxMzM0OSwiZXhwIjoxODM3NDIxMzQ5fQ.AStmk3P4GG4otVnb9UY5qk7JcsupyoDo62rRkYgpHVw"
+          alt="profile_picture"
         />
       </div>
       <div class="flex justify-center mt-4 gap-4">

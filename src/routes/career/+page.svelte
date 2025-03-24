@@ -1,7 +1,7 @@
 <script lang="ts">
   import Content from "$lib/components/Base/AppContent.svelte";
-  import Title from "$lib/components/Base/AppTitle.svelte";
   import Link from "$lib/components/Base/AppLink.svelte";
+  import Title from "$lib/components/Base/AppTitle.svelte";
   import Experience from "$lib/components/Experience.svelte";
 
   import { ctw, jmv, senai, spiry, uemg } from "$lib/data/experiences";
@@ -11,17 +11,25 @@
   <Title>Work</Title>
   <div class="my-6">
     <Experience experience={ctw}>
-      <li>Scrum methodology</li>
-      <li>Tasks development alongside with PO and UX designers</li>
-      <li>Continous feedback shared with team</li>
-      <li>Maintained 4 internal projects including a design system</li>
-      <li>Learned DevOps principles</li>
+      <li>
+        Designed and built infrastructure for an Angular microfrontend
+        application within a monorepo, utilizing micro-deployments.
+      </li>
+      <li>Maintained 4 internal projects including another design system.</li>
+      <li>
+        Developed and maintained a Frontend Standards Guidance for BMW teams.
+      </li>
+      <li>
+        Created an application to collect package usage statistics, including
+        the migration of old data.
+      </li>
+      <li>Created well-written documentation for the products.</li>
       <li>
         <b>Tools used:</b> Jira, Bitbucket, Confluence, Windows, WSL, Docker
       </li>
       <li>
-        <b>Tech stack:</b> Angular 8-14, React, Jasmine, Java (Spring / Quarkus),
-        PostgreSQL, Jenkins, Kubernetes, Terraform, Ansible, Azure, NGINX,
+        <b>Tech stack:</b> Angular 8-17, React, Jasmine, Java (Spring / Quarkus),
+        PostgreSQL, Jenkins, Kubernetes, Terraform, Ansible, Azure, NGINX
       </li>
     </Experience>
     <Experience experience={jmv}>
