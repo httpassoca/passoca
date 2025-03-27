@@ -1,9 +1,9 @@
 <script lang="ts">
-  import ChangeTheme from "./ChangeTheme.svelte";
-  import { theme } from "$lib/stores/theme.store";
-  import Loader from "$lib/components/Base/AppLoader.svelte";
   import { page } from "$app/stores";
+  import Loader from "$lib/components/Base/AppLoader.svelte";
+  import { theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
+  import ChangeTheme from "./ChangeTheme.svelte";
   let animation = false;
 </script>
 
@@ -35,6 +35,7 @@
       {/if}
     </a>
     <nav class="hidden md:flex">
+      <a class:actual={$page.url.pathname === "/"} href="/">home</a>
       <a class:actual={$page.url.pathname === "/career"} href="/career"
         >career</a
       >
