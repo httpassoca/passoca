@@ -1,9 +1,9 @@
-import adapter from '@sveltejs/adapter-vercel';
-import preprocess from 'svelte-preprocess';
+import adapter from '@sveltejs/adapter-node';
 import { mdsvex } from 'mdsvex';
 import rehypeAutolink from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import remarkToc from 'remark-toc';
+import preprocess from 'svelte-preprocess';
 
 
 /** @type {import('@sveltejs/kit').Config} */
