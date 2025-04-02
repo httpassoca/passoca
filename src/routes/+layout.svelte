@@ -1,11 +1,20 @@
 <script lang="ts">
-  import "../app.css";
-  import "../sass/global.sass";
-  import Header from "$lib/components/Header.svelte";
+  import { page } from "$app/stores";
   import FloatNavButton from "$lib/components/FloatNavButton.svelte";
+  import Header from "$lib/components/Header.svelte";
   import PageTransition from "$lib/components/PageTransition.svelte";
   import { theme } from "$lib/stores/theme.store";
-  import { page } from "$app/stores";
+  import { viewportWidth } from "$lib/stores/window.store";
+  import { onMount } from "svelte";
+  import "../app.css";
+  import "../sass/global.sass";
+
+  onMount(() => {
+    viewportWidth.set(window.innerWidth);
+    window.addEventListener("resize", () => {
+      viewportWidth.set(window.innerWidth);
+    });
+  });
 </script>
 
 <svelte:head>

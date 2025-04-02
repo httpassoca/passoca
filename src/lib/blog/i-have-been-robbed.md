@@ -22,6 +22,6 @@ One thing I realised about being robbed is that my data on the Macbook was very 
 
 I sold my gamer laptop (which, thank God, was separated) and, for 100 euros more, I bought another used Macbook. The same model, but white instead of grey, which I didn't like very much. This time, I ignored my freedom and activated FindMy. My strategy for finding it if it's stolen, apart from FindMy, is to scratch the casing a lot and then put those covers over it. That way, my Mac will have my "signatures" and it will still be beautiful, but if it happens to be stolen and placed in online marketplaces, I'll be able to recognise it by the marks. Maybe I'm exaggerating or maybe this isn't the smartest decision, but it won't cost me anything, apart from the Mac cover, which I already intended to buy anyway. It's just that the [DBrand](https://dbrand.com/) ones are very nice:
 
-<Image post="i-have-been-robbed" img="dbrand-example" alt="DBrand skins example"/>
+<Image post="i-have-been-robbed" img="dbrand-example" alt="DBrand skins example" maxHeight={526} aspectRatio={0.75}/>
 
 I wanted to write this post to show you what an excellent laptop I consider the Macbook to be. Two months of use was enough to make me sell my gamer laptop and buy another Macbook, even if it was used. Of course, I didn't intend to "change" Macbooks so quickly, but due to the event...
