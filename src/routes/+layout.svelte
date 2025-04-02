@@ -11,11 +11,10 @@
 
   onMount(() => {
     viewportWidth.set(window.innerWidth);
-    window.addEventListener("resize", () => {
-      viewportWidth.set(window.innerWidth);
-    });
   });
 </script>
+
+<svelte:window bind:innerWidth={$viewportWidth} />
 
 <svelte:head>
   <link rel="icon" href="/favicons/{$theme}-logo.svg" />

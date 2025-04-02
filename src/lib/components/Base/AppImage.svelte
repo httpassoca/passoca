@@ -18,6 +18,7 @@
   export let img: string;
   export let alt: string;
   export let maxHeight: number = 0;
+  export let maxWidth: number = 0;
 
   let imageHeight: number = 120;
 
@@ -36,17 +37,15 @@
     }
   };
 
-  const calculateHeight = (maxH: number): number => {
+  const calculateHeight = (maxH: number, maxW: number): number => {
     if (!maxH) return 120;
 
     let imageWidth = 0;
     let imageH = 0;
-    let maxWidth = 720;
-    let aspectRatio = maxWidth / maxH;
+    let aspectRatio = maxW / maxH;
 
     // Calculate image width based on aspect ratio and viewport width (added container padding)
-    imageWidth = Math.min(maxWidth, $viewportWidth);
-    720 / 1.3;
+    imageWidth = Math.min(maxW, $viewportWidth - 32);
     // Calculate image height based on aspect ratio and calculated image width
     imageH = imageWidth / aspectRatio;
 
@@ -60,8 +59,11 @@
 
   // This should calculate the height of the image before it loads
   $: if (!images.imgs?.length && $viewportWidth) {
-    imageHeight = calculateHeight(maxHeight);
+    imageHeight = calculateHeight(maxHeight, maxWidth);
   }
+  viewportWidth.subscribe(() => {
+    imageHeight = calculateHeight(maxHeight, maxWidth);
+  });
 
   onMount(async () => {
     images = await fetchImages();
@@ -77,11 +79,7 @@
   });
 </script>
 
-<div
-  class="pswp-gallery"
-  id={img}
-  style={`height: ${images.imgs?.length ? "unset" : imageHeight + "px"}`}
->
+<div class="pswp-gallery" id={img} style={`height: ${imageHeight + "px"}`}>
   {#if images.imgs?.length}
     <a
       href={images.originalImage.url}

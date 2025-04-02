@@ -32,13 +32,13 @@ The problem is that will be needed a lot of apps to fix a lot of things. For som
 
 Compare those configs, between Windows and Mac:
 
-<Image post="another-first-macbook-experience" img="windows-settings" alt="A draw of my organization based on PARA method" maxHeight={620}/>
+<Image post="another-first-macbook-experience" img="windows-settings" alt="some widnows OS settings" maxHeight={620} maxWidth={700}/>
 
-<Image post="another-first-macbook-experience" img="apple-settings" alt="A draw of my organization based on PARA method" maxHeight={386}/>
+<Image post="another-first-macbook-experience" img="apple-settings" alt="some apple OS settings" maxHeight={386} maxWidth={491}/>
 
 Yes, I really care about the middle click in the trackpad. So I had to install a third-party app. Of course is a paid app and I’m using trial period, but at least there are a lot of another functions I can add and it's compatible with many others Apple tools. The problem is MacOS don’t have this natively, in other words, the touch isn’t so “fluid” like the others or the ones from Windows. It doesn’t disturb, but you notice that it was not made to work that way. 
 
-<Image post="another-first-macbook-experience" img="middle-click-app" alt="A draw of my organization based on PARA method" maxHeight={343}/>
+<Image post="another-first-macbook-experience" img="middle-click-app" alt="apple OS Better Touch Tool application" maxHeight={343} maxWidth={700}/>
 
 This leads to another problem. Jesus, Apple, how do you charge so much for simple things. App to resize window, app to keep clipboard, app to middle click, all paid. The majority of those are free or even natives in **other systems**. Today, isn’t a problem for me to pay, but before my 17 I didn’t have my own money, so I couldn’t have those features. Ok, apple boys, there are not all necessary, but think that **in another systems I could have**.
 
@@ -49,12 +49,12 @@ Honestly, the UX isn’t my favorite. I don’t like the system icons, the Finde
 ## What I appreciate
 
 
-<Image post="another-first-macbook-experience" img="apps-fullscreen" alt="A draw of my organization based on PARA method" maxHeight={174}/>
+<Image post="another-first-macbook-experience" img="apps-fullscreen" alt="fullscreen apps on macOS" maxHeight={174} maxWidth={700}/>
 
 I must admit, its PRETTY SICK to put apps in full-screen in a separate desktop just for them. When I saw that, I got impressed, in love, passionate. Already with 1 week of usage, I got at least six full-screen apps in a common use. Besides, when you put a second window in a full-screen app you can divide the screen equally for the apps, it works perfectly. At present, while I write, it’s kind of messy: 
 
 
-<Image post="another-first-macbook-experience" img="multiple-desktops" alt="A draw of my organization based on PARA method" maxHeight={87}/>
+<Image post="another-first-macbook-experience" img="multiple-desktops" alt="multiple desktops on macOS" maxHeight={87} maxWidth={700}/>
 
 Something that totally change the multiple desktops usage is, in many screens, they don’t are locked in the desktops. That is, I can switch between desktops on my Mac's screen while my secondary display always shows the same app. That’s **magic**, for who never saw before.
 
