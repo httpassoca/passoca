@@ -23,7 +23,7 @@ After I saw the <Link to="https://developer.spotify.com/console/get-users-curren
 Start creating an integration in <Link to="https://developer.spotify.com/dashboard/">Spotify Dashboard</Link>
 . After, click on **edit settings** and add `https://getyourspotifyrefreshtoken.herokuapp.com/callback` on **Redirect URIs**.
 
-<Image post="spotify-current-track" img="spotify-integration" alt="Spotify Integration example" maxHeight={592} aspectRatio={0.84}/>
+<Image post="spotify-current-track" img="spotify-integration" alt="Spotify Integration example" maxHeight={740}/>
 
 Next, copy both client **id** and **secret**, put them at <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">this</Link> website, mark `user-read-currently-playing` and submit it.
 
@@ -69,7 +69,7 @@ const getNowPlaying = async () => {
 ```
 Now you have a giant JSON containing an `item` where have all informations about your current track. If I'm listening Spotify right now, you will see in my [about page](../about). Should be like this:
 
-<Image post="spotify-current-track" img="now-playing" alt="example in /about page" maxHeight={228} aspectRatio={0.32}/>
+<Image post="spotify-current-track" img="now-playing" alt="example in /about page" maxHeight={228}/>
 
 ## Fonts
 

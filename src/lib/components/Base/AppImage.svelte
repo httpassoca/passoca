@@ -17,7 +17,6 @@
   export let post: string;
   export let img: string;
   export let alt: string;
-  export let aspectRatio: number = 0;
   export let maxHeight: number = 0;
 
   let imageHeight: number = 120;
@@ -37,31 +36,33 @@
     }
   };
 
-  const calculateHeight = (maxH: number, aR: number): number => {
-    if (!maxH || !aR) return 120;
+  const calculateHeight = (maxH: number): number => {
+    if (!maxH) return 120;
 
     let imageWidth = 0;
-    let iH = 0;
-    let maxWidth = 700;
+    let imageH = 0;
+    let maxWidth = 720;
+    let aspectRatio = maxWidth / maxH;
 
     // Calculate image width based on aspect ratio and viewport width (added container padding)
-    imageWidth = Math.min(maxWidth, $viewportWidth - 32);
-
+    imageWidth = Math.min(maxWidth, $viewportWidth);
+    720 / 1.3;
     // Calculate image height based on aspect ratio and calculated image width
-    iH = imageWidth / aR;
+    imageH = imageWidth / aspectRatio;
 
     // Ensure the calculated image height does not exceed the maximum height
-    if (iH > maxH) {
-      iH = maxH;
-      imageWidth = iH * aR;
+    if (imageH > maxH) {
+      imageH = maxH;
+      imageWidth = imageH * aspectRatio;
     }
-    return iH;
+    return imageH;
   };
 
   // This should calculate the height of the image before it loads
   $: if (!images.imgs?.length && $viewportWidth) {
-    imageHeight = calculateHeight(maxHeight, aspectRatio);
+    imageHeight = calculateHeight(maxHeight);
   }
+
   onMount(async () => {
     images = await fetchImages();
 

@@ -41,7 +41,7 @@ Also, there are three rules to maintain it.
 
 Okay, of course is much more besides that, many mini-definitions and methodologies that you can use in it. You can check it all <Link to="https://fortelabs.co/blog/para/">here</Link>. But like I say, I the essential already helps me a lot, and I use in that way:
 
-<Image post="para-plus-notion" img="draw" alt="A draw of my organization based on PARA method" maxHeight={515} aspectRatio={0.73}/>
+<Image post="para-plus-notion" img="draw" alt="A draw of my organization based on PARA method" maxHeight={515}/>
 
 Yes, I know, I’m not a designer anymore and we can see why above 🥲. But, as you also can see, my organization isn’t perfect, *but at least is an organization, ok?*
 
@@ -51,17 +51,17 @@ To be honest, since I arrived in Portugal 🇵🇹 I don’t know exactly what I
 
 Right, basically I have a lot of N:N <Link to="https://vertabelo.com/blog/many-to-many-relationship/">(many-to-many)</Link> relations in my Notion. The most important is ✅Tasks database. A task is the most actionable item in my workspace, is basically the productivity basis. In a common day, normally I have 4 tasks (diary, work, workout and always something more  appears). Thanks to <Link to="http://notion.so">Notion</Link>, every task is a page (*actually almost everything*), so I can detail anything that I did in my work, my day, my workout. That’s good because NO ONE can remember everything everyday, even the important things, maybe we have it in mind but tree days is enough to replace with another info. My Tasks database are show mainly in a calendar view with all my tasks:
 
-<Image post="para-plus-notion" img="all-tasks" alt="All my tasks in a calendar view" maxHeight={456} aspectRatio={0.65}/>
+<Image post="para-plus-notion" img="all-tasks" alt="All my tasks in a calendar view" maxHeight={456}/>
 
 *Sorry for the Portuguese + English merged 😅, I am brazilian 🇧🇷 so sometimes its just natural.*
 
 As you can see, I don’t write everything yet, but I’m trying, c’mon. Almost all my tasks have relation with the Areas and Projects. Sometimes, when in one task I’m writing something that can be reused, I prefer to link it to a Resource. Like, When I was translating the P.A.R.A article, it was a task but I linked with a page in resources and write there:
 
-<Image post="para-plus-notion" img="resources-from-tasks" alt="A Resource linked to a task with all my notes" maxHeight={386} aspectRatio={0.55}/>
+<Image post="para-plus-notion" img="resources-from-tasks" alt="A Resource linked to a task with all my notes" maxHeight={386}/>
 
 Look, I have the relation “Resource” in tasks database to link in my resources table. Also, to make easier to my brain, I use the same icon of Resources database in the task (🗃️). You can see that I use templates in my tasks to fill them faster along the day. For example, my Workout 💪🏼 template:
 
-<Image post="para-plus-notion" img="workout-template" alt="My workout template" maxHeight={750} aspectRatio={1.07}/>
+<Image post="para-plus-notion" img="workout-template" alt="My workout template" maxHeight={750}/>
 
 All of that is auto-written by Notion, so in my workout beginning I create a task, select the template and start filling it. I don’t have to select the emoji, colors, area or type. I configure it once and start using. I also have a template for my Diary 🗞️, where basically I have space to describe my day and a habits checklist (*don’t ask if I check they all* 👀). My Daily🗒️ template, where I summarize what I did in the job, also what I have to do in the next day. And finally a daily task ⬜ template, where I use this blank square emoji when create, but when I finish I put a ✅ instead.
 
@@ -69,11 +69,11 @@ All of that is auto-written by Notion, so in my workout beginning I create a tas
 
 Following the actionable order, Projects is where you put tasks. At least, was supposed to be 😅. Even though I don't have many projects, there is a very good flow with they and tasks in Notion. All because I can create a relation between a task and a project and see the tasks in the project page. Notion have an excellent system of information input and output. Look my Projects page: 
 
-<Image post="para-plus-notion" img="all-projects" alt="My board with all projects" maxHeight={283} aspectRatio={0.40}/>
+<Image post="para-plus-notion" img="all-projects" alt="My board with all projects" maxHeight={283}/>
 
 I know. Just two projects. I warned you. But look, I can create projects and change the status between To do, Doing and Done. That makes it easier to visualize everything. But everyone knows that, is a kanban. The magic is here, in each project: 
 
-<Image post="para-plus-notion" img="project" alt="An example of my project" maxHeight={636} aspectRatio={0.90}/>
+<Image post="para-plus-notion" img="project" alt="An example of my project" maxHeight={636}/>
 
 First, **every project has a due date**. Second, **every project has an objective**. And of course, **every project has tasks**. All of this tree items can be modified by time, but when creating, is needed at least one aim, one due date and one task (*even if it's "getting to the goal”*).
 
@@ -91,13 +91,13 @@ I need to be honest with myself, **Isn’t good to maintain an Area if I am not 
 
 I like to create a database to my areas and show they in a gallery view, this allows me to put images and consequently see all my areas even if I just want one in that moment. By doing this, I can’t see my areas on Notion’s sidebar 😔, but I prefer that instead of creating sub-pages, *but of course, just a personal thing*. Here are my areas:
 
-<Image post="para-plus-notion" img="all-areas" alt="My areas gallery" maxHeight={402} aspectRatio={0.57}/>
+<Image post="para-plus-notion" img="all-areas" alt="My areas gallery" maxHeight={402}/>
 
 *As you can see, I also don’t use much banners and decorations on Notion. I do this because, at least now, I’m not using Notion with 100% (I would say not even 70%) properly, I’m in the middle of the way yet, so I don’t think that add decorations (distractions) would help me, in fact, it would make it difficult. I’m hyperactive, can’t give me possibilities to distract myself.*
 
 Well, talking about an Area page, I like to think that areas are the bigger reference to any item in my Notion. **Should be possible relate every item to an area.** This is why up there, in my beautiful organization image, everything can be pointed to an Area, but the area itself don’t point nothing, just contain the things. Area pages contain specific content and links to the other items: 
 
-<Image post="para-plus-notion" img="areas" alt="My health and books area" maxHeight={299} aspectRatio={0.42}/>
+<Image post="para-plus-notion" img="areas" alt="My health and books area" maxHeight={299}/>
 
 *As you can see, I like to put an inspiring quote in some areas, I think that some glamour isn’t bad. Yes, cringe.*
 
@@ -107,7 +107,7 @@ In right, I create a sub-page with a view to the tasks, projects and resources, 
 
 Well, last but not least, the Resources. This is simple, any information that you think that is useful you keep it here. Any content that you consume and have that feeling “*Oh, this is important*”. I personally save a lot of dev articles, youtube videos, podcasts and my own notes:
 
-<Image post="para-plus-notion" img="resources" alt="Many of my resources listed" maxHeight={342} aspectRatio={0.48}/>
+<Image post="para-plus-notion" img="resources" alt="Many of my resources listed" maxHeight={342}/>
 
 I use a lot of filters and tags to separate them, probably is where I keep most information.
 
