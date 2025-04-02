@@ -11,7 +11,7 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "dependencies": {
-    "@sveltejs/adapter-vercel": "^2.4.2",
+    "@sveltejs/adapter-vercel": "^4.0.0",
     "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
     "photoswipe": "^5.4.3",
@@ -19,7 +19,8 @@
   },
   "devDependencies": {
     "@supabase/supabase-js": "2",
-    "@sveltejs/kit": "^1.5.0",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@types/cookie": "^0.4.1",
     "@types/marked": "^4.0.3",
     "@types/node": "^18.16.0",
@@ -29,7 +30,7 @@
     "autoprefixer": "^10.3.7",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-svelte3": "^3.2.1",
+    "eslint-plugin-svelte3": "^4.0.0",
     "marked": "^4.0.17",
     "mdsvex": "^0.9.8",
     "postcss": "^8.4.24",
@@ -42,14 +43,14 @@
     "rehype-slug": "^5.0.1",
     "remark-toc": "^9.0.0",
     "supabase": "^1.58.1",
-    "svelte": "^3.54.0",
-    "svelte-check": "^2.2.6",
+    "svelte": "^4.0.0",
+    "svelte-check": "^3.4.3",
     "svelte-hero-icons": "^3.0.0",
-    "svelte-preprocess": "^4.9.8",
+    "svelte-preprocess": "^5.0.3",
     "tailwindcss": "^2.2.16",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.3",
-    "vite": "^4.0.0"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0"
   },
   "type": "module",
   "config": {

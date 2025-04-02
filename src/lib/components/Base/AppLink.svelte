@@ -11,7 +11,7 @@
   class:button
   target={blank ? "_blank" : "_self"}
   rel="noopener noreferrer"
-  transition:blur
+  transition:blur|global
 >
   <slot />
 </a>

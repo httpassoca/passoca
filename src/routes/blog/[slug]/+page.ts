@@ -35,7 +35,7 @@ export const load = (({ params }) => {
   const post = posts.find((post) => post.slug === slug);
 
   if (!post) {
-    throw error(404, 'Post not found');
+    error(404, 'Post not found');
   }
 
   return {

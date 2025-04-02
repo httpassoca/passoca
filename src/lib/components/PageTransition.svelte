@@ -31,7 +31,7 @@
 </script>
 
 {#key key}
-  <div in:flush={{ duration, delay: duration }} out:flush={{ duration }}>
+  <div in:flush|global={{ duration, delay: duration }} out:flush|global={{ duration }}>
     <slot />
   </div>
 {/key}
