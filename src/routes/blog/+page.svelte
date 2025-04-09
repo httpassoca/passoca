@@ -7,7 +7,8 @@
 
 <Content page>
   <Title>Posts</Title>
-  <div class="flex flex-col gap-3 mb-4">
+  <i>When you have something to say, silence is a lie.</i>
+  <div class="flex flex-col gap-3 mb-4 mt-1">
     {#each posts as post, i (post.title)}
       {#if i === 0}
         {post.date.substring(0, 4)}
