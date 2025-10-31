@@ -36,7 +36,7 @@
       <div class="image">
         <img
           loading="lazy"
-          src="https://tbnaluslgxzikblascgb.supabase.co/storage/v1/object/sign/passoca/images/profile.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwYXNzb2NhL2ltYWdlcy9wcm9maWxlLmpwZyIsImlhdCI6MTc0MjgxMzM0OSwiZXhwIjoxODM3NDIxMzQ5fQ.AStmk3P4GG4otVnb9UY5qk7JcsupyoDo62rRkYgpHVw"
+          src="https://i.imgur.com/g3QjVEM.jpeg"
           alt="profile_picture"
         />
       </div>
