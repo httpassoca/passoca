@@ -52,7 +52,7 @@
           name="linkedin"
           width="23"
           height="23"
-          fill={$theme === "dark" ? "#e0e0e0" : "black"}
+          fill='var(--app-color-text)'
         />
       </a>
       <a href="/github" target="_blank">
@@ -60,7 +60,7 @@
           name="github"
           width="23"
           height="23"
-          fill={$theme === "dark" ? "#e0e0e0" : "black"}
+          fill='var(--app-color-text)'
         />
       </a>
       <ChangeTheme />

@@ -7,7 +7,7 @@
   import type { Theme } from "../stores/theme.store";
 
   // List of themes
-  const themes: Theme[] = ["dark", "light", "coffee"];
+  const themes: Theme[] = ["dark", "light", "coffee","dracula", "tokyo-night"];
   let currentThemeIndex = 0;
 
   function nextTheme() {
@@ -32,16 +32,6 @@
 </svelte:head>
 
 <button aria-label={themes[currentThemeIndex]} on:click={nextTheme}>
-  {#if currentThemeIndex === 0}
-    <Icon src={Moon} size="23" />
-  {:else if currentThemeIndex === 1}
-    <Icon src={Sun} size="23" />
-  {:else}
-    <SVG
-      name="coffee"
-      width="23"
-      height="23"
-      fill={$theme === "dark" ? "#e0e0e0" : "black"}
-    />
-  {/if}
+{themes[currentThemeIndex]}
 </button>
+
