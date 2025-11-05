@@ -33,4 +33,4 @@ Another thing that makes me want this is the fact that I'll be alone. Really, tr
 
 So how can I do this? Well I don't know exactly. I know I have like seven months to do it. I should build a devops roadmap, or buy a course, or at least talk to devops engineers. That's actually a good idea, there must be a lot of seniors devops guys in my office. The only thing I did until now was booting linux to my home PC. I USE ARCH BTW. Finally I can say it again. Also, I've already decided to go full vim. Probably LazyVim. I tried Vim in 2021 but couldn't get into it much. I didn't think it was worth the struggle. But now I see that it can be fun, and sometimes we should do not-worthy things just because they're fun.
 
-<Image post="i-will-work-at-dublin-as-a-devops-engineer" img="writing-devops-post" alt="screenshot from my omarchy" maxHeight={526}/>
+<Image post="i-will-work-at-dublin-as-a-devops-engineer" img="writing-devops-post" alt="screenshot from my omarchy" maxHeight={438} maxWidth={526}/>

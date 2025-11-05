@@ -43,7 +43,7 @@
         >projects</a
       >
       <a class:actual={$page.url.pathname === "/blog"} href="/blog">blog</a>
-      <a class:actual={$page.url.pathname === "/notes"} href="/notes">notes</a>
+      <!-- <a class:actual={$page.url.pathname === "/notes"} href="/notes">notes</a> -->
       <!-- <a class:actual={$page.url.pathname === "/contact"} href="/contact">contact</a> -->
     </nav>
     <div class="icons">

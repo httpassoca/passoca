@@ -82,7 +82,7 @@
       >goodreads profile</Link
     >.
   </p>
-  <div class="flex flex-wrap gap-3 my-2">
+  <div class="flex flex-wrap gap-3 my-2 md:justify-between">
     {#each books as book (book.link)}
       <a href={book.link} class="w-auto" target="_blank">
         <img
