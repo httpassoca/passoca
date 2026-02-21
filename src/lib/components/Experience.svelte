@@ -1,19 +1,8 @@
 <script lang="ts">
-  import type { SVGNames } from "$lib/data/svgs";
-
   import { theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
 
-  type TExperience = {
-    name: string;
-    site?: string;
-    icon?: SVGNames;
-    image?: string;
-    link?: string;
-    color?: string;
-    time: string;
-    whiteColor?: string;
-  };
+  import type { TExperience } from "$lib/types";
 
   export let experience: TExperience;
   let color = experience.color || "";

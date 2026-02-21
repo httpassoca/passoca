@@ -1,6 +1,6 @@
-export function msToTime(s:number) {
+export function msToTime(s: number) {
   function pad(n: number, z = 2) {
-    return ('00' + n).slice(-z);
+    return ("00" + n).slice(-z);
   }
 
   const ms = s % 1000;
@@ -11,4 +11,3 @@ export function msToTime(s:number) {
 
   return `${pad(mins)}:${pad(secs)}`;
 }
-

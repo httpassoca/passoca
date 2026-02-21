@@ -1,6 +1,6 @@
 <script lang="ts">
   import SVG from "./Base/AppSVG.svelte";
-  import Icon from "svelte-hero-icons/Icon.svelte";
+  import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
   import { Moon, Sun } from "svelte-hero-icons";
   import { onMount } from "svelte";
   import { theme } from "../stores/theme.store";

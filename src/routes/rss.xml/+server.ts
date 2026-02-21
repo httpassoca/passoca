@@ -1,13 +1,18 @@
 import { capitalize } from "$lib/helpers/helpers";
 import { description, url, title } from "$lib/meta";
-import posts, { type Post, type Note } from '$lib/posts';
+import posts, { type Post, type Note } from "$lib/posts";
 import { supabase } from "$lib/supabase";
 
 export const prerender = true;
 
 export async function GET() {
-  let { data } = await supabase.storage.from("passoca").list("notes");
-  if (!data) data = [];
+  // During builds or local dev without env vars, supabase may be disabled.
+  // In that case we still return RSS for blog posts (without notes).
+  let data: any[] = [];
+  if (supabase) {
+    const res = await supabase.storage.from("passoca").list("notes");
+    data = res.data || [];
+  }
 
   let notes: Note[] = [];
   data.map((note) => {
@@ -24,9 +29,9 @@ export async function GET() {
   });
   return new Response(xml([...posts, ...notes]), {
     headers: {
-      'Cache-Control': 'max-age=0, s-maxage=3600',
-      'Content-Type': 'application/xml'
-    }
+      "Cache-Control": "max-age=0, s-maxage=3600",
+      "Content-Type": "application/xml",
+    },
   });
 }
 
@@ -37,27 +42,35 @@ const xml = (posts: (Post | Note)[]) => `
     <link>${url}</link>
     <description>${description}</description>
     ${posts
-    .map(
-      post => 'description' in post ? `
+      .map((post) =>
+        "description" in post
+          ? `
         <item>
           <title>${post.title}</title>
           <description>${post.description}</description>
           <link>${url}/${post.slug}/</link>
           <pubDate>${new Date(post.date).toISOString()}</pubDate>
-          ${post.tags ?
-          post.tags.map(
-            tag => `<category term="${tag}" />`
-          ).join('') : ''
-        }
-          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="${url}/blog/${post.slug}.webp"/>
-          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="${url}/blog/${post.slug}.webp"/>
+          ${
+            post.tags
+              ? post.tags.map((tag) => `<category term="${tag}" />`).join("")
+              : ""
+          }
+          <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="${url}/blog/${
+              post.slug
+            }.webp"/>
+          <media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="${url}/blog/${
+              post.slug
+            }.webp"/>
         </item>
-      ` : `
+      `
+          : `
       <item>
           <title>${post.title}</title>
           <description>${post.slug}</description>
           <link>${url}/notes/#${post.slug}/</link>
           <pubDate>${new Date(post.date).toISOString()}</pubDate>
-        </item>`).join('')}
+        </item>`
+      )
+      .join("")}
   </channel>
-</rss>`
+</rss>`;

@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark coffee" />
+    <meta name="author" content="Rafael Freitas" />
+    <meta name="og:type" content="website" />
+    <meta name="og:title" content="Rafael Passoca | Frontend Engineer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@httpassoca" />
+    %sveltekit.head%
+  </head>
 
-  <meta name="color-scheme" content="light dark coffee">
-  <meta name="author" content="Rafael Freitas" />
-  <meta name="og:type" content="website" />
-  <meta name="og:title" content="Rafael Passoca | Frontend Engineer" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:creator" content="@httpassoca" />
-  %sveltekit.head%
-</head>
-
-
-<body>
-  <div id="svelte">%sveltekit.body%</div>
-  <script>
-    const localTheme = localStorage.getItem('theme');
-    const theme = localTheme || 'dark';
-    document.body.dataset.theme = theme;
-    localStorage.setItem('theme', theme);
-  </script>
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-</body>
-
+  <body>
+    <div id="svelte">%sveltekit.body%</div>
+    <script>
+      const localTheme = localStorage.getItem("theme");
+      const theme = localTheme || "dark";
+      document.body.dataset.theme = theme;
+      localStorage.setItem("theme", theme);
+    </script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </body>
 </html>

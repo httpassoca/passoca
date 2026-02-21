@@ -10,6 +10,7 @@ yarn.lock
 
 
 .svelte-kit
+.vercel
 # Runtime data
 pids
 *.pid

@@ -4,9 +4,9 @@ export const formatDate = (dateStr: string, years: boolean = false) => {
   const format: Intl.DateTimeFormatOptions = {
     month: "short",
     day: "2-digit",
-  }
+  };
 
-  if (years) format.year = 'numeric'
+  if (years) format.year = "numeric";
 
   const dateTimeFormat = new Intl.DateTimeFormat("en", format);
 

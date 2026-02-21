@@ -1,6 +1,5 @@
 import { getSlug } from "./helpers/helpers";
 
-
 type GlobEntry = {
   metadata: PostType;
   default: any;
@@ -16,8 +15,9 @@ type PostType = {
   slug: string;
 };
 
-
-const imports = Object.entries(import.meta.glob<GlobEntry>('./blog/*', { eager: true })).map(([filepath, globEntry]) => {
+const imports = Object.entries(
+  import.meta.glob<GlobEntry>("./blog/*", { eager: true })
+).map(([filepath, globEntry]) => {
   return {
     metadata: globEntry.metadata,
     content: globEntry.default,
@@ -32,13 +32,13 @@ export type Post = {
       [key: string]: any;
     }
   >;
-  title: string
-  slug: string
-  date: string
-  description: string
-  hidden?: boolean
-  tags: string[]
-}
+  title: string;
+  slug: string;
+  date: string;
+  description: string;
+  hidden?: boolean;
+  tags: string[];
+};
 
 export type Note = {
   title: string;
@@ -46,7 +46,7 @@ export type Note = {
   text?: any;
   date?: string;
   promise?: any;
-}
+};
 
 const posts: Post[] = [];
 for (const path in imports) {
@@ -58,7 +58,7 @@ for (const path in imports) {
     // as a component later on.
     posts.push({
       ...post.metadata,
-      ...post.content
+      ...post.content,
     });
   }
 }
@@ -70,8 +70,8 @@ const filteredPosts = posts
     new Date(a.date).getTime() > new Date(b.date).getTime()
       ? -1
       : new Date(a.date).getTime() < new Date(b.date).getTime()
-        ? 1
-        : 0
-  )
+      ? 1
+      : 0
+  );
 // Expose this info to other files
 export default filteredPosts;

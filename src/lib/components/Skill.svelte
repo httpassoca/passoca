@@ -1,18 +1,8 @@
 <script lang="ts">
-  import type { SVGNames } from "$lib/data/svgs";
-
   import { theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
 
-  type TSkill = {
-    name?: string;
-    icon?: SVGNames;
-    color?: string;
-    link?: string;
-    title?: boolean;
-    skills?: TSkill[];
-    whiteColor?: string;
-  };
+  import type { TSkill } from "$lib/types";
 
   export let skill: TSkill;
   let color = skill.color;

@@ -16,11 +16,11 @@ One of my 2024’s goals is to learn how to speak, listen and write Italian. I a
 
 Because I’m brazilian, I can understand italian with some level of facility, since they’re both latin (which I’m also learning 👀) laguages. But I still have a giant problem: since I don’t know the words, I can’t notice exactly when a word ends and the next starts. Probably the biggest listening challenge when you’re trying to learn a new language. So to help me with that, I decided to watch not only with italian dubbing, but subtitles also. Then I discovered the problem which bring us to this post! Is too hard to find Italian dubbed and subbed animes! At least for non italian natives.
 
-After some research, attemps to manually subtitle the anime, choosing between dubbed or subbed content, trying to switch the anime… I thought *“there should be an open source project to subtitle media with AI”* and searched “ai subtitles” at github:
+After some research, attemps to manually subtitle the anime, choosing between dubbed or subbed content, trying to switch the anime… I thought _“there should be an open source project to subtitle media with AI”_ and searched “ai subtitles” at github:
 
 <Image post="using-whisper-ai-to-learn-italian" img="github-search-results" alt="Github results for search 'ai subtitles'" maxHeight={754} maxWidth={604}/>
 
-*Che bello!* It remembered me about <Link to="https://github.com/openai/whisper"> Whisper AI </Link>. I already pay for the ChatGPT subscription, so I thought, because both came from <Link to="https://openai.com/"> Open AI </Link> I wouldn’t need to pay for this other service. But seems that Whisper AI is… free? Well, it is if you run it on your machine. The installation was pure simple, I already had Python installed so I just need to install some packages and rust tools, but it didn’t take more than 3 minutes to get it running:
+_Che bello!_ It remembered me about <Link to="https://github.com/openai/whisper"> Whisper AI </Link>. I already pay for the ChatGPT subscription, so I thought, because both came from <Link to="https://openai.com/"> Open AI </Link> I wouldn’t need to pay for this other service. But seems that Whisper AI is… free? Well, it is if you run it on your machine. The installation was pure simple, I already had Python installed so I just need to install some packages and rust tools, but it didn’t take more than 3 minutes to get it running:
 
 <Image post="using-whisper-ai-to-learn-italian" img="wolves-music-subtitles" alt="whisper ai use in Wolves music" maxHeight={152} maxWidth={700}/>
 
@@ -28,11 +28,11 @@ It is pretty simple. You choose a file with audio (it can be a video), it will t
 
 <Image post="using-whisper-ai-to-learn-italian" img="hallucination-problem" alt="multiple random non-sense subtitles generated" maxHeight={322} maxWidth={700}/>
 
-*Che cos'è !?* It was detecting this weird text in the opening of the episode… This is what made me learn about <Link to="https://www.ibm.com/topics/ai-hallucinations"> AI hallucinations </Link>, which is basically when the AI brings some wrong data to the calculations and make mistakes. But I was not worried about it because most of the content was working fine... right?, those weird texts just appears when there was no voice in the scene. Then I watched that: 
+_Che cos'è !?_ It was detecting this weird text in the opening of the episode… This is what made me learn about <Link to="https://www.ibm.com/topics/ai-hallucinations"> AI hallucinations </Link>, which is basically when the AI brings some wrong data to the calculations and make mistakes. But I was not worried about it because most of the content was working fine... right?, those weird texts just appears when there was no voice in the scene. Then I watched that:
 
 <Image post="using-whisper-ai-to-learn-italian" img="piccolo-error" alt="DBZ scene from Piccolo with subs 'No,no,no,no,...' fullfilling half of the screen" maxHeight={445} maxWidth={700}/>
 
-No, no, no, no, no, no, no, no, no 😁. It made me think, maybe I can fix that? Those hallucinations usually are the same sentences or repeated subtitles. So I went back in the Whisper AI Github and saw the community leading with this problem since the launch of the product, in the beginning of 2023. 
+No, no, no, no, no, no, no, no, no 😁. It made me think, maybe I can fix that? Those hallucinations usually are the same sentences or repeated subtitles. So I went back in the Whisper AI Github and saw the community leading with this problem since the launch of the product, in the beginning of 2023.
 
 <Image post="using-whisper-ai-to-learn-italian" img="github-issues1" alt="A issue about hallucination founded at whisper-ai github" maxHeight={746} maxWidth={700}/>
 
@@ -57,7 +57,7 @@ That takes more time to run. Problably due the medium model, it takes almost an 
 
 <Image post="using-whisper-ai-to-learn-italian" img="repeated-strings-error" alt="error at terminal showing repeated subtitles" maxHeight={326} maxWidth={700}/>
 
-*Mannaggia*… Repeated subtitles and this [ambient sound] indicator. I added one specific option in the prompt to evict entire episodes with the same repeated subtitle, the `--condition_on_previous_text` as False. It cames True by default, but seems that when it catch some multiple repeated subtitles (like '[musica]' in my case), it can enter in a loop and fill every subtitle as that. But still, I didn't want those sound indicators. So I thought ok 😪, I can’t run of formatting the subtitles. So I ask ChatGPT for Python scripts to lead with this. Here are the prompts I used and the result:
+_Mannaggia_… Repeated subtitles and this [ambient sound] indicator. I added one specific option in the prompt to evict entire episodes with the same repeated subtitle, the `--condition_on_previous_text` as False. It cames True by default, but seems that when it catch some multiple repeated subtitles (like '[musica]' in my case), it can enter in a loop and fill every subtitle as that. But still, I didn't want those sound indicators. So I thought ok 😪, I can’t run of formatting the subtitles. So I ask ChatGPT for Python scripts to lead with this. Here are the prompts I used and the result:
 
 - write a python script to read an srt file and remove the subtitles with the string "[Musica]"
 - now I need you to make this function to read a list of files (that can have just 1 file) and do the same job
@@ -138,7 +138,6 @@ remove_blacklisted_subtitles('input', 'output')
 ```
 
 Now I have my dubbed and subbed italian episodes 🇮🇹
-
 
 <Image post="using-whisper-ai-to-learn-italian" img="whisper-working-terminal" alt="whisper-ai-generating-correct-subtitles-in-terminal" maxHeight={444} maxWidth={700}/>
 

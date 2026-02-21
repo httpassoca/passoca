@@ -7,9 +7,9 @@ tags: [Book review]
 personal: true
 ---
 
-*[This article was translated by Google]*
-## Table of Contents
+_[This article was translated by Google]_
 
+## Table of Contents
 
 ## Introduction
 
@@ -35,9 +35,9 @@ This was something I had never noticed. The most satisfying feeling for people i
 
 Think of the royalty we see in movies, the superhero villains and kids. Why would a king insist on reverence / etiquette behaviors when he is the most powerful being in that place? Why do people adopt pets that have no use, other than needing care, affection and protection? Have you ever noticed what a child does when he wants attention (or a teenager)? Simply because these people like to feel important to someone, to something.
 
-*“If some people need the feeling of importance so much that they go crazy for it, imagine the good we can do for them by giving them honest acknowledgment”*
+_“If some people need the feeling of importance so much that they go crazy for it, imagine the good we can do for them by giving them honest acknowledgment”_
 
-*“Nothing is more effective in annihilating people's ambitions than criticism from their superiors”*
+_“Nothing is more effective in annihilating people's ambitions than criticism from their superiors”_
 
 To use this to our advantage, Dale recommends that we give sincere and honest praise. Along with the ability to understand, giving a sincere compliment, showing respect, showing curiosity, are all factors that will benefit you in society.
 
@@ -48,7 +48,7 @@ I felt this very strongly in me, as I'm a guy who doesn't really like "unnatural
 It means that you will not cause changes in your attitudes overnight. People usually tend to notice other people's manners and say "Oh, so-and-so is like that, cycrano is like that". These personalities, most of them are natural, right? They're from people who've always been like that, right? So probably, but that doesn't mean you can't decide what your personality is. If you force yourself, little by little, with small acts (which, of course, will be boring at first), you can change your personality from time to time too.
 I believed this was wrong, it was forcing a personality. But damn, if that's the case, fuck it, because if my natural **self** is unbearable, I'll be like this forever. So no, you can be the nice guy, the bad boy guy, the cute girl, the tantrum girl, the respectful guy, whatever, you can be whatever “type” you want. But your habits don't change on their own, you have to force it on yourself, until it becomes natural. Yeah, it's a bit of a breeze.
 
-*“Good manners are made up of small sacrifices”*
+_“Good manners are made up of small sacrifices”_
 
 ## People's names are important
 
@@ -74,7 +74,7 @@ This also happens a lot in discussions with my friends. But I've gotten used to 
 
 ## Get People to Say Yes (Socratic Method)
 
-Here he mentions a Socratic method that has been proven by you, you know, science guys, which boils down to looking for “sims” in conversation. This is because a “no” is a psychological barrier (according to Professor Overstreet in *Influencing Human Behavior*). And the “yes” provokes the opposite of that. It's a bit logical, I think it works, but it's already a more difficult level to enjoy.
+Here he mentions a Socratic method that has been proven by you, you know, science guys, which boils down to looking for “sims” in conversation. This is because a “no” is a psychological barrier (according to Professor Overstreet in _Influencing Human Behavior_). And the “yes” provokes the opposite of that. It's a bit logical, I think it works, but it's already a more difficult level to enjoy.
 
 ## Let the person feel like it's their idea, for cooperation
 

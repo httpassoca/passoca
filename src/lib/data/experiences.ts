@@ -1,4 +1,4 @@
-import type { TExperience } from "../components/Experience.svelte";
+import type { TExperience } from "$lib/types";
 
 export const ctw: TExperience = {
   name: "Critical Techworks",

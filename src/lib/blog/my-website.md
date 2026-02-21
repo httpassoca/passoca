@@ -47,6 +47,7 @@ tags: [Svelte, Tailwind]
 ## Table of Contents
 
 ## Introduction
+
 Hi, reader. First, I want to appreciate **you** for being here. Second, I need to say thanks to <Link to="https://www.puruvj.dev/">PuruVJ</Link>, <Link to="https://fantinel.dev/">Matt Fantinel</Link> and <Link to="https://www.zenorocha.com/">Zeno Rocha</Link> who inspire (and principally, help) me in this website.
 
 Ah, now let me tell that this isn't my first personal site. Probably is the third or fourth. You can see the last <Link to="https://old.passoca.com.br">here</Link>, but dont judge. I did it with **React** (while I was learning it) and **p5.js**. This one however, was made with <Link to="https://kit.svelte.dev/">SvelteKit</Link> and <Link to="https://tailwindcss.com/">Tailwind CSS</Link>. I did try with <Link to="https://nuxtjs.org/">NuxtJS</Link>, actually I even made it, but decided to migrate to **Svelte** because it is faster, easier and a new skill to learn for me!
@@ -55,8 +56,8 @@ Ah, now let me tell that this isn't my first personal site. Probably is the thir
 
 Well, green is my favorite color, so I made it the main here. Of course, not easy like this. I've been looking for the best green in the world since ages, so if you can't decide your color, I swear, it is completely comprehensible. In the beggining, I used to create all websites in dark themes. But we know that there exist people that don't like it , so I did a white theme. And just for fun, a coffee theme.
 
-
 {#each colorThemes as theme}
+
   <div class="label">
     {#if ['light','dark'].includes(theme.name)}
       <Icon src={theme.icon} size="23" />
@@ -65,8 +66,8 @@ Well, green is my favorite color, so I made it the main here. Of course, not eas
     {/if}
 
     theme colors:
-  </div>
 
+  </div>
 
   <div class="colors-show">
     {#each theme.colors as color}
@@ -94,7 +95,7 @@ About the blog, I did the layout as clear as possible, inspirated by <Link to="h
 
 ## The blog 🗒️
 
-Definitively the hardest thing. I had to use things I've never used and it isn't over yet. I basically mixed **PuruVJ**'s and **Matt Fantinel** blog. PuruVJ did **EVERYTHING** by itself (*seriously, I don't doubt he considered to do his own Svelte,* <Link to="https://www.puruvj.dev/blog/how-i-created-personal-site-part-1">check it out</Link>). And Matt, my brazilian *camarada*, uses <Link to="https://mdsvex.pngwn.io/">mdsvex</Link>. Strange, because I decide to use too 🤔, a few seconds after seeing him website, what a coincidence!
+Definitively the hardest thing. I had to use things I've never used and it isn't over yet. I basically mixed **PuruVJ**'s and **Matt Fantinel** blog. PuruVJ did **EVERYTHING** by itself (_seriously, I don't doubt he considered to do his own Svelte,_ <Link to="https://www.puruvj.dev/blog/how-i-created-personal-site-part-1">check it out</Link>). And Matt, my brazilian _camarada_, uses <Link to="https://mdsvex.pngwn.io/">mdsvex</Link>. Strange, because I decide to use too 🤔, a few seconds after seeing him website, what a coincidence!
 
 ## Fonts
 
@@ -148,4 +149,3 @@ Definitively the hardest thing. I had to use things I've never used and it isn't
     background-color: rgba(0,0,0,.0) !important
     transform: translateY(5px)
 </style>
-

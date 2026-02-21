@@ -1,4 +1,4 @@
-import type { TSkill } from "../components/Skill.svelte";
+import type { TSkill } from "$lib/types";
 
 export const icons: TSkill[] = [
   {

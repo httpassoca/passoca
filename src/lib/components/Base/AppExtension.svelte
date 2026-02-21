@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from "svelte-hero-icons/Icon.svelte";
+  import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
   import { ChevronDown } from "svelte-hero-icons";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -22,7 +22,7 @@
       {title}
     </span>
     <div>
-      <Icon src={ChevronDown} size="20" class={open && "rotate-180"} />
+      <HeroIcon src={ChevronDown} size="20" className={open ? 'rotate-180' : ''} />
     </div>
   </div>
   <div class="content" class:active={open}>

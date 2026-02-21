@@ -6,7 +6,7 @@ export const load = (async () => {
     return {};
   }
 
-  const { data: quote, error } = await supabase.rpc('random_quote')
+  const { data: quote, error } = await supabase.rpc("random_quote");
   if (error) {
     throw new Error(`Error fetching random row: ${error.message}`);
   }

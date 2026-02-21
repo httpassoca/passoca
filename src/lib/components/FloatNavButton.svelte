@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Icon from "svelte-hero-icons/Icon.svelte";
+  import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
   import { Menu, X } from "svelte-hero-icons";
   import { page } from "$app/stores";
   let open = false;
@@ -15,7 +15,7 @@
     <a class:actual={$page.url.pathname === "/notes"} href="/notes">notes</a>
   </nav>
   <button class:active={open} on:click={() => (open = !open)}>
-    <Icon src={open ? X : Menu} size="24" />
+    <HeroIcon src={open ? X : Menu} size="24" />
   </button>
 </div>
 

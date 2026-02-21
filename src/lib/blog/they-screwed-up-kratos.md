@@ -13,12 +13,12 @@ tags: [games, god of war, kratos]
 They shat... They screwed up Kratos. In the new Kratos games, they were able to transform everything they had built into trash. They destroyed the character, ruining his future. Made Kratos something he never was meant to be, but as they did, now it's impossible to say that the original games have a good protagonist, because it would be impossible that a good character to become the 2018 Kratos.
 
 ## Rotten Chicken
+
 There is a problem when it comes to consuming any product that is spoiling the ending of it. There are many works that have good development but lack a good conclusion. The best example I know is Shingeki no Kyojin, but there are still fans who complain about Game of Thrones, Star Wars, Far Cry 3 and so on. A waste of good works.
 
 Some souls still dare to say that "The ending is bad, but it doesn't make the whole work bad." Well, isn't the ending part of the whole? If the end is not important, why is the middle? or the beginning? Imagine eating the best chicken in the world and at the last bite discovering that the meat was rotten. Will you forever remember the best chicken you ate, or that you ate rotten chicken? I imagine you remember both, never one without the other. And if in your concept of good, there is a piece of rotten chicken, I don't want to hear your recommendations. But then, does everything need to be perfect in a work for it to be considered good?
 
 No, of course not. A work of art has several facets that can be measured in different proportions. We treat games as a complex work of art that mixes script, actors, music, combat, interface, audiovisual, SFX... This will never end. Even the title of the game is part of the work. The engine used to make the game can hinder everything else in the product. Just imagine several lines of quality, belonging to the various aspects that make up a game, superimposed on top of each other. We seek the balance between these qualities to know the score of a game.
-
 
 <AppImage post="they-screwed-up-kratos" img="different-aspects" alt="Kratos game engine" maxHeight={471} maxWidth={700}/>
 <AppImage post="they-screwed-up-kratos" img="aspects-overflow" alt="Kratos game engine" maxHeight={479} maxWidth={700}/>
@@ -42,13 +42,12 @@ Specially in story games, some moments can have different weights. For instance,
 The moral from that, then? Was the last game bad due to its ending? The last game broke all the series?
 
 ## Kratos?
+
 Given that God of War is about all the games of the same character, all the games are part of the same product. That said, my discomfort is in the neglect of the character by the new franchise. They destroyed Kratos's personality since 2018, thus destroying the entire God of War series.
 
 Our former man of war has now become a clown in another mythology. Someone who entirely defeated one mythology needs help to kill 2 Nordic gods. I don't know what is worse, if it is the fact that they humiliate Kratos or humiliate the Greek mythology itself. In the last games there were very simple things: some weapons, some enemies, some magic, much blood, much combo, much violent scene. Now, you are going to spend 80 hours listening to 2 dumbasses, kill countless repeated enemies (that is, of course, if your number is greater than the one above their head) and get thousands of items with different properties, to spend a lot of time deciding which is the best for each situation. But of course, besides that, there are also the main missions! How could I forget needing to fight a bear, save Tyr, spin his temple, enter the middle of the war of the elves, walk with Angrboda, walk with Thor at Odin's service, save the pig, insignificant fights against Baldur... Anyway, that's not the problem, nor will I comment on the puzzles, the talking, the yellow paints and etc. That the games are bad compared to the first ones, they are, but that is not the biggest problem of the games. The problem is that they shat on Kratos.
 
 They killed the personality of our god of war. They changed the main character, they changed the game. Before who was nervous, angry, brute, animalistic, grumpy, fierce and strong, now is calm, fearful, worried, tired. Kratos no longer exudes power in actions, in speeches, in appearance. Even height the god lost. Before he did not back down to titans, now he obeys the imbecile son. What happened to the imposition of power, which has always existed since the first game? The fury awakened not only in actions, but in the very soul, in the spirit, converted into the blood of enemies, war cries and hot blades. The way I speak it is almost comical, but all the beginnings of the first trilogy games were like that. If you still haven't understood what I'm saying, compare the scenes:
-
-
 
 <AppImage post="they-screwed-up-kratos" img="old-kratos" alt="Kratos game engine" maxHeight={397} maxWidth={700}/>
 <AppImage post="they-screwed-up-kratos" img="cringe-kratos" alt="Kratos game engine" maxHeight={394} maxWidth={700}/>
