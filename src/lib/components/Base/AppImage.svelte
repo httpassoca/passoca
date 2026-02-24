@@ -27,13 +27,20 @@
   };
 
   const fetchImages = async (): Promise<TImagesRes> => {
+    const api = import.meta.env.VITE_API_URL;
+    if (!api) return { imgs: [] };
+
     try {
-      images = await fetch(
-        `${import.meta.env.VITE_API_URL}/img/${post}/${img}`,
-      ).then((res) => res.json());
-      return images;
+      const res = await fetch(`${api}/img/${post}/${img}`, {
+        headers: { Accept: "application/json" }
+      });
+      if (!res.ok) return { imgs: [] };
+
+      const json = (await res.json().catch(() => null)) as TImagesRes | null;
+      return json ?? { imgs: [] };
     } catch (error) {
       console.error("Failed to fetch images:", error);
+      return { imgs: [] };
     }
   };
 
@@ -65,21 +72,28 @@
     imageHeight = calculateHeight(maxHeight, maxWidth);
   });
 
+  const galleryId = `${post}-${img}`;
+
   onMount(async () => {
     images = await fetchImages();
 
     // Image visualizer
-    let lightbox = new PhotoSwipeLightbox({
-      gallery: `#${img}`,
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: `#${galleryId}`,
       children: "a",
       showHideAnimationType: "zoom",
-      pswpModule: () => import("photoswipe"),
+      pswpModule: () => import("photoswipe")
     });
     lightbox.init();
   });
 </script>
 
-<div class="pswp-gallery" id={img} style={`height: ${imageHeight + "px"}`}>
+<div
+  class="pswp-gallery"
+  id={galleryId}
+  style={`height: ${imageHeight + "px"}`}
+  aria-busy={!images.imgs?.length}
+>
   {#if images.imgs?.length}
     <a
       href={images.originalImage.url}

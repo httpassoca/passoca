@@ -9,29 +9,31 @@
     delay?: number;
     duration?: number;
     easing?: EasingFunction;
-  };
-  type Options = {
-    direction?: "in" | "out" | "both";
+    direction?: "in" | "out";
   };
 
+  // Simple fade. (The previous implementation accidentally used `u`,
+  // which inverted the fade on intro/outro.)
   function flush(
     node: Element,
-    { delay = 300, duration = 300, easing = cubicIn }: Params = {},
-    { direction = "both" }: Options = {}
+    { delay = 0, duration = 300, easing = cubicIn, direction = "in" }: Params = {}
   ): TransitionConfig {
+    // `t` always represents the progress of *this* transition.
+    // For intro: 0 -> 1
+    // For outro: 1 -> 0
     return {
       delay,
       duration,
       easing,
-      css: (t, u) => `
-        opacity: ${direction === "in" ? t : u};
-      `,
+      css: (t) => `opacity: ${t};`,
     };
   }
 </script>
 
 {#key key}
-  <div in:flush|global={{ duration, delay: duration }} out:flush|global={{ duration }}>
+  <div
+    in:flush|global={{ duration, delay: 0, direction: "in" }}
+  >
     <slot />
   </div>
 {/key}

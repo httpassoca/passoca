@@ -8,13 +8,19 @@ export const load = (async () => {
     return {};
   }
 
-  let { data } = await supabase.storage
+  const { data, error } = await supabase.storage
     .from("passoca")
     .list("notes", { sortBy: { column: "updated_at", order: "desc" } });
-  if (!data) data = [];
+
+  if (error) {
+    // Notes are optional; fail closed.
+    return { notes: [] };
+  }
+
+  const safeData = data ?? [];
 
   let notes: Note[] = [];
-  data.map((note) => {
+  safeData.map((note) => {
     let title = note.name.slice(0, -3).replace(/-/g, " ");
     title = capitalize(title);
     notes = [

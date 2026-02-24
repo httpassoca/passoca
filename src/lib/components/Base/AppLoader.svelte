@@ -10,5 +10,5 @@
     style="width: 40px; height: {height}px; transform: scale(2.2)"
     loop
     autoplay
-  />
+  ></lottie-player>
 </div>

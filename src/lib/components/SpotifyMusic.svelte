@@ -13,24 +13,45 @@
     (music.progress_ms / music.duration_ms) * 100
   );
 
+  let refreshTimer: ReturnType<typeof setInterval> | null = null;
+
   async function getMusic() {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/now-playing`).then(
-      (res) => res.json()
-    );
-    if (res.isPlaying) {
-      music = res.music;
-      updatePercentage();
-    } else music = null;
+    const api = import.meta.env.VITE_API_URL;
+    if (!api) return;
+
+    try {
+      const res = await fetch(`${api}/now-playing`, {
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) return;
+      const json = await res.json().catch(() => null);
+      if (!json) return;
+
+      if (json.isPlaying) {
+        music = json.music;
+        updatePercentage();
+      } else {
+        music = null;
+      }
+    } catch {
+      // ignore (non-critical)
+    }
   }
 
-  onMount(async () => {
-    setInterval(() => {
+  onMount(() => {
+    // keep the progress bar moving locally, but refresh track when the song ends.
+    refreshTimer = setInterval(() => {
+      if (!music) return;
       music.progress_ms += 2000;
       updatePercentage();
       if (musicPercentage >= 101) {
         getMusic();
       }
     }, 2000);
+
+    return () => {
+      if (refreshTimer) clearInterval(refreshTimer);
+    };
   });
 </script>
 
@@ -45,11 +66,16 @@
         class="rounded-full"
         height="80"
         width="80"
-        alt="actual_music_cover"
+        alt={`${music.name} album cover`}
       />
     </div>
     <div>
-      <a class="font-bold" href={music.external_urls.spotify} target="_blank">
+      <a
+        class="font-bold"
+        href={music.external_urls.spotify}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {music.name}
       </a>
       <br />
@@ -59,7 +85,7 @@
       <br />
       <div class="flex gap-1 items-center text-sm">
         <div class="progress--container">
-          <div style="width: {musicPercentage * 2}px;" />
+          <div style="width: {musicPercentage * 2}px;"></div>
         </div>
         {msToTime(music.duration_ms)}
       </div>

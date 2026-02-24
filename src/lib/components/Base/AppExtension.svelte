@@ -17,7 +17,13 @@
 </script>
 
 <div {id} class="card bg-gray-800">
-  <div class="header" on:click={extend} on:keypress={extend}>
+  <div
+    class="header"
+    role="button"
+    tabindex="0"
+    on:click={extend}
+    on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && extend()}
+  >
     <span>
       {title}
     </span>

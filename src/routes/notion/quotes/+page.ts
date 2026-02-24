@@ -1,15 +1,16 @@
+import { error as kitError } from "@sveltejs/kit";
 import { supabase } from "$lib/supabase";
 import type { PageData } from "./$types";
 
 export const load = (async () => {
   if (!supabase) {
-    return {};
+    return { quote: null };
   }
 
   const { data: quote, error } = await supabase.rpc("random_quote");
   if (error) {
-    throw new Error(`Error fetching random row: ${error.message}`);
+    throw kitError(503, `Quotes temporarily unavailable: ${error.message}`);
   }
 
-  return { quote: quote[0] };
+  return { quote: quote?.[0] ?? null };
 }) satisfies PageData;

@@ -1,4 +1,4 @@
-<svelte:options customElement="img-reveal" />
+<!-- NOTE: this component is not compiled as a custom element today. -->
 
 <script lang="ts">
     export let src: string;
@@ -15,7 +15,14 @@
     }
 </script>
 
-<span class="text" on:mouseenter={() => hovered = true} on:mouseleave={leave} on:mousemove={moveImg}>
+<span
+    class="text"
+    role="button"
+    tabindex="0"
+    on:mouseenter={() => hovered = true}
+    on:mouseleave={leave}
+    on:mousemove={moveImg}
+>
     <slot></slot>
     {#if hovered}
         <img {src} alt="special effect" style={`transform: translateX(${offset || 0}px);`} />
@@ -24,11 +31,15 @@
 
 
 
-<style lang="scss">
-    .text {
-        @apply relative;
-    }
-    img {
-        @apply absolute bottom-1/2 w-52 right-0;
-    }
+<style>
+  .text {
+    position: relative;
+  }
+
+  img {
+    position: absolute;
+    bottom: 50%;
+    right: 0;
+    width: 13rem; /* w-52 */
+  }
 </style>

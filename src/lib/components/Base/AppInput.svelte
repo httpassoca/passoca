@@ -3,7 +3,7 @@
   export let placeholder = "";
 </script>
 
-<input type="text" {placeholder} bind:value />
+<input type="text" {placeholder} bind:value {...$$restProps} />
 
 <style lang="sass">
 input

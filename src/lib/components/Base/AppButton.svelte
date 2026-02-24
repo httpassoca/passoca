@@ -1,12 +1,17 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+
+  export let disabled = false;
+  export let type: "button" | "submit" | "reset" = "button";
+
   function click() {
+    if (disabled) return;
     dispatch("click");
   }
 </script>
 
-<button on:click={click}>
+<button {type} {disabled} on:click={click}>
   <slot />
 </button>
 
@@ -16,4 +21,8 @@ button
   @apply my-2 flex items-center gap-2 rounded
   color: var(--app-color-contrast-text)
   background-color: var(--app-color-primary)
+
+  &:disabled
+    opacity: 0.65
+    cursor: not-allowed
 </style>

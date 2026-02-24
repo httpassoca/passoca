@@ -11,7 +11,9 @@ export async function GET() {
   let data: any[] = [];
   if (supabase) {
     const res = await supabase.storage.from("passoca").list("notes");
-    data = res.data || [];
+    if (!res.error) {
+      data = res.data || [];
+    }
   }
 
   let notes: Note[] = [];
