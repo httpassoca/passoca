@@ -3,8 +3,8 @@
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import { theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
-  import ChangeTheme from "./ChangeTheme.svelte";
-  import LanguageSwitcher from "$lib/components/LanguageSwitcher.svelte";
+  import ThemeMenu from "$lib/components/ThemeMenu.svelte";
+  import LanguageMenu from "$lib/components/LanguageMenu.svelte";
   import { localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
   let animation = false;
@@ -54,7 +54,7 @@
       <!-- <a class:actual={$page.url.pathname === "/contact"} href="/contact">contact</a> -->
     </nav>
     <div class="icons">
-      <LanguageSwitcher />
+      <LanguageMenu />
       <a href="/linkedin" target="_blank">
         <SVG
           name="linkedin"
@@ -71,7 +71,7 @@
           fill='var(--app-color-text)'
         />
       </a>
-      <ChangeTheme />
+      <ThemeMenu />
     </div>
   </div>
 </header>

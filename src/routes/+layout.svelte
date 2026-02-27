@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import FloatNavButton from "$lib/components/FloatNavButton.svelte";
+  import MobileBottomNav from "$lib/components/MobileBottomNav.svelte";
   import Header from "$lib/components/Header.svelte";
   import PageTransition from "$lib/components/PageTransition.svelte";
   import { theme } from "$lib/stores/theme.store";
@@ -37,12 +37,12 @@
 </svelte:head>
 
 {#if !$page.url.pathname.includes("notion/")}
-  <main class="content">
+  <main class="content pb-24 md:pb-0">
     <Header />
     <PageTransition key={$page.url.pathname}>
       <slot />
     </PageTransition>
-    <FloatNavButton />
+    <MobileBottomNav />
   </main>
 {:else}
   <slot />
