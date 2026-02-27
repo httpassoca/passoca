@@ -1,11 +1,12 @@
 <script lang="ts">
   import { formatDate } from "$lib/helpers/formatDate";
   import type { Post } from "$lib/posts";
+  import { localizeHref } from "$lib/paraglide/runtime";
 
   export let post: Post;
 </script>
 
-<a class="post" href={`/blog/${post.slug}`}>
+<a class="post" href={localizeHref(`/blog/${post.slug}`)}>
   <div class="body">
     <header class="flex justify-between">
       <h2 class="font-boston-semibold">

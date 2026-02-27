@@ -21,6 +21,8 @@
     "sass": "^1.43.5"
   },
   "devDependencies": {
+    "@inlang/paraglide-js": "^2.13.0",
+    "@inlang/paraglide-sveltekit": "^0.16.1",
     "@supabase/supabase-js": "2",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
@@ -34,7 +36,6 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte": "^2.0.0",
-    "svelte-eslint-parser": "^1.4.1",
     "marked": "^4.0.17",
     "mdsvex": "^0.12.6",
     "postcss": "^8.4.24",
@@ -49,6 +50,7 @@
     "supabase": "^1.58.1",
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
+    "svelte-eslint-parser": "^1.4.1",
     "svelte-hero-icons": "^3.0.0",
     "svelte-preprocess": "^5.0.3",
     "tailwindcss": "^2.2.16",

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="%lang%">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,10 +16,13 @@
   <body>
     <div id="svelte">%sveltekit.body%</div>
     <script>
+      // Theme boot
       const localTheme = localStorage.getItem("theme");
       const theme = localTheme || "dark";
       document.body.dataset.theme = theme;
       localStorage.setItem("theme", theme);
+
+      // locale is set server-side via %lang% + paraglide middleware
     </script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   </body>

@@ -7,8 +7,8 @@ tags: [Svelte, Tailwind]
 ---
 
 <script lang="ts">
-  import SVG from '../components/Base/AppSVG.svelte';
-  import Link from '../components/Base/AppLink.svelte';
+  import SVG from '$lib/components/Base/AppSVG.svelte';
+  import Link from '$lib/components/Base/AppLink.svelte';
   import { Moon, Sun, Duplicate } from "svelte-hero-icons";
   import Icon from "svelte-hero-icons/Icon.svelte";
   const copy = async (color: string): string => {
@@ -113,7 +113,7 @@ Definitively the hardest thing. I had to use things I've never used and it isn't
 </ul>
 
 <style lang="sass">
-@import '../../sass/breakpoints'
+@import '../../../sass/breakpoints'
 
 .label
   display: flex

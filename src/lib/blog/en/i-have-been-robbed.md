@@ -7,7 +7,7 @@ tags: [theft, security, macbook]
 ---
 
 <script lang="ts">
-  import Image from '../components/Base/AppImage.svelte';
+  import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
 Well, I didn't think I'd be robbed in one of the safest countries in the world, Portugal. But thanks to my carelessness and some guy's bad character, I lost a backpack with two laptops, my wallet, some documents and other items from my work.

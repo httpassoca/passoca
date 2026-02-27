@@ -4,10 +4,11 @@
   import Skill from "$lib/components/Skill.svelte";
 
   import { icons } from "$lib/data/skills";
+  import { m } from "$lib/paraglide/messages";
 </script>
 
 <Content page>
-  <Title>Skills</Title>
+  <Title>{m.skills_title()}</Title>
   <div class="grid-icons md:grid-cols-4 grid-cols-2">
     {#each icons as skill (skill.name)}
       <Skill {skill} />

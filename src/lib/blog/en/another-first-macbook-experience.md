@@ -7,7 +7,7 @@ tags: [Macbook, Windows, Linux, laptop]
 ---
 
 <script lang="ts">
-  import Image from '../components/Base/AppImage.svelte';
+  import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
 ## Table of Contents

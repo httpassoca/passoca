@@ -1,10 +1,15 @@
+<script lang="ts">
+  import { localizeHref } from "$lib/paraglide/runtime";
+  import { m } from "$lib/paraglide/messages";
+</script>
+
 <div class="blog--container px-4 md:container md:px-0 mx-auto">
   <div class="blog font-pt">
     <slot />
     <hr />
     <div class="thanks">
-      <a href="/blog">posts</a>
-      <span> Thanks for reading! </span>
+      <a href={localizeHref("/blog")}>{m.blog_back_posts()}</a>
+      <span>{m.blog_thanks()}</span>
     </div>
   </div>
 </div>

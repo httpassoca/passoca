@@ -9,6 +9,7 @@
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import Extension from "$lib/components/Base/AppExtension.svelte";
   import AppError from "$lib/components/Base/AppError.svelte";
+  import { m } from "$lib/paraglide/messages";
 
   export let data: PageData;
   export let { notes } = data;
@@ -40,7 +41,7 @@
 </script>
 
 <Content page>
-  <Title>Notes</Title>
+  <Title>{m.notes_title()}</Title>
   {#each notes as note (note.slug)}
     <Extension
       id={note.slug}

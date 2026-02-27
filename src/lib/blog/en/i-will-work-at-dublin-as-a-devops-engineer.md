@@ -7,7 +7,7 @@ tags: [personal, career]
 ---
 
 <script lang="ts">
-  import Image from '../components/Base/AppImage.svelte';
+  import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
 _Eventually._

@@ -5,6 +5,7 @@
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import { books, games, socials, trips } from "$lib/data/misc";
   import { theme } from "$lib/stores/theme.store";
+  import { m } from "$lib/paraglide/messages";
   import type { PageData } from "./$types";
 
   export let data: PageData;
@@ -13,19 +14,16 @@
 
 <Content page>
   <div class="info">
-    <h1 class="font-boston mb-2">Hi, I'm Rafael Passoca.</h1>
+    <h1 class="font-boston mb-2">{m.home_title()}</h1>
     <p class="text-base">
-      As a developer, I love to automate things and make them work for me. I
-      also believe that appearence and practicity are the best influences to the
-      user.
-      <b>This is what matters. And I love to make it happen.</b>
+      {m.home_intro()}
     </p>
     <p class="text-base">
-      If you just want my resumé
+      {m.home_resume()}
       <a
         target="_blank"
         href="https://www.notion.so/passoca/Curriculum-Vitae-Rafael-Freitas-f4e9a131885846cabdd6c0ab658f476d?pvs=4"
-        title="resume">click here</a
+        title="resume">↗</a
       >
     </p>
   </div>
@@ -56,31 +54,27 @@
     </div>
     <div class="info text-base">
       <p>
-        I learned programming at
+        {m.home_bio1()}
         <Link to="https://www.senaimg.com.br/">SENAI.</Link>
-        I started with <b>C++</b>, then <b>MySQL</b>, then <b>C#</b>, <b>PHP</b>
-        and <b>HTML / CSS / JS</b>. Just playing with CSS doing fantasy websites
-        I realized I love creating interfaces.
+        {m.home_bio1_after()}
       </p>
       <p>
-        I'm currently developing apps for myself and <Link
-          to="https://www.criticaltechworks.com/">Critical Techworks</Link
-        >.
+        {m.home_bio2()}
+        <Link to="https://www.criticaltechworks.com/">Critical Techworks</Link>.
       </p>
       <p>
-        You can contact me via <a href="mailto: me@passoca.dev"> email. </a>
+        {m.home_bio3()}
+        <a href="mailto: me@passoca.dev">me@passoca.dev</a>
       </p>
       {#if music}
         <SpotifyMusic {music} />
       {/if}
     </div>
   </div>
-  <h2 class="font-boston mb-2">Besides that...</h2>
+  <h2 class="font-boston mb-2">{m.home_besides()}</h2>
   <p class="text-base">
-    I love reading books. Here are some of my favorites. You can check more at
-    my <Link to="https://www.goodreads.com/user/show/139184791-passoca-freitas"
-      >goodreads profile</Link
-    >.
+    {m.home_books()}
+    <Link to="https://www.goodreads.com/user/show/139184791-passoca-freitas">goodreads</Link>.
   </p>
   <div class="flex flex-wrap gap-3 my-2 md:justify-between">
     {#each books as book (book.link)}
@@ -95,7 +89,7 @@
     {/each}
   </div>
   <p class="text-base">
-    I also enjoy riding my bike. Long trip preference, I'm not in hurry
+    {m.home_bike()}
   </p>
   <div class="flex flex-col items-center md:flex-row md:justify-between">
     {#each trips as trip (trip.link)}
@@ -108,7 +102,7 @@
     {/each}
   </div>
   <p class="text-base mt-4">
-    Games, of course. Have some gameplays, but it's not a thing I do nowadays.
+    {m.home_games()}
   </p>
   <div class="flex flex-col items-center md:flex-row md:justify-between">
     {#each games as game (game.link)}

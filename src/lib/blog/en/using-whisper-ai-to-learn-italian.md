@@ -8,8 +8,8 @@ personal: false
 ---
 
 <script lang="ts">
-  import Image from '../components/Base/AppImage.svelte';
-  import Link from '../components/Base/AppLink.svelte';
+  import Image from '$lib/components/Base/AppImage.svelte';
+  import Link from '$lib/components/Base/AppLink.svelte';
 </script>
 
 One of my 2024’s goals is to learn how to speak, listen and write Italian. I already tried it once, or twice… I usually fell into the problem of losing interest on the language, I didn’t had nothing that keep the language on my life, on my routine. I already tried before to listen watch popular italian series or songs and it works well, but the proccess of consuming it becomes boring after a while, beucase either I enjoyed the work or I spent a lot of time trying to understand every detail. So to fix that, this time I decided to watch a easy thing, which I don’t need to get all details and it wouldn’t be bad to lost part of content quality. So I started to watch italian dubbed Dragon Ball Z 😁
