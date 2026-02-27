@@ -56,6 +56,11 @@
 </nav>
 
 <style lang="sass">
+  // Hard guarantee: never show this on desktop even if a utility class breaks
+  @media (min-width: 768px)
+    nav.bottom-nav
+      display: none
+
   nav.bottom-nav
     position: fixed
     left: 0

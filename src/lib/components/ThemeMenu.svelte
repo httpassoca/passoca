@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import { browser } from "$app/environment";
   import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
-  import { Sparkles } from "svelte-hero-icons";
+  import { ColorSwatch, ChevronDown } from "svelte-hero-icons";
   import { theme } from "$lib/stores/theme.store";
   import type { Theme } from "$lib/stores/theme.store";
 
@@ -60,7 +60,8 @@
     aria-expanded={open}
     on:click={() => (open = !open)}
   >
-    <HeroIcon src={Sparkles} size="20" />
+    <HeroIcon src={ColorSwatch} size="20" />
+    <HeroIcon className="chev" src={ChevronDown} size="14" />
   </button>
 
   {#if open}
@@ -93,12 +94,19 @@
     display: inline-flex
     align-items: center
     justify-content: center
-    width: 36px
+    gap: 4px
+    width: 52px
     height: 36px
     border-radius: 12px
     border: 1px solid rgba(255, 255, 255, 0.12)
     background: transparent
     color: var(--app-color-text)
+    opacity: 0.9
+
+  button.trigger:hover
+    opacity: 1
+    border-color: rgba(255, 255, 255, 0.22)
+    background: rgba(255, 255, 255, 0.04)
 
   .popover
     position: absolute

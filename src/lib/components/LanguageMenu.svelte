@@ -5,7 +5,7 @@
   import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
   import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
-  import { Translate } from "svelte-hero-icons";
+  import { Translate, ChevronDown } from "svelte-hero-icons";
 
   type LocaleInfo = { id: string; label: string; flag: string };
 
@@ -58,6 +58,7 @@
   >
     <span class="flag">{active.flag}</span>
     <HeroIcon src={Translate} size="18" />
+    <HeroIcon className="chev" src={ChevronDown} size="14" />
   </button>
 
   {#if open}
@@ -94,12 +95,18 @@
     align-items: center
     justify-content: center
     gap: 6px
-    width: 44px
+    width: 64px
     height: 36px
     border-radius: 12px
     border: 1px solid rgba(255, 255, 255, 0.12)
     background: transparent
     color: var(--app-color-text)
+    opacity: 0.9
+
+  button.trigger:hover
+    opacity: 1
+    border-color: rgba(255, 255, 255, 0.22)
+    background: rgba(255, 255, 255, 0.04)
 
   .popover
     position: absolute
