@@ -7,7 +7,7 @@ tags: [AI, kindle, automation]
 ---
 
 <script lang="ts">
-  import Link from '../components/Base/AppLink.svelte';
+  import Link from '$lib/components/Base/AppLink.svelte';
 </script>
 
 I'm trying to make my <Link to="https://openclaw.ai"> Clawdbot </Link> send stuff to my Kindle. I was used to the <Link to="https://www.amazon.com/sendtokindle"> Send to Kindle </Link> feature from Amazon itself, but I think it's just a wrapper for sending anything to the Kindle email.

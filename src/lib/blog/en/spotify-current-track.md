@@ -7,8 +7,8 @@ tags: [Spotify, API]
 ---
 
 <script lang="ts">
-  import Link from '../components/Base/AppLink.svelte';
-  import Image from '../components/Base/AppImage.svelte';
+  import Link from '$lib/components/Base/AppLink.svelte';
+  import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
 ## Table of Contents

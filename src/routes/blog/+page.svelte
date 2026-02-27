@@ -2,12 +2,16 @@
   import Content from "$lib/components/Base/AppContent.svelte";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Post from "$lib/components/Post.svelte";
-  import posts from "$lib/posts";
+  import { m } from "$lib/paraglide/messages";
+  import type { PageData } from "./$types";
+
+  export let data: PageData;
+  const { posts } = data;
 </script>
 
 <Content page>
-  <Title>Posts</Title>
-  <i>When you have something to say, silence is a lie.</i>
+  <Title>{m.blog_title()}</Title>
+  <i>{m.blog_subtitle()}</i>
   <div class="flex flex-col gap-3 mb-4 mt-1">
     {#each posts as post, i (post.title)}
       {#if i === 0}

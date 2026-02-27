@@ -7,7 +7,7 @@ tags: [games, god of war, kratos]
 ---
 
 <script lang="ts">
-  import AppImage from '../components/Base/AppImage.svelte';
+  import AppImage from '$lib/components/Base/AppImage.svelte';
 </script>
 
 They shat... They screwed up Kratos. In the new Kratos games, they were able to transform everything they had built into trash. They destroyed the character, ruining his future. Made Kratos something he never was meant to be, but as they did, now it's impossible to say that the original games have a good protagonist, because it would be impossible that a good character to become the 2018 Kratos.

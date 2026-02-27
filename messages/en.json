@@ -1,0 +1,83 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "nav_home": "home",
+  "nav_career": "career",
+  "nav_projects": "projects",
+  "nav_blog": "blog",
+  "nav_notes": "notes",
+
+  "home_title": "Hi, I'm Rafael Passoca.",
+  "home_intro": "As a developer, I love to automate things and make them work for me. I also believe that appearance and practicality are the best influences to the user. This is what matters. And I love to make it happen.",
+  "home_resume": "If you just want my resumé",
+  "home_bio1": "I learned programming at",
+  "home_bio1_after": "I started with C++, then MySQL, then C#, PHP and HTML / CSS / JS. Just playing with CSS doing fantasy websites I realized I love creating interfaces.",
+  "home_bio2": "I'm currently developing apps for myself and",
+  "home_bio3": "You can contact me via email.",
+  "home_besides": "Besides that…",
+  "home_books": "I love reading books. Here are some of my favorites. You can check more at my goodreads profile.",
+  "home_bike": "I also enjoy riding my bike. Long trip preference, I'm not in a hurry.",
+  "home_games": "Games, of course. I have some gameplays, but it's not something I do nowadays.",
+
+  "blog_title": "Posts",
+  "blog_subtitle": "When you have something to say, silence is a lie.",
+
+  "skills_title": "Skills",
+  "career_work_title": "Work",
+  "career_education_title": "Education",
+
+  "career_ctw_1": "Designed and built infrastructure for an Angular microfrontend application within a monorepo, utilizing micro-deployments.",
+  "career_ctw_2": "Maintained 4 internal projects including another design system.",
+  "career_ctw_3": "Developed and maintained a Frontend Standards Guidance for BMW teams.",
+  "career_ctw_4": "Created an application to collect package usage statistics, including the migration of old data.",
+  "career_ctw_5": "Created well-written documentation for the products.",
+  "career_ctw_tools_label": "Tools used:",
+  "career_ctw_tools": "Jira, Bitbucket, Confluence, Windows, WSL, Docker",
+  "career_ctw_stack_label": "Tech stack:",
+  "career_ctw_stack": "Angular 8-17, React, Jasmine, Java (Spring / Quarkus), PostgreSQL, Jenkins, Kubernetes, Terraform, Ansible, Azure, NGINX",
+
+  "career_jmv_1": "Maintained a distance education platform management project",
+  "career_jmv_2": "Created an internal project to manage multiplatform social stream",
+  "career_jmv_3": "Learned TDD with Vue",
+  "career_jmv_tools_label": "Tools used:",
+  "career_jmv_tools": "Gitlab, Linux and Docker",
+  "career_jmv_stack_label": "Tech stack:",
+  "career_jmv_stack": "Vue 2, PHP (Laravel), Node.js, Websocket, Jest.js, PostgreSQL",
+
+  "career_spiry_1": "Developed frontend of",
+  "career_spiry_stack_label": "Tech stack:",
+  "career_spiry_stack": "React, Next.js, PostgreSQL",
+
+  "career_senai_1": "Learned programming logic with:",
+
+  "career_uemg_1": "Computer Engineering",
+  "career_uemg_2": "Learn philosophy",
+  "career_uemg_3": "Realize that the university was only good at the end of 3 years",
+  "career_uemg_4": "Quit and focused on other jobs",
+
+  "contact_title": "Don't be shy! Send a message!",
+  "contact_message": "Message",
+  "contact_name": "Name",
+  "contact_contact": "Contact",
+  "contact_sent": "Sent!",
+  "contact_send": "Send",
+  "contact_sending": "Sending…",
+  "contact_missing_api": "Missing API URL (VITE_API_URL).",
+  "contact_request_failed": "Request failed ({status}).",
+  "contact_network_error": "Network error. Try again.",
+  "contact_placeholder_message": "What a cool website!! Are you interested in winning a hundred million dollars?",
+  "contact_placeholder_name": "How should I call you? Heisenberg?",
+  "contact_placeholder_contact": "Your best contact, like t.me/httpassoca or me@passoca.dev",
+
+  "notes_title": "Notes",
+
+  "blog_back_posts": "posts",
+  "blog_thanks": "Thanks for reading!",
+
+  "spotify_now_listening": "Right now I am listening to:",
+
+  "error_title": "Error 🙃",
+  "error_body": "This was not supposed to happen 😢 If you are reading this, send a message to me@passoca.dev",
+
+  "i18n_switch": "Switch language"
+}

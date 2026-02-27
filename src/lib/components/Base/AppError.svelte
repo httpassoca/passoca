@@ -1,7 +1,8 @@
+<script lang="ts">
+  import { m } from "$lib/paraglide/messages";
+</script>
+
 <p>
-  <b>Error 🙃</b> <br />
-  <span class="text-red-500"
-    >This was not supposed to happen 😢 If you are reading this send a message
-    to me@passoca.dev
-  </span>
+  <b>{m.error_title()}</b> <br />
+  <span class="text-red-500">{m.error_body()}</span>
 </p>

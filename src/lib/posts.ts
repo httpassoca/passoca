@@ -1,37 +1,7 @@
 import { getSlug } from "./helpers/helpers";
 
-type GlobEntry = {
-  metadata: PostType;
-  default: any;
-};
-
-type PostType = {
-  post: Record<
-    string,
-    {
-      [key: string]: any;
-    }
-  >;
-  slug: string;
-};
-
-const imports = Object.entries(
-  import.meta.glob<GlobEntry>("./blog/*", { eager: true })
-).map(([filepath, globEntry]) => {
-  return {
-    metadata: globEntry.metadata,
-    content: globEntry.default,
-    slug: getSlug(filepath),
-  };
-});
-
 export type Post = {
-  post: Record<
-    string,
-    {
-      [key: string]: any;
-    }
-  >;
+  post: Record<string, Record<string, any>>;
   title: string;
   slug: string;
   date: string;
@@ -40,6 +10,7 @@ export type Post = {
   tags: string[];
 };
 
+// Used by notes pages (Supabase notes loader)
 export type Note = {
   title: string;
   slug: string;
@@ -48,30 +19,50 @@ export type Note = {
   promise?: any;
 };
 
-const posts: Post[] = [];
-for (const path in imports) {
-  const post = imports[path];
-  if (post) {
-    // For each of them, MDsveX will do the heavy lifting. The "metadata"
-    // is automatically recovered from the Frontmatter, and we're also
-    // asking it to render the blog post so we're able to use it
-    // as a component later on.
+type GlobEntry = {
+  metadata: any;
+  default: any;
+};
+
+const importsEn = import.meta.glob<GlobEntry>("./blog/en/*.md", { eager: true });
+const importsPt = import.meta.glob<GlobEntry>("./blog/pt-BR/*.md", { eager: true });
+
+function buildPosts(imports: Record<string, GlobEntry>): Post[] {
+  const entries = Object.entries(imports).map(([filepath, globEntry]) => ({
+    metadata: globEntry.metadata,
+    content: globEntry.default,
+    slug: getSlug(filepath),
+  }));
+
+  const posts: Post[] = [];
+  for (const e of entries) {
     posts.push({
-      ...post.metadata,
-      ...post.content,
+      ...e.metadata,
+      ...e.content,
     });
   }
+
+  return posts
+    .filter((post) => !post.hidden)
+    .sort((a, b) =>
+      new Date(a.date).getTime() > new Date(b.date).getTime()
+        ? -1
+        : new Date(a.date).getTime() < new Date(b.date).getTime()
+        ? 1
+        : 0
+    );
 }
 
-// Filter the post and order them by published date
-const filteredPosts = posts
-  .filter((post) => !post.hidden)
-  .sort((a, b) =>
-    new Date(a.date).getTime() > new Date(b.date).getTime()
-      ? -1
-      : new Date(a.date).getTime() < new Date(b.date).getTime()
-      ? 1
-      : 0
-  );
-// Expose this info to other files
-export default filteredPosts;
+const cached = {
+  en: buildPosts(importsEn),
+  "pt-BR": buildPosts(importsPt),
+};
+
+export type Locale = "en" | "pt-BR";
+
+export function getPosts(locale: Locale): Post[] {
+  return cached[locale] ?? cached.en;
+}
+
+// Backwards-compatible default export (used by older code paths like RSS).
+export default getPosts("en");

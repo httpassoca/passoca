@@ -4,13 +4,16 @@
   import { theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
   import ChangeTheme from "./ChangeTheme.svelte";
+  import LanguageSwitcher from "$lib/components/LanguageSwitcher.svelte";
+  import { localizeHref } from "$lib/paraglide/runtime";
+  import { m } from "$lib/paraglide/messages";
   let animation = false;
 </script>
 
 <header class="px-4 md:px-0">
   <div class="md:container md:px-0">
     <a
-      href="/"
+      href={localizeHref("/")}
       class="logo"
       on:mouseenter={() => (animation = true)}
       on:mouseleave={() => (animation = false)}
@@ -35,18 +38,23 @@
       {/if}
     </a>
     <nav class="hidden md:flex">
-      <a class:actual={$page.url.pathname === "/"} href="/">home</a>
-      <a class:actual={$page.url.pathname === "/career"} href="/career"
-        >career</a
+      <a class:actual={$page.url.pathname === "/"} href={localizeHref("/")}
+        >{m.nav_home()}</a
       >
-      <a class:actual={$page.url.pathname === "/projects"} href="/projects"
-        >projects</a
+      <a class:actual={$page.url.pathname === "/career"} href={localizeHref("/career")}
+        >{m.nav_career()}</a
       >
-      <a class:actual={$page.url.pathname === "/blog"} href="/blog">blog</a>
+      <a class:actual={$page.url.pathname === "/projects"} href={localizeHref("/projects")}
+        >{m.nav_projects()}</a
+      >
+      <a class:actual={$page.url.pathname === "/blog"} href={localizeHref("/blog")}
+        >{m.nav_blog()}</a
+      >
       <!-- <a class:actual={$page.url.pathname === "/notes"} href="/notes">notes</a> -->
       <!-- <a class:actual={$page.url.pathname === "/contact"} href="/contact">contact</a> -->
     </nav>
     <div class="icons">
+      <LanguageSwitcher />
       <a href="/linkedin" target="_blank">
         <SVG
           name="linkedin"

@@ -2,17 +2,25 @@
   import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
   import { Menu, X } from "svelte-hero-icons";
   import { page } from "$app/stores";
+  import { localizeHref } from "$lib/paraglide/runtime";
+  import { m } from "$lib/paraglide/messages";
   let open = false;
 </script>
 
 <div class="floatnav md:hidden">
   <nav class:active={open}>
-    <a class:actual={$page.url.pathname === "/career"} href="/career">career</a>
-    <a class:actual={$page.url.pathname === "/projects"} href="/projects"
-      >projects</a
+    <a class:actual={$page.url.pathname === "/career"} href={localizeHref("/career")}
+      >{m.nav_career()}</a
     >
-    <a class:actual={$page.url.pathname === "/blog"} href="/blog">blog</a>
-    <a class:actual={$page.url.pathname === "/notes"} href="/notes">notes</a>
+    <a class:actual={$page.url.pathname === "/projects"} href={localizeHref("/projects")}
+      >{m.nav_projects()}</a
+    >
+    <a class:actual={$page.url.pathname === "/blog"} href={localizeHref("/blog")}
+      >{m.nav_blog()}</a
+    >
+    <a class:actual={$page.url.pathname === "/notes"} href={localizeHref("/notes")}
+      >{m.nav_notes()}</a
+    >
   </nav>
   <button class:active={open} on:click={() => (open = !open)}>
     <HeroIcon src={open ? X : Menu} size="24" />

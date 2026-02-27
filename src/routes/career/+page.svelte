@@ -5,69 +5,55 @@
   import Experience from "$lib/components/Experience.svelte";
 
   import { ctw, jmv, senai, spiry, uemg } from "$lib/data/experiences";
+  import { m } from "$lib/paraglide/messages";
 </script>
 
 <Content page>
-  <Title>Work</Title>
+  <Title>{m.career_work_title()}</Title>
   <div class="my-6">
     <Experience experience={ctw}>
-      <li>
-        Designed and built infrastructure for an Angular microfrontend
-        application within a monorepo, utilizing micro-deployments.
-      </li>
-      <li>Maintained 4 internal projects including another design system.</li>
-      <li>
-        Developed and maintained a Frontend Standards Guidance for BMW teams.
-      </li>
-      <li>
-        Created an application to collect package usage statistics, including
-        the migration of old data.
-      </li>
-      <li>Created well-written documentation for the products.</li>
-      <li>
-        <b>Tools used:</b> Jira, Bitbucket, Confluence, Windows, WSL, Docker
-      </li>
-      <li>
-        <b>Tech stack:</b> Angular 8-17, React, Jasmine, Java (Spring / Quarkus),
-        PostgreSQL, Jenkins, Kubernetes, Terraform, Ansible, Azure, NGINX
-      </li>
+      <li>{m.career_ctw_1()}</li>
+      <li>{m.career_ctw_2()}</li>
+      <li>{m.career_ctw_3()}</li>
+      <li>{m.career_ctw_4()}</li>
+      <li>{m.career_ctw_5()}</li>
+      <li><b>{m.career_ctw_tools_label()}</b> {m.career_ctw_tools()}</li>
+      <li><b>{m.career_ctw_stack_label()}</b> {m.career_ctw_stack()}</li>
     </Experience>
     <Experience experience={jmv}>
       <li>
-        Maintained a distance education platform management project (<Link
-          to="https://nochalks.com/">Nochalks</Link
-        >)
+        {m.career_jmv_1()}
+        (<Link to="https://nochalks.com/">Nochalks</Link>)
       </li>
 
-      <li>Created an internal project to manage multiplatform social stream</li>
-      <li>Learned TDD with Vue</li>
-      <li><b>Tools used:</b> Gitlab, Linux and docker</li>
-      <li>
-        <b>Tech stack:</b> Vue 2, PHP (Laravel), Node.js, Websocket, Jest.js, PostgreSQL
-      </li>
+      <li>{m.career_jmv_2()}</li>
+      <li>{m.career_jmv_3()}</li>
+      <li><b>{m.career_jmv_tools_label()}</b> {m.career_jmv_tools()}</li>
+      <li><b>{m.career_jmv_stack_label()}</b> {m.career_jmv_stack()}</li>
     </Experience>
     <Experience experience={spiry}>
       <li>
-        Developed frontend of <Link to="https://koinzaar.com/">Koinzaar</Link>
+        {m.career_spiry_1()}
+        <Link to="https://koinzaar.com/">Koinzaar</Link>
       </li>
-      <li><b>Tech stack:</b> React, Next.js, PostgreSQL</li>
+      <li><b>{m.career_spiry_stack_label()}</b> {m.career_spiry_stack()}</li>
     </Experience>
   </div>
-  <Title>Education</Title>
+  <Title>{m.career_education_title()}</Title>
   <div class="my-6">
     <Experience experience={senai}>
       <li>
-        Learned Programming logic with:
+        {m.career_senai_1()}
         <ul>
           <li>C++, C#, SQL, HTML CSS, JS JQuery and Java</li>
         </ul>
       </li>
     </Experience>
     <Experience experience={uemg}>
-      <li>Computer Engineering</li>
-      <li>Learn philosophy</li>
-      <li>Realize that the university just was good at the end of 3 years</li>
-      <li>Quit and focused on other jobs</li>
+      <li>{m.career_uemg_1()}</li>
+      <li>{m.career_uemg_2()}</li>
+      <li>{m.career_uemg_3()}</li>
+      <li>{m.career_uemg_4()}</li>
     </Experience>
   </div>
 </Content>
