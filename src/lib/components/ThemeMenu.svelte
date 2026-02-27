@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
+  import { browser } from "$app/environment";
   import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
   import { Sparkles } from "svelte-hero-icons";
   import { theme } from "$lib/stores/theme.store";
@@ -14,7 +15,7 @@
   ];
 
   let open = false;
-  let root: HTMLElement;
+  let root: HTMLElement | undefined;
 
   function setTheme(t: Theme) {
     theme.set(t);
@@ -29,6 +30,8 @@
   }
 
   onMount(() => {
+    if (!browser) return;
+
     const localTheme = localStorage.getItem("theme") as Theme | null;
     if (localTheme && themes.some((t) => t.id === localTheme)) theme.set(localTheme);
 
@@ -36,6 +39,7 @@
   });
 
   onDestroy(() => {
+    if (!browser) return;
     document.removeEventListener("pointerdown", onDocPointerDown);
   });
 

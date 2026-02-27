@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
+  import { browser } from "$app/environment";
   import { page } from "$app/stores";
   import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
@@ -14,7 +15,7 @@
   };
 
   let open = false;
-  let root: HTMLElement;
+  let root: HTMLElement | undefined;
 
   function getActiveLocale(pathname: string) {
     const found = locales.find((l) => pathname.startsWith(`/${l}`));
@@ -29,10 +30,12 @@
   }
 
   onMount(() => {
+    if (!browser) return;
     document.addEventListener("pointerdown", onDocPointerDown);
   });
 
   onDestroy(() => {
+    if (!browser) return;
     document.removeEventListener("pointerdown", onDocPointerDown);
   });
 
