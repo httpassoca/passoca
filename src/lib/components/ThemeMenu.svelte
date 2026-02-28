@@ -79,7 +79,7 @@
         >
           <span class="left">
             <span class="swatch" style={t.swatch ? `background:${t.swatch}` : ''}></span>
-            <span>{t.label}</span>
+            <span class="label">{t.label}</span>
           </span>
           {#if t.id === $theme}
             <span class="check">✓</span>
@@ -155,4 +155,7 @@
 
   .check
     font-size: 12px
+
+  .label
+    font-size: 13px
 </style>
