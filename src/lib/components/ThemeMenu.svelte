@@ -68,8 +68,13 @@
     />
   </button>
 
-  {#if open}
-    <div class="popover" role="menu" aria-label="Theme options">
+  <div
+    class="popover"
+    class:open
+    role="menu"
+    aria-label="Theme options"
+    aria-hidden={!open}
+  >
       {#each themes as t}
         <button
           role="menuitemradio"
@@ -86,8 +91,7 @@
           {/if}
         </button>
       {/each}
-    </div>
-  {/if}
+  </div>
 </div>
 
 <style lang="sass">
@@ -122,6 +126,21 @@
     background: var(--app-color-background)
     border: 1px solid rgba(255, 255, 255, 0.12)
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35)
+
+    // animation
+    opacity: 0
+    transform: translateY(-6px) scale(0.98)
+    visibility: hidden
+    pointer-events: none
+    transform-origin: top right
+    transition: opacity .35s cubic-bezier(0.215,0.61,0.355,1), transform .35s cubic-bezier(0.215,0.61,0.355,1), visibility 0s linear .35s
+
+  .popover.open
+    opacity: 1
+    transform: translateY(0) scale(1)
+    visibility: visible
+    pointer-events: auto
+    transition: opacity .35s cubic-bezier(0.215,0.61,0.355,1), transform .35s cubic-bezier(0.215,0.61,0.355,1), visibility 0s linear 0s
 
   .popover button
     width: 100%
