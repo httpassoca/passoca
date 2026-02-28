@@ -12,6 +12,8 @@
   onMount(() => {
     viewportWidth.set(window.innerWidth);
   });
+
+  $: isMobile = typeof $viewportWidth === "number" && $viewportWidth < 768;
 </script>
 
 <svelte:window bind:innerWidth={$viewportWidth} />
@@ -42,7 +44,9 @@
     <PageTransition key={$page.url.pathname}>
       <slot />
     </PageTransition>
-    <MobileBottomNav />
+    {#if isMobile}
+      <MobileBottomNav />
+    {/if}
   </main>
 {:else}
   <slot />
