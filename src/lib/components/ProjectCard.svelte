@@ -17,38 +17,40 @@
     </div>
   {/if}
 
-  <header>
-    <h3>{name}</h3>
-    <p>{description}</p>
+  <section>
+    <header>
+      <h3>{name}</h3>
+      <p>{description}</p>
 
-    {#if features.length}
-      <ul class="features">
-        {#each features as f (f)}
-          <li>{f}</li>
-        {/each}
-      </ul>
-    {/if}
-  </header>
+      {#if features.length}
+        <ul class="features">
+          {#each features as f (f)}
+            <li>{f}</li>
+          {/each}
+        </ul>
+      {/if}
+    </header>
 
-  <footer class="links">
-    {#if websiteUrl}
-      <a class="btn" href={websiteUrl} target="_blank" rel="noreferrer">
-        <span>Website</span>
-        <SVG
-          name="external_link"
-          width="14"
-          height="14"
-          fill="var(--app-color-text)"
-        />
-      </a>
-    {/if}
-    {#if githubUrl}
-      <a class="btn" href={githubUrl} target="_blank" rel="noreferrer">
-        <span>GitHub</span>
-        <SVG name="github" width="16" height="16" fill="var(--app-color-text)" />
-      </a>
-    {/if}
-  </footer>
+    <footer class="links">
+      {#if websiteUrl}
+        <a class="btn" href={websiteUrl} target="_blank" rel="noreferrer">
+          <span>Website</span>
+          <SVG
+            name="external_link"
+            width="14"
+            height="14"
+            fill="var(--app-color-text)"
+          />
+        </a>
+      {/if}
+      {#if githubUrl}
+        <a class="btn" href={githubUrl} target="_blank" rel="noreferrer">
+          <span>GitHub</span>
+          <SVG name="github" width="16" height="16" fill="var(--app-color-text)" />
+        </a>
+      {/if}
+    </footer>
+  </section>
 </article>
 
 <style lang="sass">
@@ -57,11 +59,28 @@
     border-radius: 16px
     border: 1px solid rgba(255, 255, 255, 0.12)
     background: rgba(255, 255, 255, 0.04)
+    display: flex
+    flex-direction: column
+    gap: 16px
+    @media (min-width: 768px)
+      flex-direction: row
 
-  header h3
-    font-size: 16px
-    line-height: 18px
-    font-weight: 600
+  section
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+
+  header
+    h3
+      font-size: 16px
+      line-height: 18px
+      font-weight: 600
+
+    p
+      margin-top: 8px
+      opacity: 0.85
+      font-size: 13px
+      line-height: 18px
 
   .thumb
     width: 100%
@@ -70,18 +89,12 @@
     overflow: hidden
     border: 1px solid rgba(255, 255, 255, 0.12)
     background: rgba(0, 0, 0, 0.22)
-    margin-bottom: 14px
 
   .thumb img
     width: 100%
     height: 100%
     object-fit: cover
 
-  header p
-    margin-top: 8px
-    opacity: 0.85
-    font-size: 13px
-    line-height: 18px
 
   ul.features
     margin-top: 12px

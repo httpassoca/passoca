@@ -14,12 +14,13 @@
     <div class="projects-grid">
       <ProjectCard
         name="Bloodborne Sudoku"
-        description="A Bloodborne-themed Sudoku with a custom UI and game feel — built to be playable and polished on mobile."
+        description="A Bloodborne-themed Sudoku with a custom UI and game feel — built to be playable and polished on mobile. AI btw."
         features={[
           "Multiple difficulties + new puzzle generation",
           "Notes/pencil marks + error highlighting",
           "Keyboard support (desktop) + touch-first controls (mobile)",
           "Bloodborne-inspired theme, typography and sound design",
+          "Multiplayer coop and duel modes",
         ]}
         imageSrc="/imgs/projects/bloodborne-sudoku.gif"
         imageAlt="Bloodborne Sudoku gameplay screenshot"
@@ -45,10 +46,6 @@
   margin-top: 15px
   display: grid
   grid-template-columns: 1fr
-
-  @media (min-width: 768px)
-    grid-template-columns: repeat(2, 1fr)
-    gap: 16px
 
 .grid-icons
   margin-top: 15px
