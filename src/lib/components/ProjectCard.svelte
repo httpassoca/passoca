@@ -3,14 +3,31 @@
 
   export let name: string;
   export let description: string;
+  export let features: string[] = [];
+  export let imageSrc: string | undefined = undefined;
+  export let imageAlt: string | undefined = undefined;
   export let githubUrl: string | undefined = undefined;
   export let websiteUrl: string | undefined = undefined;
 </script>
 
 <article class="card">
+  {#if imageSrc}
+    <div class="thumb">
+      <img src={imageSrc} alt={imageAlt ?? name} loading="lazy" />
+    </div>
+  {/if}
+
   <header>
     <h3>{name}</h3>
     <p>{description}</p>
+
+    {#if features.length}
+      <ul class="features">
+        {#each features as f (f)}
+          <li>{f}</li>
+        {/each}
+      </ul>
+    {/if}
   </header>
 
   <footer class="links">
@@ -46,9 +63,34 @@
     line-height: 18px
     font-weight: 600
 
+  .thumb
+    width: 100%
+    aspect-ratio: 16 / 9
+    border-radius: 14px
+    overflow: hidden
+    border: 1px solid rgba(255, 255, 255, 0.12)
+    background: rgba(0, 0, 0, 0.22)
+    margin-bottom: 14px
+
+  .thumb img
+    width: 100%
+    height: 100%
+    object-fit: cover
+
   header p
     margin-top: 8px
     opacity: 0.85
+    font-size: 13px
+    line-height: 18px
+
+  ul.features
+    margin-top: 12px
+    padding-left: 18px
+    display: grid
+    gap: 6px
+    opacity: 0.9
+
+  ul.features li
     font-size: 13px
     line-height: 18px
 

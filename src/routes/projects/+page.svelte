@@ -14,7 +14,15 @@
     <div class="projects-grid">
       <ProjectCard
         name="Bloodborne Sudoku"
-        description="A Bloodborne-themed Sudoku with a custom UI and a bit of hunter vibes."
+        description="A Bloodborne-themed Sudoku with a custom UI and game feel — built to be playable and polished on mobile."
+        features={[
+          "Multiple difficulties + new puzzle generation",
+          "Notes/pencil marks + error highlighting",
+          "Keyboard support (desktop) + touch-first controls (mobile)",
+          "Bloodborne-inspired theme, typography and sound design",
+        ]}
+        imageSrc="/imgs/projects/bloodborne-sudoku.gif"
+        imageAlt="Bloodborne Sudoku gameplay screenshot"
         githubUrl="https://github.com/httpassoca/bloodborne-sudoku"
         websiteUrl="https://sudoku.passoca.dev"
       />
