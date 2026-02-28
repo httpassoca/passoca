@@ -4,8 +4,7 @@
   import { page } from "$app/stores";
   import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
-  import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
-  import { Translate, ChevronDown } from "svelte-hero-icons";
+  import SVG from "./Base/AppSVG.svelte";
 
   type LocaleInfo = { id: string; label: string; flag: string };
 
@@ -57,8 +56,12 @@
     on:click={() => (open = !open)}
   >
     <span class="flag">{active.flag}</span>
-    <HeroIcon src={Translate} size="18" />
-    <HeroIcon className="chev" src={ChevronDown} size="14" />
+    <SVG
+      name="language"
+      width="24"
+      height="24"
+      fill='var(--app-color-text)'
+    />
   </button>
 
   {#if open}

@@ -54,7 +54,6 @@
       <!-- <a class:actual={$page.url.pathname === "/contact"} href="/contact">contact</a> -->
     </nav>
     <div class="icons">
-      <LanguageMenu />
       <a href="/linkedin" target="_blank">
         <SVG
           name="linkedin"
@@ -71,6 +70,9 @@
           fill='var(--app-color-text)'
         />
       </a>
+      <div>
+        <LanguageMenu />
+      </div>
       <ThemeMenu />
     </div>
   </div>
@@ -102,7 +104,7 @@ header
 
 .icons
   @apply flex h-full items-center my-auto gap-2
-  a
+  > *
     line-height: 24px
     display: block
     position: relative
@@ -119,5 +121,4 @@ header
       border-bottom: 5px solid var(--app-color-primary)
       top: 53%
       transform: translateY(-50%)
-
 </style>

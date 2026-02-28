@@ -1,10 +1,9 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { browser } from "$app/environment";
-  import HeroIcon from "$lib/components/Base/HeroIcon.svelte";
-  import { ColorSwatch, ChevronDown } from "svelte-hero-icons";
   import { theme } from "$lib/stores/theme.store";
   import type { Theme } from "$lib/stores/theme.store";
+  import SVG from "./Base/AppSVG.svelte";
 
   const themes: { id: Theme; label: string; swatch?: string; themeColor?: string }[] = [
     { id: "dark", label: "Dark", swatch: "#0b1220", themeColor: "#0b1220" },
@@ -60,8 +59,13 @@
     aria-expanded={open}
     on:click={() => (open = !open)}
   >
-    <HeroIcon src={ColorSwatch} size="20" />
-    <HeroIcon className="chev" src={ChevronDown} size="14" />
+
+    <SVG
+      name="colorswatch"
+      width="24"
+      height="24"
+      fill='var(--app-color-text)'
+    />
   </button>
 
   {#if open}
