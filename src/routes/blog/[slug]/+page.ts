@@ -24,8 +24,12 @@ export const load = (({ params }) => {
 
   const locale = getLocale();
 
-  const importsEn = import.meta.glob<GlobEntry>("/src/lib/blog/en/*.md", { eager: true });
-  const importsPt = import.meta.glob<GlobEntry>("/src/lib/blog/pt-BR/*.md", { eager: true });
+  const importsEn = import.meta.glob<GlobEntry>("/src/lib/blog/en/*.md", {
+    eager: true,
+  });
+  const importsPt = import.meta.glob<GlobEntry>("/src/lib/blog/pt-BR/*.md", {
+    eager: true,
+  });
   const imports = locale === "pt-BR" ? importsPt : importsEn;
 
   const posts = Object.entries(imports).map(([filepath, globEntry]) => {

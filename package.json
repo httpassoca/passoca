@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@sveltejs/adapter-vercel": "^4.0.0",
+    "@vercel/analytics": "^2.0.1",
     "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
     "photoswipe": "^5.4.3",
