@@ -24,8 +24,12 @@ type GlobEntry = {
   default: any;
 };
 
-const importsEn = import.meta.glob<GlobEntry>("./blog/en/*.md", { eager: true });
-const importsPt = import.meta.glob<GlobEntry>("./blog/pt-BR/*.md", { eager: true });
+const importsEn = import.meta.glob<GlobEntry>("./blog/en/*.md", {
+  eager: true,
+});
+const importsPt = import.meta.glob<GlobEntry>("./blog/pt-BR/*.md", {
+  eager: true,
+});
 
 function buildPosts(imports: Record<string, GlobEntry>): Post[] {
   const entries = Object.entries(imports).map(([filepath, globEntry]) => ({

@@ -22,7 +22,7 @@ Então, para resolver isso, dessa vez eu decidi assistir algo fácil: algo em qu
 
 Como eu sou brasileiro, eu consigo entender italiano com certa facilidade, já que ambos são línguas latinas (e eu também estou aprendendo latim 👀). Mas eu ainda tenho um problema enorme: como eu não conheço as palavras, eu não consigo perceber exatamente onde uma palavra termina e a próxima começa. Provavelmente o maior desafio de listening quando você está tentando aprender uma língua nova.
 
-Para me ajudar com isso, eu decidi assistir não só com dublagem em italiano, mas também com legendas. Aí eu descobri o problema que traz a gente para este post: é difícil demais achar animes dublados em italiano *e* legendados em italiano! Pelo menos para quem não é nativo.
+Para me ajudar com isso, eu decidi assistir não só com dublagem em italiano, mas também com legendas. Aí eu descobri o problema que traz a gente para este post: é difícil demais achar animes dublados em italiano _e_ legendados em italiano! Pelo menos para quem não é nativo.
 
 Depois de pesquisar, tentar legendar manualmente o anime, escolher entre conteúdo dublado ou legendado, tentar trocar o anime… eu pensei: _“deve existir um projeto open source para legendar mídia com AI”_ e pesquisei “ai subtitles” no GitHub:
 
