@@ -64,7 +64,6 @@
     <div class="img">
       <img
         src={music.album.images[1].url}
-        class="rounded-full"
         height="80"
         width="80"
         alt={`${music.name} album cover`}
@@ -103,7 +102,6 @@
     display: block
     height: 12px
     width: 12px
-    border-radius: 50%
     position: absolute
     top: 50%
     left: 50%

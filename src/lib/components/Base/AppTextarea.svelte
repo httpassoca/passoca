@@ -11,7 +11,6 @@ textarea
   width: 100%
   padding: 12px
   margin: 0.5rem 0
-  border-radius: 0.375rem
 
   &::placeholder
     font-style: italic

@@ -28,7 +28,6 @@
 .post
   background-color: var(--app-color-lighter-background)
   padding: 10px 18px
-  border-radius: 6px
   font-size: 18px
   color: var(--app-color-text)
 
@@ -49,7 +48,7 @@
     gap: 6px
     li
       font-size: .7rem
-      font-family: 'Caskaydia Cove'
+      font-family: var(--ss-font-body)
       padding: 2px 0
       text-transform: lowercase
       + li:before

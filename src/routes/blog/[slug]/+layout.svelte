@@ -61,7 +61,7 @@ hr
   pre
     margin: 20px 0
     code
-      font-family: 'Caskaydia Cove'
+      font-family: var(--ss-font-body)
       line-height: 1
       font-size: .8rem
   code:not([class*="language-"])
@@ -69,7 +69,6 @@ hr
     word-break: break-word
     background-color: var(--app-color-code-background)
     padding: 2px 6px
-    border-radius: 4px
   img
     margin: 12px auto 0 auto
   h1, h2

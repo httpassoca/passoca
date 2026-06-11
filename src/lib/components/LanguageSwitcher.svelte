@@ -22,7 +22,6 @@
 
   nav.lang a
     border: 1px solid rgba(255, 255, 255, 0.12)
-    border-radius: 8px
     padding: 4px 8px
     font-size: 12px
     line-height: 14px

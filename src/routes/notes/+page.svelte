@@ -90,5 +90,4 @@
     margin: 1em auto
     box-shadow:  0px 0px 8px 0px #0000009e
     max-width: calc(100% - 14px)
-    border-radius: 4px
 </style>

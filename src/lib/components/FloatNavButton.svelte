@@ -36,16 +36,11 @@
   button
     padding: 15px
     background-color: var(--app-color-background)
-    border-bottom-left-radius: 50%
-    border-bottom-right-radius: 50%
-    border-top-left-radius: 50%
-    border-top-right-radius: 50%
     color: var(--app-color-primary)
     float: right
-    transition: opacity .3s ease-in-out, border-top-right-radius .3s ease-in-out
+    transition: opacity .3s ease-in-out
     &.active
       opacity: .85
-      border-top-right-radius: 6px
   nav
     flex-direction: column
     display: flex
@@ -55,13 +50,11 @@
     gap: 12px
     margin-bottom: 0
     background-color: var(--app-color-background)
-    border-radius: 6px
     width: 120px
     padding: 0
     transition: all .5s ease-in-out
     a
       padding: 2px 6px
-      border-radius: 4px
       &.actual
         color: var(--app-color-primary)
     &.active
