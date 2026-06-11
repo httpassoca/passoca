@@ -9,7 +9,7 @@ tags: [Spotify, API]
 _[Esse artigo foi traduzido pelo gpt]_
 
 <script lang="ts">
-  import Link from '$lib/components/Base/AppLink.svelte';
+  import { Link } from 'dssoca';
   import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
@@ -17,19 +17,19 @@ _[Esse artigo foi traduzido pelo gpt]_
 
 ## Introdução
 
-Eu vi isso no site do <Link to="https://cristianbgp.com/">Cristian Granda</Link> e achei muito legal — eu nunca tinha visto. Eu levei dois dias para fazer, mas eu vou te ensinar a fazer rápido ⚡.
+Eu vi isso no site do <Link href="https://cristianbgp.com/">Cristian Granda</Link> e achei muito legal — eu nunca tinha visto. Eu levei dois dias para fazer, mas eu vou te ensinar a fazer rápido ⚡.
 
-Depois que eu vi o <Link to="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=">demo da API</Link>, eu pensei “_easy-peasy_”, e realmente é, mas chegar lá não é.
+Depois que eu vi o <Link href="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=">demo da API</Link>, eu pensei “_easy-peasy_”, e realmente é, mas chegar lá não é.
 
-Basicamente, você precisa criar uma integração no Spotify, pegar um refresh token, pegar um auth code e então buscar a música atual. Eu travei em duas etapas: descobrir tudo e conseguir o _refresh token_. Mas eu achei um <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">site muito bom</Link>, que me fez pensar que eu não sou o único fritando a cabeça para pegar um simples _refresh token_ 😸.
+Basicamente, você precisa criar uma integração no Spotify, pegar um refresh token, pegar um auth code e então buscar a música atual. Eu travei em duas etapas: descobrir tudo e conseguir o _refresh token_. Mas eu achei um <Link href="https://getyourspotifyrefreshtoken.herokuapp.com/">site muito bom</Link>, que me fez pensar que eu não sou o único fritando a cabeça para pegar um simples _refresh token_ 😸.
 
 ## Como fazer
 
-Comece criando uma integração no <Link to="https://developer.spotify.com/dashboard/">Spotify Dashboard</Link>. Depois, clique em **edit settings** e adicione `https://getyourspotifyrefreshtoken.herokuapp.com/callback` em **Redirect URIs**.
+Comece criando uma integração no <Link href="https://developer.spotify.com/dashboard/">Spotify Dashboard</Link>. Depois, clique em **edit settings** e adicione `https://getyourspotifyrefreshtoken.herokuapp.com/callback` em **Redirect URIs**.
 
 <Image post="spotify-current-track" img="spotify-integration" alt="Spotify Integration example" maxHeight={740} maxWidth={592}/>
 
-Em seguida, copie o client **id** e o **secret**, cole os dois no site <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">aqui</Link>, marque `user-read-currently-playing` e envie.
+Em seguida, copie o client **id** e o **secret**, cole os dois no site <Link href="https://getyourspotifyrefreshtoken.herokuapp.com/">aqui</Link>, marque `user-read-currently-playing` e envie.
 
 Agora você tem o refresh token da sua integração do Spotify. Use ele para conseguir um **access token**. Eu fiz isso com minha API pessoal usando `Node.js`. Olha a função **getAccessToken**:
 
@@ -89,22 +89,22 @@ Agora você tem um JSON gigante contendo um `item` com todas as informações da
 
 <ul class="fonts">
   <li>
-    <Link to="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types="> 
+    <Link href="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types="> 
       Get currently Playing Track
     </Link>
   </li>
   <li>
-    <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/"> 
+    <Link href="https://getyourspotifyrefreshtoken.herokuapp.com/"> 
       GetYourSpotifyRefreshToken
     </Link>
   </li>
   <li>
-    <Link to="https://developer.spotify.com/documentation/general/guides/authorization/"> 
+    <Link href="https://developer.spotify.com/documentation/general/guides/authorization/"> 
       Spotify Auth
     </Link>
   </li>
   <li>
-    <Link to="https://developer.spotify.com/documentation/general/guides/authorization/code-flow/"> 
+    <Link href="https://developer.spotify.com/documentation/general/guides/authorization/code-flow/"> 
       Spotify Authorization Code Flow
     </Link>
   </li>

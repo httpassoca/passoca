@@ -9,7 +9,7 @@ tags: [Productivity, Notion]
 _[Esse artigo foi traduzido pelo gpt]_
 
 <script lang="ts">
-  import Link from '$lib/components/Base/AppLink.svelte';
+  import { Link } from 'dssoca';
   import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
@@ -17,11 +17,11 @@ _[Esse artigo foi traduzido pelo gpt]_
 
 ## Introdução
 
-Em fevereiro, alguns dias depois de ter chegado em Portugal, eu li um artigo do <Link to="https://www.youtube.com/user/simulacrumsquared">Tiago Forte</Link> (_agora, vendo o canal do YouTube dele, eu fico me perguntando por que a url é “simulacrumsquared”_ 🤔) explicando um método para manter informação digital (_em outras palavras, qualquer informação_) e eu fiquei meio curioso.
+Em fevereiro, alguns dias depois de ter chegado em Portugal, eu li um artigo do <Link href="https://www.youtube.com/user/simulacrumsquared">Tiago Forte</Link> (_agora, vendo o canal do YouTube dele, eu fico me perguntando por que a url é “simulacrumsquared”_ 🤔) explicando um método para manter informação digital (_em outras palavras, qualquer informação_) e eu fiquei meio curioso.
 
 Eu estava no meio de uma mudança de país e visualizei isso como um bom jeito de começar — dessa vez de verdade 😅 — a organizar minhas coisas.
 
-E hoje, depois de quase dois meses usando, eu percebi que todo mundo deveria pelo menos saber que isso existe. Para mim, que tenho <Link to="https://www.psychiatry.org/patients-families/adhd/what-is-adhd">ADHD</Link> e uso a internet desde os 8 anos, isso me ajuda a filtrar toda a informação que eu consumo. Se você está aqui, provavelmente você passa muito tempo navegando, recebendo milhões de bytes de informação por dia.
+E hoje, depois de quase dois meses usando, eu percebi que todo mundo deveria pelo menos saber que isso existe. Para mim, que tenho <Link href="https://www.psychiatry.org/patients-families/adhd/what-is-adhd">ADHD</Link> e uso a internet desde os 8 anos, isso me ajuda a filtrar toda a informação que eu consumo. Se você está aqui, provavelmente você passa muito tempo navegando, recebendo milhões de bytes de informação por dia.
 
 Claro que, depois de anos lidando com notícias lixo e memes engraçados, você constrói um filtro natural no cérebro que guarda alguns dados e joga outros fora — mas isso pode ser dominado quando você anota.
 
@@ -31,7 +31,7 @@ Ok, sem mais lero-lero, foi mal.
 
 ## O método PARA
 
-PARA significa **Projects, Areas, Resources and Archives**. Primeiro: eu não sigo 100% do método; **não é necessário começar com tudo**. Eu comecei com Areas e Tasks, e com o tempo eu fui adicionando o que eu precisava (também chamado de <Link to="https://www.zoho.com/inventory/guides/what-is-just-in-time.html">JIT - Just in time</Link>). Um resumo rápido:
+PARA significa **Projects, Areas, Resources and Archives**. Primeiro: eu não sigo 100% do método; **não é necessário começar com tudo**. Eu comecei com Areas e Tasks, e com o tempo eu fui adicionando o que eu precisava (também chamado de <Link href="https://www.zoho.com/inventory/guides/what-is-just-in-time.html">JIT - Just in time</Link>). Um resumo rápido:
 
 - **Projects**: um objetivo para ser feito em um período de tempo. É o item mais acionável e provavelmente o melhor ponto para começar.
 - **Areas of responsibility**: coisas com as quais você precisa se preocupar de vez em quando. É abstrato e não tem um fim definitivo, como “Saúde”, “Estudos”, “Viagens”, “Dinheiro”.
@@ -46,7 +46,7 @@ Também existem três regras para manter.
 
 ## Como eu uso
 
-Ok, claro que tem muito mais além disso: várias mini-definições e metodologias que você pode usar. Você pode ver tudo <Link to="https://fortelabs.co/blog/para/">aqui</Link>. Mas como eu disse, o essencial já me ajuda muito, e eu uso desse jeito:
+Ok, claro que tem muito mais além disso: várias mini-definições e metodologias que você pode usar. Você pode ver tudo <Link href="https://fortelabs.co/blog/para/">aqui</Link>. Mas como eu disse, o essencial já me ajuda muito, e eu uso desse jeito:
 
 <Image post="para-plus-notion" img="draw" alt="A draw of my organization based on PARA method" maxHeight={515} maxWidth={700} />
 
@@ -58,11 +58,11 @@ Hoje eu fico mais na página de Areas do que na de Projects — **isso é um pro
 
 ## Tasks
 
-Certo: basicamente eu tenho várias relações N:N <Link to="https://vertabelo.com/blog/many-to-many-relationship/">(many-to-many)</Link> no meu Notion. A mais importante é o banco de dados ✅Tasks.
+Certo: basicamente eu tenho várias relações N:N <Link href="https://vertabelo.com/blog/many-to-many-relationship/">(many-to-many)</Link> no meu Notion. A mais importante é o banco de dados ✅Tasks.
 
 Uma task é o item mais acionável do meu workspace; é basicamente a base da produtividade. Num dia comum, normalmente eu tenho 4 tasks (diário, trabalho, treino e sempre aparece mais alguma coisa).
 
-Graças ao <Link to="http://notion.so">Notion</Link>, cada task é uma página (_na verdade, quase tudo_), então eu consigo detalhar qualquer coisa que eu fiz no trabalho, no meu dia, no treino.
+Graças ao <Link href="http://notion.so">Notion</Link>, cada task é uma página (_na verdade, quase tudo_), então eu consigo detalhar qualquer coisa que eu fiz no trabalho, no meu dia, no treino.
 
 Isso é bom porque NINGUÉM consegue lembrar de tudo todo dia — nem as coisas importantes. Talvez você tenha na mente, mas três dias já são suficientes para substituir por outra informação. Meu banco de dados de Tasks aparece principalmente numa visão de calendário com todas as minhas tasks:
 
@@ -108,7 +108,7 @@ Primeiro: **todo project tem uma due date**. Segundo: **todo project tem um obje
 
 Esses três itens podem ser modificados com o tempo, mas quando você cria, você precisa pelo menos de um objetivo, uma due date e uma task (_mesmo que seja “chegar no objetivo”_).
 
-Ok, mas agora a parte legal, porque devs amam automação ⚡. Repara que as tasks abaixo do Aim são uma view do meu banco de Tasks filtrada para mostrar **somente as tasks relacionadas a esse project** e agrupadas por status (_caso você não conheça bem os conceitos de views e databases do Notion, eu recomendo <Link to="https://www.youtube.com/watch?v=R36CkcdT2b4">este vídeo</Link>_).
+Ok, mas agora a parte legal, porque devs amam automação ⚡. Repara que as tasks abaixo do Aim são uma view do meu banco de Tasks filtrada para mostrar **somente as tasks relacionadas a esse project** e agrupadas por status (_caso você não conheça bem os conceitos de views e databases do Notion, eu recomendo <Link href="https://www.youtube.com/watch?v=R36CkcdT2b4">este vídeo</Link>_).
 
 Ou seja: o Notion também permite transformar qualquer coisa em qualquer coisa. Nesse caso, eu fiz uma lista não ordenada (detalhada) para as tasks do meu project e arrastei e soltei no campo “To do” da view de Tasks. O Notion transforma cada item da lista em uma task no banco de dados. Se você detalhou o item com itens filhos, eles vão aparecer na página da task.
 
@@ -160,17 +160,17 @@ Eu uso muitos filtros e tags para separar — provavelmente é onde eu guardo ma
 
 ## Extras
 
-- No browser, eu uso a extensão <Link to="https://notion-enhancer.github.io/">notion-enhancer</Link> para usar emojis da Apple. Eles são melhores, admite.
-- Eu aprendi a usar Notion direito com vídeos do <Link to="https://www.youtube.com/c/ThomasFrankExplains">Thomas Frank</Link>, <Link to="https://youtu.be/NoLg2qFiOxw">este vídeo</Link> e <Link to="https://www.youtube.com/c/TiagoForte">Tiago Forte</Link>.
-- Se você quer deixar um Notion bonito, eu recomendo visitar a <Link to="https://www.reddit.com/r/Notion/?f=flair_name%3A%22Showcase%22">Showcase no Notion Reddit</Link>.
-- Você pode usar mais cores e fontes no Notion com <Link to="https://www.notion.so/KaTeX-Formatting-8f2a6470b9d34fa98be19ad25dfc587d">KaTeX Formatting</Link>.
-- Se você é dev e gosta de Notion, eu recomendo você dar uma olhada na <Link to="https://developers.notion.com/">Notion API</Link>. Eu ignorei por meses e eu me arrependo. Agora eu estou usando ela na página /contact deste site.
+- No browser, eu uso a extensão <Link href="https://notion-enhancer.github.io/">notion-enhancer</Link> para usar emojis da Apple. Eles são melhores, admite.
+- Eu aprendi a usar Notion direito com vídeos do <Link href="https://www.youtube.com/c/ThomasFrankExplains">Thomas Frank</Link>, <Link href="https://youtu.be/NoLg2qFiOxw">este vídeo</Link> e <Link href="https://www.youtube.com/c/TiagoForte">Tiago Forte</Link>.
+- Se você quer deixar um Notion bonito, eu recomendo visitar a <Link href="https://www.reddit.com/r/Notion/?f=flair_name%3A%22Showcase%22">Showcase no Notion Reddit</Link>.
+- Você pode usar mais cores e fontes no Notion com <Link href="https://www.notion.so/KaTeX-Formatting-8f2a6470b9d34fa98be19ad25dfc587d">KaTeX Formatting</Link>.
+- Se você é dev e gosta de Notion, eu recomendo você dar uma olhada na <Link href="https://developers.notion.com/">Notion API</Link>. Eu ignorei por meses e eu me arrependo. Agora eu estou usando ela na página /contact deste site.
 
 ## Fontes
 
 <ul class="fonts">
   <li>
-    <Link to="https://fortelabs.co/blog/para/"> 
+    <Link href="https://fortelabs.co/blog/para/"> 
       PARA Method - by Tiago Forte
     </Link>
   </li>

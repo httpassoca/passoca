@@ -1,6 +1,6 @@
 <script lang="ts">
   import Content from "$lib/components/Base/AppContent.svelte";
-  import Link from "$lib/components/Base/AppLink.svelte";
+  import { Link } from "dssoca";
   import AppSvg from "$lib/components/Base/AppSVG.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import { books, games, socials, trips } from "$lib/data/misc";
@@ -55,12 +55,12 @@
     <div class="info text-base">
       <p>
         {m.home_bio1()}
-        <Link to="https://www.senaimg.com.br/">SENAI.</Link>
+        <Link href="https://www.senaimg.com.br/">SENAI.</Link>
         {m.home_bio1_after()}
       </p>
       <p>
         {m.home_bio2()}
-        <Link to="https://www.criticaltechworks.com/">Critical Techworks</Link>.
+        <Link href="https://www.criticaltechworks.com/">Critical Techworks</Link>.
       </p>
       <p>
         {m.home_bio3()}
@@ -74,7 +74,7 @@
   <h2 class="font-boston mb-2">{m.home_besides()}</h2>
   <p class="text-base">
     {m.home_books()}
-    <Link to="https://www.goodreads.com/user/show/139184791-passoca-freitas">goodreads</Link>.
+    <Link href="https://www.goodreads.com/user/show/139184791-passoca-freitas">goodreads</Link>.
   </p>
   <div class="flex flex-wrap gap-3 my-2 md:justify-between">
     {#each books as book (book.link)}

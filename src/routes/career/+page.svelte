@@ -1,6 +1,6 @@
 <script lang="ts">
   import Content from "$lib/components/Base/AppContent.svelte";
-  import Link from "$lib/components/Base/AppLink.svelte";
+  import { Link } from "dssoca";
   import Title from "$lib/components/Base/AppTitle.svelte";
   import Experience from "$lib/components/Experience.svelte";
 
@@ -23,7 +23,7 @@
     <Experience experience={jmv}>
       <li>
         {m.career_jmv_1()}
-        (<Link to="https://nochalks.com/">Nochalks</Link>)
+        (<Link href="https://nochalks.com/">Nochalks</Link>)
       </li>
 
       <li>{m.career_jmv_2()}</li>
@@ -34,7 +34,7 @@
     <Experience experience={spiry}>
       <li>
         {m.career_spiry_1()}
-        <Link to="https://koinzaar.com/">Koinzaar</Link>
+        <Link href="https://koinzaar.com/">Koinzaar</Link>
       </li>
       <li><b>{m.career_spiry_stack_label()}</b> {m.career_spiry_stack()}</li>
     </Experience>
