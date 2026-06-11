@@ -60,7 +60,7 @@
 </svelte:head>
 
 {#if !$page.url.pathname.includes("notion/")}
-  <main class="content pb-24 md:pb-0">
+  <main id="main" class="content pb-24 md:pb-0">
     <Header />
     <PageTransition key={$page.url.pathname}>
       <slot />
