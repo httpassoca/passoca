@@ -17,6 +17,7 @@
     "@sveltejs/adapter-vercel": "^4.0.0",
     "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
+    "dssoca": "^0.8.2",
     "photoswipe": "^5.4.3",
     "sass": "^1.43.5"
   },
