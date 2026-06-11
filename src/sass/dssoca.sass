@@ -32,12 +32,19 @@ body
   --ss-shadow-pop: 0 12px 40px rgba(0, 0, 0, 0.35)
   --ss-shadow-glow: 0 0 24px rgba(var(--ss-primary-rgb), 0.35)
 
-  // fonts: the site's stacks (we do not load dssoca's webfonts)
-  --ss-font-body: 'Noto Sans', 'Source Sans Pro', sans-serif
-  --ss-font-mono: 'Caskaydia Cove Mono', ui-monospace, 'SF Mono', Menlo, monospace
+  // fonts: dssoca's stacks (webfonts loaded via <link> in app.html)
+  --ss-font-display: 'Electrolize', 'Space Grotesk', 'Inter', system-ui, sans-serif
+  --ss-font-subhead: 'Electrolize', 'Space Grotesk', 'Inter', system-ui, sans-serif
+  --ss-font-body: 'JetBrains Mono', 'Caskaydia Cove', ui-monospace, 'SF Mono', Menlo, monospace
+  --ss-font-mono: 'JetBrains Mono', 'Caskaydia Cove Mono', ui-monospace, 'SF Mono', Menlo, monospace
 
   // size/metric tokens: dssoca md defaults
   --ss-leading: 1.5
+  --ss-size-display: clamp(36px, 8vw, 54px)
+  --ss-size-h1: 32px
+  --ss-size-h2: 24px
+  --ss-size-h3: 20px
+  --ss-ui-lg: 15px
   --ss-ui-xs: 11px
   --ss-ui-sm: 12px
   --ss-ui-md: 13px
@@ -55,7 +62,12 @@ body
   --ss-s-2: 8px
   --ss-s-3: 12px
   --ss-s-4: 16px
+  --ss-s-6: 24px
   --ss-shell-top-h: 48px
+  // topbar / panel chrome
+  --ss-panel-head-px: 18px
+  --ss-badge-py: 5px
+  --ss-badge-px: 12px
   // menu
   --ss-menu-pad: 4px
   --ss-menu-item-py: 8px

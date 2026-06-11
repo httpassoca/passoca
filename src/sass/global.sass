@@ -12,13 +12,16 @@
   scroll-behavior: smooth
 
 html
-  font-family: 'Noto Sans', 'Source Sans Pro', sans-serif
   font-size: clamp(16px, 1vw + 12px, 20px)
   line-height: 1.3
   -ms-text-size-adjust: 100%
   -webkit-text-size-adjust: 100%
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
+
+body
+  // dssoca body font; token defined on body (bridge), so the rule lives here too
+  font-family: var(--ss-font-body)
 
 *::selection
   background-color: var(--app-color-primary)

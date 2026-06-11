@@ -10,14 +10,19 @@
 </h1>
 
 <style lang="scss">
+  // dssoca display heading (theme.css `.hs-display` recipe, via --ss-* tokens)
   h1 {
     position: relative;
-    font-family: "Boston Black It";
-    font-size: 1.675rem;
-    margin-bottom: 1rem;
-    color: var(--app-color-text);
+    font-family: var(--ss-font-display);
+    font-style: normal;
+    font-weight: 400;
+    font-size: var(--ss-size-display);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--ss-s-4) 0;
+    color: var(--ss-fg);
     z-index: 0;
-    text-shadow: 3px 3px var(--app-color-background);
+    text-shadow: 3px 3px var(--ss-bg);
 
     &.centered {
       text-align: center;
@@ -27,15 +32,14 @@
       position: relative;
       &.line::before {
         content: "";
-        display: block;
         position: absolute;
-        width: 110%;
-        height: 20%;
+        left: -2%;
+        right: -8%;
         top: 70%;
+        height: 20%;
         z-index: -1;
-        background-color: var(--app-color-primary);
+        background: var(--ss-primary);
         opacity: 0.9;
-        border-radius: 2px;
       }
     }
   }
