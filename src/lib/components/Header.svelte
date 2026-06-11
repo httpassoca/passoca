@@ -1,14 +1,78 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { browser } from "$app/environment";
   import { page } from "$app/stores";
   import Loader from "$lib/components/Base/AppLoader.svelte";
   import { theme } from "$lib/stores/theme.store";
+  import type { Theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
-  import ThemeMenu from "$lib/components/ThemeMenu.svelte";
-  import LanguageMenu from "$lib/components/LanguageMenu.svelte";
-  import { localizeHref } from "$lib/paraglide/runtime";
+  import { Menu } from "dssoca";
+  import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
   let animation = false;
+
+  const themes: { id: Theme; label: string; themeColor?: string }[] = [
+    { id: "dark", label: "Dark", themeColor: "#0b1220" },
+    { id: "light", label: "Light", themeColor: "#ffffff" },
+    { id: "coffee", label: "Coffee", themeColor: "#f9dec9" },
+    { id: "dracula", label: "Dracula", themeColor: "#282a36" },
+    { id: "tokyo-night", label: "Tokyo Night", themeColor: "#1a1b26" },
+  ];
+
+  onMount(() => {
+    if (!browser) return;
+    const localTheme = localStorage.getItem("theme") as Theme | null;
+    if (localTheme && themes.some((t) => t.id === localTheme)) theme.set(localTheme);
+  });
+
+  $: current = themes.find((t) => t.id === $theme);
+  $: themeItems = themes.map((t) => ({
+    id: t.id as string,
+    label: t.label,
+    selected: t.id === $theme,
+    onSelect: () => theme.set(t.id),
+  }));
+
+  type LocaleInfo = { id: string; label: string; flag: string };
+
+  const localeInfo: Record<string, LocaleInfo> = {
+    en: { id: "en", label: "English", flag: "🇺🇸" },
+    "pt-BR": { id: "pt-BR", label: "Português (BR)", flag: "🇧🇷" },
+  };
+
+  function getActiveLocale(pathname: string) {
+    const found = locales.find((l) => pathname.startsWith(`/${l}`));
+    return found ?? (locales[0] as any);
+  }
+
+  $: pathname = $page.url.pathname;
+  $: activeLocale = getActiveLocale(pathname);
+  $: activeLocaleInfo = localeInfo[activeLocale] ?? {
+    id: activeLocale,
+    label: activeLocale,
+    flag: "🏳️",
+  };
+  // Menu items only take dssoca icon names, so the flag is folded into the label.
+  // Locale switching needs a full page reload (paraglide URL strategy), hence
+  // window.location instead of an href item.
+  $: langItems = locales.map((l) => {
+    const info = localeInfo[l] ?? { id: l, label: l, flag: "🏳️" };
+    return {
+      id: l as string,
+      label: `${info.flag} ${info.label}`,
+      selected: l === activeLocale,
+      onSelect: () => {
+        window.location.href = localizeHref(pathname, { locale: l });
+      },
+    };
+  });
 </script>
+
+<svelte:head>
+  {#if current?.themeColor}
+    <meta name="theme-color" content={current.themeColor} />
+  {/if}
+</svelte:head>
 
 <header class="px-4 md:px-0">
   <div class="md:container md:px-0">
@@ -71,9 +135,26 @@
         />
       </a>
       <div>
-        <LanguageMenu />
+        <Menu items={langItems} align="end" label={m.i18n_switch()}>
+          <span class="flag">{activeLocaleInfo.flag}</span>
+          <SVG
+            name="language"
+            width="24"
+            height="24"
+            fill='var(--app-color-text)'
+          />
+        </Menu>
       </div>
-      <ThemeMenu />
+      <div>
+        <Menu items={themeItems} align="end" label="Theme options">
+          <SVG
+            name="colorswatch"
+            width="24"
+            height="24"
+            fill='var(--app-color-text)'
+          />
+        </Menu>
+      </div>
     </div>
   </div>
 </header>
@@ -121,4 +202,8 @@ header
       border-bottom: 5px solid var(--app-color-primary)
       top: 53%
       transform: translateY(-50%)
+
+.flag
+  font-size: 14px
+  line-height: 14px
 </style>
