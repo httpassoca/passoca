@@ -2,12 +2,10 @@
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { goto } from "$app/navigation";
-  import Loader from "$lib/components/Base/AppLoader.svelte";
   import { theme } from "$lib/stores/theme.store";
   import type { Theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
-  import { Menu, Topbar } from "dssoca";
+  import { Menu, Spinner, Topbar } from "dssoca";
   import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
   let animation = false;
@@ -30,6 +28,7 @@
   $: themeItems = themes.map((t) => ({
     id: t.id as string,
     label: t.label,
+    swatch: t.themeColor,
     selected: t.id === $theme,
     onSelect: () => theme.set(t.id),
   }));
@@ -53,14 +52,14 @@
     label: activeLocale,
     flag: "🏳️",
   };
-  // Menu items only take dssoca icon names, so the flag is folded into the label.
   // Locale switching needs a full page reload (paraglide URL strategy), hence
   // window.location instead of an href item.
   $: langItems = locales.map((l) => {
     const info = localeInfo[l] ?? { id: l, label: l, flag: "🏳️" };
     return {
       id: l as string,
-      label: `${info.flag} ${info.label}`,
+      label: info.label,
+      emoji: info.flag,
       selected: l === activeLocale,
       onSelect: () => {
         window.location.href = localizeHref(pathname, { locale: l });
@@ -68,9 +67,7 @@
     };
   });
 
-  // Topbar tabs are plain strings matched by equality, so the localized label
-  // doubles as the tab id and is mapped back to a path on activation
-  // (dssoca DS-0080 tracks first-class link tabs).
+  // Link tabs (dssoca DS-0080): real <a href> with aria-current, matched by id.
   const navTabs = [
     { id: "home", path: "/" },
     { id: "career", path: "/career" },
@@ -83,14 +80,12 @@
     projects: m.nav_projects(),
     blog: m.nav_blog(),
   } as Record<string, string>;
-  $: tabs = navTabs.map((t) => tabLabels[t.id]);
-  $: activeNavTab = navTabs.find((t) => pathname === t.path);
-  $: activeTab = activeNavTab ? tabLabels[activeNavTab.id] : "";
-
-  function handleTab(tab: string) {
-    const target = navTabs.find((t) => tabLabels[t.id] === tab);
-    if (target) goto(localizeHref(target.path));
-  }
+  $: tabs = navTabs.map((t) => ({
+    id: t.id,
+    label: tabLabels[t.id],
+    href: localizeHref(t.path),
+  }));
+  $: activeTab = navTabs.find((t) => pathname === t.path)?.id;
 </script>
 
 <svelte:head>
@@ -99,7 +94,7 @@
   {/if}
 </svelte:head>
 
-<Topbar {tabs} active={activeTab} onTab={handleTab} stats={[]}>
+<Topbar {tabs} active={activeTab} stats={[]} services={false} clock={false}>
   {#snippet brand()}
     <a
       href={localizeHref("/")}
@@ -108,7 +103,7 @@
       on:mouseleave={() => (animation = false)}
     >
       {#if animation}
-        <Loader />
+        <Spinner variant="squareCorners" />
       {:else}
         <svg
           viewBox="0 0 103 89"

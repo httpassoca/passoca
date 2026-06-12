@@ -1,8 +1,5 @@
 <script lang="ts">
-  import { Button, Input } from "dssoca";
-  import Content from "$lib/components/Base/AppContent.svelte";
-  import Title from "$lib/components/Base/AppTitle.svelte";
-  import Textarea from "$lib/components/Base/AppTextarea.svelte";
+  import { Button, Container, Heading, Input, Textarea } from "dssoca";
   import { m } from "$lib/paraglide/messages";
 
   let message = "";
@@ -52,8 +49,8 @@
   }
 </script>
 
-<Content page>
-  <Title centered>{m.contact_title()}</Title>
+<Container page>
+  <Heading centered>{m.contact_title()}</Heading>
 
   <form on:submit|preventDefault={sendMessage} class="flex flex-col gap-4">
     <div>
@@ -62,6 +59,7 @@
         placeholder={m.contact_placeholder_message()}
         bind:value={message}
         id="contact-message"
+        rows={5}
       />
     </div>
 
@@ -96,4 +94,4 @@
       {status === 'sending' ? m.contact_sending() : m.contact_send()}
     </Button>
   </form>
-</Content>
+</Container>

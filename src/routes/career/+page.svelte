@@ -1,15 +1,13 @@
 <script lang="ts">
-  import Content from "$lib/components/Base/AppContent.svelte";
-  import { Link } from "dssoca";
-  import Title from "$lib/components/Base/AppTitle.svelte";
+  import { Container, Heading, Link } from "dssoca";
   import Experience from "$lib/components/Experience.svelte";
 
   import { ctw, jmv, senai, spiry, uemg } from "$lib/data/experiences";
   import { m } from "$lib/paraglide/messages";
 </script>
 
-<Content page>
-  <Title>{m.career_work_title()}</Title>
+<Container page>
+  <Heading>{m.career_work_title()}</Heading>
   <div class="my-6">
     <Experience experience={ctw}>
       <li>{m.career_ctw_1()}</li>
@@ -39,7 +37,7 @@
       <li><b>{m.career_spiry_stack_label()}</b> {m.career_spiry_stack()}</li>
     </Experience>
   </div>
-  <Title>{m.career_education_title()}</Title>
+  <Heading>{m.career_education_title()}</Heading>
   <div class="my-6">
     <Experience experience={senai}>
       <li>
@@ -56,4 +54,4 @@
       <li>{m.career_uemg_4()}</li>
     </Experience>
   </div>
-</Content>
+</Container>

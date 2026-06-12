@@ -1,8 +1,8 @@
-// dssoca token bridge — maps the site's --app-color-* theme variables to the
-// --ss-* tokens consumed by dssoca components. dssoca/theme.css is NOT
-// imported (it restyles global elements); this file defines only the tokens
-// the imported components consume, using dssoca's `md` size defaults.
-// Size/motion values copied from dssoca dist/theme.css (:root / [data-size-variant=md]).
+// dssoca token bridge — maps the site's --app-color-* theme variables onto the
+// --ss-* color tokens consumed by dssoca components, so they follow the site's
+// 5 themes (body[data-theme=...]). Defining these on body overrides the :root
+// defaults from dssoca/tokens.css (imported in src/routes/+layout.svelte),
+// which now supplies all size/font/motion tokens — only colors live here.
 
 body
   // colors: bridged from the active theme (body[data-theme=...])
@@ -28,67 +28,6 @@ body
   --ss-danger: var(--ss-red)
   --ss-danger-hover: #ff7a7a
   --ss-fg-on-danger: #100f10
-  // elevation
-  --ss-shadow-pop: 0 12px 40px rgba(0, 0, 0, 0.35)
-  --ss-shadow-glow: 0 0 24px rgba(var(--ss-primary-rgb), 0.35)
-
-  // fonts: dssoca's stacks (webfonts loaded via <link> in app.html)
-  --ss-font-display: 'Electrolize', 'Space Grotesk', 'Inter', system-ui, sans-serif
-  --ss-font-subhead: 'Electrolize', 'Space Grotesk', 'Inter', system-ui, sans-serif
-  --ss-font-body: 'JetBrains Mono', 'Caskaydia Cove', ui-monospace, 'SF Mono', Menlo, monospace
-  --ss-font-mono: 'JetBrains Mono', 'Caskaydia Cove Mono', ui-monospace, 'SF Mono', Menlo, monospace
-
-  // size/metric tokens: dssoca md defaults
-  --ss-leading: 1.5
-  --ss-size-display: clamp(36px, 8vw, 54px)
-  --ss-size-h1: 32px
-  --ss-size-h2: 24px
-  --ss-size-h3: 20px
-  --ss-ui-lg: 15px
-  --ss-ui-xs: 11px
-  --ss-ui-sm: 12px
-  --ss-ui-md: 13px
-  --ss-icon: 16px
-  --ss-control-font: 14px
-  --ss-control-py: 9px
-  --ss-control-px: 16px
-  --ss-input-font: 15px
-  --ss-input-py: 13px
-  --ss-input-px: 16px
-  --ss-row-py: 9px
-  --ss-row-px: 14px
-  --ss-gap-sm: 10px
-  --ss-s-1: 4px
-  --ss-s-2: 8px
-  --ss-s-3: 12px
-  --ss-s-4: 16px
-  --ss-s-6: 24px
-  --ss-shell-top-h: 48px
-  // topbar / panel chrome
-  --ss-panel-head-px: 18px
-  --ss-badge-py: 5px
-  --ss-badge-px: 12px
-  // menu
-  --ss-menu-pad: 4px
-  --ss-menu-item-py: 8px
-  --ss-menu-item-px: 12px
-  --ss-menu-item-gap: 10px
-  --ss-menu-min-w: 180px
-  --ss-menu-offset: 6px
-  // bottom nav
-  --ss-bottom-nav-h: var(--ss-shell-top-h)
-  --ss-bottom-nav-px: var(--ss-s-2)
-  --ss-bottom-nav-tab-py: var(--ss-s-1)
-  --ss-bottom-nav-gap: 4px
-  --ss-bottom-nav-label-fs: var(--ss-ui-xs)
-
-  // motion
-  --ss-ease: cubic-bezier(0.215, 0.61, 0.355, 1)
-  --ss-dur-fast: 150ms
-  --ss-dur: 250ms
-  --ss-dur-slow: 350ms
-  --ss-dur-xslow: 650ms
-  --ss-icon-spin-dur: 900ms
 
 // light-surface themes: darken the status red for contrast (dssoca light values)
 body[data-theme='light'],
@@ -103,11 +42,3 @@ body[data-theme='coffee']
 // over the coffee background #f9dec9
 body[data-theme='coffee']
   --ss-bg-elev: #dfc3aa
-
-@media (prefers-reduced-motion: reduce)
-  body
-    --ss-dur-fast: 0ms
-    --ss-dur: 0ms
-    --ss-dur-slow: 0ms
-    --ss-dur-xslow: 0ms
-    --ss-icon-spin-dur: 0ms

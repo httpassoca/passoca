@@ -1,6 +1,5 @@
 <script lang="ts">
-  import Content from "$lib/components/Base/AppContent.svelte";
-  import { Link } from "dssoca";
+  import { Container, Link } from "dssoca";
   import AppSvg from "$lib/components/Base/AppSVG.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import { books, games, socials, trips } from "$lib/data/misc";
@@ -12,7 +11,7 @@
   export let { music } = data;
 </script>
 
-<Content page>
+<Container page>
   <div class="info">
     <h1 class="font-boston mb-2">{m.home_title()}</h1>
     <p class="text-base">
@@ -114,7 +113,7 @@
       </div>
     {/each}
   </div>
-</Content>
+</Container>
 
 <style lang="sass">
   h1

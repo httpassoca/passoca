@@ -10,7 +10,7 @@
   };
   import "photoswipe/style.css";
   import { onMount } from "svelte";
-  import AppLoader from "./AppLoader.svelte";
+  import { Spinner } from "dssoca";
 
   import { viewportWidth } from "$lib/stores/window.store";
   import PhotoSwipeLightbox from "photoswipe/lightbox";
@@ -110,7 +110,7 @@
     </a>
   {:else}
     <div class="flex justify-center">
-      <AppLoader height={imageHeight} />
+      <Spinner variant="squareCorners" />
     </div>
   {/if}
 </div>

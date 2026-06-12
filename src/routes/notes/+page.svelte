@@ -4,10 +4,7 @@
   import "prism-svelte";
   import { supabase } from "$lib/supabase";
   import type { PageData } from "./$types";
-  import Content from "$lib/components/Base/AppContent.svelte";
-  import Title from "$lib/components/Base/AppTitle.svelte";
-  import Loader from "$lib/components/Base/AppLoader.svelte";
-  import { Accordion } from "dssoca";
+  import { Accordion, Container, Heading, Spinner } from "dssoca";
   import AppError from "$lib/components/Base/AppError.svelte";
   import { m } from "$lib/paraglide/messages";
 
@@ -53,14 +50,14 @@
   };
 </script>
 
-<Content page>
-  <Title>{m.notes_title()}</Title>
+<Container page>
+  <Heading>{m.notes_title()}</Heading>
   <Accordion {items} multiple onChange={handleChange}>
     {#snippet panel(item)}
       {#if promises[item.id]}
         {#await promises[item.id]}
           <div class="flex justify-center mt-4">
-            <Loader />
+            <Spinner variant="squareCorners" />
           </div>
         {:then text}
           <div class="note">
@@ -75,7 +72,7 @@
   {#if !notes.length}
     <AppError />
   {/if}
-</Content>
+</Container>
 
 <style lang="sass">
 .note :global
