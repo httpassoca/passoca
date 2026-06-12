@@ -123,14 +123,6 @@
 
   {#snippet userMenu()}
     <div class="icons">
-      <a href="/linkedin" target="_blank" aria-label="LinkedIn">
-        <SVG
-          name="linkedin"
-          width="23"
-          height="23"
-          fill='var(--app-color-text)'
-        />
-      </a>
       <a href="/github" target="_blank" aria-label="GitHub">
         <SVG
           name="github"

@@ -75,7 +75,7 @@
     {m.home_books()}
     <Link href="https://www.goodreads.com/user/show/139184791-passoca-freitas">goodreads</Link>.
   </p>
-  <div class="flex flex-wrap gap-3 my-2 md:justify-between">
+  <div class="flex flex-wrap gap-1 my-2 md:justify-between">
     {#each books as book (book.link)}
       <a href={book.link} class="w-auto" target="_blank">
         <img
@@ -90,7 +90,7 @@
   <p class="text-base">
     {m.home_bike()}
   </p>
-  <div class="flex flex-col items-center md:flex-row md:justify-between">
+  <div class="flex flex-col items-center gap-1  md:flex-row md:justify-between">
     {#each trips as trip (trip.link)}
       <div
         class="video-card"
@@ -103,7 +103,7 @@
   <p class="text-base mt-4">
     {m.home_games()}
   </p>
-  <div class="flex flex-col items-center md:flex-row md:justify-between">
+  <div class="flex flex-col items-center gap-1 md:flex-row md:justify-between">
     {#each games as game (game.link)}
       <div
         class="video-card"
