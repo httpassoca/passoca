@@ -1,7 +1,0 @@
-allowBuilds:
-  '@parcel/watcher': true
-  esbuild: true
-  supabase: false
-  svelte-preprocess: true
-minimumReleaseAgeExclude:
-  - dssoca@0.9.0
