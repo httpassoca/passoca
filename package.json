@@ -1,6 +1,7 @@
 {
   "name": "passoca",
   "version": "0.0.2",
+  "packageManager": "pnpm@11.3.0",
   "scripts": {
     "dev": "vite dev",
     "build": "svelte-kit sync && vite build",
