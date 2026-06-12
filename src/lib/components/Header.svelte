@@ -181,9 +181,9 @@
   font-size: 14px
   line-height: 14px
 
-// Mobile navigation lives in the BottomNav; hide the tab strip until the DS
-// gains responsive tab behavior (dssoca DS-0082)
+// Mobile navigation lives in the BottomNav; the Topbar is desktop-only
+// (responsive tabs tracked as dssoca DS-0082)
 @media (max-width: 767px)
-  :global(.ss-topbar .ws)
+  :global(.ss-topbar)
     display: none
 </style>

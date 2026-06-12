@@ -84,11 +84,14 @@ hr
   p
     margin-top: 14px
     line-height: 1.4
-  a:not([href^='#'])
+    letter-spacing: -1px
+  // .ss-link (dssoca Link) brings its own underline + external icon ::after —
+  // exclude it from these rules so those links don't get both
+  a:not([href^='#']):not(.ss-link)
     font-weight: bold
     border-bottom: 1px solid rgba(var(--app-color-primary-rgb), .6)
     position: relative
-  a[target='_blank']
+  a[target='_blank']:not(.ss-link)
     &:before
       content: unset
     &:after
