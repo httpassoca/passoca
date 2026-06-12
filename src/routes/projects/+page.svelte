@@ -1,6 +1,5 @@
 <script lang="ts">
-  import Content from "$lib/components/Base/AppContent.svelte";
-  import Title from "$lib/components/Base/AppTitle.svelte";
+  import { Container, Heading } from "dssoca";
   import Skill from "$lib/components/Skill.svelte";
   import ProjectCard from "$lib/components/ProjectCard.svelte";
 
@@ -8,9 +7,9 @@
   import { m } from "$lib/paraglide/messages";
 </script>
 
-<Content page>
+<Container page>
   <section class="projects">
-    <Title>Projects</Title>
+    <Heading>Projects</Heading>
     <div class="projects-grid">
       <ProjectCard
         name="Bloodborne Sudoku"
@@ -30,13 +29,13 @@
     </div>
   </section>
 
-  <Title>{m.skills_title()}</Title>
+  <Heading>{m.skills_title()}</Heading>
   <div class="grid-icons md:grid-cols-4 grid-cols-2">
     {#each icons as skill (skill.name)}
       <Skill {skill} />
     {/each}
   </div>
-</Content>
+</Container>
 
 <style lang="sass">
 .projects

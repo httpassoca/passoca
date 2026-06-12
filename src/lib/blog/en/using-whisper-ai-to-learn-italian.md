@@ -9,7 +9,7 @@ personal: false
 
 <script lang="ts">
   import Image from '$lib/components/Base/AppImage.svelte';
-  import Link from '$lib/components/Base/AppLink.svelte';
+  import { Link } from 'dssoca';
 </script>
 
 One of my 2024’s goals is to learn how to speak, listen and write Italian. I already tried it once, or twice… I usually fell into the problem of losing interest on the language, I didn’t had nothing that keep the language on my life, on my routine. I already tried before to listen watch popular italian series or songs and it works well, but the proccess of consuming it becomes boring after a while, beucase either I enjoyed the work or I spent a lot of time trying to understand every detail. So to fix that, this time I decided to watch a easy thing, which I don’t need to get all details and it wouldn’t be bad to lost part of content quality. So I started to watch italian dubbed Dragon Ball Z 😁
@@ -20,7 +20,7 @@ After some research, attemps to manually subtitle the anime, choosing between du
 
 <Image post="using-whisper-ai-to-learn-italian" img="github-search-results" alt="Github results for search 'ai subtitles'" maxHeight={754} maxWidth={604}/>
 
-_Che bello!_ It remembered me about <Link to="https://github.com/openai/whisper"> Whisper AI </Link>. I already pay for the ChatGPT subscription, so I thought, because both came from <Link to="https://openai.com/"> Open AI </Link> I wouldn’t need to pay for this other service. But seems that Whisper AI is… free? Well, it is if you run it on your machine. The installation was pure simple, I already had Python installed so I just need to install some packages and rust tools, but it didn’t take more than 3 minutes to get it running:
+_Che bello!_ It remembered me about <Link href="https://github.com/openai/whisper"> Whisper AI </Link>. I already pay for the ChatGPT subscription, so I thought, because both came from <Link href="https://openai.com/"> Open AI </Link> I wouldn’t need to pay for this other service. But seems that Whisper AI is… free? Well, it is if you run it on your machine. The installation was pure simple, I already had Python installed so I just need to install some packages and rust tools, but it didn’t take more than 3 minutes to get it running:
 
 <Image post="using-whisper-ai-to-learn-italian" img="wolves-music-subtitles" alt="whisper ai use in Wolves music" maxHeight={152} maxWidth={700}/>
 
@@ -28,7 +28,7 @@ It is pretty simple. You choose a file with audio (it can be a video), it will t
 
 <Image post="using-whisper-ai-to-learn-italian" img="hallucination-problem" alt="multiple random non-sense subtitles generated" maxHeight={322} maxWidth={700}/>
 
-_Che cos'è !?_ It was detecting this weird text in the opening of the episode… This is what made me learn about <Link to="https://www.ibm.com/topics/ai-hallucinations"> AI hallucinations </Link>, which is basically when the AI brings some wrong data to the calculations and make mistakes. But I was not worried about it because most of the content was working fine... right?, those weird texts just appears when there was no voice in the scene. Then I watched that:
+_Che cos'è !?_ It was detecting this weird text in the opening of the episode… This is what made me learn about <Link href="https://www.ibm.com/topics/ai-hallucinations"> AI hallucinations </Link>, which is basically when the AI brings some wrong data to the calculations and make mistakes. But I was not worried about it because most of the content was working fine... right?, those weird texts just appears when there was no voice in the scene. Then I watched that:
 
 <Image post="using-whisper-ai-to-learn-italian" img="piccolo-error" alt="DBZ scene from Piccolo with subs 'No,no,no,no,...' fullfilling half of the screen" maxHeight={445} maxWidth={700}/>
 
@@ -69,7 +69,7 @@ _Mannaggia_… Repeated subtitles and this [ambient sound] indicator. I added on
 
 <Image post="using-whisper-ai-to-learn-italian" img="gpt-python-code" alt="printscreen of VS Code with GPT generated code" maxHeight={384} maxWidth={700}/>
 
-I ended up pushing it all in a <Link to="https://github.com/httpassoca/srtFormatter"> github repository </Link> for personal use, but its public. Anyway, this is the main code:
+I ended up pushing it all in a <Link href="https://github.com/httpassoca/srtFormatter"> github repository </Link> for personal use, but its public. Anyway, this is the main code:
 
 ```python
 import os

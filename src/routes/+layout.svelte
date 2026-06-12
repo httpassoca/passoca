@@ -1,11 +1,14 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import MobileBottomNav from "$lib/components/MobileBottomNav.svelte";
+  import { BottomNav } from "dssoca";
   import Header from "$lib/components/Header.svelte";
   import PageTransition from "$lib/components/PageTransition.svelte";
   import { theme } from "$lib/stores/theme.store";
   import { viewportWidth } from "$lib/stores/window.store";
+  import { localizeHref } from "$lib/paraglide/runtime";
+  import { m } from "$lib/paraglide/messages";
   import { onMount } from "svelte";
+  import "dssoca/tokens.css";
   import "../app.css";
   import "../sass/global.sass";
 
@@ -14,6 +17,20 @@
   });
 
   $: isMobile = typeof $viewportWidth === "number" && $viewportWidth < 768;
+
+  $: navItems = [
+    { id: "home", label: m.nav_home(), icon: "home" as const, href: localizeHref("/") },
+    { id: "career", label: m.nav_career(), icon: "briefcase" as const, href: localizeHref("/career") },
+    { id: "projects", label: m.nav_projects(), icon: "folder" as const, href: localizeHref("/projects") },
+    { id: "blog", label: m.nav_blog(), icon: "note" as const, href: localizeHref("/blog") },
+  ];
+  $: pathname = $page.url.pathname;
+  $: activeNav =
+    pathname === "/" || pathname === "" ? "home"
+    : pathname.startsWith("/career") ? "career"
+    : pathname.startsWith("/projects") ? "projects"
+    : pathname.startsWith("/blog") ? "blog"
+    : undefined;
 </script>
 
 <svelte:window bind:innerWidth={$viewportWidth} />
@@ -39,13 +56,13 @@
 </svelte:head>
 
 {#if !$page.url.pathname.includes("notion/")}
-  <main class="content pb-24 md:pb-0">
+  <main id="main" class="content pb-24 md:pb-0">
     <Header />
     <PageTransition key={$page.url.pathname}>
       <slot />
     </PageTransition>
     {#if isMobile}
-      <MobileBottomNav />
+      <BottomNav items={navItems} active={activeNav} ariaLabel="Mobile navigation" />
     {/if}
   </main>
 {:else}

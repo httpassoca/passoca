@@ -11,7 +11,7 @@ _[Esse artigo foi traduzido pelo gpt]_
 
 <script lang="ts">
   import Image from '$lib/components/Base/AppImage.svelte';
-  import Link from '$lib/components/Base/AppLink.svelte';
+  import { Link } from 'dssoca';
 </script>
 
 Um dos meus objetivos de 2024 é aprender a falar, ouvir e escrever em italiano. Eu já tentei uma vez — ou duas… Eu normalmente caio no problema de perder o interesse na língua: eu não tinha nada que mantivesse o idioma presente na minha vida, na minha rotina.
@@ -28,7 +28,7 @@ Depois de pesquisar, tentar legendar manualmente o anime, escolher entre conteú
 
 <Image post="using-whisper-ai-to-learn-italian" img="github-search-results" alt="Github results for search 'ai subtitles'" maxHeight={754} maxWidth={604}/>
 
-_Che bello!_ Isso me lembrou do <Link to="https://github.com/openai/whisper"> Whisper AI </Link>. Eu já pago a assinatura do ChatGPT, então eu pensei que, como os dois são da <Link to="https://openai.com/"> Open AI </Link>, eu não precisaria pagar por esse outro serviço. Mas parece que o Whisper AI é… grátis?
+_Che bello!_ Isso me lembrou do <Link href="https://github.com/openai/whisper"> Whisper AI </Link>. Eu já pago a assinatura do ChatGPT, então eu pensei que, como os dois são da <Link href="https://openai.com/"> Open AI </Link>, eu não precisaria pagar por esse outro serviço. Mas parece que o Whisper AI é… grátis?
 
 Bom: é grátis se você rodar na sua máquina.
 
@@ -46,7 +46,7 @@ Mas depois do segundo episódio apareceu uma coisa estranha:
 
 <Image post="using-whisper-ai-to-learn-italian" img="hallucination-problem" alt="multiple random non-sense subtitles generated" maxHeight={322} maxWidth={700}/>
 
-_Che cos'è !?_ Ele estava detectando esse texto estranho na abertura do episódio… Foi aí que eu aprendi sobre <Link to="https://www.ibm.com/topics/ai-hallucinations"> AI hallucinations </Link>, que basicamente é quando a AI coloca dados errados nos cálculos e comete erros.
+_Che cos'è !?_ Ele estava detectando esse texto estranho na abertura do episódio… Foi aí que eu aprendi sobre <Link href="https://www.ibm.com/topics/ai-hallucinations"> AI hallucinations </Link>, que basicamente é quando a AI coloca dados errados nos cálculos e comete erros.
 
 Mas eu não fiquei muito preocupado porque a maior parte do conteúdo estava funcionando bem… certo? Esses textos esquisitos só apareciam quando não tinha voz na cena.
 
@@ -103,7 +103,7 @@ Aqui estão os prompts que eu usei e o resultado:
 
 <Image post="using-whisper-ai-to-learn-italian" img="gpt-python-code" alt="printscreen of VS Code with GPT generated code" maxHeight={384} maxWidth={700}/>
 
-No fim, eu joguei tudo em um <Link to="https://github.com/httpassoca/srtFormatter"> repositório no GitHub </Link> para uso pessoal, mas ele é público. Enfim, este é o código principal:
+No fim, eu joguei tudo em um <Link href="https://github.com/httpassoca/srtFormatter"> repositório no GitHub </Link> para uso pessoal, mas ele é público. Enfim, este é o código principal:
 
 ```python
 import os

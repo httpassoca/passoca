@@ -7,7 +7,7 @@ tags: [Productivity, Notion]
 ---
 
 <script lang="ts">
-  import Link from '$lib/components/Base/AppLink.svelte';
+  import { Link } from 'dssoca';
   import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
@@ -15,9 +15,9 @@ tags: [Productivity, Notion]
 
 ## Introduction
 
-In February, a few days after have arrived in Portugal, I read an article from <Link to="https://www.youtube.com/user/simulacrumsquared">Tiago Forte</Link> (_now, searching his Youtube Channel, I wonder why the url is “simulacrumsquared”_ 🤔) explaining about an method to keep digital information (_in other words, every information_) and got kinda curious about it. I was in the middle of a country-changing and visualized it like a good way to start, this time really 😅, to organize my things.
+In February, a few days after have arrived in Portugal, I read an article from <Link href="https://www.youtube.com/user/simulacrumsquared">Tiago Forte</Link> (_now, searching his Youtube Channel, I wonder why the url is “simulacrumsquared”_ 🤔) explaining about an method to keep digital information (_in other words, every information_) and got kinda curious about it. I was in the middle of a country-changing and visualized it like a good way to start, this time really 😅, to organize my things.
 
-And today, after almost two months using it, I noticed that everyone should at least know it exists. For me, who have <Link to="https://www.psychiatry.org/patients-families/adhd/what-is-adhd">ADHD</Link> and use internet since 8 years old, it helps me to filter every information that I consume. If you are here, probably you pass much time browsing, receiving a million bytes of information per day. Of course, after years dealing with trash news and funny memes, you have built a natural filter in your brain that keep some data and throw away other, but this can be mastered when you write it down.
+And today, after almost two months using it, I noticed that everyone should at least know it exists. For me, who have <Link href="https://www.psychiatry.org/patients-families/adhd/what-is-adhd">ADHD</Link> and use internet since 8 years old, it helps me to filter every information that I consume. If you are here, probably you pass much time browsing, receiving a million bytes of information per day. Of course, after years dealing with trash news and funny memes, you have built a natural filter in your brain that keep some data and throw away other, but this can be mastered when you write it down.
 
 Beyond the filter, now I’m giving another view to my routine and objectives. I can see ALL MY ERRORS, so my sadness is bigger when I realize that I didn’t do 60% of what I want it (yes, just wanted, I didn’t even plan). This is really frustrating 😩, but is necessary because, notes give metrics, metrics show progress, and progress is what we all want.
 
@@ -25,7 +25,7 @@ Ok, no more lero-lero, sorry.
 
 ## The PARA Method
 
-PARA menas **Projects, Areas, Resources and Archives**. First, I don’t follow 100% of the method, **it isn’t necessary start with everything**, I began with Areas and Tasks, but with time I added what I was needing (also called <Link to="https://www.zoho.com/inventory/guides/what-is-just-in-time.html">JIT - Just in time</Link>). A quickly resume:
+PARA menas **Projects, Areas, Resources and Archives**. First, I don’t follow 100% of the method, **it isn’t necessary start with everything**, I began with Areas and Tasks, but with time I added what I was needing (also called <Link href="https://www.zoho.com/inventory/guides/what-is-just-in-time.html">JIT - Just in time</Link>). A quickly resume:
 
 - **Projects**: an objective to be done in a period of time. Is the most actionable item and probably the best point to start
 - **Areas of responsibility**: things that you have to worry about sometimes. Its abstract, and has no a definitive end, like “Health”, “Studies”, “Travels”, “Money”.
@@ -40,7 +40,7 @@ Also, there are three rules to maintain it.
 
 ## How I use it
 
-Okay, of course is much more besides that, many mini-definitions and methodologies that you can use in it. You can check it all <Link to="https://fortelabs.co/blog/para/">here</Link>. But like I say, I the essential already helps me a lot, and I use in that way:
+Okay, of course is much more besides that, many mini-definitions and methodologies that you can use in it. You can check it all <Link href="https://fortelabs.co/blog/para/">here</Link>. But like I say, I the essential already helps me a lot, and I use in that way:
 
 <Image post="para-plus-notion" img="draw" alt="A draw of my organization based on PARA method" maxHeight={515} maxWidth={700} />
 
@@ -50,7 +50,7 @@ To be honest, since I arrived in Portugal 🇵🇹 I don’t know exactly what I
 
 ## Tasks
 
-Right, basically I have a lot of N:N <Link to="https://vertabelo.com/blog/many-to-many-relationship/">(many-to-many)</Link> relations in my Notion. The most important is ✅Tasks database. A task is the most actionable item in my workspace, is basically the productivity basis. In a common day, normally I have 4 tasks (diary, work, workout and always something more appears). Thanks to <Link to="http://notion.so">Notion</Link>, every task is a page (_actually almost everything_), so I can detail anything that I did in my work, my day, my workout. That’s good because NO ONE can remember everything everyday, even the important things, maybe we have it in mind but tree days is enough to replace with another info. My Tasks database are show mainly in a calendar view with all my tasks:
+Right, basically I have a lot of N:N <Link href="https://vertabelo.com/blog/many-to-many-relationship/">(many-to-many)</Link> relations in my Notion. The most important is ✅Tasks database. A task is the most actionable item in my workspace, is basically the productivity basis. In a common day, normally I have 4 tasks (diary, work, workout and always something more appears). Thanks to <Link href="http://notion.so">Notion</Link>, every task is a page (_actually almost everything_), so I can detail anything that I did in my work, my day, my workout. That’s good because NO ONE can remember everything everyday, even the important things, maybe we have it in mind but tree days is enough to replace with another info. My Tasks database are show mainly in a calendar view with all my tasks:
 
 <Image post="para-plus-notion" img="all-tasks" alt="All my tasks in a calendar view" maxHeight={456} maxWidth={700} />
 
@@ -78,7 +78,7 @@ I know. Just two projects. I warned you. But look, I can create projects and cha
 
 First, **every project has a due date**. Second, **every project has an objective**. And of course, **every project has tasks**. All of this tree items can be modified by time, but when creating, is needed at least one aim, one due date and one task (_even if it's "getting to the goal”_).
 
-Okay, but now the cool part, because devs love automations ⚡. Notice that the tasks below the Aim is a view of my Tasks database filtered to show **only the tasks related to this project** and grouped by status (_in case of you don’t know well the concepts of Notion views and databases, I recommend <Link to="https://www.youtube.com/watch?v=R36CkcdT2b4">this video</Link>_). So, Notion also allow us to turn anything into anything, in this case, I made a unordered list (detailed) to my project tasks and drag it and drop on the “To do” field of the Tasks view. Notion turns each item of the list in a task to the database. If you detailed the item with children items, they will appear in the page of the tasks. I don’t know if I wrote this well so I made an video:
+Okay, but now the cool part, because devs love automations ⚡. Notice that the tasks below the Aim is a view of my Tasks database filtered to show **only the tasks related to this project** and grouped by status (_in case of you don’t know well the concepts of Notion views and databases, I recommend <Link href="https://www.youtube.com/watch?v=R36CkcdT2b4">this video</Link>_). So, Notion also allow us to turn anything into anything, in this case, I made a unordered list (detailed) to my project tasks and drag it and drop on the “To do” field of the Tasks view. Notion turns each item of the list in a task to the database. If you detailed the item with children items, they will appear in the page of the tasks. I don’t know if I wrote this well so I made an video:
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0;" class="mt-4"><iframe title="video-example" src="https://www.loom.com/embed/2198809a408543028298a02e939748d4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
@@ -114,17 +114,17 @@ I use a lot of filters and tags to separate them, probably is where I keep most 
 
 ## Extras
 
-- In browser, I use the <Link to="https://notion-enhancer.github.io/">notion-enhancer</Link> extension to use Apple emojis. They are better, admit.
-- I learned how to use Notion properly with videos from <Link to="https://www.youtube.com/c/ThomasFrankExplains">Thomas Frank</Link>, <Link to="https://youtu.be/NoLg2qFiOxw">this video</Link> and <Link to="https://www.youtube.com/c/TiagoForte">Tiago Forte</Link>.
-- If you want to make a beautiful Notion, I recommend visit the <Link to="https://www.reddit.com/r/Notion/?f=flair_name%3A%22Showcase%22">Showcase in Notion Reddit</Link>.
-- You can use more colors and fonts in Notion with <Link to="https://www.notion.so/KaTeX-Formatting-8f2a6470b9d34fa98be19ad25dfc587d">KaTeX Formatting</Link>.
-- If you are a dev and like Notion, I recommend you check <Link to="https://developers.notion.com/">Notion API</Link>. I ignored it for months and I regret it. Now I’m using it in the /contact page of this website.
+- In browser, I use the <Link href="https://notion-enhancer.github.io/">notion-enhancer</Link> extension to use Apple emojis. They are better, admit.
+- I learned how to use Notion properly with videos from <Link href="https://www.youtube.com/c/ThomasFrankExplains">Thomas Frank</Link>, <Link href="https://youtu.be/NoLg2qFiOxw">this video</Link> and <Link href="https://www.youtube.com/c/TiagoForte">Tiago Forte</Link>.
+- If you want to make a beautiful Notion, I recommend visit the <Link href="https://www.reddit.com/r/Notion/?f=flair_name%3A%22Showcase%22">Showcase in Notion Reddit</Link>.
+- You can use more colors and fonts in Notion with <Link href="https://www.notion.so/KaTeX-Formatting-8f2a6470b9d34fa98be19ad25dfc587d">KaTeX Formatting</Link>.
+- If you are a dev and like Notion, I recommend you check <Link href="https://developers.notion.com/">Notion API</Link>. I ignored it for months and I regret it. Now I’m using it in the /contact page of this website.
 
 ## Fonts
 
 <ul class="fonts">
   <li>
-    <Link to="https://fortelabs.co/blog/para/"> 
+    <Link href="https://fortelabs.co/blog/para/"> 
       PARA Method - by Tiago Forte
     </Link>
   </li>

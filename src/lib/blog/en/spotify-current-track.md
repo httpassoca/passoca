@@ -7,7 +7,7 @@ tags: [Spotify, API]
 ---
 
 <script lang="ts">
-  import Link from '$lib/components/Base/AppLink.svelte';
+  import { Link } from 'dssoca';
   import Image from '$lib/components/Base/AppImage.svelte';
 </script>
 
@@ -15,18 +15,18 @@ tags: [Spotify, API]
 
 ## Introduction
 
-I saw this on <Link to="https://cristianbgp.com/">Cristian Granda</Link> website and thought it was cool, had never seen it. I took two days to made it, but I will teach you how to do it fast ⚡.
+I saw this on <Link href="https://cristianbgp.com/">Cristian Granda</Link> website and thought it was cool, had never seen it. I took two days to made it, but I will teach you how to do it fast ⚡.
 
-After I saw the <Link to="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=">API demo</Link> , I thought "_easy-peasy_", and it really is, but getting there isn't. Basically, you need create a Spotify integration, get a refresh token, get an auth code and then get the current track. I did get stucked on two steps: discover everything and get the _refresh token_. But I did find a <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">very nice website</Link>, that makes me think I am not the only one burning the head to get a simple _refresh token_ 😸.
+After I saw the <Link href="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types=">API demo</Link> , I thought "_easy-peasy_", and it really is, but getting there isn't. Basically, you need create a Spotify integration, get a refresh token, get an auth code and then get the current track. I did get stucked on two steps: discover everything and get the _refresh token_. But I did find a <Link href="https://getyourspotifyrefreshtoken.herokuapp.com/">very nice website</Link>, that makes me think I am not the only one burning the head to get a simple _refresh token_ 😸.
 
 ## How to do it
 
-Start creating an integration in <Link to="https://developer.spotify.com/dashboard/">Spotify Dashboard</Link>
+Start creating an integration in <Link href="https://developer.spotify.com/dashboard/">Spotify Dashboard</Link>
 . After, click on **edit settings** and add `https://getyourspotifyrefreshtoken.herokuapp.com/callback` on **Redirect URIs**.
 
 <Image post="spotify-current-track" img="spotify-integration" alt="Spotify Integration example" maxHeight={740} maxWidth={592}/>
 
-Next, copy both client **id** and **secret**, put them at <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/">this</Link> website, mark `user-read-currently-playing` and submit it.
+Next, copy both client **id** and **secret**, put them at <Link href="https://getyourspotifyrefreshtoken.herokuapp.com/">this</Link> website, mark `user-read-currently-playing` and submit it.
 
 Now, you have the refresh token of your Spotify integration, use it to get an **access token**. I made with my personal API, using `Node.js`. Look the **getAccessToken** function:
 
@@ -84,22 +84,22 @@ Now you have a giant JSON containing an `item` where have all informations about
 
 <ul class="fonts">
   <li>
-    <Link to="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types="> 
+    <Link href="https://developer.spotify.com/console/get-users-currently-playing-track/?market=&additional_types="> 
       Get currently Playing Track
     </Link>
   </li>
   <li>
-    <Link to="https://getyourspotifyrefreshtoken.herokuapp.com/"> 
+    <Link href="https://getyourspotifyrefreshtoken.herokuapp.com/"> 
       GetYourSpotifyRefreshToken
     </Link>
   </li>
   <li>
-    <Link to="https://developer.spotify.com/documentation/general/guides/authorization/"> 
+    <Link href="https://developer.spotify.com/documentation/general/guides/authorization/"> 
       Spotify Auth
     </Link>
   </li>
   <li>
-    <Link to="https://developer.spotify.com/documentation/general/guides/authorization/code-flow/"> 
+    <Link href="https://developer.spotify.com/documentation/general/guides/authorization/code-flow/"> 
       Spotify Authorization Code Flow
     </Link>
   </li>

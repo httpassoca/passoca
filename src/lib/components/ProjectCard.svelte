@@ -56,7 +56,6 @@
 <style lang="sass">
   article.card
     padding: 18px
-    border-radius: 16px
     border: 1px solid rgba(255, 255, 255, 0.12)
     background: rgba(255, 255, 255, 0.04)
     display: flex
@@ -85,7 +84,6 @@
   .thumb
     width: 100%
     aspect-ratio: 16 / 9
-    border-radius: 14px
     overflow: hidden
     border: 1px solid rgba(255, 255, 255, 0.12)
     background: rgba(0, 0, 0, 0.22)
@@ -118,7 +116,6 @@
     align-items: center
     gap: 8px
     padding: 8px 10px
-    border-radius: 12px
     border: 1px solid rgba(255, 255, 255, 0.12)
     opacity: 0.9
 

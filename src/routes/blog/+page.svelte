@@ -1,6 +1,5 @@
 <script lang="ts">
-  import Content from "$lib/components/Base/AppContent.svelte";
-  import Title from "$lib/components/Base/AppTitle.svelte";
+  import { Container, Heading } from "dssoca";
   import Post from "$lib/components/Post.svelte";
   import { m } from "$lib/paraglide/messages";
   import type { PageData } from "./$types";
@@ -9,8 +8,8 @@
   const { posts } = data;
 </script>
 
-<Content page>
-  <Title>{m.blog_title()}</Title>
+<Container page>
+  <Heading>{m.blog_title()}</Heading>
   <i>{m.blog_subtitle()}</i>
   <div class="flex flex-col gap-3 mb-4 mt-1">
     {#each posts as post, i (post.title)}
@@ -23,4 +22,4 @@
       <Post {post} />
     {/each}
   </div>
-</Content>
+</Container>

@@ -14,10 +14,6 @@ export const socials: icon[] = [
     icon: "instagram",
     link: "https://instagram.com/rafael.passoca",
   },
-  {
-    icon: "twitter",
-    link: "/twitter",
-  },
 ];
 
 export const books = [

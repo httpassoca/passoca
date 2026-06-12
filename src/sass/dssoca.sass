@@ -1,0 +1,44 @@
+// dssoca token bridge — maps the site's --app-color-* theme variables onto the
+// --ss-* color tokens consumed by dssoca components, so they follow the site's
+// 5 themes (body[data-theme=...]). Defining these on body overrides the :root
+// defaults from dssoca/tokens.css (imported in src/routes/+layout.svelte),
+// which now supplies all size/font/motion tokens — only colors live here.
+
+body
+  // colors: bridged from the active theme (body[data-theme=...])
+  --ss-bg: var(--app-color-background)
+  --ss-bg-elev: var(--app-color-lighter-background)
+  --ss-fg: var(--app-color-text)
+  --ss-fg-muted: var(--app-color-gray-text)
+  --ss-fg-faint: var(--app-color-gray-text)
+  --ss-fg-on-primary: var(--app-color-contrast-text)
+  --ss-primary: var(--app-color-primary)
+  --ss-primary-rgb: var(--app-color-primary-rgb)
+  --ss-primary-soft: rgba(var(--app-color-primary-rgb), 0.18)
+  // hover shifts primary toward the text color: brightens on dark themes,
+  // deepens on light ones
+  --ss-primary-hover: color-mix(in srgb, var(--app-color-primary) 85%, var(--app-color-text))
+  // neutral lines/washes derived from the text color so they read on all 5 themes
+  --ss-line: color-mix(in srgb, var(--app-color-text) 14%, transparent)
+  --ss-line-strong: color-mix(in srgb, var(--app-color-text) 26%, transparent)
+  --ss-hover: color-mix(in srgb, var(--app-color-text) 6%, transparent)
+  // status red (Input error/required marker) — dssoca dark values; light themes override below
+  --ss-red: #ff5c5c
+  --ss-red-rgb: 255, 92, 92
+  --ss-danger: var(--ss-red)
+  --ss-danger-hover: #ff7a7a
+  --ss-fg-on-danger: #100f10
+
+// light-surface themes: darken the status red for contrast (dssoca light values)
+body[data-theme='light'],
+body[data-theme='coffee']
+  --ss-red: #c62828
+  --ss-red-rgb: 198, 40, 40
+  --ss-danger-hover: #a91f1f
+  --ss-fg-on-danger: #ffffff
+
+// coffee's --app-color-lighter-background is translucent (#6a461e2e); the Menu
+// panel (--ss-bg-elev) needs an opaque surface -> #6a461e composited at 18%
+// over the coffee background #f9dec9
+body[data-theme='coffee']
+  --ss-bg-elev: #dfc3aa

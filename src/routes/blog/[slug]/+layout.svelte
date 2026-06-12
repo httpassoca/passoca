@@ -61,7 +61,7 @@ hr
   pre
     margin: 20px 0
     code
-      font-family: 'Caskaydia Cove'
+      font-family: var(--ss-font-body)
       line-height: 1
       font-size: .8rem
   code:not([class*="language-"])
@@ -69,7 +69,6 @@ hr
     word-break: break-word
     background-color: var(--app-color-code-background)
     padding: 2px 6px
-    border-radius: 4px
   img
     margin: 12px auto 0 auto
   h1, h2
@@ -85,11 +84,14 @@ hr
   p
     margin-top: 14px
     line-height: 1.4
-  a:not([href^='#'])
+    letter-spacing: -1px
+  // .ss-link (dssoca Link) brings its own underline + external icon ::after —
+  // exclude it from these rules so those links don't get both
+  a:not([href^='#']):not(.ss-link)
     font-weight: bold
     border-bottom: 1px solid rgba(var(--app-color-primary-rgb), .6)
     position: relative
-  a[target='_blank']
+  a[target='_blank']:not(.ss-link)
     &:before
       content: unset
     &:after

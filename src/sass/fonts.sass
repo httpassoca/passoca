@@ -1,25 +1,11 @@
+// Utility classes re-pointed to the dssoca font tokens (see dssoca.sass).
+// Caskaydia faces are kept: they are fallbacks inside the dssoca stacks.
 .font-boston
-  font-family: 'Boston Black It'
+  font-family: var(--ss-font-display)
 .font-boston-semibold
-  font-family: 'Boston SemiBold'
+  font-family: var(--ss-font-subhead)
 .font-pt
-  font-family: 'PT Sans'
-.font-caskaydia
-  font-family: 'Caskaydia Cove'
-.font-caskaydia-mono
-  font-family: 'Caskaydia Cove Mono'
-
-@font-face
-  font-family: 'Boston Black It'
-  font-style: normal
-  font-display: swap
-  src: url('/fonts/Boston-BlackIt.otf')
-
-@font-face
-  font-family: 'Boston SemiBold'
-  font-style: normal
-  font-display: swap
-  src: url('/fonts/Boston-SemiBold.otf')
+  font-family: var(--ss-font-body)
 
 @font-face
   font-family: 'Caskaydia Cove'
@@ -32,49 +18,3 @@
   font-style: normal
   font-display: swap
   src: url('/fonts/Caskaydia-Cove-Mono.ttf')
-
-@font-face
-  font-family: 'PT Sans'
-  font-style: normal
-  font-display: swap
-  src: url('/fonts/PTSans-Regular.ttf')
-@font-face
-  font-family: 'PT Sans'
-  font-style: normal
-  font-weight: bold
-  font-display: swap
-  src: url('/fonts/PTSans-Bold.ttf')
-@font-face
-  font-family: 'PT Sans'
-  font-style: italic
-  font-weight: bold
-  font-display: swap
-  src: url('/fonts/PTSans-BoldItalic.ttf')
-@font-face
-  font-family: 'PT Sans'
-  font-style: italic
-  font-display: swap
-  src: url('/fonts/PTSans-Italic.ttf')
-
-@font-face
-  font-family: 'Noto Sans'
-  font-style: normal
-  font-display: swap
-  src: url('/fonts/NotoSans-Regular.ttf')
-@font-face
-  font-family: 'Noto Sans'
-  font-style: normal
-  font-weight: bold
-  font-display: swap
-  src: url('/fonts/NotoSans-Bold.ttf')
-@font-face
-  font-family: 'Noto Sans'
-  font-style: italic
-  font-weight: bold
-  font-display: swap
-  src: url('/fonts/NotoSans-BoldItalic.ttf')
-@font-face
-  font-family: 'Noto Sans'
-  font-style: italic
-  font-display: swap
-  src: url('/fonts/NotoSans-Italic.ttf')
