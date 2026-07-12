@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { BottomNav, registerIcon } from "dssoca";
+  import { BottomNav, ShortcutsHelp, registerIcon } from "dssoca";
   import type { IconName } from "dssoca";
   import Header from "$lib/components/Header.svelte";
   import PageTransition from "$lib/components/PageTransition.svelte";
@@ -80,6 +80,7 @@
       />
     {/if}
     <SearchPalette />
+    <ShortcutsHelp title={m.shortcuts_title()} />
   </main>
 {:else}
   <slot />

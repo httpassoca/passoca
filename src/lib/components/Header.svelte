@@ -1,17 +1,16 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { theme } from "$lib/stores/theme.store";
   import type { Theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
-  import { Menu, Spinner, Topbar } from "dssoca";
+  import { Menu, Spinner, Topbar, Kbd, ariaKeyshortcuts, shortcuts } from "dssoca";
   import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
   import { openSearch } from "$lib/stores/search.store";
   let animation = false;
-  // Render no shortcut hint until mounted so SSR never guesses the platform
-  let shortcut: string | null = null;
 
   const themes: { id: Theme; label: string; themeColor?: string }[] = [
     { id: "dark", label: "Dark", themeColor: "#0b1220" },
@@ -25,7 +24,45 @@
     if (!browser) return;
     const localTheme = localStorage.getItem("theme") as Theme | null;
     if (localTheme && themes.some((t) => t.id === localTheme)) theme.set(localTheme);
-    shortcut = /mac/i.test(navigator.platform) ? "⌘K" : "Ctrl K";
+
+    // Digit keys 1–4 jump to the matching Topbar tab (the tabs are already
+    // numbered visually). Modifier-less on purpose: mod/ctrl+digit is browser
+    // tab switching and alt+digit collides with menus/accesskey — the registry
+    // already skips inputs and honors the character-key kill switch.
+    const disposers = navTabs.map((t, i) =>
+      shortcuts.add({
+        id: `app:nav-${t.id}`,
+        label: shortcutLabels[t.id],
+        keys: String(i + 1),
+        group: m.shortcuts_group_nav(),
+        onPress: () => goto(localizeHref(t.path)),
+      })
+    );
+    // L / T cycle language and theme — same actions as the Topbar menus.
+    disposers.push(
+      shortcuts.add({
+        id: "app:language",
+        label: m.shortcuts_language(),
+        keys: "l",
+        group: m.shortcuts_group_prefs(),
+        onPress: () => {
+          const next = locales[(locales.indexOf(activeLocale) + 1) % locales.length];
+          // Full reload, like the language menu (paraglide URL strategy).
+          window.location.href = localizeHref(pathname, { locale: next });
+        },
+      }),
+      shortcuts.add({
+        id: "app:theme",
+        label: m.shortcuts_theme(),
+        keys: "t",
+        group: m.shortcuts_group_prefs(),
+        onPress: () => {
+          const i = themes.findIndex((t) => t.id === $theme);
+          theme.set(themes[(i + 1) % themes.length].id);
+        },
+      })
+    );
+    return () => disposers.forEach((dispose) => dispose());
   });
 
   $: current = themes.find((t) => t.id === $theme);
@@ -84,6 +121,14 @@
     projects: m.nav_projects(),
     blog: m.nav_blog(),
   } as Record<string, string>;
+  // Shortcut labels for ShortcutsHelp; locale changes reload the page, so
+  // registering them once in onMount is safe.
+  const shortcutLabels: Record<string, string> = {
+    home: m.shortcuts_go_home(),
+    career: m.shortcuts_go_career(),
+    projects: m.shortcuts_go_projects(),
+    blog: m.shortcuts_go_blog(),
+  };
   $: tabs = navTabs.map((t) => ({
     id: t.id,
     label: tabLabels[t.id],
@@ -131,7 +176,7 @@
         class="search-button"
         on:click={openSearch}
         aria-label={m.search_title()}
-        aria-keyshortcuts="Control+K Meta+K"
+        aria-keyshortcuts={ariaKeyshortcuts("mod+k")}
       >
         <SVG
           name="search"
@@ -139,9 +184,7 @@
           height="22"
           fill='var(--app-color-text)'
         />
-        {#if shortcut}
-          <kbd>{shortcut}</kbd>
-        {/if}
+        <Kbd keys="mod+k" />
       </button>
       <a href="/github" target="_blank" aria-label="GitHub">
         <SVG
@@ -193,13 +236,6 @@
   border: none
   color: var(--app-color-text)
   cursor: pointer
-  kbd
-    padding: 2px 5px
-    border: 1px solid var(--ss-line-strong)
-    font-family: var(--ss-font-mono)
-    font-size: 11px
-    line-height: 12px
-    color: var(--ss-fg-muted)
 
 .flag
   font-size: 14px
