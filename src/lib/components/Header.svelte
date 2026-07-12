@@ -3,8 +3,7 @@
   import { browser } from "$app/environment";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { theme } from "$lib/stores/theme.store";
-  import type { Theme } from "$lib/stores/theme.store";
+  import { theme, themeEntry, THEMES } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
   import { Menu, Spinner, Topbar, Kbd, ariaKeyshortcuts, shortcuts } from "dssoca";
   import { locales, localizeHref } from "$lib/paraglide/runtime";
@@ -12,19 +11,8 @@
   import { openSearch } from "$lib/stores/search.store";
   let animation = false;
 
-  const themes: { id: Theme; label: string; themeColor?: string }[] = [
-    { id: "dark", label: "Dark", themeColor: "#0b1220" },
-    { id: "light", label: "Light", themeColor: "#ffffff" },
-    { id: "coffee", label: "Coffee", themeColor: "#f9dec9" },
-    { id: "dracula", label: "Dracula", themeColor: "#282a36" },
-    { id: "tokyo-night", label: "Tokyo Night", themeColor: "#1a1b26" },
-  ];
-
   onMount(() => {
     if (!browser) return;
-    const localTheme = localStorage.getItem("theme") as Theme | null;
-    if (localTheme && themes.some((t) => t.id === localTheme)) theme.set(localTheme);
-
     // Digit keys 1–4 jump to the matching Topbar tab (the tabs are already
     // numbered visually). Modifier-less on purpose: mod/ctrl+digit is browser
     // tab switching and alt+digit collides with menus/accesskey — the registry
@@ -57,19 +45,18 @@
         keys: "t",
         group: m.shortcuts_group_prefs(),
         onPress: () => {
-          const i = themes.findIndex((t) => t.id === $theme);
-          theme.set(themes[(i + 1) % themes.length].id);
+          const i = THEMES.findIndex((t) => t.id === $theme);
+          theme.set(THEMES[(i + 1) % THEMES.length].id);
         },
       })
     );
     return () => disposers.forEach((dispose) => dispose());
   });
 
-  $: current = themes.find((t) => t.id === $theme);
-  $: themeItems = themes.map((t) => ({
+  $: themeItems = THEMES.map((t) => ({
     id: t.id as string,
     label: t.label,
-    swatch: t.themeColor,
+    swatch: t.swatch,
     selected: t.id === $theme,
     onSelect: () => theme.set(t.id),
   }));
@@ -138,9 +125,7 @@
 </script>
 
 <svelte:head>
-  {#if current?.themeColor}
-    <meta name="theme-color" content={current.themeColor} />
-  {/if}
+  <meta name="theme-color" content={$themeEntry.themeColor} />
 </svelte:head>
 
 <Topbar {tabs} active={activeTab} stats={[]} services={false} clock={false}>

@@ -89,7 +89,7 @@ hr
   // exclude it from these rules so those links don't get both
   a:not([href^='#']):not(.ss-link)
     font-weight: bold
-    border-bottom: 1px solid rgba(var(--app-color-primary-rgb), .6)
+    border-bottom: 1px solid color-mix(in srgb, var(--ss-primary) 60%, transparent)
     position: relative
   a[target='_blank']:not(.ss-link)
     &:before

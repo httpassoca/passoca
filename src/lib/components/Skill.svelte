@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { theme } from "$lib/stores/theme.store";
+  import { isDarkTheme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
 
   import type { TSkill } from "$lib/types";
@@ -8,7 +8,7 @@
   let color = skill.color;
 
   $: if (skill.whiteColor) {
-    color = $theme === "dark" ? skill.color : skill.whiteColor;
+    color = $isDarkTheme ? skill.color : skill.whiteColor;
   }
 </script>
 

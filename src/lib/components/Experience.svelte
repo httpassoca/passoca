@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { theme } from "$lib/stores/theme.store";
+  import { isDarkTheme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
 
   import type { TExperience } from "$lib/types";
@@ -8,7 +8,7 @@
   let color = experience.color || "";
 
   $: if (experience.whiteColor) {
-    color = $theme === "dark" ? experience.color : experience.whiteColor;
+    color = $isDarkTheme ? experience.color : experience.whiteColor;
   }
 </script>
 

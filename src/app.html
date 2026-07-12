@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="color-scheme" content="light dark coffee" />
+    <meta name="color-scheme" content="dark light" />
     <meta name="author" content="Rafael Freitas" />
     <meta name="og:type" content="website" />
     <meta name="og:title" content="Rafael Passoca | Frontend Engineer" />
@@ -18,19 +18,40 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Electrolize&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap"
     />
+    <link rel="icon" href="/favicons/dark-logo.svg" />
+    <script>
+      // Theme boot — runs in <head> so attributes land before first paint.
+      // Ids/modes mirror THEMES in src/lib/stores/theme.store.ts (inline
+      // scripts can't import; keep the two in sync). The favicon link above
+      // is also updated by the theme store on later changes.
+      (function () {
+        var MODES = {
+          dark: "dark",
+          light: "light",
+          coffee: "light",
+          dracula: "dark",
+          "tokyo-night": "dark",
+          gruvbox: "dark",
+          nord: "dark",
+          solarized: "dark",
+        };
+        var t = localStorage.getItem("theme");
+        if (!MODES[t]) t = "dark";
+        var el = document.documentElement;
+        el.dataset.theme = MODES[t];
+        if (t === "dark" || t === "light") delete el.dataset.palette;
+        else el.dataset.palette = t;
+        localStorage.setItem("theme", t);
+        var logo = t === "coffee" ? "coffee" : MODES[t];
+        document.querySelector("link[rel=icon]").href = "/favicons/" + logo + "-logo.svg";
+      })();
+    </script>
+    %presets.css%
     %sveltekit.head%
   </head>
 
   <body>
     <div id="svelte">%sveltekit.body%</div>
-    <script>
-      // Theme boot
-      const localTheme = localStorage.getItem("theme");
-      const theme = localTheme || "dark";
-      document.body.dataset.theme = theme;
-      localStorage.setItem("theme", theme);
-
-      // locale is set server-side via %lang% + paraglide middleware
-    </script>
+    <!-- locale is set server-side via %lang% + paraglide middleware -->
   </body>
 </html>

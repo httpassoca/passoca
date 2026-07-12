@@ -2275,10 +2275,10 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-dssoca@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/dssoca/-/dssoca-0.13.0.tgz#ef2e57bf14ff9bca494a29543d28373e45c2ca95"
-  integrity sha512-pHuyffpD7fU67p6YXnBIeCJzPKVROpgdkQ2W8D0ICkBCbRFFkNWRUIcgDZQzGHZDZVRZnhJI6rBowXfcBG1ZgA==
+dssoca@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/dssoca/-/dssoca-0.14.0.tgz#f1282388c156bfed8b118c686e87d92d41220aab"
+  integrity sha512-edyx3dAy9tVbc1FTPT0nNXJKyhuCUQn8jlasTLqPWAVs1I2XHZ2la/h2eXUaVHmkcSInQxCVhTxKb7ty/tz/KQ==
   dependencies:
     d3-array "^3.2.4"
     d3-scale "^4.0.2"

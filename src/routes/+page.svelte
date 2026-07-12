@@ -3,7 +3,6 @@
   import AppSvg from "$lib/components/Base/AppSVG.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import { books, games, socials, trips } from "$lib/data/misc";
-  import { theme } from "$lib/stores/theme.store";
   import { m } from "$lib/paraglide/messages";
   import type { PageData } from "./$types";
 
