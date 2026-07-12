@@ -20,6 +20,8 @@ export const projects: Project[] = [
       "Tokens-only import for apps that own their global styles",
       "Published on npm with CI and full docs",
     ],
+    imageSrc: "/imgs/projects/dssoca.gif",
+    imageAlt: "dssoca docs site — hero, component gallery and theme toggle",
     githubUrl: "https://github.com/httpassoca/dssoca",
     websiteUrl: "https://dssoca.passoca.dev",
   },
