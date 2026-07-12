@@ -18,6 +18,11 @@
   "search_hint": "↑↓ navegar · ↵ abrir · esc fechar",
 
   "shortcuts_title": "Atalhos de teclado",
+  "shortcuts_group_nav": "Navegação",
+  "shortcuts_go_home": "Ir para o início",
+  "shortcuts_go_career": "Ir para carreira",
+  "shortcuts_go_projects": "Ir para projetos",
+  "shortcuts_go_blog": "Ir para o blog",
 
   "home_title": "Oi, eu sou o Rafael Passoca.",
   "home_intro": "Como dev, eu adoro automatizar coisas e fazer elas trabalharem pra mim. Também acredito que aparência e praticidade são as melhores influências pra experiência do usuário. Isso é o que importa. E eu adoro fazer acontecer.",

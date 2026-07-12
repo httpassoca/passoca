@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { theme } from "$lib/stores/theme.store";
   import type { Theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
-  import { Menu, Spinner, Topbar, Kbd, ariaKeyshortcuts } from "dssoca";
+  import { Menu, Spinner, Topbar, Kbd, ariaKeyshortcuts, shortcuts } from "dssoca";
   import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
   import { openSearch } from "$lib/stores/search.store";
@@ -23,6 +24,21 @@
     if (!browser) return;
     const localTheme = localStorage.getItem("theme") as Theme | null;
     if (localTheme && themes.some((t) => t.id === localTheme)) theme.set(localTheme);
+
+    // Digit keys 1–4 jump to the matching Topbar tab (the tabs are already
+    // numbered visually). Modifier-less on purpose: mod/ctrl+digit is browser
+    // tab switching and alt+digit collides with menus/accesskey — the registry
+    // already skips inputs and honors the character-key kill switch.
+    const disposers = navTabs.map((t, i) =>
+      shortcuts.add({
+        id: `app:nav-${t.id}`,
+        label: shortcutLabels[t.id],
+        keys: String(i + 1),
+        group: m.shortcuts_group_nav(),
+        onPress: () => goto(localizeHref(t.path)),
+      })
+    );
+    return () => disposers.forEach((dispose) => dispose());
   });
 
   $: current = themes.find((t) => t.id === $theme);
@@ -81,6 +97,14 @@
     projects: m.nav_projects(),
     blog: m.nav_blog(),
   } as Record<string, string>;
+  // Shortcut labels for ShortcutsHelp; locale changes reload the page, so
+  // registering them once in onMount is safe.
+  const shortcutLabels: Record<string, string> = {
+    home: m.shortcuts_go_home(),
+    career: m.shortcuts_go_career(),
+    projects: m.shortcuts_go_projects(),
+    blog: m.shortcuts_go_blog(),
+  };
   $: tabs = navTabs.map((t) => ({
     id: t.id,
     label: tabLabels[t.id],
