@@ -38,6 +38,30 @@
         onPress: () => goto(localizeHref(t.path)),
       })
     );
+    // L / T cycle language and theme — same actions as the Topbar menus.
+    disposers.push(
+      shortcuts.add({
+        id: "app:language",
+        label: m.shortcuts_language(),
+        keys: "l",
+        group: m.shortcuts_group_prefs(),
+        onPress: () => {
+          const next = locales[(locales.indexOf(activeLocale) + 1) % locales.length];
+          // Full reload, like the language menu (paraglide URL strategy).
+          window.location.href = localizeHref(pathname, { locale: next });
+        },
+      }),
+      shortcuts.add({
+        id: "app:theme",
+        label: m.shortcuts_theme(),
+        keys: "t",
+        group: m.shortcuts_group_prefs(),
+        onPress: () => {
+          const i = themes.findIndex((t) => t.id === $theme);
+          theme.set(themes[(i + 1) % themes.length].id);
+        },
+      })
+    );
     return () => disposers.forEach((dispose) => dispose());
   });
 

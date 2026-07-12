@@ -23,6 +23,9 @@
   "shortcuts_go_career": "Go to career",
   "shortcuts_go_projects": "Go to projects",
   "shortcuts_go_blog": "Go to blog",
+  "shortcuts_group_prefs": "Preferences",
+  "shortcuts_language": "Switch language",
+  "shortcuts_theme": "Switch theme",
 
   "home_title": "Hi, I'm Rafael Passoca.",
   "home_intro": "As a developer, I love to automate things and make them work for me. I also believe that appearance and practicality are the best influences to the user. This is what matters. And I love to make it happen.",
