@@ -4,6 +4,7 @@
   import ProjectCard from "$lib/components/ProjectCard.svelte";
 
   import { icons } from "$lib/data/skills";
+  import { projects } from "$lib/data/projects";
   import { m } from "$lib/paraglide/messages";
 </script>
 
@@ -11,21 +12,9 @@
   <section class="projects">
     <Heading>Projects</Heading>
     <div class="projects-grid">
-      <ProjectCard
-        name="Bloodborne Sudoku"
-        description="A Bloodborne-themed Sudoku with a custom UI and game feel — built to be playable and polished on mobile. AI btw."
-        features={[
-          "Multiple difficulties + new puzzle generation",
-          "Notes/pencil marks + error highlighting",
-          "Keyboard support (desktop) + touch-first controls (mobile)",
-          "Bloodborne-inspired theme, typography and sound design",
-          "Multiplayer coop and duel modes",
-        ]}
-        imageSrc="/imgs/projects/bloodborne-sudoku.gif"
-        imageAlt="Bloodborne Sudoku gameplay screenshot"
-        githubUrl="https://github.com/httpassoca/bloodborne-sudoku"
-        websiteUrl="https://sudoku.passoca.dev"
-      />
+      {#each projects as project (project.name)}
+        <ProjectCard {...project} />
+      {/each}
     </div>
   </section>
 
@@ -45,6 +34,7 @@
   margin-top: 15px
   display: grid
   grid-template-columns: 1fr
+  grid-gap: 20px
 
 .grid-icons
   margin-top: 15px
