@@ -5,7 +5,6 @@
   import Header from "$lib/components/Header.svelte";
   import PageTransition from "$lib/components/PageTransition.svelte";
   import SearchPalette from "$lib/components/SearchPalette.svelte";
-  import { theme } from "$lib/stores/theme.store";
   import { viewportWidth } from "$lib/stores/window.store";
   import { openSearch } from "$lib/stores/search.store";
   import { localizeHref } from "$lib/paraglide/runtime";
@@ -43,7 +42,6 @@
 <svelte:window bind:innerWidth={$viewportWidth} />
 
 <svelte:head>
-  <link rel="icon" href="/favicons/{$theme}-logo.svg" />
   {#if !$page.url.pathname.includes("blog/")}
     <title>Passoca</title>
     <meta name="title" content="Rafael Passoca | Frontend Engineer" />
