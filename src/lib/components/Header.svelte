@@ -5,13 +5,11 @@
   import { theme } from "$lib/stores/theme.store";
   import type { Theme } from "$lib/stores/theme.store";
   import SVG from "./Base/AppSVG.svelte";
-  import { Menu, Spinner, Topbar } from "dssoca";
+  import { Menu, Spinner, Topbar, Kbd, ariaKeyshortcuts } from "dssoca";
   import { locales, localizeHref } from "$lib/paraglide/runtime";
   import { m } from "$lib/paraglide/messages";
   import { openSearch } from "$lib/stores/search.store";
   let animation = false;
-  // Render no shortcut hint until mounted so SSR never guesses the platform
-  let shortcut: string | null = null;
 
   const themes: { id: Theme; label: string; themeColor?: string }[] = [
     { id: "dark", label: "Dark", themeColor: "#0b1220" },
@@ -25,7 +23,6 @@
     if (!browser) return;
     const localTheme = localStorage.getItem("theme") as Theme | null;
     if (localTheme && themes.some((t) => t.id === localTheme)) theme.set(localTheme);
-    shortcut = /mac/i.test(navigator.platform) ? "⌘K" : "Ctrl K";
   });
 
   $: current = themes.find((t) => t.id === $theme);
@@ -131,7 +128,7 @@
         class="search-button"
         on:click={openSearch}
         aria-label={m.search_title()}
-        aria-keyshortcuts="Control+K Meta+K"
+        aria-keyshortcuts={ariaKeyshortcuts("mod+k")}
       >
         <SVG
           name="search"
@@ -139,9 +136,7 @@
           height="22"
           fill='var(--app-color-text)'
         />
-        {#if shortcut}
-          <kbd>{shortcut}</kbd>
-        {/if}
+        <Kbd keys="mod+k" />
       </button>
       <a href="/github" target="_blank" aria-label="GitHub">
         <SVG
@@ -193,13 +188,6 @@
   border: none
   color: var(--app-color-text)
   cursor: pointer
-  kbd
-    padding: 2px 5px
-    border: 1px solid var(--ss-line-strong)
-    font-family: var(--ss-font-mono)
-    font-size: 11px
-    line-height: 12px
-    color: var(--ss-fg-muted)
 
 .flag
   font-size: 14px
