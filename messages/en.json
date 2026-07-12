@@ -6,6 +6,16 @@
   "nav_projects": "projects",
   "nav_blog": "blog",
   "nav_notes": "notes",
+  "nav_contact": "contact",
+  "nav_search": "search",
+
+  "search_title": "Search",
+  "search_placeholder": "Search posts, projects, pages…",
+  "search_no_results": "No results for",
+  "search_group_pages": "Pages",
+  "search_group_posts": "Posts",
+  "search_group_projects": "Projects",
+  "search_hint": "↑↓ navigate · ↵ open · esc close",
 
   "home_title": "Hi, I'm Rafael Passoca.",
   "home_intro": "As a developer, I love to automate things and make them work for me. I also believe that appearance and practicality are the best influences to the user. This is what matters. And I love to make it happen.",
