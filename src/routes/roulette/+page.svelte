@@ -41,6 +41,7 @@
   let winner = $state<RouletteOption | null>(null);
   let lastSpunAt: string | null | undefined = undefined;
   let settleTimer: ReturnType<typeof setTimeout> | undefined;
+  let loadErrorShown = false;
 
   // The wheel order must be identical on every device, so every client
   // animates to the same segment for a given winner_id.
@@ -67,8 +68,13 @@
       config = data.state;
       syncSpin(animate);
       loaded = true;
+      loadErrorShown = false;
     } catch {
-      toast.error("Couldn't load the roulette — try refreshing.");
+      // The focus handler and 15s poll retry forever; don't toast every time.
+      if (!loadErrorShown) {
+        loadErrorShown = true;
+        toast.error("Can't reach the shared roulette — retrying in the background.");
+      }
     }
   }
 
