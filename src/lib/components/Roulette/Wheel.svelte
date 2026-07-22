@@ -87,7 +87,7 @@
 
 <style lang="sass">
 svg
-  width: min(320px, 78vw)
+  width: min(340px, 100%)
   height: auto
   display: block
 

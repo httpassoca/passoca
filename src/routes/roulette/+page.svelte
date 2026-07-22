@@ -4,122 +4,129 @@
     Badge,
     Button,
     Card,
-    Container,
     EmptyState,
     Heading,
     Input,
     NumberField,
-    Switch,
+    Textarea,
     Toaster,
     toast,
     CHART_PALETTE,
   } from "dssoca";
   import Wheel from "$lib/components/Roulette/Wheel.svelte";
   import {
-    getRouletteBackend,
-    DEFAULT_STATE,
-    type RouletteOption,
-    type RouletteState,
+    createRouletteBackend,
+    DEFAULT_WHEEL,
+    type RouletteBackend,
+    type RouletteDoc,
   } from "$lib/roulette";
 
-  const backend = getRouletteBackend();
   const NAME_KEY = "passoca:roulette:name";
   const SPIN_SECONDS = 4;
+  const PAD_DEBOUNCE_MS = 700;
+
+  let backend = $state<RouletteBackend | null>(null);
+  let doc = $state<RouletteDoc>({ pads: {}, wheel: { ...DEFAULT_WHEEL } });
+  let loaded = $state(false);
+  let busy = $state(false);
 
   let name = $state("");
   let draftName = $state("");
   let editingName = $state(false);
-  let draft = $state("");
-  let options = $state<RouletteOption[]>([]);
-  let config = $state<RouletteState>({ ...DEFAULT_STATE });
-  let loaded = $state(false);
-  let busy = $state(false);
+  let draftPick = $state("");
+
+  // My pad is edited locally and pushed debounced; remote refreshes must not
+  // clobber it mid-keystroke.
+  let myPadText = $state("");
+  let padFocused = false;
+  let padDirty = false;
+  let padTimer: ReturnType<typeof setTimeout> | undefined;
 
   let rotation = $state(0);
   let spinDuration = $state(0);
   let spinning = $state(false);
-  let winner = $state<RouletteOption | null>(null);
+  let winnerId = $state<string | null>(null);
   let lastSpunAt: string | null | undefined = undefined;
   let settleTimer: ReturnType<typeof setTimeout> | undefined;
   let loadErrorShown = false;
 
-  // The wheel order must be identical on every device, so every client
-  // animates to the same segment for a given winner_id.
-  const picks = $derived(
-    options
-      .filter((o) => o.picked)
-      .slice()
-      .sort(
-        (a, b) =>
-          a.created_at.localeCompare(b.created_at) || a.id.localeCompare(b.id)
-      )
+  const wheel = $derived(doc.wheel);
+  const options = $derived(wheel.options);
+  const myOptionCount = $derived(
+    options.filter((o) => o.author === name).length
   );
-  const myPickCount = $derived(
-    picks.filter((o) => o.author === name).length
+  const segments = $derived(options.map((o) => ({ id: o.id, label: o.text })));
+  const otherPads = $derived(
+    Object.entries(doc.pads)
+      .filter(([author]) => author !== name)
+      .sort(([a], [b]) => a.localeCompare(b))
   );
-  const segments = $derived(
-    picks.map((p) => ({ id: p.id, label: p.text }))
+  const winner = $derived(
+    winnerId ? options.find((o) => o.id === winnerId) ?? null : null
   );
 
-  async function refresh(animate = true) {
-    try {
-      const data = await backend.load();
-      options = data.options;
-      config = data.state;
-      syncSpin(animate);
-      loaded = true;
-      loadErrorShown = false;
-    } catch {
-      // The focus handler and 15s poll retry forever; don't toast every time.
-      if (!loadErrorShown) {
-        loadErrorShown = true;
-        toast.error("Can't reach the shared roulette — retrying in the background.");
-      }
-    }
+  function applyDoc(next: RouletteDoc, animate = true) {
+    doc = next;
+    if (!padFocused && !padDirty) myPadText = next.pads[name]?.text ?? "";
+    syncSpin(animate);
   }
 
   function syncSpin(animate: boolean) {
-    if (config.spun_at === lastSpunAt) return;
-    lastSpunAt = config.spun_at;
+    if (wheel.spun_at === lastSpunAt) return;
+    lastSpunAt = wheel.spun_at;
 
-    if (!config.spun_at || !config.winner_id) {
-      winner = null;
+    if (!wheel.spun_at || !wheel.winner_id) {
+      winnerId = null;
       return;
     }
 
-    const index = picks.findIndex((p) => p.id === config.winner_id);
+    const index = options.findIndex((o) => o.id === wheel.winner_id);
     if (index === -1) {
-      // Winner no longer in the wheel (deleted/unpicked); just show it.
-      winner = options.find((o) => o.id === config.winner_id) ?? null;
+      winnerId = null;
       return;
     }
 
-    const segment = 360 / picks.length;
+    const segment = 360 / options.length;
     const align = 360 - (index + 0.5) * segment;
 
     if (animate) {
       spinning = true;
-      winner = null;
+      winnerId = null;
       spinDuration = SPIN_SECONDS;
-      const turns = Math.max(3, config.spin_turns ?? 4);
+      const turns = Math.max(3, wheel.spin_turns ?? 4);
       rotation = rotation - (rotation % 360) + 360 * turns + align;
       clearTimeout(settleTimer);
       settleTimer = setTimeout(() => {
         spinning = false;
-        winner = picks[index] ?? null;
+        winnerId = wheel.winner_id;
       }, SPIN_SECONDS * 1000 + 150);
     } else {
       spinDuration = 0;
       rotation = align;
-      winner = picks[index] ?? null;
+      winnerId = wheel.winner_id;
     }
   }
 
-  async function run(action: () => Promise<void>) {
+  async function refresh(animate = true) {
+    if (!backend) return;
+    try {
+      applyDoc(await backend.load(), animate);
+      loaded = true;
+      loadErrorShown = false;
+    } catch {
+      // The poll retries forever; don't toast every cycle.
+      if (!loadErrorShown) {
+        loadErrorShown = true;
+        toast.error("Can't reach the roulette — retrying in the background.");
+      }
+    }
+  }
+
+  async function run(action: () => Promise<RouletteDoc>) {
+    if (!backend) return;
     busy = true;
     try {
-      await action();
-      await refresh();
+      applyDoc(await action());
     } catch {
       toast.error("Something went wrong — try again.");
     } finally {
@@ -133,52 +140,71 @@
     name = clean;
     editingName = false;
     localStorage.setItem(NAME_KEY, clean);
+    myPadText = doc.pads[name]?.text ?? "";
   }
 
-  function addIdea() {
-    const text = draft.trim();
-    if (!text || !name) return;
-    draft = "";
-    run(() => backend.addOption(name, text));
+  function onPadInput() {
+    padDirty = true;
+    clearTimeout(padTimer);
+    padTimer = setTimeout(flushPad, PAD_DEBOUNCE_MS);
   }
 
-  function togglePick(option: RouletteOption, picked: boolean) {
-    if (picked && myPickCount >= config.max_picks) {
+  async function flushPad() {
+    if (!backend || !name || !padDirty) return;
+    padDirty = false;
+    try {
+      applyDoc(await backend.savePad(name, myPadText));
+    } catch {
+      padDirty = true; // retry on the next input or blur
+    }
+  }
+
+  function addPick() {
+    const text = draftPick.trim();
+    if (!text || !name || !backend) return;
+    if (myOptionCount >= wheel.max_picks) {
       toast.info(
-        `Max ${config.max_picks} in the roulette per person — unpick one first.`
+        `Max ${wheel.max_picks} in the wheel per person — remove one first.`
       );
-      refresh();
       return;
     }
-    run(() => backend.setPicked(option.id, picked));
+    draftPick = "";
+    run(() => backend!.addOption(name, text));
   }
 
   function spin() {
-    if (picks.length < 2 || spinning) return;
-    const winnerId = picks[Math.floor(Math.random() * picks.length)].id;
+    if (options.length < 2 || spinning || !backend) return;
+    const winner = options[Math.floor(Math.random() * options.length)];
     // 4–6 turns with a random fraction so every spin lands differently.
     const turns = Math.round((4 + Math.random() * 2) * 100) / 100;
-    run(() => backend.spin(winnerId, turns));
+    run(() => backend!.spin(winner.id, turns));
   }
 
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
     draftName = name;
-    refresh(false);
 
-    const unsubscribe = backend.subscribe(() => refresh());
-    const onFocus = () => refresh();
-    window.addEventListener("focus", onFocus);
-    // Realtime needs the tables added to the supabase_realtime publication;
-    // poll as insurance so the group never gets stuck on a stale list.
-    const poll = backend.shared
-      ? setInterval(() => refresh(), 15000)
-      : undefined;
+    let cleanup: (() => void) | undefined;
+    let disposed = false;
+
+    (async () => {
+      backend = await createRouletteBackend();
+      if (disposed) return;
+      await refresh(false);
+
+      const unsubscribe = backend.subscribe(() => refresh());
+      const onFocus = () => refresh();
+      window.addEventListener("focus", onFocus);
+      cleanup = () => {
+        unsubscribe();
+        window.removeEventListener("focus", onFocus);
+      };
+    })();
 
     return () => {
-      unsubscribe();
-      window.removeEventListener("focus", onFocus);
-      clearInterval(poll);
+      disposed = true;
+      cleanup?.();
+      clearTimeout(padTimer);
       clearTimeout(settleTimer);
     };
   });
@@ -189,213 +215,269 @@
   <meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
-<Container page>
+<div class="page">
   <div class="head">
     <Heading>Film roulette</Heading>
-    {#if backend.shared}
-      <Badge tone="positive" dot>shared</Badge>
-    {:else}
-      <Badge tone="caution" dot>local only</Badge>
+    {#if backend}
+      {#if backend.shared}
+        <Badge tone="positive" dot>shared</Badge>
+      {:else}
+        <Badge tone="caution" dot>local only</Badge>
+      {/if}
+    {/if}
+    {#if name && !editingName}
+      <span class="you">
+        you are <strong>{name}</strong>
+        <Button variant="ghost" size="sm" onclick={() => (editingName = true)}>
+          change
+        </Button>
+      </span>
     {/if}
   </div>
   <p class="hint">
-    Hidden page — share the URL. Everyone throws in ideas, flags
-    {config.max_picks === 1 ? "one" : `up to ${config.max_picks}`} for the
-    wheel, and one spin decides for the whole group.
+    Hidden page — share the URL. Brainstorm together on the left; each person
+    sends {wheel.max_picks === 1 ? "one option" : `up to ${wheel.max_picks} options`}
+    to the wheel, and one spin decides for everyone.
   </p>
 
   {#if !name || editingName}
-    <Card title="Who are you?">
-      <form
-        class="row"
-        onsubmit={(e) => {
-          e.preventDefault();
-          saveName();
-        }}
-      >
-        <Input
-          label="Name"
-          placeholder="e.g. Rafa"
-          maxlength={24}
-          bind:value={draftName}
-        />
-        <Button type="submit" disabled={!draftName.trim()}>Join</Button>
-      </form>
-    </Card>
-  {:else}
-    <p class="you">
-      You are <strong>{name}</strong>
-      <Button
-        variant="ghost"
-        size="sm"
-        onclick={() => (editingName = true)}>change</Button
-      >
-    </p>
+    <div class="join">
+      <Card title="Who are you?">
+        <form
+          class="row"
+          onsubmit={(e) => {
+            e.preventDefault();
+            saveName();
+          }}
+        >
+          <Input
+            label="Name"
+            placeholder="e.g. Rafa"
+            maxlength={24}
+            bind:value={draftName}
+          />
+          <Button type="submit" disabled={!draftName.trim()}>Join</Button>
+        </form>
+      </Card>
+    </div>
   {/if}
 
-  <section>
-    <Card title="Ideas" meta={`${options.length}`}>
-      <form
-        class="row"
-        onsubmit={(e) => {
-          e.preventDefault();
-          addIdea();
-        }}
+  <div class="layout">
+    <section class="ideas">
+      <Card
+        title="Ideas"
+        description="Everyone gets a pad. Write anything — titles, genres, vibes — and watch the others think."
       >
-        <Input
-          label="Suggestion"
-          placeholder="A film, a genre, a wild card — anything"
-          maxlength={80}
-          bind:value={draft}
-          disabled={!name}
-          hint={name ? undefined : "Set your name first"}
-        />
-        <Button type="submit" disabled={!name || !draft.trim() || busy}>
-          Add
-        </Button>
-      </form>
-
-      {#if loaded && options.length === 0}
-        <EmptyState
-          title="Nothing yet"
-          message="Start the brainstorm — add the first idea."
-        />
-      {/if}
-
-      <ul class="ideas">
-        {#each options as option (option.id)}
-          <li>
-            <span
-              class="swatch"
-              class:off={!option.picked}
-              style:background={option.picked
-                ? CHART_PALETTE[
-                    picks.findIndex((p) => p.id === option.id) %
-                      CHART_PALETTE.length
-                  ]
-                : "transparent"}
-            ></span>
-            <span class="text">{option.text}</span>
-            <Badge tone={option.author === name ? "brand" : "neutral"}>
-              {option.author}
-            </Badge>
-            <Switch
-              label="in roulette"
-              size="sm"
-              checked={option.picked}
-              disabled={option.author !== name || busy}
-              onchange={(checked) => togglePick(option, checked)}
+        {#if name}
+          <div class="pad">
+            <Textarea
+              label={`${name} (you)`}
+              placeholder="Brainstorm here…"
+              rows={6}
+              autosize
+              maxRows={16}
+              maxlength={8000}
+              bind:value={myPadText}
+              oninput={onPadInput}
+              onfocus={() => (padFocused = true)}
+              onblur={() => {
+                padFocused = false;
+                flushPad();
+              }}
             />
-            {#if option.author === name}
-              <Button
-                variant="ghost"
-                size="sm"
-                iconOnly
-                label={`Delete "${option.text}"`}
-                disabled={busy}
-                onclick={() => run(() => backend.removeOption(option.id))}
-                >✕</Button
-              >
-            {/if}
-          </li>
+          </div>
+        {:else}
+          <p class="muted">Set your name to get a pad.</p>
+        {/if}
+
+        {#each otherPads as [author, pad] (author)}
+          <div class="pad">
+            <Textarea label={author} value={pad.text} rows={3} autosize maxRows={16} readonly />
+          </div>
         {/each}
-      </ul>
-    </Card>
-  </section>
 
-  <section>
-    <Card title="Roulette" meta={`${picks.length} in the wheel`}>
-      {#if picks.length === 0}
-        <EmptyState
-          title="The wheel is empty"
-          message={`Flip "in roulette" on an idea to add it here.`}
-        />
-      {:else}
-        <div class="wheel-area">
-          <Wheel {segments} {rotation} duration={spinDuration} />
+        {#if loaded && otherPads.length === 0}
+          <p class="muted">No one else is here yet — share the URL.</p>
+        {/if}
+      </Card>
+    </section>
 
-          {#if winner && !spinning}
-            <div class="winner" role="status">
-              <span class="clap">🎬</span>
-              <span class="winner-text">{winner.text}</span>
-              <span class="winner-by">picked by {winner.author}</span>
-            </div>
-          {:else if spinning}
-            <p class="spinning-label">Spinning…</p>
-          {/if}
+    <aside class="side">
+      <Card title="Roulette" meta={`${options.length} in the wheel`}>
+        <form
+          class="row"
+          onsubmit={(e) => {
+            e.preventDefault();
+            addPick();
+          }}
+        >
+          <Input
+            label="Your option"
+            placeholder="The one you're sending to the wheel"
+            maxlength={120}
+            bind:value={draftPick}
+            disabled={!name || myOptionCount >= wheel.max_picks}
+            hint={!name
+              ? "Set your name first"
+              : myOptionCount >= wheel.max_picks
+                ? "You're at your limit — remove one to swap"
+                : undefined}
+          />
+          <Button
+            type="submit"
+            disabled={!name || !draftPick.trim() || busy ||
+              myOptionCount >= wheel.max_picks}
+          >
+            Add
+          </Button>
+        </form>
 
-          <div class="row center">
-            <Button
-              onclick={spin}
-              disabled={picks.length < 2 || spinning || busy}
-            >
-              Spin
-            </Button>
+        {#if options.length > 0}
+          <ul class="options">
+            {#each options as option, i (option.id)}
+              <li>
+                <span
+                  class="swatch"
+                  style:background={CHART_PALETTE[i % CHART_PALETTE.length]}
+                ></span>
+                <span class="text">{option.text}</span>
+                <Badge tone={option.author === name ? "brand" : "neutral"}>
+                  {option.author}
+                </Badge>
+                {#if option.author === name}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    iconOnly
+                    label={`Remove "${option.text}"`}
+                    disabled={busy}
+                    onclick={() => run(() => backend!.removeOption(option.id))}
+                    >✕</Button
+                  >
+                {/if}
+              </li>
+            {/each}
+          </ul>
+
+          <div class="wheel-area">
+            <Wheel {segments} {rotation} duration={spinDuration} />
+
             {#if winner && !spinning}
+              <div class="winner" role="status">
+                <span class="clap">🎬</span>
+                <span class="winner-text">{winner.text}</span>
+                <span class="winner-by">picked by {winner.author}</span>
+              </div>
+            {:else if spinning}
+              <p class="spinning-label">Spinning…</p>
+            {/if}
+
+            <div class="row center">
               <Button
-                variant="ghost"
-                onclick={() => run(() => backend.clearSpin())}
+                onclick={spin}
+                disabled={options.length < 2 || spinning || busy}
               >
-                Clear result
+                Spin
               </Button>
+              {#if winner && !spinning}
+                <Button
+                  variant="ghost"
+                  onclick={() => run(() => backend!.clearSpin())}
+                >
+                  Clear result
+                </Button>
+              {/if}
+            </div>
+            {#if options.length < 2}
+              <p class="hint">Need at least 2 options to spin.</p>
             {/if}
           </div>
-          {#if picks.length < 2}
-            <p class="hint">Need at least 2 picks to spin.</p>
-          {/if}
-        </div>
-      {/if}
-    </Card>
-  </section>
+        {:else if loaded}
+          <EmptyState
+            title="The wheel is empty"
+            message="Send your option in and it shows up here."
+          />
+        {/if}
+      </Card>
 
-  <section>
-    <Card title="Settings">
-      <div class="settings">
-        <NumberField
-          label="Picks per person"
-          min={1}
-          max={10}
-          step={1}
-          value={config.max_picks}
-          hint="How many of each person's ideas can enter the wheel."
-          onchange={(e) => {
-            const value = e.currentTarget.valueAsNumber;
-            if (Number.isInteger(value) && value >= 1 && value <= 10) {
-              run(() => backend.setMaxPicks(value));
-            }
-          }}
-        />
-      </div>
-      {#if !backend.shared}
-        <p class="hint">
-          Supabase env vars are missing, so this is running in local-only mode:
-          everything stays in this browser.
-        </p>
-      {/if}
-    </Card>
-  </section>
-</Container>
+      <Card title="Settings">
+        <div class="settings">
+          <NumberField
+            label="Options per person"
+            min={1}
+            max={10}
+            step={1}
+            value={wheel.max_picks}
+            hint="How many options each person can send to the wheel."
+            onchange={(e) => {
+              const value = e.currentTarget.valueAsNumber;
+              if (Number.isInteger(value) && value >= 1 && value <= 10) {
+                run(() => backend!.setMaxPicks(value));
+              }
+            }}
+          />
+        </div>
+        {#if backend && !backend.shared}
+          <p class="hint">
+            No storage configured on the server, so this is running in
+            local-only mode: everything stays in this browser.
+          </p>
+        {/if}
+      </Card>
+    </aside>
+  </div>
+</div>
 
 <Toaster />
 
 <style lang="sass">
+.page
+  width: 100%
+  padding: 28px var(--ss-container-px, 20px) 48px
+
 .head
   display: flex
   align-items: center
+  flex-wrap: wrap
   gap: 10px
+
+.you
+  color: var(--ss-fg-muted)
+  font-size: var(--ss-size-sm)
+  strong
+    color: var(--ss-accent)
 
 .hint
   color: var(--ss-fg-muted)
   font-size: var(--ss-size-sm)
-  margin: 8px 0 18px
+  margin: 8px 0 20px
 
-.you
-  margin: 4px 0 18px
-  strong
-    color: var(--ss-accent)
+.muted
+  color: var(--ss-fg-muted)
+  font-size: var(--ss-size-sm)
+  margin: 10px 0 0
 
-section
-  margin-bottom: 22px
+.join
+  max-width: 440px
+  margin-bottom: 20px
+
+.layout
+  display: grid
+  grid-template-columns: minmax(0, 1fr) clamp(340px, 34vw, 460px)
+  gap: 22px
+  align-items: start
+  @media (max-width: 980px)
+    grid-template-columns: minmax(0, 1fr)
+
+.side
+  display: flex
+  flex-direction: column
+  gap: 22px
+
+.pad
+  margin-bottom: 14px
+  &:last-child
+    margin-bottom: 0
 
 .row
   display: flex
@@ -411,7 +493,7 @@ section
     :global(button)
       margin-top: 0
 
-.ideas
+.options
   list-style: none
   margin: 16px 0 0
   padding: 0
@@ -419,7 +501,7 @@ section
     display: flex
     align-items: center
     gap: 10px
-    padding: 8px 0
+    padding: 7px 0
     border-bottom: 1px solid var(--ss-line)
     &:last-child
       border-bottom: none
@@ -433,14 +515,12 @@ section
   height: 10px
   flex-shrink: 0
   border: 1px solid var(--ss-line-strong)
-  &.off
-    border-style: dashed
 
 .wheel-area
   display: flex
   flex-direction: column
   align-items: center
-  padding: 10px 0
+  padding: 18px 0 6px
   :global(svg)
     margin-bottom: 6px
 
