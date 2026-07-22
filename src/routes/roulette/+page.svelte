@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
+  import { marked } from "marked";
   import {
     Badge,
     Button,
@@ -38,9 +39,16 @@
   // My pad is edited locally and pushed debounced; remote refreshes must not
   // clobber it mid-keystroke.
   let myPadText = $state("");
+  let padEditing = $state(false);
   let padFocused = false;
   let padDirty = false;
   let padTimer: ReturnType<typeof setTimeout> | undefined;
+  const PAD_INPUT_ID = "roulette-my-pad";
+
+  // Pads render as markdown; raw HTML is neutralized before parsing since
+  // friends' text lands on each other's screens.
+  const renderMd = (text: string) =>
+    marked.parse(text.replace(/&/g, "&amp;").replace(/</g, "&lt;"));
 
   let rotation = $state(0);
   let spinDuration = $state(0);
@@ -64,6 +72,28 @@
   const winner = $derived(
     winnerId ? options.find((o) => o.id === winnerId) ?? null : null
   );
+
+  // NumberField's steppers set the bound value without firing a native change
+  // event, so persistence has to watch the binding instead of onchange.
+  let maxPicksDraft = $state<number | null>(DEFAULT_WHEEL.max_picks);
+
+  $effect(() => {
+    maxPicksDraft = wheel.max_picks;
+  });
+
+  $effect(() => {
+    const value = maxPicksDraft;
+    if (
+      loaded &&
+      value != null &&
+      Number.isInteger(value) &&
+      value >= 1 &&
+      value <= 10 &&
+      value !== wheel.max_picks
+    ) {
+      run(() => backend!.setMaxPicks(value));
+    }
+  });
 
   function applyDoc(next: RouletteDoc, animate = true) {
     doc = next;
@@ -141,6 +171,14 @@
     editingName = false;
     localStorage.setItem(NAME_KEY, clean);
     myPadText = doc.pads[name]?.text ?? "";
+  }
+
+  function startPadEdit() {
+    padEditing = true;
+    padFocused = true;
+    tick().then(() =>
+      (document.getElementById(PAD_INPUT_ID) as HTMLTextAreaElement | null)?.focus()
+    );
   }
 
   function onPadInput() {
@@ -266,25 +304,38 @@
     <section class="ideas">
       <Card
         title="Ideas"
-        description="Everyone gets a pad. Write anything — titles, genres, vibes — and watch the others think."
+        description="Everyone gets a pad. Write anything — titles, genres, vibes — markdown works."
       >
         {#if name}
           <div class="pad">
-            <Textarea
-              label={`${name} (you)`}
-              placeholder="Brainstorm here…"
-              rows={6}
-              autosize
-              maxRows={16}
-              maxlength={8000}
-              bind:value={myPadText}
-              oninput={onPadInput}
-              onfocus={() => (padFocused = true)}
-              onblur={() => {
-                padFocused = false;
-                flushPad();
-              }}
-            />
+            <div class="pad-label">{name} <span class="pad-you">(you)</span></div>
+            {#if padEditing}
+              <Textarea
+                id={PAD_INPUT_ID}
+                placeholder="Brainstorm here… # headings, **bold**, - lists"
+                rows={6}
+                autosize
+                maxRows={18}
+                maxlength={8000}
+                bind:value={myPadText}
+                oninput={onPadInput}
+                onblur={() => {
+                  padEditing = false;
+                  padFocused = false;
+                  flushPad();
+                }}
+              />
+            {:else}
+              <button type="button" class="md-view editable" onclick={startPadEdit}>
+                {#if myPadText.trim()}
+                  {@html renderMd(myPadText)}
+                {:else}
+                  <span class="placeholder"
+                    >Click to write — # headings, **bold**, - lists…</span
+                  >
+                {/if}
+              </button>
+            {/if}
           </div>
         {:else}
           <p class="muted">Set your name to get a pad.</p>
@@ -292,7 +343,14 @@
 
         {#each otherPads as [author, pad] (author)}
           <div class="pad">
-            <Textarea label={author} value={pad.text} rows={3} autosize maxRows={16} readonly />
+            <div class="pad-label">{author}</div>
+            <div class="md-view">
+              {#if pad.text.trim()}
+                {@html renderMd(pad.text)}
+              {:else}
+                <span class="placeholder">…</span>
+              {/if}
+            </div>
           </div>
         {/each}
 
@@ -407,14 +465,8 @@
             min={1}
             max={10}
             step={1}
-            value={wheel.max_picks}
+            bind:value={maxPicksDraft}
             hint="How many options each person can send to the wheel."
-            onchange={(e) => {
-              const value = e.currentTarget.valueAsNumber;
-              if (Number.isInteger(value) && value >= 1 && value <= 10) {
-                run(() => backend!.setMaxPicks(value));
-              }
-            }}
           />
         </div>
         {#if backend && !backend.shared}
@@ -478,6 +530,64 @@
   margin-bottom: 14px
   &:last-child
     margin-bottom: 0
+
+.pad-label
+  font-size: var(--ss-size-sm)
+  font-family: var(--ss-font-mono)
+  color: var(--ss-fg-muted)
+  margin-bottom: 4px
+  .pad-you
+    color: var(--ss-accent)
+
+.md-view
+  display: block
+  width: 100%
+  text-align: left
+  background: var(--ss-bg-inset)
+  border: 1px solid var(--ss-line)
+  padding: 10px 12px
+  min-height: 56px
+  font: inherit
+  color: inherit
+  &.editable
+    cursor: text
+    &:hover, &:focus-visible
+      border-color: var(--ss-line-strong)
+  .placeholder
+    color: var(--ss-fg-faint)
+
+.md-view :global
+  h1, h2, h3, h4
+    font-size: var(--ss-size-h3)
+    margin: 10px 0 4px
+  h1:first-child, h2:first-child, h3:first-child, p:first-child
+    margin-top: 0
+  p
+    margin: 6px 0
+  ul, ol
+    margin: 6px 0
+    padding-left: 20px
+  ul
+    list-style: disc
+  ol
+    list-style: decimal
+  li
+    margin: 2px 0
+  code
+    font-family: var(--ss-font-mono)
+    background: var(--ss-code-bg)
+    padding: 0 4px
+  a
+    border-bottom: 1px solid var(--ss-accent)
+  blockquote
+    border-left: 2px solid var(--ss-line-strong)
+    padding-left: 10px
+    color: var(--ss-fg-muted)
+    margin: 6px 0
+  hr
+    border: none
+    border-top: 1px solid var(--ss-line)
+    margin: 10px 0
 
 .row
   display: flex
