@@ -1,13 +1,37 @@
-export type RouletteOption = { id: string; author: string; text: string };
-export type Pad = { text: string; t: number };
+import { writable, type Writable } from "svelte/store";
+import { io, type Socket } from "socket.io-client";
+import * as Y from "yjs";
+import { SocketIOProvider } from "y-socket.io";
+import { CHART_PALETTE } from "dssoca";
+
+export const ADMIN_NAME = "passoca";
+const IDEAS_DOC = "ideas";
+
+export type Option = {
+  id: string;
+  author: string;
+  color: string | null;
+  text: string;
+  created_at: string;
+};
+
 export type WheelState = {
-  options: RouletteOption[];
+  options: Option[];
   max_picks: number;
   winner_id: string | null;
   spin_turns: number | null;
   spun_at: string | null;
 };
-export type RouletteDoc = { pads: Record<string, Pad>; wheel: WheelState };
+
+export type HistoryEntry = {
+  id: string;
+  title: string;
+  author: string | null;
+  drawn_at: string;
+  created_at: string;
+};
+
+export type Presence = { name: string; color: string | null };
 
 export const DEFAULT_WHEEL: WheelState = {
   options: [],
@@ -17,140 +41,103 @@ export const DEFAULT_WHEEL: WheelState = {
   spun_at: null,
 };
 
-export interface RouletteBackend {
-  /** true = synced through /roulette/api; false = this browser only. */
-  shared: boolean;
-  load(): Promise<RouletteDoc>;
-  savePad(author: string, text: string): Promise<RouletteDoc>;
-  addOption(author: string, text: string): Promise<RouletteDoc>;
-  removeOption(id: string): Promise<RouletteDoc>;
-  setMaxPicks(value: number): Promise<RouletteDoc>;
-  spin(winnerId: string, turns: number): Promise<RouletteDoc>;
-  clearSpin(): Promise<RouletteDoc>;
-  /** Fires when the data may have changed elsewhere. Returns an unsubscribe fn. */
-  subscribe(onChange: () => void): () => void;
-}
-
-const API = "/roulette/api";
-const POLL_MS = 2500;
-
-function apiBackend(): RouletteBackend {
-  const request = async (init?: RequestInit): Promise<RouletteDoc> => {
-    const res = await fetch(API, init);
-    if (!res.ok) throw new Error(`api ${res.status}`);
-    const data = await res.json();
-    return { pads: data.pads ?? {}, wheel: { ...DEFAULT_WHEEL, ...data.wheel } };
-  };
-
-  const post = (payload: Record<string, unknown>) =>
-    request({
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-  return {
-    shared: true,
-    load: () => request(),
-    savePad: (author, text) => post({ action: "pad", author, text }),
-    addOption: (author, text) => post({ action: "add_option", author, text }),
-    removeOption: (id) => post({ action: "remove_option", id }),
-    setMaxPicks: (value) => post({ action: "set_max", value }),
-    spin: (winner_id, turns) => post({ action: "spin", winner_id, turns }),
-    clearSpin: () => post({ action: "clear_spin" }),
-    subscribe(onChange) {
-      const poll = setInterval(onChange, POLL_MS);
-      return () => clearInterval(poll);
-    },
-  };
-}
-
-/**
- * localStorage fallback so the page still works when the API has no storage
- * configured (local dev). Multi-tab only, not multi-person.
- */
-function localBackend(): RouletteBackend {
-  const KEY = "passoca:roulette";
-
-  const read = (): RouletteDoc => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) {
-        const doc = JSON.parse(raw) as RouletteDoc;
-        return {
-          pads: doc.pads ?? {},
-          wheel: { ...DEFAULT_WHEEL, ...doc.wheel },
-        };
-      }
-    } catch {
-      // corrupt payload; start fresh
-    }
-    return { pads: {}, wheel: { ...DEFAULT_WHEEL } };
-  };
-
-  const mutate = async (fn: (doc: RouletteDoc) => void): Promise<RouletteDoc> => {
-    const doc = read();
-    fn(doc);
-    localStorage.setItem(KEY, JSON.stringify(doc));
-    return doc;
-  };
-
-  return {
-    shared: false,
-    load: async () => read(),
-
-    savePad: (author, text) =>
-      mutate((doc) => {
-        doc.pads[author] = { text, t: Date.now() };
-      }),
-
-    addOption: (author, text) =>
-      mutate((doc) => {
-        doc.wheel.options.push({ id: crypto.randomUUID(), author, text });
-      }),
-
-    removeOption: (id) =>
-      mutate((doc) => {
-        doc.wheel.options = doc.wheel.options.filter((o) => o.id !== id);
-        if (doc.wheel.winner_id === id) doc.wheel.winner_id = null;
-      }),
-
-    setMaxPicks: (value) =>
-      mutate((doc) => {
-        doc.wheel.max_picks = value;
-      }),
-
-    spin: (winner_id, spin_turns) =>
-      mutate((doc) => {
-        doc.wheel.winner_id = winner_id;
-        doc.wheel.spin_turns = spin_turns;
-        doc.wheel.spun_at = new Date().toISOString();
-      }),
-
-    clearSpin: () =>
-      mutate((doc) => {
-        doc.wheel.winner_id = null;
-        doc.wheel.spin_turns = null;
-        doc.wheel.spun_at = null;
-      }),
-
-    subscribe(onChange) {
-      const handler = (e: StorageEvent) => {
-        if (e.key === KEY) onChange();
-      };
-      window.addEventListener("storage", handler);
-      return () => window.removeEventListener("storage", handler);
-    },
-  };
-}
-
-/** Probes the API once: shared backend when storage is configured, else local. */
-export async function createRouletteBackend(): Promise<RouletteBackend> {
-  try {
-    const res = await fetch(API);
-    if (res.ok && (await res.json()).configured) return apiBackend();
-  } catch {
-    // API unreachable; fall through to local
+/** Stable, readable colour derived from a name so identity is consistent. */
+export function colorForName(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) | 0;
   }
-  return localBackend();
+  const palette = CHART_PALETTE as readonly string[];
+  return palette[Math.abs(hash) % palette.length];
+}
+
+export function isAdmin(name: string): boolean {
+  return name.trim() === ADMIN_NAME;
+}
+
+export interface RouletteClient {
+  connected: Writable<boolean>;
+  wheel: Writable<WheelState>;
+  history: Writable<HistoryEntry[]>;
+  presence: Writable<Presence[]>;
+  /** Shared Yjs doc + provider for the collaborative ideas editor. */
+  doc: Y.Doc;
+  provider: SocketIOProvider;
+
+  identify(name: string, color: string | null): void;
+  addOption(author: string, text: string, color: string | null): void;
+  removeOption(id: string): void;
+  setMaxPicks(value: number): void;
+  spin(turns?: number): void;
+  clearSpin(): void;
+  editHistory(id: string, title: string, drawnAt: string): void;
+  removeHistory(id: string): void;
+
+  onError(cb: (message: string) => void): () => void;
+  destroy(): void;
+}
+
+/** Normalises the API base (strip trailing slash). */
+function normalizeBase(url: string): string {
+  return url.replace(/\/+$/, "");
+}
+
+export function createRouletteClient(apiUrl: string): RouletteClient {
+  const base = normalizeBase(apiUrl);
+
+  const connected = writable(false);
+  const wheel = writable<WheelState>({ ...DEFAULT_WHEEL });
+  const history = writable<HistoryEntry[]>([]);
+  const presence = writable<Presence[]>([]);
+  const errorCbs = new Set<(m: string) => void>();
+
+  const socket: Socket = io(`${base}/roulette`, {
+    transports: ["websocket", "polling"],
+  });
+
+  socket.on("connect", () => connected.set(true));
+  socket.on("disconnect", () => connected.set(false));
+  socket.on("wheel", (w: WheelState) => wheel.set({ ...DEFAULT_WHEEL, ...w }));
+  socket.on("history", (h: HistoryEntry[]) => history.set(h ?? []));
+  socket.on("presence", (p: Presence[]) => presence.set(p ?? []));
+  socket.on("roulette:error", (m: string) => errorCbs.forEach((cb) => cb(m)));
+
+  // Collaborative ideas document.
+  const doc = new Y.Doc();
+  const provider = new SocketIOProvider(base, IDEAS_DOC, doc, {});
+
+  return {
+    connected,
+    wheel,
+    history,
+    presence,
+    doc,
+    provider,
+
+    identify: (name, color) => socket.emit("identify", { name, color }),
+    addOption: (author, text, color) =>
+      socket.emit("option:add", { author, text, color }),
+    removeOption: (id) => socket.emit("option:remove", { id }),
+    setMaxPicks: (value) => socket.emit("wheel:set_max", { value }),
+    spin: (turns) => socket.emit("wheel:spin", { turns }),
+    clearSpin: () => socket.emit("wheel:clear_spin"),
+    editHistory: (id, title, drawn_at) =>
+      socket.emit("history:edit", { id, title, drawn_at }),
+    removeHistory: (id) => socket.emit("history:remove", { id }),
+
+    onError: (cb) => {
+      errorCbs.add(cb);
+      return () => errorCbs.delete(cb);
+    },
+    destroy: () => {
+      errorCbs.clear();
+      try {
+        provider.destroy();
+      } catch {
+        /* ignore */
+      }
+      doc.destroy();
+      socket.disconnect();
+    },
+  };
 }

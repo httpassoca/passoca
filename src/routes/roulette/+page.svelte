@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { onMount, tick } from "svelte";
-  import { marked } from "marked";
+  import { onMount } from "svelte";
   import {
     Badge,
     Button,
@@ -9,158 +8,110 @@
     Heading,
     Input,
     NumberField,
-    Textarea,
     Toaster,
     toast,
     CHART_PALETTE,
   } from "dssoca";
   import Wheel from "$lib/components/Roulette/Wheel.svelte";
+  import IdeasEditor from "$lib/components/Roulette/IdeasEditor.svelte";
+  import OnlineUsers from "$lib/components/Roulette/OnlineUsers.svelte";
   import {
-    createRouletteBackend,
+    createRouletteClient,
+    colorForName,
+    isAdmin,
     DEFAULT_WHEEL,
-    type RouletteBackend,
-    type RouletteDoc,
+    type RouletteClient,
+    type WheelState,
+    type HistoryEntry,
+    type Presence,
   } from "$lib/roulette";
 
   const NAME_KEY = "passoca:roulette:name";
   const SPIN_SECONDS = 4;
-  const PAD_DEBOUNCE_MS = 700;
+  const API_URL = import.meta.env.VITE_API_URL as string | undefined;
 
-  let backend = $state<RouletteBackend | null>(null);
-  let doc = $state<RouletteDoc>({ pads: {}, wheel: { ...DEFAULT_WHEEL } });
+  let client = $state<RouletteClient | null>(null);
+  let connected = $state(false);
+  let wheelState = $state<WheelState>({ ...DEFAULT_WHEEL });
+  let history = $state<HistoryEntry[]>([]);
+  let presence = $state<Presence[]>([]);
   let loaded = $state(false);
-  let busy = $state(false);
 
   let name = $state("");
   let draftName = $state("");
   let editingName = $state(false);
   let draftPick = $state("");
 
-  // My pad is edited locally and pushed debounced; remote refreshes must not
-  // clobber it mid-keystroke.
-  let myPadText = $state("");
-  let padEditing = $state(false);
-  let padFocused = false;
-  let padDirty = false;
-  let padTimer: ReturnType<typeof setTimeout> | undefined;
-  const PAD_INPUT_ID = "roulette-my-pad";
+  const myColor = $derived(name ? colorForName(name) : CHART_PALETTE[0]);
+  const admin = $derived(isAdmin(name));
 
-  // Pads render as markdown; raw HTML is neutralized before parsing since
-  // friends' text lands on each other's screens.
-  const renderMd = (text: string) =>
-    marked.parse(text.replace(/&/g, "&amp;").replace(/</g, "&lt;"));
+  const options = $derived(wheelState.options);
+  const myOptionCount = $derived(options.filter((o) => o.author === name).length);
+  const segments = $derived(options.map((o) => ({ id: o.id, label: o.text })));
 
+  // Spin animation state (driven by the server's spun_at timestamp).
   let rotation = $state(0);
   let spinDuration = $state(0);
   let spinning = $state(false);
   let winnerId = $state<string | null>(null);
   let lastSpunAt: string | null | undefined = undefined;
   let settleTimer: ReturnType<typeof setTimeout> | undefined;
-  let loadErrorShown = false;
 
-  const wheel = $derived(doc.wheel);
-  const options = $derived(wheel.options);
-  const myOptionCount = $derived(
-    options.filter((o) => o.author === name).length
-  );
-  const segments = $derived(options.map((o) => ({ id: o.id, label: o.text })));
-  const otherPads = $derived(
-    Object.entries(doc.pads)
-      .filter(([author]) => author !== name)
-      .sort(([a], [b]) => a.localeCompare(b))
-  );
   const winner = $derived(
     winnerId ? options.find((o) => o.id === winnerId) ?? null : null
   );
 
-  // NumberField's steppers set the bound value without firing a native change
-  // event, so persistence has to watch the binding instead of onchange.
+  // Settings: NumberField steppers mutate the binding without a change event.
   let maxPicksDraft = $state<number | null>(DEFAULT_WHEEL.max_picks);
-
   $effect(() => {
-    maxPicksDraft = wheel.max_picks;
+    maxPicksDraft = wheelState.max_picks;
   });
-
   $effect(() => {
     const value = maxPicksDraft;
     if (
       loaded &&
+      admin &&
       value != null &&
       Number.isInteger(value) &&
       value >= 1 &&
       value <= 10 &&
-      value !== wheel.max_picks
+      value !== wheelState.max_picks
     ) {
-      run(() => backend!.setMaxPicks(value));
+      client?.setMaxPicks(value);
     }
   });
 
-  function applyDoc(next: RouletteDoc, animate = true) {
-    doc = next;
-    if (!padFocused && !padDirty) myPadText = next.pads[name]?.text ?? "";
-    syncSpin(animate);
-  }
+  function syncSpin(next: WheelState, animate: boolean) {
+    if (next.spun_at === lastSpunAt) return;
+    lastSpunAt = next.spun_at;
 
-  function syncSpin(animate: boolean) {
-    if (wheel.spun_at === lastSpunAt) return;
-    lastSpunAt = wheel.spun_at;
-
-    if (!wheel.spun_at || !wheel.winner_id) {
+    if (!next.spun_at || !next.winner_id) {
       winnerId = null;
       return;
     }
-
-    const index = options.findIndex((o) => o.id === wheel.winner_id);
+    const index = next.options.findIndex((o) => o.id === next.winner_id);
     if (index === -1) {
       winnerId = null;
       return;
     }
-
-    const segment = 360 / options.length;
+    const segment = 360 / next.options.length;
     const align = 360 - (index + 0.5) * segment;
 
     if (animate) {
       spinning = true;
       winnerId = null;
       spinDuration = SPIN_SECONDS;
-      const turns = Math.max(3, wheel.spin_turns ?? 4);
+      const turns = Math.max(3, next.spin_turns ?? 4);
       rotation = rotation - (rotation % 360) + 360 * turns + align;
       clearTimeout(settleTimer);
       settleTimer = setTimeout(() => {
         spinning = false;
-        winnerId = wheel.winner_id;
+        winnerId = next.winner_id;
       }, SPIN_SECONDS * 1000 + 150);
     } else {
       spinDuration = 0;
       rotation = align;
-      winnerId = wheel.winner_id;
-    }
-  }
-
-  async function refresh(animate = true) {
-    if (!backend) return;
-    try {
-      applyDoc(await backend.load(), animate);
-      loaded = true;
-      loadErrorShown = false;
-    } catch {
-      // The poll retries forever; don't toast every cycle.
-      if (!loadErrorShown) {
-        loadErrorShown = true;
-        toast.error("Can't reach the roulette — retrying in the background.");
-      }
-    }
-  }
-
-  async function run(action: () => Promise<RouletteDoc>) {
-    if (!backend) return;
-    busy = true;
-    try {
-      applyDoc(await action());
-    } catch {
-      toast.error("Something went wrong — try again.");
-    } finally {
-      busy = false;
+      winnerId = next.winner_id;
     }
   }
 
@@ -170,80 +121,82 @@
     name = clean;
     editingName = false;
     localStorage.setItem(NAME_KEY, clean);
-    myPadText = doc.pads[name]?.text ?? "";
-  }
-
-  function startPadEdit() {
-    padEditing = true;
-    padFocused = true;
-    tick().then(() =>
-      (document.getElementById(PAD_INPUT_ID) as HTMLTextAreaElement | null)?.focus()
-    );
-  }
-
-  function onPadInput() {
-    padDirty = true;
-    clearTimeout(padTimer);
-    padTimer = setTimeout(flushPad, PAD_DEBOUNCE_MS);
-  }
-
-  async function flushPad() {
-    if (!backend || !name || !padDirty) return;
-    padDirty = false;
-    try {
-      applyDoc(await backend.savePad(name, myPadText));
-    } catch {
-      padDirty = true; // retry on the next input or blur
-    }
+    client?.identify(name, colorForName(name));
   }
 
   function addPick() {
     const text = draftPick.trim();
-    if (!text || !name || !backend) return;
-    if (myOptionCount >= wheel.max_picks) {
+    if (!text || !name || !client) return;
+    if (myOptionCount >= wheelState.max_picks) {
       toast.info(
-        `Max ${wheel.max_picks} in the wheel per person — remove one first.`
+        `Max ${wheelState.max_picks} in the wheel per person — remove one first.`
       );
       return;
     }
     draftPick = "";
-    run(() => backend!.addOption(name, text));
+    client.addOption(name, text, myColor);
   }
 
   function spin() {
-    if (options.length < 2 || spinning || !backend) return;
-    const winner = options[Math.floor(Math.random() * options.length)];
-    // 4–6 turns with a random fraction so every spin lands differently.
-    const turns = Math.round((4 + Math.random() * 2) * 100) / 100;
-    run(() => backend!.spin(winner.id, turns));
+    if (options.length < 2 || spinning || !client) return;
+    client.spin();
+  }
+
+  // --- History editing (admin) ---
+  let editingId = $state<string | null>(null);
+  let editTitle = $state("");
+  let editDate = $state("");
+
+  function startEdit(entry: HistoryEntry) {
+    editingId = entry.id;
+    editTitle = entry.title;
+    editDate = entry.drawn_at.slice(0, 10);
+  }
+  function saveEdit() {
+    if (!client || !editingId) return;
+    const iso = editDate ? new Date(editDate).toISOString() : new Date().toISOString();
+    client.editHistory(editingId, editTitle.trim(), iso);
+    editingId = null;
+  }
+  function fmtDate(iso: string) {
+    return new Date(iso).toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
   }
 
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
     draftName = name;
 
-    let cleanup: (() => void) | undefined;
-    let disposed = false;
+    if (!API_URL) {
+      toast.error("Missing API URL (VITE_API_URL).");
+      return;
+    }
 
-    (async () => {
-      backend = await createRouletteBackend();
-      if (disposed) return;
-      await refresh(false);
+    const c = createRouletteClient(API_URL);
+    client = c;
 
-      const unsubscribe = backend.subscribe(() => refresh());
-      const onFocus = () => refresh();
-      window.addEventListener("focus", onFocus);
-      cleanup = () => {
-        unsubscribe();
-        window.removeEventListener("focus", onFocus);
-      };
-    })();
+    const unsubs = [
+      c.connected.subscribe((v) => (connected = v)),
+      c.wheel.subscribe((w) => {
+        wheelState = w;
+        loaded = true;
+        syncSpin(w, lastSpunAt !== undefined);
+      }),
+      c.history.subscribe((h) => (history = h)),
+      c.presence.subscribe((p) => (presence = p)),
+    ];
+    const offError = c.onError((m) => toast.error(m));
+
+    if (name) c.identify(name, colorForName(name));
 
     return () => {
-      disposed = true;
-      cleanup?.();
-      clearTimeout(padTimer);
+      unsubs.forEach((u) => u());
+      offError();
       clearTimeout(settleTimer);
+      c.destroy();
     };
   });
 </script>
@@ -256,16 +209,19 @@
 <div class="page">
   <div class="head">
     <Heading>Film roulette</Heading>
-    {#if backend}
-      {#if backend.shared}
-        <Badge tone="positive" dot>shared</Badge>
+    {#if client}
+      {#if connected}
+        <Badge tone="positive" dot>live</Badge>
       {:else}
-        <Badge tone="caution" dot>local only</Badge>
+        <Badge tone="caution" dot>connecting…</Badge>
       {/if}
     {/if}
     {#if name && !editingName}
       <span class="you">
-        you are <strong>{name}</strong>
+        you are
+        <span class="dot" style:background={myColor}></span>
+        <strong>{name}</strong>
+        {#if admin}<Badge tone="brand">admin</Badge>{/if}
         <Button variant="ghost" size="sm" onclick={() => (editingName = true)}>
           change
         </Button>
@@ -274,9 +230,13 @@
   </div>
   <p class="hint">
     Hidden page — share the URL. Brainstorm together on the left; each person
-    sends {wheel.max_picks === 1 ? "one option" : `up to ${wheel.max_picks} options`}
+    sends {wheelState.max_picks === 1
+      ? "one option"
+      : `up to ${wheelState.max_picks} options`}
     to the wheel, and one spin decides for everyone.
   </p>
+
+  <OnlineUsers users={presence} me={name} />
 
   {#if !name || editingName}
     <div class="join">
@@ -304,58 +264,70 @@
     <section class="ideas">
       <Card
         title="Ideas"
-        description="Everyone gets a pad. Write anything — titles, genres, vibes — markdown works."
+        description="One shared draft — everyone types together, live."
       >
-        {#if name}
-          <div class="pad">
-            <div class="pad-label">{name} <span class="pad-you">(you)</span></div>
-            {#if padEditing}
-              <Textarea
-                id={PAD_INPUT_ID}
-                placeholder="Brainstorm here… # headings, **bold**, - lists"
-                rows={6}
-                autosize
-                maxRows={18}
-                maxlength={8000}
-                bind:value={myPadText}
-                oninput={onPadInput}
-                onblur={() => {
-                  padEditing = false;
-                  padFocused = false;
-                  flushPad();
-                }}
-              />
-            {:else}
-              <button type="button" class="md-view editable" onclick={startPadEdit}>
-                {#if myPadText.trim()}
-                  {@html renderMd(myPadText)}
-                {:else}
-                  <span class="placeholder"
-                    >Click to write — # headings, **bold**, - lists…</span
-                  >
-                {/if}
-              </button>
-            {/if}
-          </div>
+        {#if name && client}
+          <IdeasEditor
+            doc={client.doc}
+            awareness={client.provider.awareness}
+            {name}
+            color={myColor}
+          />
         {:else}
-          <p class="muted">Set your name to get a pad.</p>
+          <p class="muted">Set your name to join the draft.</p>
         {/if}
+      </Card>
 
-        {#each otherPads as [author, pad] (author)}
-          <div class="pad">
-            <div class="pad-label">{author}</div>
-            <div class="md-view">
-              {#if pad.text.trim()}
-                {@html renderMd(pad.text)}
-              {:else}
-                <span class="placeholder">…</span>
-              {/if}
-            </div>
-          </div>
-        {/each}
-
-        {#if loaded && otherPads.length === 0}
-          <p class="muted">No one else is here yet — share the URL.</p>
+      <Card title="History" meta={`${history.length} watched`}>
+        {#if history.length > 0}
+          <ul class="history">
+            {#each history as entry (entry.id)}
+              <li>
+                {#if editingId === entry.id}
+                  <div class="edit-row">
+                    <Input label="Title" maxlength={200} bind:value={editTitle} />
+                    <label class="date">
+                      Date
+                      <input type="date" bind:value={editDate} />
+                    </label>
+                    <div class="edit-actions">
+                      <Button size="sm" onclick={saveEdit}>Save</Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onclick={() => (editingId = null)}>Cancel</Button
+                      >
+                    </div>
+                  </div>
+                {:else}
+                  <span class="h-title">{entry.title}</span>
+                  {#if entry.author}
+                    <Badge tone="neutral">{entry.author}</Badge>
+                  {/if}
+                  <span class="h-date">{fmtDate(entry.drawn_at)}</span>
+                  {#if admin}
+                    <span class="h-actions">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onclick={() => startEdit(entry)}>Edit</Button
+                      >
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onclick={() => client?.removeHistory(entry.id)}>✕</Button
+                      >
+                    </span>
+                  {/if}
+                {/if}
+              </li>
+            {/each}
+          </ul>
+        {:else}
+          <EmptyState
+            title="No films yet"
+            message="Spin the wheel and the winner lands here."
+          />
         {/if}
       </Card>
     </section>
@@ -374,17 +346,17 @@
             placeholder="The one you're sending to the wheel"
             maxlength={120}
             bind:value={draftPick}
-            disabled={!name || myOptionCount >= wheel.max_picks}
+            disabled={!name || myOptionCount >= wheelState.max_picks}
             hint={!name
               ? "Set your name first"
-              : myOptionCount >= wheel.max_picks
+              : myOptionCount >= wheelState.max_picks
                 ? "You're at your limit — remove one to swap"
                 : undefined}
           />
           <Button
             type="submit"
-            disabled={!name || !draftPick.trim() || busy ||
-              myOptionCount >= wheel.max_picks}
+            disabled={!name || !draftPick.trim() ||
+              myOptionCount >= wheelState.max_picks}
           >
             Add
           </Button>
@@ -402,15 +374,13 @@
                 <Badge tone={option.author === name ? "brand" : "neutral"}>
                   {option.author}
                 </Badge>
-                {#if option.author === name}
+                {#if option.author === name || admin}
                   <Button
                     variant="ghost"
                     size="sm"
                     iconOnly
                     label={`Remove "${option.text}"`}
-                    disabled={busy}
-                    onclick={() => run(() => backend!.removeOption(option.id))}
-                    >✕</Button
+                    onclick={() => client?.removeOption(option.id)}>✕</Button
                   >
                 {/if}
               </li>
@@ -431,17 +401,11 @@
             {/if}
 
             <div class="row center">
-              <Button
-                onclick={spin}
-                disabled={options.length < 2 || spinning || busy}
-              >
+              <Button onclick={spin} disabled={options.length < 2 || spinning}>
                 Spin
               </Button>
               {#if winner && !spinning}
-                <Button
-                  variant="ghost"
-                  onclick={() => run(() => backend!.clearSpin())}
-                >
+                <Button variant="ghost" onclick={() => client?.clearSpin()}>
                   Clear result
                 </Button>
               {/if}
@@ -458,24 +422,20 @@
         {/if}
       </Card>
 
-      <Card title="Settings">
-        <div class="settings">
-          <NumberField
-            label="Options per person"
-            min={1}
-            max={10}
-            step={1}
-            bind:value={maxPicksDraft}
-            hint="How many options each person can send to the wheel."
-          />
-        </div>
-        {#if backend && !backend.shared}
-          <p class="hint">
-            No storage configured on the server, so this is running in
-            local-only mode: everything stays in this browser.
-          </p>
-        {/if}
-      </Card>
+      {#if admin}
+        <Card title="Settings">
+          <div class="settings">
+            <NumberField
+              label="Options per person"
+              min={1}
+              max={10}
+              step={1}
+              bind:value={maxPicksDraft}
+              hint="How many options each person can send to the wheel."
+            />
+          </div>
+        </Card>
+      {/if}
     </aside>
   </div>
 </div>
@@ -494,15 +454,24 @@
   gap: 10px
 
 .you
+  display: flex
+  align-items: center
+  gap: 6px
   color: var(--ss-fg-muted)
   font-size: var(--ss-size-sm)
   strong
     color: var(--ss-accent)
 
+.dot
+  width: 10px
+  height: 10px
+  border-radius: 50%
+  border: 1px solid var(--ss-line-strong)
+
 .hint
   color: var(--ss-fg-muted)
   font-size: var(--ss-size-sm)
-  margin: 8px 0 20px
+  margin: 8px 0 16px
 
 .muted
   color: var(--ss-fg-muted)
@@ -511,83 +480,26 @@
 
 .join
   max-width: 440px
-  margin-bottom: 20px
+  margin: 16px 0 20px
 
 .layout
   display: grid
   grid-template-columns: minmax(0, 1fr) clamp(340px, 34vw, 460px)
   gap: 22px
   align-items: start
+  margin-top: 18px
   @media (max-width: 980px)
     grid-template-columns: minmax(0, 1fr)
+
+.ideas
+  display: flex
+  flex-direction: column
+  gap: 22px
 
 .side
   display: flex
   flex-direction: column
   gap: 22px
-
-.pad
-  margin-bottom: 14px
-  &:last-child
-    margin-bottom: 0
-
-.pad-label
-  font-size: var(--ss-size-sm)
-  font-family: var(--ss-font-mono)
-  color: var(--ss-fg-muted)
-  margin-bottom: 4px
-  .pad-you
-    color: var(--ss-accent)
-
-.md-view
-  display: block
-  width: 100%
-  text-align: left
-  background: var(--ss-bg-inset)
-  border: 1px solid var(--ss-line)
-  padding: 10px 12px
-  min-height: 56px
-  font: inherit
-  color: inherit
-  &.editable
-    cursor: text
-    &:hover, &:focus-visible
-      border-color: var(--ss-line-strong)
-  .placeholder
-    color: var(--ss-fg-faint)
-
-.md-view :global
-  h1, h2, h3, h4
-    font-size: var(--ss-size-h3)
-    margin: 10px 0 4px
-  h1:first-child, h2:first-child, h3:first-child, p:first-child
-    margin-top: 0
-  p
-    margin: 6px 0
-  ul, ol
-    margin: 6px 0
-    padding-left: 20px
-  ul
-    list-style: disc
-  ol
-    list-style: decimal
-  li
-    margin: 2px 0
-  code
-    font-family: var(--ss-font-mono)
-    background: var(--ss-code-bg)
-    padding: 0 4px
-  a
-    border-bottom: 1px solid var(--ss-accent)
-  blockquote
-    border-left: 2px solid var(--ss-line-strong)
-    padding-left: 10px
-    color: var(--ss-fg-muted)
-    margin: 6px 0
-  hr
-    border: none
-    border-top: 1px solid var(--ss-line)
-    margin: 10px 0
 
 .row
   display: flex
@@ -625,6 +537,52 @@
   height: 10px
   flex-shrink: 0
   border: 1px solid var(--ss-line-strong)
+
+.history
+  list-style: none
+  margin: 4px 0 0
+  padding: 0
+  li
+    display: flex
+    align-items: center
+    gap: 10px
+    padding: 8px 0
+    border-bottom: 1px solid var(--ss-line)
+    &:last-child
+      border-bottom: none
+  .h-title
+    flex: 1
+    min-width: 0
+    overflow-wrap: anywhere
+  .h-date
+    color: var(--ss-fg-muted)
+    font-size: var(--ss-size-sm)
+    font-family: var(--ss-font-mono)
+  .h-actions
+    display: flex
+    gap: 2px
+
+.edit-row
+  display: flex
+  align-items: flex-end
+  gap: 10px
+  width: 100%
+  flex-wrap: wrap
+  .date
+    display: flex
+    flex-direction: column
+    font-size: var(--ss-size-sm)
+    color: var(--ss-fg-muted)
+    gap: 4px
+    input
+      background: var(--ss-bg-inset)
+      border: 1px solid var(--ss-line)
+      color: var(--ss-fg)
+      font: inherit
+      padding: 6px 8px
+  .edit-actions
+    display: flex
+    gap: 6px
 
 .wheel-area
   display: flex

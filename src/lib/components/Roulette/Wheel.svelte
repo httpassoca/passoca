@@ -19,7 +19,10 @@
 
   const C = 100;
   const R = 92;
-  const LABEL_R = 58;
+  // Labels run radially from just outside the hub out toward the rim, so long
+  // titles get the full length of the wedge instead of a cramped tangent.
+  const LABEL_INNER = 24;
+  const LABEL_OUTER = 88;
 
   // Angles measured clockwise from the pointer (top).
   function polar(angleDeg: number, radius: number) {
@@ -35,12 +38,26 @@
     return `M ${C} ${C} L ${start.x} ${start.y} A ${R} ${R} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
   }
 
+  // Radial label: reads outward from the inner circle. On the left half it is
+  // flipped and right-anchored so the text stays upright and legible.
   function label(i: number, n: number) {
     const mid = (i + 0.5) * (360 / n);
-    return { ...polar(mid, LABEL_R), angle: mid };
+    const flip = mid > 90 && mid < 270;
+    const p = flip ? polar(mid, LABEL_OUTER) : polar(mid, LABEL_INNER);
+    return {
+      x: p.x,
+      y: p.y,
+      angle: flip ? mid + 90 : mid - 90,
+      anchor: flip ? "end" : "start",
+    };
   }
 
-  function truncate(text: string, max = 12) {
+  function maxChars(n: number) {
+    // Fewer segments -> wider wedge -> room for more characters.
+    return n <= 6 ? 16 : n <= 8 ? 14 : 12;
+  }
+
+  function truncate(text: string, max: number) {
     return text.length > max ? `${text.slice(0, max - 1)}…` : text;
   }
 
@@ -73,11 +90,11 @@
         x={pos.x}
         y={pos.y}
         transform="rotate({pos.angle} {pos.x} {pos.y})"
-        text-anchor="middle"
+        text-anchor={pos.anchor}
         dominant-baseline="middle"
         fill="var(--ss-bg)"
       >
-        {truncate(segment.label)}
+        {truncate(segment.label, maxChars(segments.length))}
       </text>
     {/each}
     <circle cx={C} cy={C} r="11" fill="var(--ss-bg)" stroke="var(--ss-line-strong)" />
@@ -87,7 +104,7 @@
 
 <style lang="sass">
 svg
-  width: min(340px, 100%)
+  width: min(360px, 100%)
   height: auto
   display: block
 
@@ -96,7 +113,7 @@ svg
 
 text
   font-family: var(--ss-font-mono, monospace)
-  font-size: 8.5px
+  font-size: 8px
   font-weight: 600
   user-select: none
 
