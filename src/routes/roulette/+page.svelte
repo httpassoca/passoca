@@ -143,6 +143,7 @@
   }
 
   // --- History editing (admin) ---
+  let historyOpen = $state(false);
   let editingId = $state<string | null>(null);
   let editTitle = $state("");
   let editDate = $state("");
@@ -279,7 +280,25 @@
       </Card>
 
       <Card title="History" meta={`${history.length} watched`}>
-        {#if history.length > 0}
+        {#snippet action()}
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-expanded={historyOpen}
+            onclick={() => (historyOpen = !historyOpen)}
+          >
+            {historyOpen ? "hide ▴" : "show ▾"}
+          </Button>
+        {/snippet}
+        {#if !historyOpen}
+          {#if history.length > 0}
+            <p class="muted">
+              last: {history[0].title} · {fmtDate(history[0].drawn_at)}
+            </p>
+          {:else}
+            <p class="muted">No films yet.</p>
+          {/if}
+        {:else if history.length > 0}
           <ul class="history">
             {#each history as entry (entry.id)}
               <li>

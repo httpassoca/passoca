@@ -91,9 +91,10 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   const presence = writable<Presence[]>([]);
   const errorCbs = new Set<(m: string) => void>();
 
-  const socket: Socket = io(`${base}/roulette`, {
-    transports: ["websocket", "polling"],
-  });
+  // Default transports (polling first, then upgrade to websocket): starting
+  // with websocket hangs forever when the reverse proxy drops the Upgrade
+  // handshake, since socket.io never falls back from a pinned transport.
+  const socket: Socket = io(`${base}/roulette`);
 
   socket.on("connect", () => connected.set(true));
   socket.on("disconnect", () => connected.set(false));
