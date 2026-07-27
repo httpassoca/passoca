@@ -3,6 +3,7 @@
   import * as Y from "yjs";
   import type { Awareness } from "y-protocols/awareness";
   import { marked } from "marked";
+  import { m } from "$lib/paraglide/messages";
 
   let {
     doc,
@@ -18,7 +19,6 @@
 
   let host: HTMLDivElement;
   let preview = $state("");
-  let showPreview = $state(false);
   let view: import("@codemirror/view").EditorView | null = null;
   let ytext: Y.Text | null = null;
   let observer: (() => void) | null = null;
@@ -99,27 +99,19 @@
 
 <div class="ideas-editor">
   <div class="bar">
-    <span class="hint">Shared draft — everyone edits together. Markdown supported.</span>
-    <button
-      type="button"
-      class="toggle"
-      onclick={() => (showPreview = !showPreview)}
-    >
-      {showPreview ? "Edit" : "Preview"}
-    </button>
+    <span class="hint">{m.roulette_ideas_hint()}</span>
   </div>
 
-  <div class="editor" class:hidden={showPreview} bind:this={host}></div>
-
-  {#if showPreview}
+  <div class="panes">
+    <div class="editor" bind:this={host}></div>
     <div class="md-view">
       {#if preview.trim()}
         {@html renderMd(preview)}
       {:else}
-        <span class="placeholder">Nothing written yet.</span>
+        <span class="placeholder">{m.roulette_preview_empty()}</span>
       {/if}
     </div>
-  {/if}
+  </div>
 </div>
 
 <style lang="sass">
@@ -138,22 +130,18 @@
   color: var(--ss-fg-muted)
   font-size: var(--ss-size-sm)
 
-.toggle
-  background: var(--ss-bg-inset)
-  border: 1px solid var(--ss-line)
-  color: var(--ss-fg)
-  font: inherit
-  font-size: var(--ss-size-sm)
-  padding: 4px 10px
-  cursor: pointer
-  &:hover
-    border-color: var(--ss-line-strong)
+.panes
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 10px
+  align-items: stretch
+  @media (max-width: 760px)
+    grid-template-columns: 1fr
 
 .editor
   border: 1px solid var(--ss-line)
   background: var(--ss-bg-inset)
-  &.hidden
-    display: none
+  min-width: 0
   :global(.cm-editor)
     max-height: 60vh
 
@@ -162,6 +150,10 @@
   border: 1px solid var(--ss-line)
   padding: 12px 14px
   min-height: 220px
+  min-width: 0
+  max-height: 60vh
+  overflow-y: auto
+  overflow-wrap: anywhere
   .placeholder
     color: var(--ss-fg-faint)
 

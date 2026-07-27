@@ -12,9 +12,12 @@
     toast,
     CHART_PALETTE,
   } from "dssoca";
+  import confetti from "canvas-confetti";
+  import { m } from "$lib/paraglide/messages";
   import Wheel from "$lib/components/Roulette/Wheel.svelte";
   import IdeasEditor from "$lib/components/Roulette/IdeasEditor.svelte";
   import OnlineUsers from "$lib/components/Roulette/OnlineUsers.svelte";
+  import PersonalIdeas from "$lib/components/Roulette/PersonalIdeas.svelte";
   import {
     createRouletteClient,
     colorForName,
@@ -47,6 +50,8 @@
 
   const options = $derived(wheelState.options);
   const myOptionCount = $derived(options.filter((o) => o.author === name).length);
+  // The admin curates the wheel and has no per-person limit.
+  const atLimit = $derived(!admin && myOptionCount >= wheelState.max_picks);
   const segments = $derived(options.map((o) => ({ id: o.id, label: o.text })));
 
   // Spin animation state (driven by the server's spun_at timestamp).
@@ -60,6 +65,26 @@
   const winner = $derived(
     winnerId ? options.find((o) => o.id === winnerId) ?? null : null
   );
+
+  // Fullscreen takeover: only for spins witnessed live (not for late joiners
+  // who load an already-settled winner). Dismissing is local to this client.
+  let overlayDismissed = $state(true);
+  const overlayVisible = $derived(spinning || (!!winner && !overlayDismissed));
+  let confettiFiredFor: string | null = null;
+
+  function fireConfetti() {
+    const base = { zIndex: 1001, spread: 75, ticks: 240 };
+    confetti({ ...base, particleCount: 140, origin: { x: 0.5, y: 0.55 } });
+    setTimeout(() => confetti({ ...base, particleCount: 70, angle: 55, origin: { x: 0.05, y: 0.9 } }), 250);
+    setTimeout(() => confetti({ ...base, particleCount: 70, angle: 125, origin: { x: 0.95, y: 0.9 } }), 450);
+  }
+
+  $effect(() => {
+    if (winner && !spinning && !overlayDismissed && lastSpunAt && confettiFiredFor !== lastSpunAt) {
+      confettiFiredFor = lastSpunAt;
+      fireConfetti();
+    }
+  });
 
   // Settings: NumberField steppers mutate the binding without a change event.
   let maxPicksDraft = $state<number | null>(DEFAULT_WHEEL.max_picks);
@@ -100,6 +125,7 @@
     if (animate) {
       spinning = true;
       winnerId = null;
+      overlayDismissed = false;
       spinDuration = SPIN_SECONDS;
       const turns = Math.max(3, next.spin_turns ?? 4);
       rotation = rotation - (rotation % 360) + 360 * turns + align;
@@ -127,10 +153,8 @@
   function addPick() {
     const text = draftPick.trim();
     if (!text || !name || !client) return;
-    if (myOptionCount >= wheelState.max_picks) {
-      toast.info(
-        `Max ${wheelState.max_picks} in the wheel per person — remove one first.`
-      );
+    if (atLimit) {
+      toast.info(m.roulette_max_toast({ max: wheelState.max_picks }));
       return;
     }
     draftPick = "";
@@ -172,7 +196,7 @@
     draftName = name;
 
     if (!API_URL) {
-      toast.error("Missing API URL (VITE_API_URL).");
+      toast.error(m.roulette_missing_api());
       return;
     }
 
@@ -203,45 +227,49 @@
 </script>
 
 <svelte:head>
-  <title>Roulette</title>
+  <title>{m.roulette_title()}</title>
   <meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
+<svelte:window
+  onkeydown={(e) => {
+    if (e.key === "Escape" && overlayVisible && !spinning) overlayDismissed = true;
+  }}
+/>
+
 <div class="page">
   <div class="head">
-    <Heading>Film roulette</Heading>
+    <Heading>{m.roulette_title()}</Heading>
     {#if client}
       {#if connected}
-        <Badge tone="positive" dot>live</Badge>
+        <Badge tone="positive" dot>{m.roulette_live()}</Badge>
       {:else}
-        <Badge tone="caution" dot>connecting…</Badge>
+        <Badge tone="caution" dot>{m.roulette_connecting()}</Badge>
       {/if}
     {/if}
     {#if name && !editingName}
       <span class="you">
-        you are
+        {m.roulette_you_are()}
         <span class="dot" style:background={myColor}></span>
         <strong>{name}</strong>
-        {#if admin}<Badge tone="brand">admin</Badge>{/if}
+        {#if admin}<Badge tone="brand">{m.roulette_admin()}</Badge>{/if}
         <Button variant="ghost" size="sm" onclick={() => (editingName = true)}>
-          change
+          {m.roulette_change()}
         </Button>
       </span>
     {/if}
   </div>
   <p class="hint">
-    Hidden page — share the URL. Brainstorm together on the left; each person
-    sends {wheelState.max_picks === 1
-      ? "one option"
-      : `up to ${wheelState.max_picks} options`}
-    to the wheel, and one spin decides for everyone.
+    {wheelState.max_picks === 1
+      ? m.roulette_hint_one()
+      : m.roulette_hint_many({ max: wheelState.max_picks })}
   </p>
 
   <OnlineUsers users={presence} me={name} />
 
   {#if !name || editingName}
     <div class="join">
-      <Card title="Who are you?">
+      <Card title={m.roulette_who_are_you()}>
         <form
           class="row"
           onsubmit={(e) => {
@@ -250,12 +278,12 @@
           }}
         >
           <Input
-            label="Name"
-            placeholder="e.g. Rafa"
+            label={m.roulette_name()}
+            placeholder={m.roulette_name_placeholder()}
             maxlength={24}
             bind:value={draftName}
           />
-          <Button type="submit" disabled={!draftName.trim()}>Join</Button>
+          <Button type="submit" disabled={!draftName.trim()}>{m.roulette_join()}</Button>
         </form>
       </Card>
     </div>
@@ -264,8 +292,8 @@
   <div class="layout">
     <section class="ideas">
       <Card
-        title="Ideas"
-        description="One shared draft — everyone types together, live."
+        title={m.roulette_ideas()}
+        description={m.roulette_ideas_desc()}
       >
         {#if name && client}
           <IdeasEditor
@@ -275,11 +303,20 @@
             color={myColor}
           />
         {:else}
-          <p class="muted">Set your name to join the draft.</p>
+          <p class="muted">{m.roulette_ideas_join()}</p>
         {/if}
       </Card>
 
-      <Card title="History" meta={`${history.length} watched`}>
+      {#if name && client}
+        <Card
+          title={m.roulette_personal()}
+          description={m.roulette_personal_desc()}
+        >
+          <PersonalIdeas {client} />
+        </Card>
+      {/if}
+
+      <Card title={m.roulette_history()} meta={m.roulette_watched({ count: history.length })}>
         {#snippet action()}
           <Button
             variant="ghost"
@@ -287,16 +324,16 @@
             aria-expanded={historyOpen}
             onclick={() => (historyOpen = !historyOpen)}
           >
-            {historyOpen ? "hide ▴" : "show ▾"}
+            {historyOpen ? m.roulette_hide() : m.roulette_show()}
           </Button>
         {/snippet}
         {#if !historyOpen}
           {#if history.length > 0}
             <p class="muted">
-              last: {history[0].title} · {fmtDate(history[0].drawn_at)}
+              {m.roulette_last()} {history[0].title} · {fmtDate(history[0].drawn_at)}
             </p>
           {:else}
-            <p class="muted">No films yet.</p>
+            <p class="muted">{m.roulette_no_films()}</p>
           {/if}
         {:else if history.length > 0}
           <ul class="history">
@@ -304,17 +341,17 @@
               <li>
                 {#if editingId === entry.id}
                   <div class="edit-row">
-                    <Input label="Title" maxlength={200} bind:value={editTitle} />
+                    <Input label={m.roulette_field_title()} maxlength={200} bind:value={editTitle} />
                     <label class="date">
-                      Date
+                      {m.roulette_field_date()}
                       <input type="date" bind:value={editDate} />
                     </label>
                     <div class="edit-actions">
-                      <Button size="sm" onclick={saveEdit}>Save</Button>
+                      <Button size="sm" onclick={saveEdit}>{m.roulette_save()}</Button>
                       <Button
                         size="sm"
                         variant="ghost"
-                        onclick={() => (editingId = null)}>Cancel</Button
+                        onclick={() => (editingId = null)}>{m.roulette_cancel()}</Button
                       >
                     </div>
                   </div>
@@ -329,7 +366,7 @@
                       <Button
                         variant="ghost"
                         size="sm"
-                        onclick={() => startEdit(entry)}>Edit</Button
+                        onclick={() => startEdit(entry)}>{m.roulette_edit()}</Button
                       >
                       <Button
                         variant="ghost"
@@ -344,15 +381,15 @@
           </ul>
         {:else}
           <EmptyState
-            title="No films yet"
-            message="Spin the wheel and the winner lands here."
+            title={m.roulette_no_films()}
+            message={m.roulette_no_films_msg()}
           />
         {/if}
       </Card>
     </section>
 
     <aside class="side">
-      <Card title="Roulette" meta={`${options.length} in the wheel`}>
+      <Card title={m.roulette_card()} meta={m.roulette_in_wheel({ count: options.length })}>
         <form
           class="row"
           onsubmit={(e) => {
@@ -361,23 +398,19 @@
           }}
         >
           <Input
-            label="Your option"
-            placeholder="The one you're sending to the wheel"
+            label={m.roulette_your_option()}
+            placeholder={m.roulette_option_placeholder()}
             maxlength={120}
             bind:value={draftPick}
-            disabled={!name || myOptionCount >= wheelState.max_picks}
+            disabled={!name || atLimit}
             hint={!name
-              ? "Set your name first"
-              : myOptionCount >= wheelState.max_picks
-                ? "You're at your limit — remove one to swap"
+              ? m.roulette_set_name_first()
+              : atLimit
+                ? m.roulette_at_limit()
                 : undefined}
           />
-          <Button
-            type="submit"
-            disabled={!name || !draftPick.trim() ||
-              myOptionCount >= wheelState.max_picks}
-          >
-            Add
+          <Button type="submit" disabled={!name || !draftPick.trim() || atLimit}>
+            {m.roulette_add()}
           </Button>
         </form>
 
@@ -398,7 +431,7 @@
                     variant="ghost"
                     size="sm"
                     iconOnly
-                    label={`Remove "${option.text}"`}
+                    label={m.roulette_remove_option({ text: option.text })}
                     onclick={() => client?.removeOption(option.id)}>✕</Button
                   >
                 {/if}
@@ -406,51 +439,70 @@
             {/each}
           </ul>
 
-          <div class="wheel-area">
+          <!-- The same node expands to a fixed fullscreen takeover during a
+               witnessed spin, so the CSS rotation transition never restarts. -->
+          <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions
+               (backdrop click is a pointer shortcut; keyboard users have Escape and the Close button) -->
+          <div
+            class="wheel-area"
+            class:takeover={overlayVisible}
+            onclick={(e) => {
+              if (overlayVisible && !spinning && e.target === e.currentTarget)
+                overlayDismissed = true;
+            }}
+          >
             <Wheel {segments} {rotation} duration={spinDuration} />
 
             {#if winner && !spinning}
               <div class="winner" role="status">
                 <span class="clap">🎬</span>
                 <span class="winner-text">{winner.text}</span>
-                <span class="winner-by">picked by {winner.author}</span>
+                <span class="winner-by">{m.roulette_picked_by({ name: winner.author ?? "" })}</span>
               </div>
             {:else if spinning}
-              <p class="spinning-label">Spinning…</p>
+              <p class="spinning-label">{m.roulette_spinning()}</p>
             {/if}
 
             <div class="row center">
-              <Button onclick={spin} disabled={options.length < 2 || spinning}>
-                Spin
-              </Button>
-              {#if winner && !spinning}
-                <Button variant="ghost" onclick={() => client?.clearSpin()}>
-                  Clear result
+              {#if overlayVisible}
+                {#if winner && !spinning}
+                  <Button onclick={() => (overlayDismissed = true)}>
+                    {m.roulette_close()}
+                  </Button>
+                {/if}
+              {:else}
+                <Button onclick={spin} disabled={options.length < 2 || spinning}>
+                  {m.roulette_spin()}
                 </Button>
+                {#if winner && !spinning}
+                  <Button variant="ghost" onclick={() => client?.clearSpin()}>
+                    {m.roulette_clear_result()}
+                  </Button>
+                {/if}
               {/if}
             </div>
-            {#if options.length < 2}
-              <p class="hint">Need at least 2 options to spin.</p>
+            {#if options.length < 2 && !overlayVisible}
+              <p class="hint">{m.roulette_need_two()}</p>
             {/if}
           </div>
         {:else if loaded}
           <EmptyState
-            title="The wheel is empty"
-            message="Send your option in and it shows up here."
+            title={m.roulette_wheel_empty()}
+            message={m.roulette_wheel_empty_msg()}
           />
         {/if}
       </Card>
 
       {#if admin}
-        <Card title="Settings">
+        <Card title={m.roulette_settings()}>
           <div class="settings">
             <NumberField
-              label="Options per person"
+              label={m.roulette_max_picks()}
               min={1}
               max={10}
               step={1}
               bind:value={maxPicksDraft}
-              hint="How many options each person can send to the wheel."
+              hint={m.roulette_max_picks_hint()}
             />
           </div>
         </Card>
@@ -610,6 +662,26 @@
   padding: 18px 0 6px
   :global(svg)
     margin-bottom: 6px
+  // Fullscreen takeover while a witnessed spin runs / the winner shows.
+  &.takeover
+    position: fixed
+    inset: 0
+    z-index: 1000
+    justify-content: center
+    padding: 24px
+    background: color-mix(in srgb, var(--ss-bg) 92%, transparent)
+    backdrop-filter: blur(3px)
+    :global(svg)
+      width: min(78vmin, 640px)
+      margin-bottom: 14px
+    .winner-text
+      font-size: clamp(28px, 6vmin, 52px)
+    .winner-by
+      font-size: var(--ss-size-md, 1rem)
+    .clap
+      font-size: 40px
+    .spinning-label
+      font-size: var(--ss-size-h3)
 
 .spinning-label
   color: var(--ss-fg-muted)

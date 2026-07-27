@@ -60,6 +60,8 @@ export interface RouletteClient {
   wheel: Writable<WheelState>;
   history: Writable<HistoryEntry[]>;
   presence: Writable<Presence[]>;
+  /** This user's private notes — the server only sends them to their name. */
+  personal: Writable<string>;
   /** Shared Yjs doc + provider for the collaborative ideas editor. */
   doc: Y.Doc;
   provider: SocketIOProvider;
@@ -72,6 +74,7 @@ export interface RouletteClient {
   clearSpin(): void;
   editHistory(id: string, title: string, drawnAt: string): void;
   removeHistory(id: string): void;
+  setPersonal(content: string): void;
 
   onError(cb: (message: string) => void): () => void;
   destroy(): void;
@@ -89,6 +92,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   const wheel = writable<WheelState>({ ...DEFAULT_WHEEL });
   const history = writable<HistoryEntry[]>([]);
   const presence = writable<Presence[]>([]);
+  const personal = writable<string>("");
   const errorCbs = new Set<(m: string) => void>();
 
   // Default transports (polling first, then upgrade to websocket): starting
@@ -101,6 +105,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   socket.on("wheel", (w: WheelState) => wheel.set({ ...DEFAULT_WHEEL, ...w }));
   socket.on("history", (h: HistoryEntry[]) => history.set(h ?? []));
   socket.on("presence", (p: Presence[]) => presence.set(p ?? []));
+  socket.on("personal", (c: string) => personal.set(typeof c === "string" ? c : ""));
   socket.on("roulette:error", (m: string) => errorCbs.forEach((cb) => cb(m)));
 
   // Collaborative ideas document.
@@ -112,6 +117,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     wheel,
     history,
     presence,
+    personal,
     doc,
     provider,
 
@@ -125,6 +131,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     editHistory: (id, title, drawn_at) =>
       socket.emit("history:edit", { id, title, drawn_at }),
     removeHistory: (id) => socket.emit("history:remove", { id }),
+    setPersonal: (content) => socket.emit("personal:set", { content }),
 
     onError: (cb) => {
       errorCbs.add(cb);

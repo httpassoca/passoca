@@ -1,12 +1,13 @@
 <script lang="ts">
   import type { Presence } from "$lib/roulette";
   import { colorForName } from "$lib/roulette";
+  import { m } from "$lib/paraglide/messages";
 
   let { users, me }: { users: Presence[]; me: string } = $props();
 </script>
 
 <div class="online">
-  <span class="label">Online</span>
+  <span class="label">{m.roulette_online()}</span>
   <span class="count">{users.length}</span>
   <ul>
     {#each users as user (user.name)}
@@ -19,7 +20,7 @@
       </li>
     {/each}
     {#if users.length === 0}
-      <li class="empty">No one online</li>
+      <li class="empty">{m.roulette_no_one_online()}</li>
     {/if}
   </ul>
 </div>

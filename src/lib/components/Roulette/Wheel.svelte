@@ -4,6 +4,7 @@
 
 <script lang="ts">
   import { CHART_PALETTE } from "dssoca";
+  import { m } from "$lib/paraglide/messages";
 
   let {
     segments,
@@ -19,10 +20,10 @@
 
   const C = 100;
   const R = 92;
-  // Labels run radially from just outside the hub out toward the rim, so long
-  // titles get the full length of the wedge instead of a cramped tangent.
-  const LABEL_INNER = 24;
-  const LABEL_OUTER = 88;
+  // Labels sit horizontally at the centroid of each wedge; they are
+  // counter-rotated against the wheel so they stay upright at any rotation.
+  const LABEL_R = 56;
+  const CHAR_W = 4.9; // ~width of one 8px monospace character
 
   // Angles measured clockwise from the pointer (top).
   function polar(angleDeg: number, radius: number) {
@@ -38,23 +39,16 @@
     return `M ${C} ${C} L ${start.x} ${start.y} A ${R} ${R} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
   }
 
-  // Radial label: reads outward from the inner circle. On the left half it is
-  // flipped and right-anchored so the text stays upright and legible.
   function label(i: number, n: number) {
     const mid = (i + 0.5) * (360 / n);
-    const flip = mid > 90 && mid < 270;
-    const p = flip ? polar(mid, LABEL_OUTER) : polar(mid, LABEL_INNER);
-    return {
-      x: p.x,
-      y: p.y,
-      angle: flip ? mid + 90 : mid - 90,
-      anchor: flip ? "end" : "start",
-    };
+    return polar(mid, n === 1 ? 0 : LABEL_R);
   }
 
   function maxChars(n: number) {
-    // Fewer segments -> wider wedge -> room for more characters.
-    return n <= 6 ? 16 : n <= 8 ? 14 : 12;
+    if (n <= 1) return 18;
+    // A horizontal label must fit the wedge chord at the label radius.
+    const chord = 2 * LABEL_R * Math.sin(Math.PI / n);
+    return Math.min(18, Math.max(4, Math.floor(chord / CHAR_W)));
   }
 
   function truncate(text: string, max: number) {
@@ -64,7 +58,7 @@
   const color = (i: number) => CHART_PALETTE[i % CHART_PALETTE.length];
 </script>
 
-<svg viewBox="0 0 200 200" role="img" aria-label="Roulette wheel">
+<svg viewBox="0 0 200 200" role="img" aria-label={m.roulette_wheel_aria()}>
   <g
     class="wheel"
     style:transform="rotate({rotation}deg)"
@@ -89,10 +83,14 @@
       <text
         x={pos.x}
         y={pos.y}
-        transform="rotate({pos.angle} {pos.x} {pos.y})"
-        text-anchor={pos.anchor}
+        text-anchor="middle"
         dominant-baseline="middle"
         fill="var(--ss-bg)"
+        style:transform="rotate({-rotation}deg)"
+        style:transform-origin="{pos.x}px {pos.y}px"
+        style:transition={duration > 0
+          ? `transform ${duration}s cubic-bezier(0.12, 0.64, 0.08, 1)`
+          : "none"}
       >
         {truncate(segment.label, maxChars(segments.length))}
       </text>
@@ -116,6 +114,7 @@ text
   font-size: 8px
   font-weight: 600
   user-select: none
+  transform-box: view-box
 
 .pointer
   fill: var(--ss-fg, currentColor)
