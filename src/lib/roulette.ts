@@ -33,6 +33,9 @@ export type HistoryEntry = {
 
 export type Presence = { name: string; color: string | null };
 
+/** Server acknowledgement of an identify attempt. */
+export type Identity = { ok: boolean; name: string; admin: boolean };
+
 export const DEFAULT_WHEEL: WheelState = {
   options: [],
   max_picks: 1,
@@ -62,11 +65,13 @@ export interface RouletteClient {
   presence: Writable<Presence[]>;
   /** This user's private notes — the server only sends them to their name. */
   personal: Writable<string>;
+  /** Last identify ack; `admin` is only true after a password-verified join. */
+  identity: Writable<Identity | null>;
   /** Shared Yjs doc + provider for the collaborative ideas editor. */
   doc: Y.Doc;
   provider: SocketIOProvider;
 
-  identify(name: string, color: string | null): void;
+  identify(name: string, color: string | null, password?: string): void;
   addOption(author: string, text: string, color: string | null): void;
   removeOption(id: string): void;
   setMaxPicks(value: number): void;
@@ -93,6 +98,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   const history = writable<HistoryEntry[]>([]);
   const presence = writable<Presence[]>([]);
   const personal = writable<string>("");
+  const identity = writable<Identity | null>(null);
   const errorCbs = new Set<(m: string) => void>();
 
   // Default transports (polling first, then upgrade to websocket): starting
@@ -106,6 +112,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   socket.on("history", (h: HistoryEntry[]) => history.set(h ?? []));
   socket.on("presence", (p: Presence[]) => presence.set(p ?? []));
   socket.on("personal", (c: string) => personal.set(typeof c === "string" ? c : ""));
+  socket.on("identified", (id: Identity) => identity.set(id ?? null));
   socket.on("roulette:error", (m: string) => errorCbs.forEach((cb) => cb(m)));
 
   // Collaborative ideas document.
@@ -118,10 +125,12 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     history,
     presence,
     personal,
+    identity,
     doc,
     provider,
 
-    identify: (name, color) => socket.emit("identify", { name, color }),
+    identify: (name, color, password) =>
+      socket.emit("identify", { name, color, password }),
     addOption: (author, text, color) =>
       socket.emit("option:add", { author, text, color }),
     removeOption: (id) => socket.emit("option:remove", { id }),

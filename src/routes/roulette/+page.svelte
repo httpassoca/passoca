@@ -30,6 +30,7 @@
   } from "$lib/roulette";
 
   const NAME_KEY = "passoca:roulette:name";
+  const PW_KEY = "passoca:roulette:pw";
   const SPIN_SECONDS = 4;
   const API_URL = import.meta.env.VITE_API_URL as string | undefined;
 
@@ -42,11 +43,14 @@
 
   let name = $state("");
   let draftName = $state("");
+  let draftPassword = $state("");
   let editingName = $state(false);
   let draftPick = $state("");
 
   const myColor = $derived(name ? colorForName(name) : CHART_PALETTE[0]);
-  const admin = $derived(isAdmin(name));
+  // Admin is server-confirmed (password-verified identify), never inferred
+  // from the name alone.
+  let admin = $state(false);
 
   const options = $derived(wheelState.options);
   const myOptionCount = $derived(options.filter((o) => o.author === name).length);
@@ -127,7 +131,9 @@
       winnerId = null;
       overlayDismissed = false;
       spinDuration = SPIN_SECONDS;
-      const turns = Math.max(3, next.spin_turns ?? 4);
+      // Whole turns only — a fractional turn would rest the wheel offset from
+      // the winner segment while the announcement names the true winner.
+      const turns = Math.max(3, Math.round(next.spin_turns ?? 4));
       rotation = rotation - (rotation % 360) + 360 * turns + align;
       clearTimeout(settleTimer);
       settleTimer = setTimeout(() => {
@@ -147,7 +153,7 @@
     name = clean;
     editingName = false;
     localStorage.setItem(NAME_KEY, clean);
-    client?.identify(name, colorForName(name));
+    client?.identify(name, colorForName(name), draftPassword || undefined);
   }
 
   function addPick() {
@@ -166,8 +172,10 @@
     client.spin();
   }
 
-  // --- History editing (admin) ---
+  // --- Collapsible cards ---
   let historyOpen = $state(false);
+  let personalOpen = $state(false);
+  let personalTeaser = $state("");
   let editingId = $state<string | null>(null);
   let editTitle = $state("");
   let editDate = $state("");
@@ -194,6 +202,7 @@
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
     draftName = name;
+    draftPassword = localStorage.getItem(PW_KEY) ?? "";
 
     if (!API_URL) {
       toast.error(m.roulette_missing_api());
@@ -204,7 +213,12 @@
     client = c;
 
     const unsubs = [
-      c.connected.subscribe((v) => (connected = v)),
+      c.connected.subscribe((v) => {
+        connected = v;
+        // The server forgets presence on disconnect — re-identify on every
+        // (re)connect so name and admin status survive reconnects.
+        if (v && name) c.identify(name, colorForName(name), draftPassword || undefined);
+      }),
       c.wheel.subscribe((w) => {
         wheelState = w;
         loaded = true;
@@ -212,10 +226,24 @@
       }),
       c.history.subscribe((h) => (history = h)),
       c.presence.subscribe((p) => (presence = p)),
+      c.personal.subscribe((p) => (personalTeaser = p)),
+      c.identity.subscribe((id) => {
+        if (!id) return;
+        if (!id.ok) {
+          // Wrong admin password: back to the join form.
+          admin = false;
+          name = "";
+          localStorage.removeItem(NAME_KEY);
+          localStorage.removeItem(PW_KEY);
+          return;
+        }
+        admin = id.admin;
+        if (id.admin && draftPassword) localStorage.setItem(PW_KEY, draftPassword);
+      }),
     ];
     const offError = c.onError((m) => toast.error(m));
 
-    if (name) c.identify(name, colorForName(name));
+    if (name) c.identify(name, colorForName(name), draftPassword || undefined);
 
     return () => {
       unsubs.forEach((u) => u());
@@ -240,24 +268,26 @@
 <div class="page">
   <div class="head">
     <Heading>{m.roulette_title()}</Heading>
-    {#if client}
-      {#if connected}
-        <Badge tone="positive" dot>{m.roulette_live()}</Badge>
-      {:else}
-        <Badge tone="caution" dot>{m.roulette_connecting()}</Badge>
+    <div class="head-side">
+      {#if client}
+        {#if connected}
+          <Badge tone="positive" dot>{m.roulette_live()}</Badge>
+        {:else}
+          <Badge tone="caution" dot>{m.roulette_connecting()}</Badge>
+        {/if}
       {/if}
-    {/if}
-    {#if name && !editingName}
-      <span class="you">
-        {m.roulette_you_are()}
-        <span class="dot" style:background={myColor}></span>
-        <strong>{name}</strong>
-        {#if admin}<Badge tone="brand">{m.roulette_admin()}</Badge>{/if}
-        <Button variant="ghost" size="sm" onclick={() => (editingName = true)}>
-          {m.roulette_change()}
-        </Button>
-      </span>
-    {/if}
+      {#if name && !editingName}
+        <span class="you">
+          {m.roulette_you_are()}
+          <span class="dot" style:background={myColor}></span>
+          <strong>{name}</strong>
+          {#if admin}<Badge tone="brand">{m.roulette_admin()}</Badge>{/if}
+          <Button variant="ghost" size="sm" onclick={() => (editingName = true)}>
+            {m.roulette_change()}
+          </Button>
+        </span>
+      {/if}
+    </div>
   </div>
   <p class="hint">
     {wheelState.max_picks === 1
@@ -283,6 +313,13 @@
             maxlength={24}
             bind:value={draftName}
           />
+          {#if isAdmin(draftName)}
+            <Input
+              label={m.roulette_password()}
+              type="password"
+              bind:value={draftPassword}
+            />
+          {/if}
           <Button type="submit" disabled={!draftName.trim()}>{m.roulette_join()}</Button>
         </form>
       </Card>
@@ -312,7 +349,23 @@
           title={m.roulette_personal()}
           description={m.roulette_personal_desc()}
         >
-          <PersonalIdeas {client} />
+          {#snippet action()}
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-expanded={personalOpen}
+              onclick={() => (personalOpen = !personalOpen)}
+            >
+              {personalOpen ? m.roulette_hide() : m.roulette_show()}
+            </Button>
+          {/snippet}
+          {#if personalOpen}
+            <PersonalIdeas {client} />
+          {:else}
+            <p class="muted teaser">
+              {personalTeaser.trim().split("\n")[0] || m.roulette_preview_empty()}
+            </p>
+          {/if}
         </Card>
       {/if}
 
@@ -516,18 +569,26 @@
 <style lang="sass">
 .page
   width: 100%
-  padding: 28px var(--ss-container-px, 20px) 48px
+  padding: var(--ss-container-page-py, 28px) var(--ss-container-px, 20px) var(--ss-s-12, 48px)
 
 .head
   display: flex
   align-items: center
   flex-wrap: wrap
-  gap: 10px
+  gap: var(--ss-gap, 10px)
+
+// Status + identity live on the right edge of the page head.
+.head-side
+  display: flex
+  align-items: center
+  flex-wrap: wrap
+  gap: var(--ss-gap, 10px)
+  margin-left: auto
 
 .you
   display: flex
   align-items: center
-  gap: 6px
+  gap: var(--ss-gap-sm, 6px)
   color: var(--ss-fg-muted)
   font-size: var(--ss-size-sm)
   strong
@@ -556,26 +617,26 @@
 .layout
   display: grid
   grid-template-columns: minmax(0, 1fr) clamp(340px, 34vw, 460px)
-  gap: 22px
+  gap: var(--ss-block-gap, 22px)
   align-items: start
-  margin-top: 18px
+  margin-top: var(--ss-s-4, 18px)
   @media (max-width: 980px)
     grid-template-columns: minmax(0, 1fr)
 
 .ideas
   display: flex
   flex-direction: column
-  gap: 22px
+  gap: var(--ss-block-gap, 22px)
 
 .side
   display: flex
   flex-direction: column
-  gap: 22px
+  gap: var(--ss-block-gap, 22px)
 
 .row
   display: flex
   align-items: flex-start
-  gap: 10px
+  gap: var(--ss-gap, 10px)
   :global(label)
     flex: 1
   :global(button[type="submit"])
@@ -588,13 +649,13 @@
 
 .options
   list-style: none
-  margin: 16px 0 0
+  margin: var(--ss-s-4, 16px) 0 0
   padding: 0
   li
     display: flex
     align-items: center
-    gap: 10px
-    padding: 7px 0
+    gap: var(--ss-gap, 10px)
+    padding: var(--ss-s-2, 7px) 0
     border-bottom: 1px solid var(--ss-line)
     &:last-child
       border-bottom: none
@@ -602,6 +663,7 @@
     flex: 1
     min-width: 0
     overflow-wrap: anywhere
+    font-size: var(--ss-size-body)
 
 .swatch
   width: 10px
@@ -611,13 +673,13 @@
 
 .history
   list-style: none
-  margin: 4px 0 0
+  margin: var(--ss-s-1, 4px) 0 0
   padding: 0
   li
     display: flex
     align-items: center
-    gap: 10px
-    padding: 8px 0
+    gap: var(--ss-gap, 10px)
+    padding: var(--ss-s-2, 8px) 0
     border-bottom: 1px solid var(--ss-line)
     &:last-child
       border-bottom: none
@@ -625,6 +687,7 @@
     flex: 1
     min-width: 0
     overflow-wrap: anywhere
+    font-size: var(--ss-size-body)
   .h-date
     color: var(--ss-fg-muted)
     font-size: var(--ss-size-sm)
@@ -653,7 +716,7 @@
       padding: 6px 8px
   .edit-actions
     display: flex
-    gap: 6px
+    gap: var(--ss-gap-sm, 6px)
 
 .wheel-area
   display: flex
@@ -677,7 +740,7 @@
     .winner-text
       font-size: clamp(28px, 6vmin, 52px)
     .winner-by
-      font-size: var(--ss-size-md, 1rem)
+      font-size: var(--ss-size-body)
     .clap
       font-size: 40px
     .spinning-label
