@@ -65,6 +65,9 @@
   let winnerId = $state<string | null>(null);
   let lastSpunAt: string | null | undefined = undefined;
   let settleTimer: ReturnType<typeof setTimeout> | undefined;
+  // Whether the wheel store has emitted a real server snapshot yet (its first
+  // emission is always the local placeholder, fired synchronously on subscribe).
+  let sawServerWheel = false;
 
   const winner = $derived(
     winnerId ? options.find((o) => o.id === winnerId) ?? null : null
@@ -220,6 +223,14 @@
         if (v && name) c.identify(name, colorForName(name), draftPassword || undefined);
       }),
       c.wheel.subscribe((w) => {
+        // The store emits its local DEFAULT_WHEEL placeholder synchronously on
+        // subscribe; if it counted as the "first snapshot", the real server
+        // state (carrying the last spun_at) would replay the spin animation
+        // for every visitor. Only server snapshots may drive the wheel.
+        if (!sawServerWheel) {
+          sawServerWheel = true;
+          return;
+        }
         wheelState = w;
         loaded = true;
         syncSpin(w, lastSpunAt !== undefined);
