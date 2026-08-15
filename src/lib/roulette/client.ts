@@ -2,61 +2,16 @@ import { writable, type Writable } from "svelte/store";
 import { io, type Socket } from "socket.io-client";
 import * as Y from "yjs";
 import { SocketIOProvider } from "y-socket.io";
-import { CHART_PALETTE } from "dssoca";
+import {
+  DEFAULT_WHEEL,
+  type HistoryEntry,
+  type Identity,
+  type MediaPick,
+  type Presence,
+  type WheelState,
+} from "./types";
 
-export const ADMIN_NAME = "passoca";
 const IDEAS_DOC = "ideas";
-
-export type Option = {
-  id: string;
-  author: string;
-  color: string | null;
-  text: string;
-  created_at: string;
-};
-
-export type WheelState = {
-  options: Option[];
-  max_picks: number;
-  winner_id: string | null;
-  spin_turns: number | null;
-  spun_at: string | null;
-};
-
-export type HistoryEntry = {
-  id: string;
-  title: string;
-  author: string | null;
-  drawn_at: string;
-  created_at: string;
-};
-
-export type Presence = { name: string; color: string | null };
-
-/** Server acknowledgement of an identify attempt. */
-export type Identity = { ok: boolean; name: string; admin: boolean };
-
-export const DEFAULT_WHEEL: WheelState = {
-  options: [],
-  max_picks: 1,
-  winner_id: null,
-  spin_turns: null,
-  spun_at: null,
-};
-
-/** Stable, readable colour derived from a name so identity is consistent. */
-export function colorForName(name: string): string {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = (hash * 31 + name.charCodeAt(i)) | 0;
-  }
-  const palette = CHART_PALETTE as readonly string[];
-  return palette[Math.abs(hash) % palette.length];
-}
-
-export function isAdmin(name: string): boolean {
-  return name.trim() === ADMIN_NAME;
-}
 
 export interface RouletteClient {
   connected: Writable<boolean>;
@@ -72,7 +27,7 @@ export interface RouletteClient {
   provider: SocketIOProvider;
 
   identify(name: string, color: string | null, password?: string): void;
-  addOption(author: string, text: string, color: string | null): void;
+  addOption(author: string, text: string, color: string | null, media?: MediaPick | null): void;
   removeOption(id: string): void;
   setMaxPicks(value: number): void;
   spin(turns?: number): void;
@@ -86,7 +41,7 @@ export interface RouletteClient {
 }
 
 /** Normalises the API base (strip trailing slash). */
-function normalizeBase(url: string): string {
+export function normalizeBase(url: string): string {
   return url.replace(/\/+$/, "");
 }
 
@@ -131,8 +86,8 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
 
     identify: (name, color, password) =>
       socket.emit("identify", { name, color, password }),
-    addOption: (author, text, color) =>
-      socket.emit("option:add", { author, text, color }),
+    addOption: (author, text, color, media) =>
+      socket.emit("option:add", { author, text, color, media: media ?? undefined }),
     removeOption: (id) => socket.emit("option:remove", { id }),
     setMaxPicks: (value) => socket.emit("wheel:set_max", { value }),
     spin: (turns) => socket.emit("wheel:spin", { turns }),

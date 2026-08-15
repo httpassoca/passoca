@@ -157,5 +157,17 @@
   "roulette_max_toast": "Max {max} in the wheel per person — remove one first.",
   "roulette_missing_api": "Missing API URL (VITE_API_URL).",
   "roulette_close": "Close",
-  "roulette_wheel_aria": "Roulette wheel"
+  "roulette_wheel_aria": "Roulette wheel",
+  "roulette_media_movie": "movie",
+  "roulette_media_tv": "TV",
+  "roulette_media_details": "Details",
+  "roulette_media_no_results": "No matches — Enter adds it as typed.",
+  "roulette_media_loading": "loading…",
+  "roulette_media_attribution": "Data from TMDB",
+  "roulette_media_error": "Couldn't load the details.",
+  "roulette_media_open_tmdb": "Open on TMDB",
+  "roulette_media_runtime": "{min} min",
+  "roulette_media_seasons": "{count} seasons",
+  "roulette_media_episodes": "{count} episodes",
+  "roulette_media_poster_alt": "Poster of {title}"
 }

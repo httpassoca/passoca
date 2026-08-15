@@ -157,5 +157,17 @@
   "roulette_max_toast": "Máximo de {max} na roleta por pessoa — remova uma primeiro.",
   "roulette_missing_api": "Falta a URL da API (VITE_API_URL).",
   "roulette_close": "Fechar",
-  "roulette_wheel_aria": "Roleta"
+  "roulette_wheel_aria": "Roleta",
+  "roulette_media_movie": "filme",
+  "roulette_media_tv": "série",
+  "roulette_media_details": "Detalhes",
+  "roulette_media_no_results": "Nada encontrado — Enter adiciona como texto.",
+  "roulette_media_loading": "carregando…",
+  "roulette_media_attribution": "Dados do TMDB",
+  "roulette_media_error": "Não deu para carregar os detalhes.",
+  "roulette_media_open_tmdb": "Abrir no TMDB",
+  "roulette_media_runtime": "{min} min",
+  "roulette_media_seasons": "{count} temporadas",
+  "roulette_media_episodes": "{count} episódios",
+  "roulette_media_poster_alt": "Pôster de {title}"
 }
