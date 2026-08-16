@@ -194,5 +194,6 @@
   "roulette_limit_per_person": "limit {max}/person",
   "roulette_spin_wheel": "spin the wheel ▸",
   "roulette_spin_caption": "syncs fullscreen on every screen · winner → history",
-  "roulette_history_admin_caption": "edit & delete are admin-only"
+  "roulette_history_admin_caption": "edit & delete are admin-only",
+  "roulette_date_unknown": "date unknown"
 }

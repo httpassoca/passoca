@@ -53,7 +53,8 @@
       {entry.title}{#if entry.media_year}&nbsp;<span class="y">({entry.media_year})</span>{/if}
     </div>
     <div class="sub">
-      {fmtDate(entry.drawn_at)}{#if entry.author} · {m.roulette_picked_by({ name: entry.author })}{/if}
+      {entry.drawn_at ? fmtDate(entry.drawn_at) : m.roulette_date_unknown()}{#if entry.author}
+        · {m.roulette_picked_by({ name: entry.author })}{/if}
     </div>
   </div>
 {/snippet}
@@ -143,7 +144,8 @@
     {/if}
   {:else if history.length > 0}
     <p class="caption teaser">
-      {m.roulette_last()} {history[0].title} · {fmtDate(history[0].drawn_at)}
+      {m.roulette_last()} {history[0].title} ·
+      {history[0].drawn_at ? fmtDate(history[0].drawn_at) : m.roulette_date_unknown()}
     </p>
   {/if}
 </Card>

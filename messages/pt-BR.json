@@ -194,5 +194,6 @@
   "roulette_limit_per_person": "limite {max}/pessoa",
   "roulette_spin_wheel": "girar a roleta ▸",
   "roulette_spin_caption": "tela cheia em todos os aparelhos · vencedor → histórico",
-  "roulette_history_admin_caption": "editar e excluir são só do admin"
+  "roulette_history_admin_caption": "editar e excluir são só do admin",
+  "roulette_date_unknown": "data desconhecida"
 }
