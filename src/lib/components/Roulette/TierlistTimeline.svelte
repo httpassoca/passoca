@@ -87,10 +87,8 @@
 </script>
 
 <!-- Fullscreen: the timeline replays whole tierlist frames, so it gets the
-     entire viewport (the dssoca Modal is sized via --ss-modal-* custom
-     properties, inherited from this wrapper into the <dialog>). -->
-<div class="fullscreen">
-  <Modal bind:open title={m.roulette_tierlist_timeline()} size="lg" {onclose}>
+     entire viewport. -->
+<Modal bind:open fullscreen title={m.roulette_tierlist_timeline()} {onclose}>
   <p class="desc">{m.roulette_tierlist_timeline_desc()}</p>
 
   {#if !frame}
@@ -162,7 +160,7 @@
               animate:flip={{ duration: moveMs }}
             >
               {#if item.poster_path}
-                <MediaPoster path={item.poster_path} size="w92" alt={item.title} />
+                <MediaPoster path={item.poster_path} size="w342" alt={item.title} />
               {:else}
                 <span class="name">{item.title}</span>
               {/if}
@@ -193,21 +191,9 @@
       {/each}
     </div>
   {/if}
-  </Modal>
-</div>
+</Modal>
 
 <style lang="sass">
-.fullscreen
-  display: contents
-  :global(.ss-modal)
-    width: 100vw
-    max-width: 100vw
-    height: 100vh
-    max-height: 100vh
-    border: none
-  :global(.ss-modal .panel)
-    height: 100%
-
 .desc
   margin: 0 0 8px
   font-family: var(--ss-font-mono)
@@ -240,10 +226,10 @@
   flex-direction: column
   gap: 6px
 
-// Smaller tiles than the live lists: a whole frame stays on screen, and the
-// flights between tiers read as one motion.
+// Same 108px tile as the live tierlists — the replay should read like the
+// list it is replaying, not a miniature of it.
 .cell
-  width: 60px
+  width: 108px
   aspect-ratio: 2 / 3
   flex: none
   display: flex
@@ -251,14 +237,14 @@
   border: 1px solid var(--ss-line)
   background: var(--ss-bg-inset)
   overflow: hidden
-  :global(.poster.w92)
+  :global(.poster.w342)
     width: 100%
     height: 100%
     border: none
 
 .name
-  padding: 3px
-  font-size: 9px
+  padding: 4px
+  font-size: 11px
   line-height: 1.25
   color: var(--ss-fg-muted)
   overflow: hidden

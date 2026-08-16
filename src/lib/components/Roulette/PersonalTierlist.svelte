@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from "svelte";
   import { flip } from "svelte/animate";
   import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME, type DndEvent } from "svelte-dnd-action";
   import { Button, Card, EmptyState, toast } from "dssoca";
@@ -32,6 +33,7 @@
   } = $props();
 
   const FLIP_MS = 150;
+  const SAVE_DEBOUNCE_MS = 600;
 
   let zones = $state<TierZones>({ S: [], A: [], B: [], C: [], D: [], unranked: [] });
   let dragging = $state(false);
@@ -39,6 +41,10 @@
   // Local edits not yet saved (or not yet confirmed by a server echo); while
   // set, incoming snapshots must not rebuild the zones or they'd revert them.
   let dirty = $state(false);
+  // Autosave: every drop persists the personal list. The general tierlist
+  // stays put until someone hits publish, so a save is never a group edit.
+  let saveTimer: ReturnType<typeof setTimeout> | undefined;
+  let status = $state<"idle" | "saving" | "saved">("idle");
 
   function canonical(placements: TierPlacement[]): string {
     const order = (t: TierName) => TIERS.indexOf(t);
@@ -56,14 +62,34 @@
       const mine = tierState.submissions[name] ?? [];
       if (canonical(placementsFromZones(zones)) !== canonical(mine)) return;
       dirty = false;
+      status = "saved";
     }
     if (JSON.stringify(next) !== JSON.stringify($state.snapshot(zones))) zones = next;
   });
 
-  function save() {
-    client?.setTierlist(placementsFromZones(zones));
-    toast.success(m.roulette_tierlist_saved());
+  /** Sends the pending edit now (also used before publishing and on unmount). */
+  function flushSave() {
+    clearTimeout(saveTimer);
+    saveTimer = undefined;
+    if (!dirty || !client) return;
+    client.setTierlist(placementsFromZones(zones));
   }
+
+  function queueSave() {
+    clearTimeout(saveTimer);
+    status = "saving";
+    saveTimer = setTimeout(flushSave, SAVE_DEBOUNCE_MS);
+  }
+
+  // Publishing is the only thing that moves the group's list — flush first so
+  // the aggregate is computed from the drag that just happened.
+  function publish() {
+    flushSave();
+    client?.publishTierlist();
+    toast.success(m.roulette_tierlist_published());
+  }
+
+  onDestroy(() => flushSave());
 
   function handleConsider(zone: TierName | "unranked", e: CustomEvent<DndEvent<DndTierItem>>) {
     dragging = true;
@@ -75,6 +101,7 @@
     dragging = false;
     dirty = true;
     lastFinalize = Date.now();
+    queueSave();
   }
 
   // A drop shouldn't double as a click on the tile it landed on.
@@ -107,8 +134,17 @@
 >
   {#snippet action()}
     {#if name && client}
-      <Button variant="primary" size="md" disabled={!dirty} onclick={save}>
-        {m.roulette_save()}
+      <span class="status">
+        {#if status === "saving"}
+          {m.roulette_tierlist_saving()}
+        {:else if status === "saved"}
+          {m.roulette_tierlist_autosaved()}
+        {:else}
+          {m.roulette_tierlist_autosave_hint()}
+        {/if}
+      </span>
+      <Button variant="primary" size="md" onclick={publish}>
+        {m.roulette_tierlist_publish()}
       </Button>
     {/if}
   {/snippet}
@@ -167,6 +203,12 @@
   display: flex
   flex-direction: column
   gap: 6px
+
+.status
+  font-family: var(--ss-font-mono)
+  font-size: var(--ss-size-xs, 12px)
+  letter-spacing: 0.04em
+  color: var(--ss-fg-faint)
 
 // The dnd zone fills the whole strip so empty tiers stay droppable.
 .zone

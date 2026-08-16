@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
   import { Tooltip } from "dssoca";
   import MediaPoster from "./MediaPoster.svelte";
   import type { TierItem } from "$lib/roulette";
@@ -9,8 +10,8 @@
     onclick = null,
   }: {
     item: TierItem;
-    /** Tooltip text; defaults to the film title. */
-    tooltip?: string;
+    /** Tooltip content — text, or a snippet for a richer tip. Defaults to the title. */
+    tooltip?: string | Snippet;
     /** When set, the tile is a button (opens the details modal). */
     onclick?: (() => void) | null;
   } = $props();

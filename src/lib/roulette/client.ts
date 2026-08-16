@@ -45,7 +45,10 @@ export interface RouletteClient {
   editHistory(id: string, title: string, drawnAt: string): void;
   removeHistory(id: string): void;
   setPersonal(content: string): void;
+  /** Saves my personal list; never moves the general one. */
   setTierlist(placements: TierPlacement[]): void;
+  /** Recomputes the group's general tierlist from everyone's saved lists. */
+  publishTierlist(): void;
   /** Admin-only: wipe another user's tierlist (multi-account abuse). */
   removeTierlist(name: string): void;
   /** Admin-only: delete a user's notes; `wipe` also drops picks + tierlist. */
@@ -134,6 +137,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     removeHistory: (id) => socket.emit("history:remove", { id }),
     setPersonal: (content) => socket.emit("personal:set", { content }),
     setTierlist: (placements) => socket.emit("tierlist:set", { placements }),
+    publishTierlist: () => socket.emit("tierlist:publish"),
     removeTierlist: (name) => socket.emit("tierlist:remove", { name }),
     removeUser: (name, wipe) => socket.emit("user:remove", { name, wipe }),
     setSnapshotHidden: (id, hidden) => socket.emit("tierlist:snapshot_hide", { id, hidden }),

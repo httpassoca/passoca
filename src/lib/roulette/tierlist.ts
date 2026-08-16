@@ -46,13 +46,15 @@ export function placementsFromZones(zones: TierZones): TierPlacement[] {
   return placements;
 }
 
-/** Tooltip line for the general list: "ana S · rafa A" — only users who ranked it. */
-export function tooltipFor(key: string, submissions: TierlistState["submissions"]): string {
+/** Who ranked this film, and where — name-sorted, skipping everyone who didn't. */
+export function ranksFor(
+  key: string,
+  submissions: TierlistState["submissions"]
+): { name: string; tier: TierName }[] {
   return Object.keys(submissions)
     .sort()
     .flatMap((name) => {
       const placement = submissions[name].find((p) => p.key === key);
-      return placement ? [`${name} ${placement.tier}`] : [];
-    })
-    .join(" · ");
+      return placement ? [{ name, tier: placement.tier }] : [];
+    });
 }

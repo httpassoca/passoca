@@ -29,6 +29,7 @@
   let admin = $state(false);
   let detailsFor = $state<MediaKey | null>(null);
   let snapshots = $state<TierlistSnapshot[]>([]);
+  let generalOpen = $state(false);
   let timelineOpen = $state(false);
   let loaded = $state(false);
   // The store emits its local DEFAULT_TIERLIST placeholder synchronously on
@@ -92,6 +93,9 @@
         <div class="sub">{m.roulette_tierlist_sub()}</div>
       </div>
       <div class="head-actions">
+        <Button size="md" onclick={() => (generalOpen = true)}>
+          {m.roulette_tierlist_general()}
+        </Button>
         <Button size="md" onclick={() => (timelineOpen = true)}>
           {m.roulette_tierlist_timeline()}
         </Button>
@@ -101,12 +105,20 @@
       </div>
     </div>
 
-    <GeneralTierlist state={tierState} loading={!loaded} ondetails={(media) => (detailsFor = media)} />
     <PersonalTierlist {client} state={tierState} {name} ondetails={(media) => (detailsFor = media)} />
     {#if admin}
       <AdminTierlists {client} state={tierState} ondetails={(media) => (detailsFor = media)} />
     {/if}
   </div>
+
+  {#if generalOpen}
+    <GeneralTierlist
+      state={tierState}
+      loading={!loaded}
+      ondetails={(media) => (detailsFor = media)}
+      onclose={() => (generalOpen = false)}
+    />
+  {/if}
 
   {#if timelineOpen}
     <TierlistTimeline
