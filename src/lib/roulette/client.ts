@@ -10,6 +10,7 @@ import {
   type MediaPick,
   type Presence,
   type TierPlacement,
+  type TierlistSnapshot,
   type TierlistState,
   type WheelState,
 } from "./types";
@@ -27,6 +28,8 @@ export interface RouletteClient {
   identity: Writable<Identity | null>;
   /** Aggregated + per-user tierlists (server does the scoring math). */
   tierlist: Writable<TierlistState>;
+  /** General-tierlist timeline frames, oldest first (incl. hidden ones). */
+  tierlistSnapshots: Writable<TierlistSnapshot[]>;
   /** Shared Yjs doc + provider for the collaborative ideas editor (lazy). */
   readonly doc: Y.Doc;
   readonly provider: SocketIOProvider;
@@ -43,6 +46,8 @@ export interface RouletteClient {
   setTierlist(placements: TierPlacement[]): void;
   /** Admin-only: wipe another user's tierlist (multi-account abuse). */
   removeTierlist(name: string): void;
+  /** Admin-only: hide a timeline frame from playback, or restore it. */
+  setSnapshotHidden(id: string, hidden: boolean): void;
 
   onError(cb: (message: string) => void): () => void;
   destroy(): void;
@@ -63,6 +68,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   const personal = writable<string>("");
   const identity = writable<Identity | null>(null);
   const tierlist = writable<TierlistState>({ ...DEFAULT_TIERLIST });
+  const tierlistSnapshots = writable<TierlistSnapshot[]>([]);
   const errorCbs = new Set<(m: string) => void>();
 
   // Default transports (polling first, then upgrade to websocket): starting
@@ -78,6 +84,9 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   socket.on("personal", (c: string) => personal.set(typeof c === "string" ? c : ""));
   socket.on("identified", (id: Identity) => identity.set(id ?? null));
   socket.on("tierlist", (t: TierlistState) => tierlist.set({ ...DEFAULT_TIERLIST, ...t }));
+  socket.on("tierlist:snapshots", (s: TierlistSnapshot[]) =>
+    tierlistSnapshots.set(Array.isArray(s) ? s : [])
+  );
   socket.on("roulette:error", (m: string) => errorCbs.forEach((cb) => cb(m)));
 
   // Collaborative ideas document — created lazily so pages that never render
@@ -99,6 +108,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     personal,
     identity,
     tierlist,
+    tierlistSnapshots,
     get doc() {
       return ensureIdeas().doc;
     },
@@ -120,6 +130,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     setPersonal: (content) => socket.emit("personal:set", { content }),
     setTierlist: (placements) => socket.emit("tierlist:set", { placements }),
     removeTierlist: (name) => socket.emit("tierlist:remove", { name }),
+    setSnapshotHidden: (id, hidden) => socket.emit("tierlist:snapshot_hide", { id, hidden }),
 
     onError: (cb) => {
       errorCbs.add(cb);

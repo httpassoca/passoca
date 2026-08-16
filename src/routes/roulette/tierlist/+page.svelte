@@ -7,6 +7,7 @@
   import GeneralTierlist from "$lib/components/Roulette/GeneralTierlist.svelte";
   import MediaDetails from "$lib/components/Roulette/MediaDetails.svelte";
   import PersonalTierlist from "$lib/components/Roulette/PersonalTierlist.svelte";
+  import TierlistTimeline from "$lib/components/Roulette/TierlistTimeline.svelte";
   import {
     createRouletteClient,
     colorForName,
@@ -15,6 +16,7 @@
     PW_KEY,
     type MediaKey,
     type RouletteClient,
+    type TierlistSnapshot,
     type TierlistState,
   } from "$lib/roulette";
 
@@ -26,6 +28,7 @@
   // Server-confirmed via the identify ack — never inferred from the name.
   let admin = $state(false);
   let detailsFor = $state<MediaKey | null>(null);
+  let snapshots = $state<TierlistSnapshot[]>([]);
 
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
@@ -46,6 +49,7 @@
         if (v && name) c.identify(name, colorForName(name), password || undefined);
       }),
       c.tierlist.subscribe((t) => (tierState = t)),
+      c.tierlistSnapshots.subscribe((s) => (snapshots = s)),
       c.identity.subscribe((id) => {
         if (!id) return;
         // Wrong admin password: treat as not identified; ranking stays locked.
@@ -81,6 +85,7 @@
     </div>
 
     <GeneralTierlist state={tierState} ondetails={(media) => (detailsFor = media)} />
+    <TierlistTimeline {client} state={tierState} {snapshots} {admin} />
     <PersonalTierlist {client} state={tierState} {name} ondetails={(media) => (detailsFor = media)} />
     {#if admin}
       <AdminTierlists {client} state={tierState} ondetails={(media) => (detailsFor = media)} />

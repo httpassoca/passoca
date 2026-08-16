@@ -215,5 +215,19 @@
   "roulette_tierlist_all_desc": "admin · audite e remova listas suspeitas",
   "roulette_tierlist_ranked_count": "{count} ranqueados",
   "roulette_tierlist_delete": "excluir lista de {name}",
-  "roulette_tierlist_saved": "tierlist salva"
+  "roulette_tierlist_saved": "tierlist salva",
+  "roulette_tierlist_timeline": "Linha do tempo",
+  "roulette_tierlist_timeline_desc": "cada mudança na lista geral · dá replay",
+  "roulette_tierlist_timeline_empty": "Nenhum quadro ainda",
+  "roulette_tierlist_timeline_empty_msg": "Salve uma lista pessoal e a linha do tempo começa a gravar cada mudança na tierlist geral.",
+  "roulette_tierlist_change_by": "mudança de {name}",
+  "roulette_tierlist_speed": "velocidade",
+  "roulette_tierlist_play": "reproduzir",
+  "roulette_tierlist_pause": "pausar",
+  "roulette_tierlist_prev": "mudança anterior",
+  "roulette_tierlist_next": "próxima mudança",
+  "roulette_tierlist_manage": "gerenciar quadros · admin",
+  "roulette_tierlist_hide": "ocultar",
+  "roulette_tierlist_restore": "restaurar",
+  "roulette_tierlist_hidden": "oculto"
 }

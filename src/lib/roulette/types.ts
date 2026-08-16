@@ -89,6 +89,15 @@ export type TierlistState = {
   submissions: Record<string, TierPlacement[]>;
 };
 
+/** One frame of the general-tierlist timeline: who changed it, into what. */
+export type TierlistSnapshot = {
+  id: string;
+  author: string;
+  general: Record<TierName, string[]>;
+  created_at: string;
+  hidden: boolean;
+};
+
 export const DEFAULT_TIERLIST: TierlistState = {
   items: [],
   general: { S: [], A: [], B: [], C: [], D: [] },

@@ -215,5 +215,19 @@
   "roulette_tierlist_all_desc": "admin · audit & remove suspicious lists",
   "roulette_tierlist_ranked_count": "{count} ranked",
   "roulette_tierlist_delete": "delete {name}'s list",
-  "roulette_tierlist_saved": "tierlist saved"
+  "roulette_tierlist_saved": "tierlist saved",
+  "roulette_tierlist_timeline": "Timeline",
+  "roulette_tierlist_timeline_desc": "every change to the general list · replayable",
+  "roulette_tierlist_timeline_empty": "No frames yet",
+  "roulette_tierlist_timeline_empty_msg": "Save a personal list and the timeline starts recording every change to the general tierlist.",
+  "roulette_tierlist_change_by": "change by {name}",
+  "roulette_tierlist_speed": "playback speed",
+  "roulette_tierlist_play": "play",
+  "roulette_tierlist_pause": "pause",
+  "roulette_tierlist_prev": "previous change",
+  "roulette_tierlist_next": "next change",
+  "roulette_tierlist_manage": "manage frames · admin",
+  "roulette_tierlist_hide": "hide",
+  "roulette_tierlist_restore": "restore",
+  "roulette_tierlist_hidden": "hidden"
 }
