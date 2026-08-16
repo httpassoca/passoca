@@ -60,7 +60,6 @@
   const myOptionCount = $derived(options.filter((o) => o.author === name).length);
   // The admin curates the wheel and has no per-person limit.
   const atLimit = $derived(!admin && myOptionCount >= wheelState.max_picks);
-  const segments = $derived(options.map((o) => ({ id: o.id, label: o.text })));
 
   // Spin animation state (driven by the server's spun_at timestamp).
   const spin = new SpinController(SPIN_SECONDS);
@@ -388,7 +387,7 @@
     </aside>
   </div>
 
-  <WheelArea {segments} {spin} {winner} ondetails={(media) => (detailsFor = media)} />
+  <WheelArea {options} {spin} {winner} ondetails={(media) => (detailsFor = media)} />
 
   {#if rulesOpen}
     <RulesModal onclose={() => (rulesOpen = false)} />

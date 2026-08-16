@@ -7,6 +7,8 @@ export type MediaRef = {
   original_title: string | null;
   media_year: string | null;
   poster_path: string | null;
+  /** Optional: absent in snapshots from an API deployed before backdrops. */
+  backdrop_path?: string | null;
 };
 
 /** Enough to open a details view for an option or history entry. */

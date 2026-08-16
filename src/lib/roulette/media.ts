@@ -5,8 +5,10 @@ import type { MediaDetailsData, MediaSummary, MediaType } from "./types";
 // TMDB image CDN — sizes used across the roulette UI.
 const IMG_BASE = "https://image.tmdb.org/t/p/";
 export type PosterSize = "w92" | "w342";
+/** w780 is a backdrop (landscape) size — used as wheel-wedge art. */
+export type TmdbImgSize = PosterSize | "w780";
 
-export function tmdbImg(path: string, size: PosterSize): string {
+export function tmdbImg(path: string, size: TmdbImgSize): string {
   return `${IMG_BASE}${size}${path}`;
 }
 
