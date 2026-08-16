@@ -68,6 +68,33 @@ export type Presence = { name: string; color: string | null };
 /** Server acknowledgement of an identify attempt. */
 export type Identity = { ok: boolean; name: string; admin: boolean };
 
+export type TierName = "S" | "A" | "B" | "C" | "D";
+
+/** A rankable film, deduped from history (rewatches share a TMDB key). */
+export type TierItem = {
+  key: string;
+  title: string;
+  media_type: MediaType | null;
+  tmdb_id: number | null;
+  media_year: string | null;
+  poster_path: string | null;
+};
+
+export type TierPlacement = { key: string; tier: TierName; position: number };
+
+/** Server tierlist snapshot: items + aggregated general + everyone's lists. */
+export type TierlistState = {
+  items: TierItem[];
+  general: Record<TierName, string[]>;
+  submissions: Record<string, TierPlacement[]>;
+};
+
+export const DEFAULT_TIERLIST: TierlistState = {
+  items: [],
+  general: { S: [], A: [], B: [], C: [], D: [] },
+  submissions: {},
+};
+
 export const DEFAULT_WHEEL: WheelState = {
   options: [],
   max_picks: 1,

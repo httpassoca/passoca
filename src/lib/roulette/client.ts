@@ -3,11 +3,14 @@ import { io, type Socket } from "socket.io-client";
 import * as Y from "yjs";
 import { SocketIOProvider } from "y-socket.io";
 import {
+  DEFAULT_TIERLIST,
   DEFAULT_WHEEL,
   type HistoryEntry,
   type Identity,
   type MediaPick,
   type Presence,
+  type TierPlacement,
+  type TierlistState,
   type WheelState,
 } from "./types";
 
@@ -22,9 +25,11 @@ export interface RouletteClient {
   personal: Writable<string>;
   /** Last identify ack; `admin` is only true after a password-verified join. */
   identity: Writable<Identity | null>;
-  /** Shared Yjs doc + provider for the collaborative ideas editor. */
-  doc: Y.Doc;
-  provider: SocketIOProvider;
+  /** Aggregated + per-user tierlists (server does the scoring math). */
+  tierlist: Writable<TierlistState>;
+  /** Shared Yjs doc + provider for the collaborative ideas editor (lazy). */
+  readonly doc: Y.Doc;
+  readonly provider: SocketIOProvider;
 
   identify(name: string, color: string | null, password?: string): void;
   addOption(author: string, text: string, color: string | null, media?: MediaPick | null): void;
@@ -35,6 +40,9 @@ export interface RouletteClient {
   editHistory(id: string, title: string, drawnAt: string): void;
   removeHistory(id: string): void;
   setPersonal(content: string): void;
+  setTierlist(placements: TierPlacement[]): void;
+  /** Admin-only: wipe another user's tierlist (multi-account abuse). */
+  removeTierlist(name: string): void;
 
   onError(cb: (message: string) => void): () => void;
   destroy(): void;
@@ -54,6 +62,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   const presence = writable<Presence[]>([]);
   const personal = writable<string>("");
   const identity = writable<Identity | null>(null);
+  const tierlist = writable<TierlistState>({ ...DEFAULT_TIERLIST });
   const errorCbs = new Set<(m: string) => void>();
 
   // Default transports (polling first, then upgrade to websocket): starting
@@ -68,11 +77,19 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   socket.on("presence", (p: Presence[]) => presence.set(p ?? []));
   socket.on("personal", (c: string) => personal.set(typeof c === "string" ? c : ""));
   socket.on("identified", (id: Identity) => identity.set(id ?? null));
+  socket.on("tierlist", (t: TierlistState) => tierlist.set({ ...DEFAULT_TIERLIST, ...t }));
   socket.on("roulette:error", (m: string) => errorCbs.forEach((cb) => cb(m)));
 
-  // Collaborative ideas document.
-  const doc = new Y.Doc();
-  const provider = new SocketIOProvider(base, IDEAS_DOC, doc, {});
+  // Collaborative ideas document — created lazily so pages that never render
+  // the ideas editor (e.g. the tierlist) don't open a Yjs provider socket.
+  let ideas: { doc: Y.Doc; provider: SocketIOProvider } | null = null;
+  const ensureIdeas = () => {
+    if (!ideas) {
+      const doc = new Y.Doc();
+      ideas = { doc, provider: new SocketIOProvider(base, IDEAS_DOC, doc, {}) };
+    }
+    return ideas;
+  };
 
   return {
     connected,
@@ -81,8 +98,13 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     presence,
     personal,
     identity,
-    doc,
-    provider,
+    tierlist,
+    get doc() {
+      return ensureIdeas().doc;
+    },
+    get provider() {
+      return ensureIdeas().provider;
+    },
 
     identify: (name, color, password) =>
       socket.emit("identify", { name, color, password }),
@@ -96,6 +118,8 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
       socket.emit("history:edit", { id, title, drawn_at }),
     removeHistory: (id) => socket.emit("history:remove", { id }),
     setPersonal: (content) => socket.emit("personal:set", { content }),
+    setTierlist: (placements) => socket.emit("tierlist:set", { placements }),
+    removeTierlist: (name) => socket.emit("tierlist:remove", { name }),
 
     onError: (cb) => {
       errorCbs.add(cb);
@@ -103,12 +127,14 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     },
     destroy: () => {
       errorCbs.clear();
-      try {
-        provider.destroy();
-      } catch {
-        /* ignore */
+      if (ideas) {
+        try {
+          ideas.provider.destroy();
+        } catch {
+          /* ignore */
+        }
+        ideas.doc.destroy();
       }
-      doc.destroy();
       socket.disconnect();
     },
   };

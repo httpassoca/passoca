@@ -4863,6 +4863,11 @@ svelte-check@^4.0.0:
     picocolors "^1.0.0"
     sade "^1.7.4"
 
+svelte-dnd-action@^0.9.78:
+  version "0.9.78"
+  resolved "https://registry.yarnpkg.com/svelte-dnd-action/-/svelte-dnd-action-0.9.78.tgz#4f0841fce60378820881ae1c1c2fe1e57527af9b"
+  integrity sha512-qov+j3A9Umo1Ng2b2PaQ/nTDBo1sogAw19DF1KZ35Pcx/9yJtlmnKYKVHjCz9iqUH+g1sk4XuCstxPZFFPEa/Q==
+
 svelte-eslint-parser@^0.43.0:
   version "0.43.0"
   resolved "https://registry.yarnpkg.com/svelte-eslint-parser/-/svelte-eslint-parser-0.43.0.tgz#649e80f65183c4c1d1536d03dcb903e0632f4da4"

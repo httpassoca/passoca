@@ -30,6 +30,7 @@
     "photoswipe": "^5.4.3",
     "sass": "^1.43.5",
     "socket.io-client": "^4.8.3",
+    "svelte-dnd-action": "^0.9.78",
     "y-codemirror.next": "^0.3.5",
     "y-protocols": "^1.0.7",
     "y-socket.io": "^1.1.3",

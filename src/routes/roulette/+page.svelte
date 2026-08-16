@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
   import { Badge, Button, Card, EmptyState, Kbd, Toaster, toast, CHART_PALETTE } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import IdeasEditor from "$lib/components/Roulette/IdeasEditor.svelte";
@@ -206,6 +207,9 @@
           {m.roulette_change()}
         </Button>
       {/if}
+      <Button size="sm" onclick={() => goto("/roulette/tierlist")}>
+        {m.roulette_tierlist_link()}
+      </Button>
       <Button size="sm" onclick={() => (rulesOpen = true)}>
         {m.roulette_rules()}
         {#snippet trailing()}<Kbd size="sm">?</Kbd>{/snippet}
