@@ -60,7 +60,7 @@
       {#if option.author === me || admin}
         <Button
           variant="ghost"
-          size="sm"
+          size="md"
           iconOnly
           label={m.roulette_remove_option({ text: option.text })}
           onclick={(e) => {

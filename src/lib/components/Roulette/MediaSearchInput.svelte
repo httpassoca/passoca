@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Badge, Input } from "dssoca";
+  import { Badge, Input, Spinner } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import { mediaLang, searchMedia } from "$lib/roulette";
   import type { MediaPick, MediaSummary } from "$lib/roulette";
@@ -143,7 +143,7 @@
             <span class="info">
               <span class="t">{r.title}</span>
               <span class="y">
-                {#if r.year}{r.year} · {/if}<Badge tone="neutral" size="sm">
+                {#if r.year}{r.year} · {/if}<Badge tone="neutral" size="md">
                   {r.media_type === "movie" ? m.roulette_media_movie() : m.roulette_media_tv()}
                 </Badge>
                 {#if r.original_title && r.original_title !== r.title}
@@ -158,7 +158,11 @@
         <li class="note">{m.roulette_media_no_results()}</li>
       {/each}
       <li class="note attribution">
-        {searching ? m.roulette_media_loading() : m.roulette_media_attribution()}
+        {#if searching}
+          <Spinner label={m.roulette_media_loading()} showLabel />
+        {:else}
+          {m.roulette_media_attribution()}
+        {/if}
       </li>
     </ul>
   {/if}

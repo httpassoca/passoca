@@ -54,7 +54,7 @@
           <div class="actions">
             <Button
               variant="danger"
-              size="sm"
+              size="md"
               onclick={() => client?.removeTierlist(item.id)}
             >
               {m.roulette_tierlist_delete({ name: item.id })}

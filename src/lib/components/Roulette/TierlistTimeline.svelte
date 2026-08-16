@@ -98,7 +98,7 @@
     <div class="controls">
       <Button
         variant="ghost"
-        size="sm"
+        size="md"
         iconOnly
         label={m.roulette_tierlist_prev()}
         disabled={idx === 0}
@@ -109,7 +109,7 @@
       >
       <Button
         variant="primary"
-        size="sm"
+        size="md"
         iconOnly
         label={playing ? m.roulette_tierlist_pause() : m.roulette_tierlist_play()}
         disabled={visible.length < 2}
@@ -117,7 +117,7 @@
       >
       <Button
         variant="ghost"
-        size="sm"
+        size="md"
         iconOnly
         label={m.roulette_tierlist_next()}
         disabled={idx >= visible.length - 1}
@@ -133,7 +133,7 @@
       {#if visible.length > 1}
         <span class="grow"></span>
         <SegmentedControl
-          size="sm"
+          size="md"
           label={m.roulette_tierlist_speed()}
           bind:value={speed}
           options={[
@@ -176,11 +176,11 @@
         <div class="snap" class:off={snap.hidden}>
           <span class="when">{fmtWhen(snap.created_at)}</span>
           <span class="who">{snap.author}</span>
-          {#if snap.hidden}<Badge tone="neutral" size="sm">{m.roulette_tierlist_hidden()}</Badge>{/if}
+          {#if snap.hidden}<Badge tone="neutral" size="md">{m.roulette_tierlist_hidden()}</Badge>{/if}
           <span class="grow"></span>
           <Button
             variant="ghost"
-            size="sm"
+            size="md"
             onclick={() => client?.setSnapshotHidden(snap.id, !snap.hidden)}
           >
             {snap.hidden ? m.roulette_tierlist_restore() : m.roulette_tierlist_hide()}

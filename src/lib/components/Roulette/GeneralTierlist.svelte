@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Card, EmptyState } from "dssoca";
+  import { Card, EmptyState, Spinner } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import TierRow from "./TierRow.svelte";
   import TierTile from "./TierTile.svelte";
@@ -7,9 +7,12 @@
 
   let {
     state: tierState,
+    loading = false,
     ondetails,
   }: {
     state: TierlistState;
+    /** Still waiting for the first server snapshot. */
+    loading?: boolean;
     ondetails: (media: MediaKey) => void;
   } = $props();
 
@@ -21,7 +24,11 @@
   title={m.roulette_tierlist_general()}
   meta="{m.roulette_tierlist_general_desc()} · {m.roulette_tierlist_based_on({ count: listCount })}"
 >
-  {#if listCount === 0}
+  {#if loading}
+    <div class="loading">
+      <Spinner label={m.roulette_media_loading()} showLabel />
+    </div>
+  {:else if listCount === 0}
     <EmptyState
       title={m.roulette_tierlist_empty()}
       message={m.roulette_tierlist_empty_msg()}
@@ -54,6 +61,11 @@
   display: flex
   flex-direction: column
   gap: 6px
+
+.loading
+  display: flex
+  justify-content: center
+  padding: 16px 0
 
 .hint
   margin: 0

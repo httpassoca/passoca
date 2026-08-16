@@ -30,6 +30,10 @@
   let detailsFor = $state<MediaKey | null>(null);
   let snapshots = $state<TierlistSnapshot[]>([]);
   let timelineOpen = $state(false);
+  let loaded = $state(false);
+  // The store emits its local DEFAULT_TIERLIST placeholder synchronously on
+  // subscribe; only server snapshots count as "loaded".
+  let sawServerTierlist = false;
 
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
@@ -49,7 +53,14 @@
         // (re)connect so tierlist saves keep working after reconnects.
         if (v && name) c.identify(name, colorForName(name), password || undefined);
       }),
-      c.tierlist.subscribe((t) => (tierState = t)),
+      c.tierlist.subscribe((t) => {
+        if (!sawServerTierlist) {
+          sawServerTierlist = true;
+          return;
+        }
+        tierState = t;
+        loaded = true;
+      }),
       c.tierlistSnapshots.subscribe((s) => (snapshots = s)),
       c.identity.subscribe((id) => {
         if (!id) return;
@@ -81,16 +92,16 @@
         <div class="sub">{m.roulette_tierlist_sub()}</div>
       </div>
       <div class="head-actions">
-        <Button size="sm" onclick={() => (timelineOpen = true)}>
+        <Button size="md" onclick={() => (timelineOpen = true)}>
           {m.roulette_tierlist_timeline()}
         </Button>
-        <Button size="sm" onclick={() => goto("/roulette")}>
+        <Button size="md" onclick={() => goto("/roulette")}>
           {m.roulette_tierlist_back()}
         </Button>
       </div>
     </div>
 
-    <GeneralTierlist state={tierState} ondetails={(media) => (detailsFor = media)} />
+    <GeneralTierlist state={tierState} loading={!loaded} ondetails={(media) => (detailsFor = media)} />
     <PersonalTierlist {client} state={tierState} {name} ondetails={(media) => (detailsFor = media)} />
     {#if admin}
       <AdminTierlists {client} state={tierState} ondetails={(media) => (detailsFor = media)} />

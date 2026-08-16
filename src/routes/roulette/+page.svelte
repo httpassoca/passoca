@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import { Badge, Button, Card, EmptyState, Kbd, Toaster, toast, CHART_PALETTE } from "dssoca";
+  import { Badge, Button, Card, EmptyState, Kbd, Spinner, Toaster, toast, CHART_PALETTE } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import IdeasEditor from "$lib/components/Roulette/IdeasEditor.svelte";
   import PersonalIdeas from "$lib/components/Roulette/PersonalIdeas.svelte";
@@ -202,16 +202,16 @@
           <strong>{name}</strong>
           {#if admin}<Badge tone="brand">{m.roulette_admin()}</Badge>{/if}
         </span>
-        <Button variant="ghost" size="sm" onclick={() => (editingName = true)}>
+        <Button variant="ghost" size="md" onclick={() => (editingName = true)}>
           {m.roulette_change()}
         </Button>
       {/if}
-      <Button size="sm" onclick={() => goto("/roulette/tierlist")}>
+      <Button size="md" onclick={() => goto("/roulette/tierlist")}>
         {m.roulette_tierlist_link()}
       </Button>
-      <Button size="sm" onclick={() => (rulesOpen = true)}>
+      <Button size="md" onclick={() => (rulesOpen = true)}>
         {m.roulette_rules()}
-        {#snippet trailing()}<Kbd size="sm">?</Kbd>{/snippet}
+        {#snippet trailing()}<Kbd size="md">?</Kbd>{/snippet}
       </Button>
     </div>
   </div>
@@ -253,7 +253,7 @@
           {#snippet action()}
             <Button
               variant="ghost"
-              size="sm"
+              size="md"
               aria-expanded={personalOpen}
               onclick={() => (personalOpen = !personalOpen)}
             >
@@ -298,7 +298,7 @@
             {#if admin}
               <Button
                 variant="ghost"
-                size="sm"
+                size="md"
                 iconOnly
                 label="−"
                 disabled={wheelState.max_picks <= 1}
@@ -309,7 +309,7 @@
             {#if admin}
               <Button
                 variant="ghost"
-                size="sm"
+                size="md"
                 iconOnly
                 label="+"
                 disabled={wheelState.max_picks >= 10}
@@ -328,6 +328,10 @@
           />
         {:else if loaded}
           <EmptyState title={m.roulette_wheel_empty()} message={m.roulette_wheel_empty_msg()} />
+        {:else}
+          <div class="loading">
+            <Spinner label={m.roulette_media_loading()} showLabel />
+          </div>
         {/if}
         {#snippet footer()}
           <div class="spin-foot">
@@ -356,7 +360,7 @@
                 </div>
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="md"
                   onclick={(e) => {
                     e.stopPropagation();
                     client?.clearSpin();
@@ -593,6 +597,11 @@
   .bysub
     font-size: 10px
     color: var(--ss-fg-faint)
+
+.loading
+  display: flex
+  justify-content: center
+  padding: 16px 0
 
 .center
   text-align: center

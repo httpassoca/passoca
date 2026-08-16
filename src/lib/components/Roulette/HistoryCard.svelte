@@ -63,7 +63,7 @@
   {#snippet action()}
     <Button
       variant="ghost"
-      size="sm"
+      size="md"
       aria-expanded={open}
       onclick={() => (open = !open)}
     >
@@ -82,10 +82,10 @@
                 </div>
                 <DateField label={m.roulette_field_date()} bind:value={editDate} />
                 <div class="acts">
-                  <Button variant="primary" size="sm" onclick={saveEdit}>
+                  <Button variant="primary" size="md" onclick={saveEdit}>
                     {m.roulette_save()}
                   </Button>
-                  <Button variant="ghost" size="sm" onclick={() => (editingId = null)}>
+                  <Button variant="ghost" size="md" onclick={() => (editingId = null)}>
                     {m.roulette_cancel()}
                   </Button>
                 </div>
@@ -116,7 +116,7 @@
                 <span class="acts">
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="md"
                     iconOnly
                     label={m.roulette_edit()}
                     onclick={() => startEdit(entry)}
@@ -125,7 +125,7 @@
                   </Button>
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="md"
                     iconOnly
                     label={m.roulette_remove_option({ text: entry.title })}
                     onclick={() => client?.removeHistory(entry.id)}

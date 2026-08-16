@@ -107,7 +107,7 @@
 >
   {#snippet action()}
     {#if name && client}
-      <Button variant="primary" size="sm" disabled={!dirty} onclick={save}>
+      <Button variant="primary" size="md" disabled={!dirty} onclick={save}>
         {m.roulette_save()}
       </Button>
     {/if}
@@ -115,7 +115,7 @@
   {#if !name || !client}
     <EmptyState title={m.roulette_tierlist_join_prompt()}>
       {#snippet action()}
-        <Button size="sm" onclick={() => goto("/roulette")}>
+        <Button size="md" onclick={() => goto("/roulette")}>
           {m.roulette_tierlist_join_cta()}
         </Button>
       {/snippet}
@@ -208,4 +208,13 @@
     padding: 6px
     border: 1px solid var(--ss-line)
     background: var(--ss-bg-elev)
+    // Hovered posters grow smoothly; scale the tile (not the .drag wrapper)
+    // so dnd/flip inline transforms never fight the hover state.
+    :global(.tile)
+      transition: transform var(--ss-dur, 250ms) var(--ss-ease)
+    .drag:hover
+      position: relative
+      z-index: 2
+      :global(.tile)
+        transform: scale(1.3)
 </style>

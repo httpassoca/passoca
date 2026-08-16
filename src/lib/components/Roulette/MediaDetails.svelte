@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Badge, Link, Modal } from "dssoca";
+  import { Badge, Link, Modal, Spinner } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import { fetchMediaDetails } from "$lib/roulette";
   import type { MediaDetailsData, MediaType } from "$lib/roulette";
@@ -90,7 +90,9 @@
   {:else if failed}
     <p class="status">{m.roulette_media_error()}</p>
   {:else}
-    <p class="status">{m.roulette_media_loading()}</p>
+    <div class="status">
+      <Spinner label={m.roulette_media_loading()} showLabel />
+    </div>
   {/if}
 </Modal>
 
