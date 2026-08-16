@@ -1,0 +1,244 @@
+/* ============================================================
+   Hubssoca kit — roulette page only.
+   Layout language from the "Movie night picker" wireframes
+   (claude.ai/design 1ac34f99), tokens mapped onto the site's
+   dssoca theme vars so all site themes keep working; the
+   wireframe's dark values are the fallbacks.
+   House rule: NO ROUNDED CORNERS.
+   ============================================================ */
+
+.hub {
+  --hs-bg: var(--ss-bg, #100f10);
+  --hs-bg-elev: var(--ss-bg-elev, #1e1e1e);
+  --hs-bg-elev-hover: var(--ss-bg-elev-hover, #232323);
+  --hs-bg-inset: var(--ss-bg-inset, rgba(255, 255, 255, 0.03));
+  --hs-line: var(--ss-line, rgba(255, 255, 255, 0.12));
+  --hs-line-strong: var(--ss-line-strong, rgba(255, 255, 255, 0.22));
+  --hs-fg: var(--ss-fg, #e0e0e0);
+  --hs-fg-muted: var(--ss-fg-muted, #aaaaaa);
+  --hs-fg-faint: var(--ss-fg-faint, #6f6f6f);
+  --hs-fg-on-primary: var(--ss-fg-on-primary, #100f10);
+  --hs-primary: var(--ss-accent, #66ef73);
+  --hs-font-display: var(--ss-font-display, "Electrolize", system-ui, sans-serif);
+  --hs-font-mono: var(--ss-font-mono, ui-monospace, "SF Mono", Menlo, monospace);
+  --hs-shadow-pop: var(--ss-shadow-pop, 0 12px 40px rgba(0, 0, 0, 0.35));
+  --hs-ease: var(--ss-ease, cubic-bezier(0.215, 0.61, 0.355, 1));
+
+  font-family: var(--hs-font-mono);
+  color: var(--hs-fg);
+}
+
+/* ---------- page head ---------------------------------------- */
+.hub .hub-pageHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.hub .hub-pageHead h1 {
+  font-family: var(--hs-font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1;
+  margin: 0;
+  letter-spacing: -0.015em;
+  text-shadow: 3px 3px var(--hs-bg);
+  color: var(--hs-fg);
+}
+.hub .hub-pageHead h1 .accent {
+  position: relative;
+  z-index: 0;
+}
+.hub .hub-pageHead h1 .accent::before {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -6%;
+  top: 70%;
+  height: 22%;
+  background: var(--hs-primary);
+  opacity: 0.9;
+  z-index: -1;
+}
+.hub .hub-pageHead .sub {
+  color: var(--hs-fg-muted);
+  font-size: 11.5px;
+  margin-top: 6px;
+  font-family: var(--hs-font-mono);
+}
+
+/* ---------- panel -------------------------------------------- */
+.hub .hub-panel {
+  border: 1px solid var(--hs-line);
+  background: var(--hs-bg-elev);
+}
+.hub .hub-panel-head {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--hs-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--hs-font-mono);
+  font-size: 10.5px;
+  color: var(--hs-fg-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.hub .hub-panel-head .title {
+  color: var(--hs-fg);
+  letter-spacing: 0.06em;
+}
+.hub .hub-panel-head .meta {
+  color: var(--hs-fg-faint);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hub button.hub-panel-head {
+  width: 100%;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--hs-line);
+  cursor: pointer;
+  text-align: left;
+}
+.hub button.hub-panel-head:hover .title {
+  color: var(--hs-primary);
+}
+.hub .hub-panel-body {
+  padding: 10px 12px;
+}
+
+/* ---------- button ------------------------------------------- */
+.hub .hub-btn {
+  font-family: var(--hs-font-mono);
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  padding: 5px 9px;
+  border: 1px solid var(--hs-line);
+  background: transparent;
+  color: var(--hs-fg);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s var(--hs-ease);
+}
+.hub .hub-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--hs-line-strong);
+}
+.hub .hub-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.hub .hub-btn.primary {
+  background: var(--hs-primary);
+  color: var(--hs-fg-on-primary);
+  border-color: var(--hs-primary);
+  font-weight: 600;
+}
+.hub .hub-btn.primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--hs-primary) 88%, white);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--hs-primary) 35%, transparent);
+}
+.hub .hub-btn.ghost {
+  border-color: transparent;
+  color: var(--hs-fg-muted);
+  padding: 5px 6px;
+}
+.hub .hub-btn.ghost:hover:not(:disabled) {
+  color: var(--hs-fg);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: transparent;
+}
+
+/* ---------- input / field ------------------------------------ */
+.hub .hub-input {
+  font-family: var(--hs-font-mono);
+  font-size: 14px;
+  background: transparent;
+  color: var(--hs-fg);
+  border: 1px solid var(--hs-line);
+  padding: 10px 12px;
+  width: 100%;
+  transition: all 0.2s var(--hs-ease);
+}
+.hub .hub-input:focus {
+  outline: none;
+  border-color: var(--hs-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hs-primary) 18%, transparent);
+}
+.hub .hub-input::placeholder {
+  font-style: italic;
+  color: var(--hs-fg-faint);
+}
+.hub .hub-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hub .hub-field .lbl {
+  font-family: var(--hs-font-mono);
+  font-size: 10px;
+  color: var(--hs-fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- badge / caption / kbd ---------------------------- */
+.hub .hub-badge {
+  font-family: var(--hs-font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: lowercase;
+  border: 1px solid var(--hs-line);
+  color: var(--hs-fg-muted);
+}
+.hub .hub-badge.up {
+  background: color-mix(in srgb, var(--hs-primary) 12%, transparent);
+  color: var(--hs-primary);
+  border-color: color-mix(in srgb, var(--hs-primary) 40%, transparent);
+}
+.hub .hs-caption {
+  font-family: var(--hs-font-mono);
+  text-transform: lowercase;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--hs-fg-faint);
+}
+.hub .kbd {
+  font-family: var(--hs-font-mono);
+  font-size: 10.5px;
+  color: var(--hs-fg-muted);
+  border: 1px solid var(--hs-line);
+  padding: 2px 5px;
+  line-height: 1;
+}
+
+/* ---------- modal overlay ------------------------------------ */
+.hub .hub-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.hub .hub-overlay > .hub-panel {
+  box-shadow: var(--hs-shadow-pop);
+  max-height: 86vh;
+  overflow-y: auto;
+}

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Badge, Button, CHART_PALETTE } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import type { MediaKey, Option } from "$lib/roulette";
   import MediaPoster from "./MediaPoster.svelte";
@@ -20,39 +19,30 @@
 </script>
 
 <ul class="options">
-  {#each options as option, i (option.id)}
-    <li>
-      <span
-        class="swatch"
-        style:background={CHART_PALETTE[i % CHART_PALETTE.length]}
-      ></span>
-      {#if option.tmdb_id}
-        <MediaPoster path={option.poster_path} size="w92" alt="" />
-      {/if}
-      <span class="text">
-        {option.text}
-        {#if option.media_year}<span class="year">({option.media_year})</span>{/if}
-      </span>
-      <Badge tone={option.author === me ? "brand" : "neutral"}>
-        {option.author}
-      </Badge>
-      {#if option.tmdb_id && option.media_type}
-        <Button
-          variant="ghost"
-          size="sm"
-          iconOnly
-          label={m.roulette_media_details()}
-          onclick={() =>
-            ondetails({ media_type: option.media_type!, tmdb_id: option.tmdb_id! })}>ℹ</Button
-        >
-      {/if}
+  {#each options as option (option.id)}
+    <li class="pick">
+      <MediaPoster path={option.poster_path} size="w92" alt="" />
+      <div class="info">
+        <div class="t" class:mine={option.author === me}>{option.text}</div>
+        <div class="sub">
+          {#if option.media_year}{option.media_year} · {/if}{option.author}
+          {#if option.tmdb_id && option.media_type}
+            ·
+            <button
+              class="details"
+              onclick={() =>
+                ondetails({ media_type: option.media_type!, tmdb_id: option.tmdb_id! })}
+            >
+              {m.roulette_media_details()} ↗
+            </button>
+          {/if}
+        </div>
+      </div>
       {#if option.author === me || admin}
-        <Button
-          variant="ghost"
-          size="sm"
-          iconOnly
-          label={m.roulette_remove_option({ text: option.text })}
-          onclick={() => onremove(option.id)}>✕</Button
+        <button
+          class="hub-btn ghost"
+          aria-label={m.roulette_remove_option({ text: option.text })}
+          onclick={() => onremove(option.id)}>✕</button
         >
       {/if}
     </li>
@@ -62,28 +52,53 @@
 <style lang="sass">
 .options
   list-style: none
-  margin: var(--ss-s-4, 16px) 0 0
+  margin: 0
   padding: 0
-  li
-    display: flex
-    align-items: center
-    gap: var(--ss-gap, 10px)
-    padding: var(--ss-s-2, 7px) 0
-    border-bottom: 1px solid var(--ss-line)
-    &:last-child
-      border-bottom: none
-  .text
-    flex: 1
-    min-width: 0
-    overflow-wrap: anywhere
-    font-size: var(--ss-size-body)
-  .year
-    color: var(--ss-fg-muted)
-    font-size: var(--ss-size-sm)
+  display: flex
+  flex-direction: column
+  gap: 6px
+  max-height: 336px
+  overflow: auto
+  // Row thumbs — mock uses 26×38.
+  :global(.poster)
+    width: 26px
 
-.swatch
-  width: 10px
-  height: 10px
-  flex-shrink: 0
-  border: 1px solid var(--ss-line-strong)
+.pick
+  display: flex
+  align-items: center
+  gap: 8px
+  padding: 5px 6px
+  border: 1px solid var(--hs-line)
+  background: var(--hs-bg-elev)
+  transition: all 0.15s var(--hs-ease)
+  &:hover
+    border-color: var(--hs-line-strong)
+    background: var(--hs-bg-elev-hover)
+
+.info
+  flex: 1
+  min-width: 0
+
+.t
+  font-size: 11.5px
+  color: var(--hs-fg)
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  &.mine
+    color: var(--hs-primary)
+
+.sub
+  font-size: 10px
+  color: var(--hs-fg-faint)
+
+.details
+  background: none
+  border: none
+  padding: 0
+  font: inherit
+  color: var(--hs-fg-faint)
+  cursor: pointer
+  &:hover
+    color: var(--hs-primary)
 </style>

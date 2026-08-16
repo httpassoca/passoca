@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Badge, Button, Input } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import { mediaLang, searchMedia } from "$lib/roulette";
   import type { MediaPick, MediaSummary } from "$lib/roulette";
@@ -112,23 +111,19 @@
      (keydown only steers the dropdown; the input inside stays the focus target) -->
 <div class="search-wrap" onkeydown={handleKey}>
   <form
-    class="row"
     onsubmit={(e) => {
       e.preventDefault();
       submit();
     }}
   >
-    <Input
-      label={m.roulette_your_option()}
+    <input
+      class="hub-input"
+      aria-label={m.roulette_your_option()}
       placeholder={m.roulette_option_placeholder()}
       maxlength={120}
       bind:value={text}
       {disabled}
-      {hint}
     />
-    <Button type="submit" disabled={disabled || !text.trim()}>
-      {m.roulette_add()}
-    </Button>
   </form>
 
   {#if open}
@@ -145,19 +140,17 @@
           >
             <MediaPoster path={r.poster_path} size="w92" alt="" />
             <span class="info">
-              <span class="title">
-                {r.title}
-                {#if r.year}<span class="year">({r.year})</span>{/if}
-              </span>
-              <span class="meta">
-                <Badge tone="neutral">
-                  {r.media_type === "movie" ? m.roulette_media_movie() : m.roulette_media_tv()}
-                </Badge>
+              <span class="t">{r.title}</span>
+              <span class="y">
+                {#if r.year}{r.year} · {/if}{r.media_type === "movie"
+                  ? m.roulette_media_movie()
+                  : m.roulette_media_tv()}
                 {#if r.original_title && r.original_title !== r.title}
-                  <span class="orig">{r.original_title}</span>
+                  · {r.original_title}
                 {/if}
               </span>
             </span>
+            <span class="plus">+</span>
           </button>
         </li>
       {:else}
@@ -168,84 +161,89 @@
       </li>
     </ul>
   {/if}
+
+  {#if hint || enabled}
+    <p class="hs-caption cap">{hint ?? m.roulette_media_caption()}</p>
+  {/if}
 </div>
 
 <style lang="sass">
 .search-wrap
   position: relative
-
-.row
   display: flex
-  align-items: flex-start
-  gap: var(--ss-gap, 10px)
-  :global(label)
-    flex: 1
-  :global(button[type="submit"])
-    margin-top: 22px
+  flex-direction: column
+  gap: 8px
+  // Dropdown result thumbs — mock uses 22×32.
+  :global(.dropdown .poster)
+    width: 22px
 
 .dropdown
   position: absolute
-  top: calc(100% + 4px)
+  top: 44px
   left: 0
   right: 0
   z-index: 30
   margin: 0
-  padding: 4px
+  padding: 0
   list-style: none
-  background: var(--ss-bg)
-  border: 1px solid var(--ss-line-strong)
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--ss-fg) 12%, transparent)
+  display: flex
+  flex-direction: column
+  gap: 1px
+  background: var(--hs-bg)
+  border: 1px solid var(--hs-line-strong)
+  box-shadow: var(--hs-shadow-pop)
   max-height: 340px
   overflow-y: auto
 
 .result
   display: flex
   align-items: center
-  gap: var(--ss-gap, 10px)
+  gap: 8px
   width: 100%
-  padding: 6px
-  background: none
+  padding: 6px 8px
+  background: var(--hs-bg)
   border: none
-  color: var(--ss-fg)
+  color: var(--hs-fg)
   font: inherit
   text-align: left
   cursor: pointer
   &:hover,
   &.active
-    background: var(--ss-bg-inset)
+    background: rgba(255, 255, 255, 0.05)
 
 .info
+  flex: 1
+  min-width: 0
   display: flex
   flex-direction: column
-  gap: 2px
-  min-width: 0
+  gap: 1px
 
-.title
-  font-size: var(--ss-size-body)
+.t
+  font-size: 11.5px
+  color: var(--hs-fg)
   overflow-wrap: anywhere
-  .year
-    color: var(--ss-fg-muted)
-    font-size: var(--ss-size-sm)
 
-.meta
-  display: flex
-  align-items: center
-  gap: var(--ss-gap-sm, 6px)
-  min-width: 0
-
-.orig
-  color: var(--ss-fg-muted)
-  font-size: var(--ss-size-sm)
+.y
+  font-size: 10px
+  color: var(--hs-fg-faint)
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
 
+.plus
+  color: var(--hs-primary)
+  font-size: 12px
+  flex: none
+
 .note
   padding: 6px 8px
-  color: var(--ss-fg-muted)
-  font-size: var(--ss-size-sm)
+  color: var(--hs-fg-faint)
+  font-size: 10.5px
+  background: var(--hs-bg)
 
 .attribution
-  border-top: 1px solid var(--ss-line)
-  font-family: var(--ss-font-mono)
+  border-top: 1px solid var(--hs-line)
+
+.cap
+  margin: 0
 </style>
