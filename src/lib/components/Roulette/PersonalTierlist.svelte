@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
   import { flip } from "svelte/animate";
   import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME, type DndEvent } from "svelte-dnd-action";
-  import { Button, Card, EmptyState } from "dssoca";
+  import { Button, Card, EmptyState, toast } from "dssoca";
   import { goto } from "$app/navigation";
   import { m } from "$lib/paraglide/messages";
   import TierRow from "./TierRow.svelte";
@@ -12,6 +11,7 @@
     buildZones,
     placementsFromZones,
     type DndTierItem,
+    type MediaKey,
     type RouletteClient,
     type TierName,
     type TierPlacement,
@@ -23,21 +23,22 @@
     client,
     state: tierState,
     name,
+    ondetails,
   }: {
     client: RouletteClient | null;
     state: TierlistState;
     name: string;
+    ondetails: (media: MediaKey) => void;
   } = $props();
 
   const FLIP_MS = 150;
-  const SAVE_DEBOUNCE_MS = 400;
 
   let zones = $state<TierZones>({ S: [], A: [], B: [], C: [], D: [], unranked: [] });
   let dragging = $state(false);
-  // Local edits not yet confirmed by a server echo; while set, incoming
-  // snapshots must not rebuild the zones or they'd revert the user's drag.
+  let lastFinalize = 0;
+  // Local edits not yet saved (or not yet confirmed by a server echo); while
+  // set, incoming snapshots must not rebuild the zones or they'd revert them.
   let dirty = $state(false);
-  let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
   function canonical(placements: TierPlacement[]): string {
     const order = (t: TierName) => TIERS.indexOf(t);
@@ -51,7 +52,7 @@
     if (dragging) return;
     if (dirty) {
       // Only accept the snapshot once it reflects our latest local placements
-      // (the echo of our own save); anything earlier is stale.
+      // (the echo of our own save); anything earlier would drop unsaved drags.
       const mine = tierState.submissions[name] ?? [];
       if (canonical(placementsFromZones(zones)) !== canonical(mine)) return;
       dirty = false;
@@ -59,15 +60,9 @@
     if (JSON.stringify(next) !== JSON.stringify($state.snapshot(zones))) zones = next;
   });
 
-  function queueSave() {
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(flushSave, SAVE_DEBOUNCE_MS);
-  }
-
-  function flushSave() {
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = null;
+  function save() {
     client?.setTierlist(placementsFromZones(zones));
+    toast.success(m.roulette_tierlist_saved());
   }
 
   function handleConsider(zone: TierName | "unranked", e: CustomEvent<DndEvent<DndTierItem>>) {
@@ -79,23 +74,29 @@
     zones[zone] = e.detail.items;
     dragging = false;
     dirty = true;
-    queueSave();
+    lastFinalize = Date.now();
+  }
+
+  // A drop shouldn't double as a click on the tile it landed on.
+  function openDetails(item: DndTierItem) {
+    if (dragging || Date.now() - lastFinalize < 250) return;
+    if (item.media_type && item.tmdb_id) {
+      ondetails({ media_type: item.media_type, tmdb_id: item.tmdb_id });
+    }
   }
 
   function isShadow(item: DndTierItem): boolean {
     return Boolean((item as Record<string, unknown>)[SHADOW_ITEM_MARKER_PROPERTY_NAME]);
   }
-
-  onDestroy(() => {
-    // Don't lose a drag that happened within the debounce window.
-    if (saveTimer) flushSave();
-  });
 </script>
 
 {#snippet tiles(zone: TierName | "unranked")}
   {#each zones[zone] as item (item.id)}
     <div animate:flip={{ duration: FLIP_MS }} class="drag" class:shadow={isShadow(item)}>
-      <TierTile {item} />
+      <TierTile
+        {item}
+        onclick={item.media_type && item.tmdb_id ? () => openDetails(item) : null}
+      />
     </div>
   {/each}
 {/snippet}
@@ -104,6 +105,13 @@
   title={m.roulette_tierlist_personal({ name: name || "?" })}
   meta={m.roulette_tierlist_personal_desc()}
 >
+  {#snippet action()}
+    {#if name && client}
+      <Button variant="primary" size="sm" disabled={!dirty} onclick={save}>
+        {m.roulette_save()}
+      </Button>
+    {/if}
+  {/snippet}
   {#if !name || !client}
     <EmptyState title={m.roulette_tierlist_join_prompt()}>
       {#snippet action()}
@@ -175,8 +183,6 @@
 
 .drag
   cursor: grab
-  &:hover :global(.tile)
-    border-color: var(--ss-accent)
   &.shadow
     opacity: 0.5
     :global(.tile)
@@ -185,18 +191,21 @@
 
 .unranked
   display: flex
-  align-items: flex-start
-  gap: 8px
+  flex-direction: column
+  gap: 6px
   border-top: 1px solid var(--ss-line)
   padding-top: 8px
   margin-top: 2px
   .lbl
-    flex: none
-    padding-top: 4px
+    width: 100%
     font-family: var(--ss-font-mono)
     font-size: var(--ss-size-xs, 12px)
     letter-spacing: 0.04em
     color: var(--ss-fg-faint)
   .tray
+    width: 100%
     min-height: 62px
+    padding: 6px
+    border: 1px solid var(--ss-line)
+    background: var(--ss-bg-elev)
 </style>

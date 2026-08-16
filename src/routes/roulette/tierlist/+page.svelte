@@ -5,6 +5,7 @@
   import { m } from "$lib/paraglide/messages";
   import AdminTierlists from "$lib/components/Roulette/AdminTierlists.svelte";
   import GeneralTierlist from "$lib/components/Roulette/GeneralTierlist.svelte";
+  import MediaDetails from "$lib/components/Roulette/MediaDetails.svelte";
   import PersonalTierlist from "$lib/components/Roulette/PersonalTierlist.svelte";
   import {
     createRouletteClient,
@@ -12,6 +13,7 @@
     DEFAULT_TIERLIST,
     NAME_KEY,
     PW_KEY,
+    type MediaKey,
     type RouletteClient,
     type TierlistState,
   } from "$lib/roulette";
@@ -23,6 +25,7 @@
   let name = $state("");
   // Server-confirmed via the identify ack — never inferred from the name.
   let admin = $state(false);
+  let detailsFor = $state<MediaKey | null>(null);
 
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
@@ -77,12 +80,21 @@
       </Button>
     </div>
 
-    <GeneralTierlist state={tierState} />
-    <PersonalTierlist {client} state={tierState} {name} />
+    <GeneralTierlist state={tierState} ondetails={(media) => (detailsFor = media)} />
+    <PersonalTierlist {client} state={tierState} {name} ondetails={(media) => (detailsFor = media)} />
     {#if admin}
-      <AdminTierlists {client} state={tierState} />
+      <AdminTierlists {client} state={tierState} ondetails={(media) => (detailsFor = media)} />
     {/if}
   </div>
+
+  {#if detailsFor && API_URL}
+    <MediaDetails
+      apiUrl={API_URL}
+      mediaType={detailsFor.media_type}
+      tmdbId={detailsFor.tmdb_id}
+      onclose={() => (detailsFor = null)}
+    />
+  {/if}
 </div>
 
 <Toaster />

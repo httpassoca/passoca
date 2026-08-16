@@ -3,14 +3,22 @@
   import { m } from "$lib/paraglide/messages";
   import TierRow from "./TierRow.svelte";
   import TierTile from "./TierTile.svelte";
-  import { TIERS, buildZones, type RouletteClient, type TierlistState } from "$lib/roulette";
+  import {
+    TIERS,
+    buildZones,
+    type MediaKey,
+    type RouletteClient,
+    type TierlistState,
+  } from "$lib/roulette";
 
   let {
     client,
     state: tierState,
+    ondetails,
   }: {
     client: RouletteClient | null;
     state: TierlistState;
+    ondetails: (media: MediaKey) => void;
   } = $props();
 
   const items = $derived(
@@ -33,7 +41,13 @@
           {#each TIERS as tier (tier)}
             <TierRow {tier}>
               {#each zones[tier] as zoneItem (zoneItem.id)}
-                <TierTile item={zoneItem} />
+                <TierTile
+                  item={zoneItem}
+                  onclick={zoneItem.media_type && zoneItem.tmdb_id
+                    ? () =>
+                        ondetails({ media_type: zoneItem.media_type!, tmdb_id: zoneItem.tmdb_id! })
+                    : null}
+                />
               {/each}
             </TierRow>
           {/each}

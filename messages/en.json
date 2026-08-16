@@ -214,5 +214,6 @@
   "roulette_tierlist_all": "All lists",
   "roulette_tierlist_all_desc": "admin · audit & remove suspicious lists",
   "roulette_tierlist_ranked_count": "{count} ranked",
-  "roulette_tierlist_delete": "delete {name}'s list"
+  "roulette_tierlist_delete": "delete {name}'s list",
+  "roulette_tierlist_saved": "tierlist saved"
 }

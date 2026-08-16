@@ -1,11 +1,17 @@
 <script lang="ts">
-  import { Card, EmptyState, Tooltip } from "dssoca";
+  import { Card, EmptyState } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import TierRow from "./TierRow.svelte";
   import TierTile from "./TierTile.svelte";
-  import { TIERS, tooltipFor, type TierlistState } from "$lib/roulette";
+  import { TIERS, tooltipFor, type MediaKey, type TierlistState } from "$lib/roulette";
 
-  let { state: tierState }: { state: TierlistState } = $props();
+  let {
+    state: tierState,
+    ondetails,
+  }: {
+    state: TierlistState;
+    ondetails: (media: MediaKey) => void;
+  } = $props();
 
   const itemsByKey = $derived(new Map(tierState.items.map((i) => [i.key, i])));
   const listCount = $derived(Object.keys(tierState.submissions).length);
@@ -27,9 +33,13 @@
           {#each tierState.general[tier] as key (key)}
             {@const item = itemsByKey.get(key)}
             {#if item}
-              <Tooltip text={tooltipFor(key, tierState.submissions)}>
-                <TierTile {item} />
-              </Tooltip>
+              <TierTile
+                {item}
+                tooltip="{item.title} · {tooltipFor(key, tierState.submissions)}"
+                onclick={item.media_type && item.tmdb_id
+                  ? () => ondetails({ media_type: item.media_type!, tmdb_id: item.tmdb_id! })
+                  : null}
+              />
             {/if}
           {/each}
         </TierRow>
