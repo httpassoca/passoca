@@ -40,9 +40,10 @@
           {#each tierState.general[tier] as key (key)}
             {@const item = itemsByKey.get(key)}
             {#if item}
+              {@const ranks = tooltipFor(key, tierState.submissions)}
               <TierTile
                 {item}
-                tooltip="{item.title} · {tooltipFor(key, tierState.submissions)}"
+                tooltip={ranks ? `${item.title} · ${ranks}` : item.title}
                 onclick={item.media_type && item.tmdb_id
                   ? () => ondetails({ media_type: item.media_type!, tmdb_id: item.tmdb_id! })
                   : null}

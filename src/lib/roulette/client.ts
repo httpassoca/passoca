@@ -48,6 +48,8 @@ export interface RouletteClient {
   setTierlist(placements: TierPlacement[]): void;
   /** Admin-only: wipe another user's tierlist (multi-account abuse). */
   removeTierlist(name: string): void;
+  /** Admin-only: delete a user's notes; `wipe` also drops picks + tierlist. */
+  removeUser(name: string, wipe: boolean): void;
   /** Admin-only: hide a timeline frame from playback, or restore it. */
   setSnapshotHidden(id: string, hidden: boolean): void;
 
@@ -133,6 +135,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     setPersonal: (content) => socket.emit("personal:set", { content }),
     setTierlist: (placements) => socket.emit("tierlist:set", { placements }),
     removeTierlist: (name) => socket.emit("tierlist:remove", { name }),
+    removeUser: (name, wipe) => socket.emit("user:remove", { name, wipe }),
     setSnapshotHidden: (id, hidden) => socket.emit("tierlist:snapshot_hide", { id, hidden }),
 
     onError: (cb) => {

@@ -47,7 +47,7 @@
 
 <style lang="sass">
 .tile
-  width: 100px
+  width: 108px
   aspect-ratio: 2 / 3
   flex: none
   display: flex

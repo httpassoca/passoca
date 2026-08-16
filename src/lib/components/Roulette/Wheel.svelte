@@ -16,7 +16,7 @@
     options: Option[];
     /** Wheel radius in px — the SVG is sized 1:1 with the viewport. */
     radius: number;
-    /** Visible height of the arc at screen center; positions the labels. */
+    /** Visible depth from the rim toward the hub; positions the labels. */
     apexHeight: number;
     winnerId?: string | null;
   } = $props();
@@ -55,9 +55,9 @@
     return null;
   }
 
-  // Titles ride an arc near the rim; drawn counter-clockwise so they read
-  // left-to-right and upright on the visible BOTTOM of the wheel (the wheel
-  // hangs from the top of the screen), and they rotate with the wedges.
+  // Titles ride an arc near the rim; drawn clockwise so they read
+  // left-to-right and upright on the visible TOP of the wheel (the wheel
+  // sits at the bottom of the screen), and they rotate with the wedges.
   const fontSize = $derived(Math.max(13, Math.min(24, radius * 0.032)));
   const labelR = $derived(
     radius - Math.max(fontSize + 10, Math.min(0.14 * radius, apexHeight * 0.42))
@@ -70,12 +70,12 @@
 
   function labelArc(i: number) {
     const half = labelHalfSpan();
-    // Reversed (sweep 0): classic bottom-of-badge arc so glyph tops point at
-    // the wheel center — upright for a wedge sitting at 6 o'clock.
-    const start = polar(mid(i) + half, labelR);
-    const end = polar(mid(i) - half, labelR);
+    // Clockwise (sweep 1): glyph tops point away from the wheel center —
+    // upright for a wedge sitting at 12 o'clock.
+    const start = polar(mid(i) - half, labelR);
+    const end = polar(mid(i) + half, labelR);
     const largeArc = half > 90 ? 1 : 0;
-    return `M ${start.x} ${start.y} A ${labelR} ${labelR} 0 ${largeArc} 0 ${end.x} ${end.y}`;
+    return `M ${start.x} ${start.y} A ${labelR} ${labelR} 0 ${largeArc} 1 ${end.x} ${end.y}`;
   }
 
   const maxChars = $derived.by(() => {

@@ -33,28 +33,24 @@
   // Two stages, one always-mounted wheel:
   // - idle: the whole wheel centered on screen, SPIN button below, draggable
   //   for fun (opened locally via `spin.previewOpen`).
-  // - expanded: the wheel's center is ABOVE the viewport — only its bottom arc
-  //   hangs from the top edge, the pointer sits at the arc's apex — used while
-  //   spinning and for the winner reveal.
+  // - expanded: the wheel drops DOWN to the bottom of the screen — its center
+  //   (hub) sits at the bottom edge with the top half visible, and a needle at
+  //   the hub points up at the 12 o'clock wedge — used while spinning and for
+  //   the winner reveal.
   const expanded = $derived(spin.spinning || (!!winner && !spin.overlayDismissed));
   const overlayVisible = $derived(spin.previewOpen || expanded);
 
   let vw = $state(1024);
   let vh = $state(768);
 
-  // Expanded geometry: framing target at rest is the apex wedge fully visible
-  // plus roughly half of each neighbor, i.e. a visible half-angle ≈ one wedge
-  // angle (clamped so tiny/huge wedge counts still frame sensibly).
+  // Expanded geometry: the hub must stay on screen (the needle lives there),
+  // so the radius is bounded by the viewport height with headroom for the
+  // 12 o'clock wedge and the winner announcement.
   const RIM_PAD = 10; // matches Wheel's padding around the circle
-  const wedgeDeg = $derived(360 / Math.max(options.length, 1));
-  const phi = $derived((Math.min(75, Math.max(30, wedgeDeg)) * Math.PI) / 180);
-  const radius = $derived(Math.round(Math.min(2600, Math.max(320, vw / (2 * Math.sin(phi))))));
-  const apexHeight = $derived(
-    Math.round(
-      Math.min(0.42 * vh, Math.max(radius * (1 - Math.cos(phi)), Math.min(170, 0.35 * vh)))
-    )
-  );
+  const radius = $derived(Math.round(Math.min(2600, Math.max(320, vh - 150))));
   const size = $derived(2 * (radius + RIM_PAD));
+  // Wheel center in the expanded stage — a hair above the bottom edge.
+  const hubY = $derived(vh - 16);
 
   // Idle geometry: the whole wheel fits on screen, room for the SPIN button.
   const idleD = $derived(Math.round(Math.min(0.82 * vw, 0.56 * vh)));
@@ -65,7 +61,7 @@
   // transitioned when the stage flips — the wheel "flies up" as a spin starts.
   const holderTransform = $derived(
     expanded
-      ? `translate(-50%, ${apexHeight - radius - size / 2}px)`
+      ? `translate(-50%, ${hubY - size / 2}px)`
       : `translate(-50%, ${idleCenterY - size / 2}px) scale(${idleScale})`
   );
 
@@ -200,18 +196,18 @@
       <Wheel
         {options}
         {radius}
-        {apexHeight}
+        apexHeight={radius}
         winnerId={spin.spinning ? null : spin.winnerId}
       />
     </div>
   </div>
 
-  <!-- Fixed marker at the visible arc's apex: the wheel spins underneath,
-       this never moves. Only meaningful in the expanded stage. -->
+  <!-- Fixed needle at the wheel's hub, pointing up at the 12 o'clock wedge:
+       the wheel spins underneath, this never moves. Expanded stage only. -->
   <div
     class="pointer"
     class:shown={expanded && !(winner && !spin.spinning)}
-    style:top="{apexHeight - 4}px"
+    style:top="{hubY}px"
     aria-hidden="true"
   ></div>
 
@@ -323,14 +319,14 @@
   inset: 0
   will-change: transform
 
+// Needle anchored at the hub: base at the wheel's center, tip pointing up.
 .pointer
   position: absolute
   left: 50%
-  transform: translateX(-50%)
-  width: 34px
-  height: 30px
-  // Hangs below the arc's apex, tip pointing down at the announcement.
-  clip-path: polygon(50% 100%, 6% 0, 94% 0)
+  transform: translate(-50%, -100%)
+  width: 26px
+  height: 54px
+  clip-path: polygon(50% 0, 12% 100%, 88% 100%)
   background: var(--ss-accent)
   filter: drop-shadow(0 0 10px rgb(0 0 0 / 0.7))
   z-index: 3
@@ -338,6 +334,18 @@
   transition: opacity 0.3s var(--ss-ease)
   &.shown
     opacity: 1
+  // Hub cap over the needle base.
+  &::after
+    content: ""
+    position: absolute
+    left: 50%
+    bottom: -9px
+    transform: translateX(-50%)
+    width: 18px
+    height: 18px
+    border-radius: 50%
+    background: var(--ss-accent)
+    border: 2px solid rgb(0 0 0 / 0.45)
 
 .idle-ui
   position: absolute
@@ -420,7 +428,7 @@
 
 .spinning-label
   position: absolute
-  bottom: 12vh
+  top: 8vh
   color: rgb(255 255 255 / 0.7)
   font-family: var(--ss-font-mono)
   animation: blink 1s steps(2, start) infinite

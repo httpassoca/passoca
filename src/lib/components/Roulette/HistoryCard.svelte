@@ -1,7 +1,7 @@
 <script lang="ts">
   import { m } from "$lib/paraglide/messages";
   import type { HistoryEntry, MediaKey, RouletteClient } from "$lib/roulette";
-  import { Button, Card, DateField, EmptyState, Input } from "dssoca";
+  import { Button, Card, DateField, EmptyState, Input, toast } from "dssoca";
   import MediaPoster from "./MediaPoster.svelte";
 
   let {
@@ -128,7 +128,10 @@
                     size="md"
                     iconOnly
                     label={m.roulette_remove_option({ text: entry.title })}
-                    onclick={() => client?.removeHistory(entry.id)}
+                    onclick={() => {
+                      client?.removeHistory(entry.id);
+                      toast.success(m.roulette_history_removed());
+                    }}
                   >
                     ✕
                   </Button>

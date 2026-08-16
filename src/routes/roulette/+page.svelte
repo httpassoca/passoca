@@ -12,6 +12,7 @@
   import MediaSearchInput from "$lib/components/Roulette/MediaSearchInput.svelte";
   import MediaDetails from "$lib/components/Roulette/MediaDetails.svelte";
   import RulesModal from "$lib/components/Roulette/RulesModal.svelte";
+  import SettingsModal from "$lib/components/Roulette/SettingsModal.svelte";
   import MediaPoster from "$lib/components/Roulette/MediaPoster.svelte";
   import {
     createRouletteClient,
@@ -19,6 +20,7 @@
     fetchMediaStatus,
     SpinController,
     DEFAULT_WHEEL,
+    DEFAULT_TIERLIST,
     NAME_KEY,
     PW_KEY,
     type RouletteClient,
@@ -27,6 +29,7 @@
     type MediaKey,
     type MediaPick,
     type Presence,
+    type TierlistState,
   } from "$lib/roulette";
 
   const SPIN_SECONDS = 4;
@@ -37,6 +40,7 @@
   let wheelState = $state<WheelState>({ ...DEFAULT_WHEEL });
   let history = $state<HistoryEntry[]>([]);
   let presence = $state<Presence[]>([]);
+  let tierState = $state<TierlistState>({ ...DEFAULT_TIERLIST });
   let loaded = $state(false);
 
   let name = $state("");
@@ -46,6 +50,7 @@
   let personalOpen = $state(false);
   let personalTeaser = $state("");
   let rulesOpen = $state(false);
+  let settingsOpen = $state(false);
 
   // TMDB integration: search only lights up when the API has a token.
   let mediaEnabled = $state(false);
@@ -141,6 +146,7 @@
       }),
       c.history.subscribe((h) => (history = h)),
       c.presence.subscribe((p) => (presence = p)),
+      c.tierlist.subscribe((t) => (tierState = t)),
       c.personal.subscribe((p) => (personalTeaser = p)),
       c.identity.subscribe((id) => {
         if (!id) return;
@@ -204,6 +210,11 @@
         </span>
         <Button variant="ghost" size="md" onclick={() => (editingName = true)}>
           {m.roulette_change()}
+        </Button>
+      {/if}
+      {#if admin}
+        <Button size="md" onclick={() => (settingsOpen = true)}>
+          {m.roulette_settings()}
         </Button>
       {/if}
       <Button size="md" onclick={() => goto("/roulette/tierlist")}>
@@ -404,6 +415,20 @@
 
   {#if rulesOpen}
     <RulesModal onclose={() => (rulesOpen = false)} />
+  {/if}
+
+  {#if settingsOpen}
+    <SettingsModal
+      {presence}
+      {options}
+      {history}
+      submissions={tierState.submissions}
+      me={name}
+      maxPicks={wheelState.max_picks}
+      onsetmax={setMax}
+      onremove={(n, wipe) => client?.removeUser(n, wipe)}
+      onclose={() => (settingsOpen = false)}
+    />
   {/if}
 
   {#if detailsFor && API_URL}

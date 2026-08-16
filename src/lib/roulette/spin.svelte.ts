@@ -40,9 +40,10 @@ export class SpinController {
       return;
     }
     const segment = 360 / next.options.length;
-    // The wheel hangs from the top of the screen, so the winning wedge must
-    // rest at the wheel's 6 o'clock — the apex of the visible bottom arc.
-    const align = (540 - (index + 0.5) * segment) % 360;
+    // The wheel sits at the bottom of the screen with its top half visible,
+    // so the winning wedge must rest at the wheel's 12 o'clock — where the
+    // center-hub needle points.
+    const align = 360 - (index + 0.5) * segment;
 
     if (animate) {
       this.spinning = true;

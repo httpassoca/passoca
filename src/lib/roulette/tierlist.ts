@@ -46,13 +46,13 @@ export function placementsFromZones(zones: TierZones): TierPlacement[] {
   return placements;
 }
 
-/** Tooltip line for the general list: "rafa A · ana S · bea —". */
+/** Tooltip line for the general list: "ana S · rafa A" — only users who ranked it. */
 export function tooltipFor(key: string, submissions: TierlistState["submissions"]): string {
   return Object.keys(submissions)
     .sort()
-    .map((name) => {
+    .flatMap((name) => {
       const placement = submissions[name].find((p) => p.key === key);
-      return `${name} ${placement?.tier ?? "—"}`;
+      return placement ? [`${name} ${placement.tier}`] : [];
     })
     .join(" · ");
 }
