@@ -137,10 +137,9 @@
   padding: 16px 20px 48px
   background: var(--ss-bg)
 
+// Full-bleed, same as /roulette — the page padding is the only gutter.
 .column
-  max-width: 960px
   width: 100%
-  margin: 0 auto
   display: flex
   flex-direction: column
   gap: 12px
