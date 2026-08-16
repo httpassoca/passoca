@@ -81,7 +81,11 @@
   display: flex
   flex-direction: column
   gap: 6px
-  max-height: 336px
+  // Fills the card the parent sizes (which ends at the history strip) and
+  // scrolls inside it; on narrow screens the card is auto-height, so cap it.
+  flex: 1
+  min-height: 96px
+  max-height: 60vh
   overflow: auto
   // Row thumbs — mock uses 26×38.
   :global(.poster)

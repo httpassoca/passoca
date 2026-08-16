@@ -208,13 +208,15 @@
     padding: 6px
     border: 1px solid var(--ss-line)
     background: var(--ss-bg-elev)
-    // Hovered posters grow smoothly; scale the tile (not the .drag wrapper)
-    // so dnd/flip inline transforms never fight the hover state.
+    // Hovered posters grow smoothly and lift off the tray; scale the tile
+    // (not the .drag wrapper) so dnd/flip inline transforms never fight the
+    // hover state.
     :global(.tile)
-      transition: transform var(--ss-dur, 250ms) var(--ss-ease)
+      transition: transform var(--ss-dur, 250ms) var(--ss-ease), box-shadow var(--ss-dur, 250ms) var(--ss-ease)
     .drag:hover
       position: relative
       z-index: 2
       :global(.tile)
         transform: scale(1.3)
+        box-shadow: var(--ss-shadow-pop)
 </style>

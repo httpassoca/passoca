@@ -47,8 +47,6 @@
   let draftName = $state("");
   let draftPassword = $state("");
   let editingName = $state(false);
-  let personalOpen = $state(false);
-  let personalTeaser = $state("");
   let rulesOpen = $state(false);
   let settingsOpen = $state(false);
 
@@ -147,7 +145,6 @@
       c.history.subscribe((h) => (history = h)),
       c.presence.subscribe((p) => (presence = p)),
       c.tierlist.subscribe((t) => (tierState = t)),
-      c.personal.subscribe((p) => (personalTeaser = p)),
       c.identity.subscribe((id) => {
         if (!id) return;
         if (!id.ok) {
@@ -247,39 +244,39 @@
             {m.roulette_editing_count({ count: presence.length })}
           </span>
         {/snippet}
-        {#if name && client}
-          <IdeasEditor
-            doc={client.doc}
-            awareness={client.provider.awareness}
-            {name}
-            color={myColor}
-          />
-        {:else}
-          <p class="muted">{m.roulette_ideas_join()}</p>
-        {/if}
-      </Card>
+        <!-- One panel, two halves: private notes on the left, the shared
+             CRDT draft on the right. -->
+        <div class="ideas-split">
+          <section class="pane">
+            <header class="pane-head">
+              <span class="pane-label">{m.roulette_personal()}</span>
+              <span class="pane-hint">{m.roulette_personal_desc()}</span>
+            </header>
+            {#if name && client}
+              <PersonalIdeas {client} />
+            {:else}
+              <p class="muted pane-empty">{m.roulette_ideas_join()}</p>
+            {/if}
+          </section>
 
-      {#if name && client}
-        <Card title={m.roulette_personal()} description={m.roulette_personal_desc()}>
-          {#snippet action()}
-            <Button
-              variant="ghost"
-              size="md"
-              aria-expanded={personalOpen}
-              onclick={() => (personalOpen = !personalOpen)}
-            >
-              {personalOpen ? m.roulette_hide() : m.roulette_show()}
-            </Button>
-          {/snippet}
-          {#if personalOpen}
-            <PersonalIdeas {client} />
-          {:else}
-            <p class="muted teaser">
-              {personalTeaser.trim().split("\n")[0] || m.roulette_preview_empty()}
-            </p>
-          {/if}
-        </Card>
-      {/if}
+          <section class="pane">
+            <header class="pane-head">
+              <span class="pane-label">{m.roulette_shared_draft()}</span>
+              <span class="pane-hint">{m.roulette_ideas_desc()}</span>
+            </header>
+            {#if name && client}
+              <IdeasEditor
+                doc={client.doc}
+                awareness={client.provider.awareness}
+                {name}
+                color={myColor}
+              />
+            {:else}
+              <p class="muted pane-empty">{m.roulette_ideas_join()}</p>
+            {/if}
+          </section>
+        </div>
+      </Card>
     </section>
 
     <aside class="side-col">
@@ -305,28 +302,9 @@
 
       <Card title={m.roulette_card()} meta={m.roulette_in_wheel({ count: options.length })}>
         {#snippet action()}
+          <!-- Read-only here; the admin changes the limit in Settings. -->
           <span class="limit">
-            {#if admin}
-              <Button
-                variant="ghost"
-                size="md"
-                iconOnly
-                label="−"
-                disabled={wheelState.max_picks <= 1}
-                onclick={() => setMax(wheelState.max_picks - 1)}>−</Button
-              >
-            {/if}
             {m.roulette_limit_per_person({ max: wheelState.max_picks })}
-            {#if admin}
-              <Button
-                variant="ghost"
-                size="md"
-                iconOnly
-                label="+"
-                disabled={wheelState.max_picks >= 10}
-                onclick={() => setMax(wheelState.max_picks + 1)}>+</Button
-              >
-            {/if}
           </span>
         {/snippet}
         {#if options.length > 0}
@@ -397,9 +375,11 @@
           </div>
         {/snippet}
       </Card>
-
-      <HistoryCard {history} {admin} {client} ondetails={(media) => (detailsFor = media)} />
     </aside>
+  </div>
+
+  <div class="history-row">
+    <HistoryCard {history} {admin} {client} ondetails={(media) => (detailsFor = media)} />
   </div>
 
   <WheelArea
@@ -565,9 +545,13 @@
 .layout
   display: flex
   gap: 12px
-  align-items: flex-start
+  align-items: stretch
+  // Both columns share one height, so the wheel column stops exactly where the
+  // history strip begins — the lists scroll inside instead of pushing it down.
+  height: clamp(460px, 62vh, 760px)
   @media (max-width: 900px)
     flex-direction: column
+    height: auto
 
 .main-col
   flex: 7
@@ -575,6 +559,17 @@
   display: flex
   flex-direction: column
   gap: 12px
+  // The ideas card fills the row; its body hands the height to the two panes.
+  :global(> .ss-card)
+    flex: 1
+    min-height: 0
+    display: flex
+    flex-direction: column
+  :global(> .ss-card > .body)
+    flex: 1
+    min-height: 0
+    display: flex
+    flex-direction: column
 
 .side-col
   flex: 3
@@ -582,18 +577,71 @@
   display: flex
   flex-direction: column
   gap: 12px
+  // The wheel card takes whatever the "add a pick" card leaves over.
+  :global(> .ss-card:last-child)
+    flex: 1
+    min-height: 0
+    display: flex
+    flex-direction: column
+  :global(> .ss-card:last-child > .body)
+    flex: 1
+    min-height: 0
+    display: flex
+    flex-direction: column
   @media (max-width: 900px)
     width: 100%
+
+.ideas-split
+  flex: 1
+  min-height: 0
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 12px
+  @media (max-width: 760px)
+    grid-template-columns: 1fr
+
+.pane
+  display: flex
+  flex-direction: column
+  gap: 6px
+  min-width: 0
+  min-height: 0
+
+.pane-head
+  display: flex
+  align-items: baseline
+  gap: 8px
+  min-width: 0
+
+.pane-label
+  font-family: var(--ss-font-mono)
+  font-size: var(--ss-size-xs, 12px)
+  letter-spacing: 0.06em
+  text-transform: uppercase
+  color: var(--ss-fg)
+  flex: none
+
+.pane-hint
+  font-size: var(--ss-size-xs, 12px)
+  color: var(--ss-fg-faint)
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+.pane-empty
+  flex: 1
+  border: 1px solid var(--ss-line)
+  background: var(--ss-bg-inset)
+  padding: 10px 12px
+  min-height: 180px
+
+.history-row
+  margin-top: 12px
 
 .muted
   color: var(--ss-fg-muted)
   font-size: var(--ss-size-sm)
   margin: 0
-
-.teaser
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
 
 .spin-foot
   display: flex

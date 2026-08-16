@@ -2,7 +2,6 @@
   import { onMount, onDestroy } from "svelte";
   import * as Y from "yjs";
   import type { Awareness } from "y-protocols/awareness";
-  import { m } from "$lib/paraglide/messages";
 
   let {
     doc,
@@ -62,10 +61,12 @@
         EditorView.lineWrapping,
         yCollab(ytext, awareness, { undoManager }),
         EditorView.theme({
-          "&": { fontSize: "14px", backgroundColor: "var(--ss-bg-inset)" },
+          "&": { fontSize: "14px", backgroundColor: "var(--ss-bg-inset)", height: "100%" },
+          // The pane owns the height; the editor scrolls inside it.
+          ".cm-scroller": { overflow: "auto" },
           ".cm-content": {
             fontFamily: "var(--ss-font-mono, monospace)",
-            minHeight: "220px",
+            minHeight: "180px",
           },
           "&.cm-focused": { outline: "none" },
           ".cm-gutters": {
@@ -85,34 +86,17 @@
   });
 </script>
 
-<div class="ideas-editor">
-  <div class="bar">
-    <span class="hint">{m.roulette_ideas_hint()}</span>
-  </div>
-
-  <div class="editor" bind:this={host}></div>
-</div>
+<div class="editor" bind:this={host}></div>
 
 <style lang="sass">
-.ideas-editor
-  display: flex
-  flex-direction: column
-  gap: 8px
-
-.bar
-  display: flex
-  align-items: center
-  justify-content: space-between
-  gap: 10px
-
-.hint
-  color: var(--ss-fg-muted)
-  font-size: var(--ss-size-sm)
-
+// The editor fills the pane the parent gives it (it never sets its own height).
 .editor
+  flex: 1
+  min-height: 180px
   border: 1px solid var(--ss-line)
   background: var(--ss-bg-inset)
   min-width: 0
+  overflow: hidden
   :global(.cm-editor)
-    max-height: 60vh
+    height: 100%
 </style>
