@@ -1,6 +1,7 @@
 <script lang="ts">
   import { m } from "$lib/paraglide/messages";
   import { isAdmin } from "$lib/roulette";
+  import { Button, Card, Input } from "dssoca";
 
   let {
     draftName = $bindable(),
@@ -13,36 +14,33 @@
   } = $props();
 </script>
 
-<div class="hub-panel join">
-  <div class="hub-panel-head">
-    <div class="title">{m.roulette_who_are_you()}</div>
-  </div>
-  <form
-    class="hub-panel-body row"
-    onsubmit={(e) => {
-      e.preventDefault();
-      onjoin();
-    }}
-  >
-    <label class="hub-field grow">
-      <span class="lbl">{m.roulette_name()}</span>
-      <input
-        class="hub-input"
-        placeholder={m.roulette_name_placeholder()}
-        maxlength={24}
-        bind:value={draftName}
-      />
-    </label>
-    {#if isAdmin(draftName)}
-      <label class="hub-field grow">
-        <span class="lbl">{m.roulette_password()}</span>
-        <input class="hub-input" type="password" bind:value={draftPassword} />
-      </label>
-    {/if}
-    <button class="hub-btn primary" type="submit" disabled={!draftName.trim()}>
-      {m.roulette_join()}
-    </button>
-  </form>
+<div class="join">
+  <Card title={m.roulette_who_are_you()}>
+    <form
+      class="row"
+      onsubmit={(e) => {
+        e.preventDefault();
+        onjoin();
+      }}
+    >
+      <div class="grow">
+        <Input
+          label={m.roulette_name()}
+          placeholder={m.roulette_name_placeholder()}
+          maxlength={24}
+          bind:value={draftName}
+        />
+      </div>
+      {#if isAdmin(draftName)}
+        <div class="grow">
+          <Input label={m.roulette_password()} type="password" bind:value={draftPassword} />
+        </div>
+      {/if}
+      <Button type="submit" variant="primary" disabled={!draftName.trim()}>
+        {m.roulette_join()}
+      </Button>
+    </form>
+  </Card>
 </div>
 
 <style lang="sass">
@@ -57,7 +55,4 @@
 
 .grow
   flex: 1
-
-button[type="submit"]
-  padding: 10px 14px
 </style>

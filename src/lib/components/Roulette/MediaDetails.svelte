@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Badge, Link, Modal } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import { fetchMediaDetails } from "$lib/roulette";
   import type { MediaDetailsData, MediaType } from "$lib/roulette";
@@ -16,6 +17,7 @@
     onclose: () => void;
   } = $props();
 
+  let open = $state(true);
   let details = $state<MediaDetailsData | null>(null);
   let failed = $state(false);
 
@@ -36,90 +38,63 @@
   });
 </script>
 
-<svelte:window
-  onkeydown={(e) => {
-    if (e.key === "Escape") onclose();
-  }}
-/>
-
-<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions
-     (backdrop click is a pointer shortcut; keyboard users have Escape and the ✕ button) -->
-<div
-  class="hub-overlay"
-  role="dialog"
-  aria-modal="true"
-  tabindex="-1"
-  onclick={(e) => {
-    if (e.target === e.currentTarget) onclose();
-  }}
->
-  <div class="hub-panel modal">
-    <div class="hub-panel-head">
-      <div class="title">{m.roulette_media_details()}</div>
-      <button class="hub-btn ghost" onclick={onclose}>✕</button>
-    </div>
-    <div class="hub-panel-body">
-      {#if details}
-        <div class="body">
-          <MediaPoster
-            path={details.poster_path}
-            size="w342"
-            alt={m.roulette_media_poster_alt({ title: details.title })}
-          />
-          <div class="text">
-            <h2 class="t">
-              {details.title}
-              {#if details.year}<span class="y">({details.year})</span>{/if}
-            </h2>
-            {#if details.original_title && details.original_title !== details.title}
-              <p class="orig">{details.original_title}</p>
-            {/if}
-            <div class="facts">
-              <span class="hub-badge up">
-                {details.media_type === "movie" ? m.roulette_media_movie() : m.roulette_media_tv()}
-              </span>
-              {#if details.vote_average}
-                <span class="hub-badge">★ {details.vote_average.toFixed(1)}</span>
-              {/if}
-              {#if details.runtime}
-                <span class="hub-badge">{m.roulette_media_runtime({ min: details.runtime })}</span>
-              {/if}
-              {#if details.seasons}
-                <span class="hub-badge">{m.roulette_media_seasons({ count: details.seasons })}</span>
-              {/if}
-              {#if details.episodes}
-                <span class="hub-badge">{m.roulette_media_episodes({ count: details.episodes })}</span>
-              {/if}
-            </div>
-            {#if details.genres.length}
-              <p class="hs-caption">{details.genres.join(" · ")}</p>
-            {/if}
-            {#if details.overview}
-              <p class="overview">{details.overview}</p>
-            {/if}
-            <a
-              class="tmdb-link"
-              href={`https://www.themoviedb.org/${details.media_type}/${details.tmdb_id}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {m.roulette_media_open_tmdb()} ↗
-            </a>
-          </div>
+<Modal bind:open title={m.roulette_media_details()} size="lg" {onclose}>
+  {#if details}
+    <div class="body">
+      <MediaPoster
+        path={details.poster_path}
+        size="w342"
+        alt={m.roulette_media_poster_alt({ title: details.title })}
+      />
+      <div class="text">
+        <h2 class="t">
+          {details.title}
+          {#if details.year}<span class="y">({details.year})</span>{/if}
+        </h2>
+        {#if details.original_title && details.original_title !== details.title}
+          <p class="orig">{details.original_title}</p>
+        {/if}
+        <div class="facts">
+          <Badge tone="brand">
+            {details.media_type === "movie" ? m.roulette_media_movie() : m.roulette_media_tv()}
+          </Badge>
+          {#if details.vote_average}
+            <Badge tone="neutral">★ {details.vote_average.toFixed(1)}</Badge>
+          {/if}
+          {#if details.runtime}
+            <Badge tone="neutral">{m.roulette_media_runtime({ min: details.runtime })}</Badge>
+          {/if}
+          {#if details.seasons}
+            <Badge tone="neutral">{m.roulette_media_seasons({ count: details.seasons })}</Badge>
+          {/if}
+          {#if details.episodes}
+            <Badge tone="neutral">{m.roulette_media_episodes({ count: details.episodes })}</Badge>
+          {/if}
         </div>
-      {:else if failed}
-        <p class="status">{m.roulette_media_error()}</p>
-      {:else}
-        <p class="status">{m.roulette_media_loading()}</p>
-      {/if}
+        {#if details.genres.length}
+          <p class="genres">{details.genres.join(" · ")}</p>
+        {/if}
+        {#if details.overview}
+          <p class="overview">{details.overview}</p>
+        {/if}
+        <span class="tmdb">
+          <Link
+            href={`https://www.themoviedb.org/${details.media_type}/${details.tmdb_id}`}
+            external
+          >
+            {m.roulette_media_open_tmdb()} ↗
+          </Link>
+        </span>
+      </div>
     </div>
-  </div>
-</div>
+  {:else if failed}
+    <p class="status">{m.roulette_media_error()}</p>
+  {:else}
+    <p class="status">{m.roulette_media_loading()}</p>
+  {/if}
+</Modal>
 
 <style lang="sass">
-.modal
-  width: min(640px, 100%)
-
 .body
   display: flex
   gap: 16px
@@ -135,18 +110,18 @@
 
 .t
   margin: 0
-  font-family: var(--hs-font-display)
+  font-family: var(--ss-font-display)
   font-weight: 400
   font-size: 20px
-  color: var(--hs-fg)
+  color: var(--ss-fg)
   .y
-    color: var(--hs-fg-muted)
-    font-family: var(--hs-font-mono)
+    color: var(--ss-fg-muted)
+    font-family: var(--ss-font-mono)
     font-size: 13px
 
 .orig
   margin: 0
-  color: var(--hs-fg-muted)
+  color: var(--ss-fg-muted)
   font-size: 11.5px
 
 .facts
@@ -154,25 +129,28 @@
   flex-wrap: wrap
   gap: 6px
 
+.genres
+  margin: 0
+  font-family: var(--ss-font-mono)
+  font-size: 10.5px
+  color: var(--ss-fg-faint)
+  text-transform: uppercase
+  letter-spacing: 0.06em
+
 .overview
   margin: 0
   font-size: 12.5px
   line-height: 1.7
-  color: var(--hs-fg)
+  color: var(--ss-fg)
 
-.tmdb-link
-  color: var(--hs-primary)
-  font-size: 11.5px
+.tmdb
   width: fit-content
-  text-decoration: none
-  border-bottom: 1px solid var(--hs-primary)
-  &:hover
-    border-bottom-width: 2px
+  font-size: 11.5px
 
 .status
   margin: 0
-  color: var(--hs-fg-faint)
-  font-family: var(--hs-font-mono)
+  color: var(--ss-fg-faint)
+  font-family: var(--ss-font-mono)
   text-align: center
   padding: 20px 0
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import type { MediaKey, Option } from "$lib/roulette";
   import MediaPoster from "./MediaPoster.svelte";
@@ -16,33 +17,56 @@
     onremove: (id: string) => void;
     ondetails: (media: MediaKey) => void;
   } = $props();
+
+  function hasMedia(option: Option): boolean {
+    return Boolean(option.tmdb_id && option.media_type);
+  }
+
+  function openDetails(option: Option) {
+    if (!hasMedia(option)) return;
+    ondetails({ media_type: option.media_type!, tmdb_id: option.tmdb_id! });
+  }
+
+  function rowKeydown(e: KeyboardEvent, option: Option) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openDetails(option);
+    }
+  }
 </script>
 
 <ul class="options">
   {#each options as option (option.id)}
-    <li class="pick">
-      <MediaPoster path={option.poster_path} size="w92" alt="" />
-      <div class="info">
-        <div class="t" class:mine={option.author === me}>{option.text}</div>
-        <div class="sub">
-          {#if option.media_year}{option.media_year} · {/if}{option.author}
-          {#if option.tmdb_id && option.media_type}
-            ·
-            <button
-              class="details"
-              onclick={() =>
-                ondetails({ media_type: option.media_type!, tmdb_id: option.tmdb_id! })}
-            >
-              {m.roulette_media_details()} ↗
-            </button>
-          {/if}
+    {@const clickable = hasMedia(option)}
+    <li class="pick" class:clickable>
+      <!-- svelte-ignore a11y_no_static_element_interactions, a11y_no_noninteractive_tabindex
+           (role/tabindex/handlers are all applied together when the row has media) -->
+      <div
+        class="row"
+        role={clickable ? "button" : undefined}
+        tabindex={clickable ? 0 : undefined}
+        aria-label={clickable ? `${m.roulette_media_details()}: ${option.text}` : undefined}
+        onclick={clickable ? () => openDetails(option) : undefined}
+        onkeydown={clickable ? (e) => rowKeydown(e, option) : undefined}
+      >
+        <MediaPoster path={option.poster_path} size="w92" alt="" />
+        <div class="info">
+          <div class="t" class:mine={option.author === me}>{option.text}</div>
+          <div class="sub">
+            {#if option.media_year}{option.media_year} · {/if}{option.author}
+          </div>
         </div>
       </div>
       {#if option.author === me || admin}
-        <button
-          class="hub-btn ghost"
-          aria-label={m.roulette_remove_option({ text: option.text })}
-          onclick={() => onremove(option.id)}>✕</button
+        <Button
+          variant="ghost"
+          size="sm"
+          iconOnly
+          label={m.roulette_remove_option({ text: option.text })}
+          onclick={(e) => {
+            e.stopPropagation();
+            onremove(option.id);
+          }}>✕</Button
         >
       {/if}
     </li>
@@ -68,12 +92,24 @@
   align-items: center
   gap: 8px
   padding: 5px 6px
-  border: 1px solid var(--hs-line)
-  background: var(--hs-bg-elev)
-  transition: all 0.15s var(--hs-ease)
-  &:hover
-    border-color: var(--hs-line-strong)
-    background: var(--hs-bg-elev-hover)
+  border: 1px solid var(--ss-line)
+  background: var(--ss-bg-elev)
+  transition: all 0.15s var(--ss-ease)
+  &.clickable:hover
+    border-color: var(--ss-line-strong)
+    background: var(--ss-bg-elev-hover)
+
+.row
+  flex: 1
+  min-width: 0
+  display: flex
+  align-items: center
+  gap: 8px
+  .clickable &
+    cursor: pointer
+  &:focus-visible
+    outline: 2px solid var(--ss-accent)
+    outline-offset: 1px
 
 .info
   flex: 1
@@ -81,24 +117,14 @@
 
 .t
   font-size: 11.5px
-  color: var(--hs-fg)
+  color: var(--ss-fg)
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
   &.mine
-    color: var(--hs-primary)
+    color: var(--ss-accent)
 
 .sub
   font-size: 10px
-  color: var(--hs-fg-faint)
-
-.details
-  background: none
-  border: none
-  padding: 0
-  font: inherit
-  color: var(--hs-fg-faint)
-  cursor: pointer
-  &:hover
-    color: var(--hs-primary)
+  color: var(--ss-fg-faint)
 </style>

@@ -190,8 +190,6 @@
   "roulette_got_it": "got it",
   "roulette_online_count": "{count} online",
   "roulette_editing_count": "{count} editing",
-  "roulette_tmdb_up": "tmdb up",
-  "roulette_tmdb_off": "tmdb off",
   "roulette_you_progress": "you {count}/{max}",
   "roulette_limit_per_person": "limit {max}/person",
   "roulette_spin_wheel": "spin the wheel ▸",

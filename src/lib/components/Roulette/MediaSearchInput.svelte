@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Badge, Input } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import { mediaLang, searchMedia } from "$lib/roulette";
   import type { MediaPick, MediaSummary } from "$lib/roulette";
@@ -116,13 +117,13 @@
       submit();
     }}
   >
-    <input
-      class="hub-input"
+    <Input
+      bind:value={text}
       aria-label={m.roulette_your_option()}
       placeholder={m.roulette_option_placeholder()}
       maxlength={120}
-      bind:value={text}
       {disabled}
+      hint={hint ?? (enabled ? m.roulette_media_caption() : undefined)}
     />
   </form>
 
@@ -142,9 +143,9 @@
             <span class="info">
               <span class="t">{r.title}</span>
               <span class="y">
-                {#if r.year}{r.year} · {/if}{r.media_type === "movie"
-                  ? m.roulette_media_movie()
-                  : m.roulette_media_tv()}
+                {#if r.year}{r.year} · {/if}<Badge tone="neutral" size="sm">
+                  {r.media_type === "movie" ? m.roulette_media_movie() : m.roulette_media_tv()}
+                </Badge>
                 {#if r.original_title && r.original_title !== r.title}
                   · {r.original_title}
                 {/if}
@@ -161,10 +162,6 @@
       </li>
     </ul>
   {/if}
-
-  {#if hint || enabled}
-    <p class="hs-caption cap">{hint ?? m.roulette_media_caption()}</p>
-  {/if}
 </div>
 
 <style lang="sass">
@@ -179,7 +176,7 @@
 
 .dropdown
   position: absolute
-  top: 44px
+  top: calc(100% + 4px)
   left: 0
   right: 0
   z-index: 30
@@ -189,9 +186,9 @@
   display: flex
   flex-direction: column
   gap: 1px
-  background: var(--hs-bg)
-  border: 1px solid var(--hs-line-strong)
-  box-shadow: var(--hs-shadow-pop)
+  background: var(--ss-bg)
+  border: 1px solid var(--ss-line-strong)
+  box-shadow: var(--ss-shadow-pop)
   max-height: 340px
   overflow-y: auto
 
@@ -201,15 +198,15 @@
   gap: 8px
   width: 100%
   padding: 6px 8px
-  background: var(--hs-bg)
+  background: var(--ss-bg)
   border: none
-  color: var(--hs-fg)
+  color: var(--ss-fg)
   font: inherit
   text-align: left
   cursor: pointer
   &:hover,
   &.active
-    background: rgba(255, 255, 255, 0.05)
+    background: var(--ss-bg-elev-hover)
 
 .info
   flex: 1
@@ -220,30 +217,27 @@
 
 .t
   font-size: 11.5px
-  color: var(--hs-fg)
+  color: var(--ss-fg)
   overflow-wrap: anywhere
 
 .y
   font-size: 10px
-  color: var(--hs-fg-faint)
+  color: var(--ss-fg-faint)
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
 
 .plus
-  color: var(--hs-primary)
+  color: var(--ss-accent)
   font-size: 12px
   flex: none
 
 .note
   padding: 6px 8px
-  color: var(--hs-fg-faint)
+  color: var(--ss-fg-faint)
   font-size: 10.5px
-  background: var(--hs-bg)
+  background: var(--ss-bg)
 
 .attribution
-  border-top: 1px solid var(--hs-line)
-
-.cap
-  margin: 0
+  border-top: 1px solid var(--ss-line)
 </style>

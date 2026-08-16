@@ -1,6 +1,7 @@
 <script lang="ts">
   import { m } from "$lib/paraglide/messages";
   import type { HistoryEntry, MediaKey, RouletteClient } from "$lib/roulette";
+  import { Button, Card, DateField, EmptyState, Input } from "dssoca";
   import MediaPoster from "./MediaPoster.svelte";
 
   let {
@@ -31,6 +32,11 @@
     client.editHistory(editingId, editTitle.trim(), iso);
     editingId = null;
   }
+  function openDetails(entry: HistoryEntry) {
+    if (entry.tmdb_id && entry.media_type) {
+      ondetails({ media_type: entry.media_type, tmdb_id: entry.tmdb_id });
+    }
+  }
   function fmtDate(iso: string) {
     return new Date(iso).toLocaleDateString(undefined, {
       year: "numeric",
@@ -40,96 +46,141 @@
   }
 </script>
 
-<div class="hub-panel">
-  <button class="hub-panel-head" aria-expanded={open} onclick={() => (open = !open)}>
-    <span class="title">{m.roulette_history()}</span>
-    <span class="meta">{m.roulette_watched({ count: history.length })} · {open ? "▾" : "▸"}</span>
-  </button>
+{#snippet rowInfo(entry: HistoryEntry)}
+  <MediaPoster path={entry.poster_path} size="w92" alt="" />
+  <div class="info">
+    <div class="t">
+      {entry.title}{#if entry.media_year}&nbsp;<span class="y">({entry.media_year})</span>{/if}
+    </div>
+    <div class="sub">
+      {fmtDate(entry.drawn_at)}{#if entry.author} · {m.roulette_picked_by({ name: entry.author })}{/if}
+    </div>
+  </div>
+{/snippet}
+
+<Card title={m.roulette_history()} meta={m.roulette_watched({ count: history.length })}>
+  {#snippet action()}
+    <Button
+      variant="ghost"
+      size="sm"
+      aria-expanded={open}
+      onclick={() => (open = !open)}
+    >
+      {open ? m.roulette_hide() : m.roulette_show()}
+    </Button>
+  {/snippet}
   {#if open}
-    <div class="hub-panel-body body">
-      {#if history.length > 0}
+    {#if history.length > 0}
+      <div class="rows">
         {#each history as entry (entry.id)}
           <div class="row">
             {#if editingId === entry.id}
               <div class="edit">
-                <label class="hub-field grow">
-                  <span class="lbl">{m.roulette_field_title()}</span>
-                  <input class="hub-input sm" maxlength={200} bind:value={editTitle} />
-                </label>
-                <label class="hub-field">
-                  <span class="lbl">{m.roulette_field_date()}</span>
-                  <input class="hub-input sm" type="date" bind:value={editDate} />
-                </label>
+                <div class="grow">
+                  <Input label={m.roulette_field_title()} maxlength={200} bind:value={editTitle} />
+                </div>
+                <DateField label={m.roulette_field_date()} bind:value={editDate} />
                 <div class="acts">
-                  <button class="hub-btn primary" onclick={saveEdit}>{m.roulette_save()}</button>
-                  <button class="hub-btn ghost" onclick={() => (editingId = null)}>
+                  <Button variant="primary" size="sm" onclick={saveEdit}>
+                    {m.roulette_save()}
+                  </Button>
+                  <Button variant="ghost" size="sm" onclick={() => (editingId = null)}>
                     {m.roulette_cancel()}
-                  </button>
+                  </Button>
                 </div>
               </div>
             {:else}
-              <MediaPoster path={entry.poster_path} size="w92" alt="" />
-              <div class="info">
-                <div class="t">
-                  {entry.title}{#if entry.media_year}&nbsp;<span class="y">({entry.media_year})</span>{/if}
+              {#if entry.tmdb_id && entry.media_type}
+                <div
+                  class="hit clickable"
+                  role="button"
+                  tabindex="0"
+                  aria-label={entry.title}
+                  onclick={() => openDetails(entry)}
+                  onkeydown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openDetails(entry);
+                    }
+                  }}
+                >
+                  {@render rowInfo(entry)}
                 </div>
-                <div class="sub">
-                  {fmtDate(entry.drawn_at)}{#if entry.author} · {m.roulette_picked_by({ name: entry.author })}{/if}
-                  {#if entry.tmdb_id && entry.media_type}
-                    ·
-                    <button
-                      class="details"
-                      onclick={() =>
-                        ondetails({ media_type: entry.media_type!, tmdb_id: entry.tmdb_id! })}
-                    >
-                      {m.roulette_media_details()} ↗
-                    </button>
-                  {/if}
+              {:else}
+                <div class="hit">
+                  {@render rowInfo(entry)}
                 </div>
-              </div>
+              {/if}
               {#if admin}
                 <span class="acts">
-                  <button class="hub-btn ghost" onclick={() => startEdit(entry)}>✎</button>
-                  <button class="hub-btn ghost" onclick={() => client?.removeHistory(entry.id)}
-                    >✕</button
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    iconOnly
+                    label={m.roulette_edit()}
+                    onclick={() => startEdit(entry)}
                   >
+                    ✎
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    iconOnly
+                    label={m.roulette_remove_option({ text: entry.title })}
+                    onclick={() => client?.removeHistory(entry.id)}
+                  >
+                    ✕
+                  </Button>
                 </span>
               {/if}
             {/if}
           </div>
         {/each}
-        <p class="hs-caption foot">{m.roulette_history_admin_caption()}</p>
-      {:else}
-        <p class="hs-caption">{m.roulette_no_films()} — {m.roulette_no_films_msg()}</p>
-      {/if}
-    </div>
+      </div>
+      <p class="caption foot">{m.roulette_history_admin_caption()}</p>
+    {:else}
+      <EmptyState title={m.roulette_no_films()} message={m.roulette_no_films_msg()} />
+    {/if}
   {:else if history.length > 0}
-    <div class="hub-panel-body">
-      <p class="hs-caption teaser">
-        {m.roulette_last()} {history[0].title} · {fmtDate(history[0].drawn_at)}
-      </p>
-    </div>
+    <p class="caption teaser">
+      {m.roulette_last()} {history[0].title} · {fmtDate(history[0].drawn_at)}
+    </p>
   {/if}
-</div>
+</Card>
 
 <style lang="sass">
-.body
+.rows
   display: flex
   flex-direction: column
   gap: 1px
-  padding: 6px 8px
-  // History thumbs — mock uses 18×26.
+  // History thumbs stay dense — 18px wide.
   :global(.poster)
     width: 18px
 
 .row
   display: flex
   align-items: center
-  gap: 8px
-  padding: 4px 2px
-  border-bottom: 1px solid var(--hs-line)
+  gap: 4px
+  border-bottom: 1px solid var(--ss-line)
   &:last-of-type
     border-bottom: none
+
+.hit
+  display: flex
+  align-items: center
+  gap: 8px
+  flex: 1
+  min-width: 0
+  padding: 4px 2px
+  border-radius: 4px
+
+.clickable
+  cursor: pointer
+  &:hover
+    background: var(--ss-bg-elev-hover)
+  &:focus-visible
+    outline: 2px solid var(--ss-accent)
+    outline-offset: -2px
 
 .info
   flex: 1
@@ -137,26 +188,15 @@
 
 .t
   font-size: 11px
-  color: var(--hs-fg)
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
   .y
-    color: var(--hs-fg-faint)
+    color: var(--ss-fg-faint)
 
 .sub
   font-size: 9.5px
-  color: var(--hs-fg-faint)
-
-.details
-  background: none
-  border: none
-  padding: 0
-  font: inherit
-  color: var(--hs-fg-faint)
-  cursor: pointer
-  &:hover
-    color: var(--hs-primary)
+  color: var(--ss-fg-faint)
 
 .acts
   display: flex
@@ -174,14 +214,12 @@
 .grow
   flex: 1
 
-.hub-input.sm
-  padding: 6px 8px
-  font-size: 12px
+.caption
+  margin: 0
+  font-family: var(--ss-font-mono)
+  font-size: var(--ss-size-sm)
+  color: var(--ss-fg-muted)
 
 .foot
-  margin: 0
   padding-top: 5px
-
-.teaser
-  margin: 0
 </style>

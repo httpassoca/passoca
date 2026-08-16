@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Button } from "dssoca";
   import confetti from "canvas-confetti";
   import { m } from "$lib/paraglide/messages";
   import Wheel from "./Wheel.svelte";
@@ -88,16 +89,16 @@
     </div>
     <div class="acts">
       {#if winner.tmdb_id && winner.media_type}
-        <button
-          class="hub-btn"
+        <Button
+          variant="ghost"
           onclick={() => ondetails({ media_type: winner.media_type!, tmdb_id: winner.tmdb_id! })}
         >
           {m.roulette_media_details()}
-        </button>
+        </Button>
       {/if}
-      <button class="hub-btn primary" onclick={() => (spin.overlayDismissed = true)}>
+      <Button onclick={() => (spin.overlayDismissed = true)}>
         {m.roulette_close()}
-      </button>
+      </Button>
     </div>
   {:else if spin.spinning}
     <p class="spinning-label">{m.roulette_spinning()}</p>
@@ -115,7 +116,7 @@
   justify-content: center
   gap: 10px
   padding: 24px
-  background: color-mix(in srgb, var(--hs-bg) 92%, transparent)
+  background: color-mix(in srgb, var(--ss-bg) 92%, transparent)
   backdrop-filter: blur(3px)
   // Hidden, not unmounted — keeps the rotation transition state alive.
   visibility: hidden
@@ -142,22 +143,22 @@
 
 .winner-text
   font-size: clamp(24px, 5vmin, 44px)
-  font-family: var(--hs-font-display)
-  color: var(--hs-primary)
+  font-family: var(--ss-font-display)
+  color: var(--ss-accent)
   text-align: center
 
 .winner-year
-  color: var(--hs-fg-muted)
-  font-family: var(--hs-font-mono)
+  color: var(--ss-fg-muted)
+  font-family: var(--ss-font-mono)
   font-size: 0.55em
 
 .winner-orig
-  color: var(--hs-fg-muted)
+  color: var(--ss-fg-muted)
   font-size: 13px
 
 .winner-by
-  color: var(--hs-fg-muted)
-  font-family: var(--hs-font-mono)
+  color: var(--ss-fg-muted)
+  font-family: var(--ss-font-mono)
   font-size: 11.5px
 
 .acts
@@ -166,8 +167,8 @@
   margin-top: 6px
 
 .spinning-label
-  color: var(--hs-fg-muted)
-  font-family: var(--hs-font-mono)
+  color: var(--ss-fg-muted)
+  font-family: var(--ss-font-mono)
   animation: blink 1s steps(2, start) infinite
 
 @keyframes pop

@@ -1,8 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { Toaster, toast, CHART_PALETTE } from "dssoca";
+  import { Badge, Button, Card, EmptyState, Kbd, Toaster, toast, CHART_PALETTE } from "dssoca";
   import { m } from "$lib/paraglide/messages";
-  import "./hub.css";
   import IdeasEditor from "$lib/components/Roulette/IdeasEditor.svelte";
   import PersonalIdeas from "$lib/components/Roulette/PersonalIdeas.svelte";
   import JoinCard from "$lib/components/Roulette/JoinCard.svelte";
@@ -99,6 +98,12 @@
     if (value >= 1 && value <= 10) client?.setMaxPicks(value);
   }
 
+  function openWinnerDetails() {
+    if (winner?.tmdb_id && winner.media_type) {
+      detailsFor = { media_type: winner.media_type, tmdb_id: winner.tmdb_id };
+    }
+  }
+
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
     draftName = name;
@@ -169,14 +174,24 @@
   <meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
-<div class="page hub">
-  <div class="hub-pageHead">
+<div class="page">
+  <div class="head">
     <div>
       <h1><span class="accent">{m.roulette_title()}.</span></h1>
       <div class="sub">
-        {m.roulette_online_count({ count: presence.length })}
+        <!-- Hovering the count smoothly expands into everyone's name + dot. -->
+        <span class="online" tabindex="-1">
+          <span>{m.roulette_online_count({ count: presence.length })}</span>
+          <span class="names">
+            {#each presence as p (p.name)}
+              <span class="pname" class:me={p.name === name}>
+                <span class="pdot" style:background={p.color ?? colorForName(p.name)}></span>
+                {p.name}
+              </span>
+            {/each}
+          </span>
+        </span>
         · {connected ? m.roulette_live() : m.roulette_connecting()}
-        · {mediaEnabled ? m.roulette_tmdb_up() : m.roulette_tmdb_off()}
       </div>
     </div>
     <div class="head-actions">
@@ -185,15 +200,16 @@
           {m.roulette_you_are()}
           <span class="dot" style:background={myColor}></span>
           <strong>{name}</strong>
-          {#if admin}<span class="hub-badge up">{m.roulette_admin()}</span>{/if}
+          {#if admin}<Badge tone="brand">{m.roulette_admin()}</Badge>{/if}
         </span>
-        <button class="hub-btn ghost" onclick={() => (editingName = true)}>
+        <Button variant="ghost" size="sm" onclick={() => (editingName = true)}>
           {m.roulette_change()}
-        </button>
+        </Button>
       {/if}
-      <button class="hub-btn" onclick={() => (rulesOpen = true)}>
-        {m.roulette_rules()} <span class="kbd">?</span>
-      </button>
+      <Button size="sm" onclick={() => (rulesOpen = true)}>
+        {m.roulette_rules()}
+        {#snippet trailing()}<Kbd size="sm">?</Kbd>{/snippet}
+      </Button>
     </div>
   </div>
 
@@ -203,10 +219,9 @@
 
   <div class="layout">
     <section class="main-col">
-      <div class="hub-panel">
-        <div class="hub-panel-head">
-          <div class="title">{m.roulette_ideas()}</div>
-          <div class="meta">
+      <Card title={m.roulette_ideas()}>
+        {#snippet action()}
+          <span class="presence">
             {#each presence as p (p.name)}
               <span
                 class="pdot"
@@ -216,142 +231,154 @@
               ></span>
             {/each}
             {m.roulette_editing_count({ count: presence.length })}
-          </div>
-        </div>
-        <div class="hub-panel-body">
-          {#if name && client}
-            <IdeasEditor
-              doc={client.doc}
-              awareness={client.provider.awareness}
-              {name}
-              color={myColor}
-            />
-          {:else}
-            <p class="hs-caption">{m.roulette_ideas_join()}</p>
-          {/if}
-        </div>
-      </div>
+          </span>
+        {/snippet}
+        {#if name && client}
+          <IdeasEditor
+            doc={client.doc}
+            awareness={client.provider.awareness}
+            {name}
+            color={myColor}
+          />
+        {:else}
+          <p class="muted">{m.roulette_ideas_join()}</p>
+        {/if}
+      </Card>
 
       {#if name && client}
-        <div class="hub-panel">
-          <button
-            class="hub-panel-head"
-            aria-expanded={personalOpen}
-            onclick={() => (personalOpen = !personalOpen)}
-          >
-            <span class="title">{m.roulette_personal()}</span>
-            <span class="meta">{m.roulette_personal_desc()} · {personalOpen ? "▾" : "▸"}</span>
-          </button>
-          <div class="hub-panel-body">
-            {#if personalOpen}
-              <PersonalIdeas {client} />
-            {:else}
-              <p class="hs-caption teaser">
-                {personalTeaser.trim().split("\n")[0] || m.roulette_preview_empty()}
-              </p>
-            {/if}
-          </div>
-        </div>
+        <Card title={m.roulette_personal()} description={m.roulette_personal_desc()}>
+          {#snippet action()}
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-expanded={personalOpen}
+              onclick={() => (personalOpen = !personalOpen)}
+            >
+              {personalOpen ? m.roulette_hide() : m.roulette_show()}
+            </Button>
+          {/snippet}
+          {#if personalOpen}
+            <PersonalIdeas {client} />
+          {:else}
+            <p class="muted teaser">
+              {personalTeaser.trim().split("\n")[0] || m.roulette_preview_empty()}
+            </p>
+          {/if}
+        </Card>
       {/if}
     </section>
 
     <aside class="side-col">
-      <div class="hub-panel">
-        <div class="hub-panel-head">
-          <div class="title">{m.roulette_your_option()}</div>
-          <div class="meta">
-            {m.roulette_you_progress({
-              count: myOptionCount,
-              max: admin ? "∞" : wheelState.max_picks,
-            })}
-          </div>
-        </div>
-        <div class="hub-panel-body">
-          <MediaSearchInput
-            apiUrl={API_URL ?? ""}
-            enabled={mediaEnabled}
-            disabled={!name || atLimit}
-            hint={!name
-              ? m.roulette_set_name_first()
-              : atLimit
-                ? m.roulette_at_limit()
-                : undefined}
-            onadd={addPick}
-          />
-        </div>
-      </div>
+      <Card
+        title={m.roulette_your_option()}
+        meta={m.roulette_you_progress({
+          count: myOptionCount,
+          max: admin ? "∞" : wheelState.max_picks,
+        })}
+      >
+        <MediaSearchInput
+          apiUrl={API_URL ?? ""}
+          enabled={mediaEnabled}
+          disabled={!name || atLimit}
+          hint={!name
+            ? m.roulette_set_name_first()
+            : atLimit
+              ? m.roulette_at_limit()
+              : undefined}
+          onadd={addPick}
+        />
+      </Card>
 
-      <div class="hub-panel">
-        <div class="hub-panel-head">
-          <div class="title">{m.roulette_card()}</div>
-          <div class="meta">
-            {m.roulette_in_wheel({ count: options.length })} ·
+      <Card title={m.roulette_card()} meta={m.roulette_in_wheel({ count: options.length })}>
+        {#snippet action()}
+          <span class="limit">
             {#if admin}
-              <button
-                class="hub-btn ghost step"
+              <Button
+                variant="ghost"
+                size="sm"
+                iconOnly
+                label="−"
                 disabled={wheelState.max_picks <= 1}
-                onclick={() => setMax(wheelState.max_picks - 1)}>−</button
+                onclick={() => setMax(wheelState.max_picks - 1)}>−</Button
               >
             {/if}
             {m.roulette_limit_per_person({ max: wheelState.max_picks })}
             {#if admin}
-              <button
-                class="hub-btn ghost step"
+              <Button
+                variant="ghost"
+                size="sm"
+                iconOnly
+                label="+"
                 disabled={wheelState.max_picks >= 10}
-                onclick={() => setMax(wheelState.max_picks + 1)}>+</button
+                onclick={() => setMax(wheelState.max_picks + 1)}>+</Button
               >
             {/if}
-          </div>
-        </div>
-        <div class="hub-panel-body">
-          {#if options.length > 0}
-            <OptionsList
-              {options}
-              me={name}
-              {admin}
-              onremove={(id) => client?.removeOption(id)}
-              ondetails={(media) => (detailsFor = media)}
-            />
-          {:else if loaded}
-            <p class="hs-caption">{m.roulette_wheel_empty()} — {m.roulette_wheel_empty_msg()}</p>
-          {/if}
-        </div>
-        <div class="panel-foot">
-          {#if winner && !spin.spinning}
-            <div class="winner-row">
-              <MediaPoster path={winner.poster_path} size="w92" alt="" />
-              <div class="info">
-                <div class="t">
-                  {winner.text}{#if winner.media_year}&nbsp;<span class="y">({winner.media_year})</span>{/if}
+          </span>
+        {/snippet}
+        {#if options.length > 0}
+          <OptionsList
+            {options}
+            me={name}
+            {admin}
+            onremove={(id) => client?.removeOption(id)}
+            ondetails={(media) => (detailsFor = media)}
+          />
+        {:else if loaded}
+          <EmptyState title={m.roulette_wheel_empty()} message={m.roulette_wheel_empty_msg()} />
+        {/if}
+        {#snippet footer()}
+          <div class="spin-foot">
+            {#if winner && !spin.spinning}
+              <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_tabindex
+                   (role/tabindex/handlers are applied together when the winner has media) -->
+              <div
+                class="winner-row"
+                class:clickable={!!winner.tmdb_id}
+                role={winner.tmdb_id ? "button" : undefined}
+                tabindex={winner.tmdb_id ? 0 : undefined}
+                onclick={openWinnerDetails}
+                onkeydown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openWinnerDetails();
+                  }
+                }}
+              >
+                <MediaPoster path={winner.poster_path} size="w92" alt="" />
+                <div class="info">
+                  <div class="t">
+                    {winner.text}{#if winner.media_year}&nbsp;<span class="y">({winner.media_year})</span>{/if}
+                  </div>
+                  <div class="bysub">{m.roulette_picked_by({ name: winner.author ?? "" })}</div>
                 </div>
-                <div class="sub">{m.roulette_picked_by({ name: winner.author ?? "" })}</div>
-              </div>
-              {#if winner.tmdb_id && winner.media_type}
-                <button
-                  class="hub-btn ghost"
-                  onclick={() =>
-                    (detailsFor = { media_type: winner.media_type!, tmdb_id: winner.tmdb_id! })}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onclick={(e) => {
+                    e.stopPropagation();
+                    client?.clearSpin();
+                  }}
                 >
-                  {m.roulette_media_details()}
-                </button>
-              {/if}
-              <button class="hub-btn ghost" onclick={() => client?.clearSpin()}>
-                {m.roulette_clear_result()}
-              </button>
-            </div>
-          {/if}
-          <button
-            class="hub-btn primary spin-btn"
-            disabled={options.length < 2 || spin.spinning}
-            onclick={requestSpin}
-          >
-            {spin.spinning ? m.roulette_spinning() : m.roulette_spin_wheel()}
-          </button>
-          <p class="hs-caption center">
-            {options.length < 2 ? m.roulette_need_two() : m.roulette_spin_caption()}
-          </p>
-        </div>
-      </div>
+                  {m.roulette_clear_result()}
+                </Button>
+              </div>
+            {/if}
+            <Button
+              variant="primary"
+              fullWidth
+              disabled={options.length < 2}
+              loading={spin.spinning}
+              loadingLabel={m.roulette_spinning()}
+              onclick={requestSpin}
+            >
+              {spin.spinning ? m.roulette_spinning() : m.roulette_spin_wheel()}
+            </Button>
+            <p class="muted center">
+              {options.length < 2 ? m.roulette_need_two() : m.roulette_spin_caption()}
+            </p>
+          </div>
+        {/snippet}
+      </Card>
 
       <HistoryCard {history} {admin} {client} ondetails={(media) => (detailsFor = media)} />
     </aside>
@@ -380,7 +407,83 @@
   width: 100%
   min-height: 100vh
   padding: 16px 20px 48px
-  background: var(--hs-bg)
+  background: var(--ss-bg)
+
+.head
+  display: flex
+  align-items: flex-end
+  justify-content: space-between
+  gap: 24px
+  margin-bottom: 12px
+  flex-wrap: wrap
+  h1
+    font-family: var(--ss-font-display)
+    font-weight: 400
+    font-size: 32px
+    line-height: 1
+    margin: 0
+    letter-spacing: -0.015em
+    text-shadow: 3px 3px var(--ss-bg)
+  .accent
+    position: relative
+    z-index: 0
+    &::before
+      content: ""
+      position: absolute
+      left: -2%
+      right: -6%
+      top: 70%
+      height: 22%
+      background: var(--ss-accent)
+      opacity: 0.9
+      z-index: -1
+
+.sub
+  display: flex
+  align-items: center
+  gap: 5px
+  color: var(--ss-fg-muted)
+  font-size: var(--ss-size-xs, 12px)
+  margin-top: 6px
+  font-family: var(--ss-font-mono)
+
+// "{n} online" grows into the full list of names on hover.
+.online
+  display: inline-flex
+  align-items: center
+  gap: 0
+  cursor: default
+  .names
+    display: inline-flex
+    align-items: center
+    gap: 8px
+    max-width: 0
+    opacity: 0
+    overflow: hidden
+    white-space: nowrap
+    transition: max-width var(--ss-dur-slow, 350ms) var(--ss-ease), opacity var(--ss-dur, 250ms) var(--ss-ease), margin-left var(--ss-dur-slow, 350ms) var(--ss-ease)
+  &:hover .names,
+  &:focus-within .names
+    max-width: 60vw
+    opacity: 1
+    margin-left: 8px
+
+.pname
+  display: inline-flex
+  align-items: center
+  gap: 4px
+  &.me
+    color: var(--ss-accent)
+
+.pdot
+  display: inline-block
+  width: 7px
+  height: 7px
+  flex: none
+  border: 1px solid var(--ss-line-strong)
+  &.me
+    outline: 1px solid var(--ss-accent)
+    outline-offset: 1px
 
 .head-actions
   display: flex
@@ -392,28 +495,35 @@
   display: flex
   align-items: center
   gap: 6px
-  color: var(--hs-fg-muted)
-  font-size: 11.5px
+  color: var(--ss-fg-muted)
+  font-size: var(--ss-size-sm)
   strong
-    color: var(--hs-primary)
+    color: var(--ss-accent)
 
 .dot
   width: 8px
   height: 8px
-  border: 1px solid var(--hs-line-strong)
+  border: 1px solid var(--ss-line-strong)
 
-.pdot
-  display: inline-block
-  width: 7px
-  height: 7px
-  border: 1px solid var(--hs-line-strong)
-  &.me
-    outline: 1px solid var(--hs-primary)
-    outline-offset: 1px
+.presence
+  display: inline-flex
+  align-items: center
+  gap: 5px
+  color: var(--ss-fg-muted)
+  font-family: var(--ss-font-mono)
+  font-size: var(--ss-size-xs, 12px)
+
+.limit
+  display: inline-flex
+  align-items: center
+  gap: 4px
+  color: var(--ss-fg-muted)
+  font-family: var(--ss-font-mono)
+  font-size: var(--ss-size-xs, 12px)
 
 .layout
   display: flex
-  gap: 8px
+  gap: 12px
   align-items: flex-start
   @media (max-width: 900px)
     flex-direction: column
@@ -423,40 +533,47 @@
   min-width: 0
   display: flex
   flex-direction: column
-  gap: 8px
+  gap: 12px
 
 .side-col
   flex: 3
   min-width: 230px
   display: flex
   flex-direction: column
-  gap: 8px
+  gap: 12px
   @media (max-width: 900px)
     width: 100%
 
-.teaser
+.muted
+  color: var(--ss-fg-muted)
+  font-size: var(--ss-size-sm)
   margin: 0
+
+.teaser
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
 
-.step
-  padding: 1px 5px
-  font-size: 11px
-  text-transform: none
-
-.panel-foot
-  border-top: 1px solid var(--hs-line)
-  padding: 8px
+.spin-foot
+  display: flex
+  flex-direction: column
+  gap: 8px
+  width: 100%
 
 .winner-row
   display: flex
   align-items: center
   gap: 8px
   padding: 5px 6px
-  margin-bottom: 8px
-  border: 1px solid color-mix(in srgb, var(--hs-primary) 40%, transparent)
-  background: color-mix(in srgb, var(--hs-primary) 8%, transparent)
+  border: 1px solid color-mix(in srgb, var(--ss-accent) 40%, transparent)
+  background: color-mix(in srgb, var(--ss-accent) 8%, transparent)
+  &.clickable
+    cursor: pointer
+    &:hover
+      border-color: var(--ss-accent)
+    &:focus-visible
+      outline: 2px solid var(--ss-accent)
+      outline-offset: 2px
   :global(.poster)
     width: 26px
   .info
@@ -464,23 +581,19 @@
     min-width: 0
   .t
     font-size: 11.5px
-    color: var(--hs-fg)
+    color: var(--ss-fg)
     white-space: nowrap
     overflow: hidden
     text-overflow: ellipsis
     .y
-      color: var(--hs-fg-faint)
-  .sub
+      color: var(--ss-fg-faint)
+  .bysub
     font-size: 10px
-    color: var(--hs-fg-faint)
-
-.spin-btn
-  width: 100%
-  justify-content: center
-  padding: 8px 18px
-  font-size: 13px
+    color: var(--ss-fg-faint)
 
 .center
   text-align: center
-  margin: 5px 0 0
+  font-family: var(--ss-font-mono)
+  font-size: var(--ss-size-xs, 12px)
+  color: var(--ss-fg-faint)
 </style>
