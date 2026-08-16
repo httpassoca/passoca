@@ -367,7 +367,9 @@
   position: absolute
   inset: 0
   background-size: cover
-  background-position: center
+  // Top-anchored: faces/titles in backdrop art live in the upper half, and
+  // the bottom gets covered by the gradient + winner panel anyway.
+  background-position: center top
   z-index: 2
   animation: bgfade 0.6s var(--ss-ease)
 

@@ -86,7 +86,11 @@
   }
 </script>
 
-<Modal bind:open title={m.roulette_tierlist_timeline()} size="lg" {onclose}>
+<!-- Fullscreen: the timeline replays whole tierlist frames, so it gets the
+     entire viewport (the dssoca Modal is sized via --ss-modal-* custom
+     properties, inherited from this wrapper into the <dialog>). -->
+<div class="fullscreen">
+  <Modal bind:open title={m.roulette_tierlist_timeline()} size="lg" {onclose}>
   <p class="desc">{m.roulette_tierlist_timeline_desc()}</p>
 
   {#if !frame}
@@ -189,9 +193,21 @@
       {/each}
     </div>
   {/if}
-</Modal>
+  </Modal>
+</div>
 
 <style lang="sass">
+.fullscreen
+  display: contents
+  :global(.ss-modal)
+    width: 100vw
+    max-width: 100vw
+    height: 100vh
+    max-height: 100vh
+    border: none
+  :global(.ss-modal .panel)
+    height: 100%
+
 .desc
   margin: 0 0 8px
   font-family: var(--ss-font-mono)
