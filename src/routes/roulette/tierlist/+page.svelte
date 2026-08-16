@@ -29,6 +29,7 @@
   let admin = $state(false);
   let detailsFor = $state<MediaKey | null>(null);
   let snapshots = $state<TierlistSnapshot[]>([]);
+  let timelineOpen = $state(false);
 
   onMount(() => {
     name = localStorage.getItem(NAME_KEY) ?? "";
@@ -79,18 +80,32 @@
         <h1><span class="accent">{m.roulette_tierlist_title()}.</span></h1>
         <div class="sub">{m.roulette_tierlist_sub()}</div>
       </div>
-      <Button size="sm" onclick={() => goto("/roulette")}>
-        {m.roulette_tierlist_back()}
-      </Button>
+      <div class="head-actions">
+        <Button size="sm" onclick={() => (timelineOpen = true)}>
+          {m.roulette_tierlist_timeline()}
+        </Button>
+        <Button size="sm" onclick={() => goto("/roulette")}>
+          {m.roulette_tierlist_back()}
+        </Button>
+      </div>
     </div>
 
     <GeneralTierlist state={tierState} ondetails={(media) => (detailsFor = media)} />
-    <TierlistTimeline {client} state={tierState} {snapshots} {admin} />
     <PersonalTierlist {client} state={tierState} {name} ondetails={(media) => (detailsFor = media)} />
     {#if admin}
       <AdminTierlists {client} state={tierState} ondetails={(media) => (detailsFor = media)} />
     {/if}
   </div>
+
+  {#if timelineOpen}
+    <TierlistTimeline
+      {client}
+      state={tierState}
+      {snapshots}
+      {admin}
+      onclose={() => (timelineOpen = false)}
+    />
+  {/if}
 
   {#if detailsFor && API_URL}
     <MediaDetails
@@ -153,4 +168,10 @@
   font-size: var(--ss-size-xs, 12px)
   margin-top: 6px
   font-family: var(--ss-font-mono)
+
+.head-actions
+  display: flex
+  gap: 6px
+  align-items: center
+  flex-wrap: wrap
 </style>

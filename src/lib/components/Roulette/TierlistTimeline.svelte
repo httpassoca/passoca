@@ -1,7 +1,7 @@
 <script lang="ts">
   import { crossfade, fade } from "svelte/transition";
   import { flip } from "svelte/animate";
-  import { Badge, Button, Card, EmptyState, SegmentedControl } from "dssoca";
+  import { Badge, Button, EmptyState, Modal, SegmentedControl } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import MediaPoster from "./MediaPoster.svelte";
   import TierRow from "./TierRow.svelte";
@@ -18,12 +18,16 @@
     state: tierState,
     snapshots,
     admin,
+    onclose,
   }: {
     client: RouletteClient | null;
     state: TierlistState;
     snapshots: TierlistSnapshot[];
     admin: boolean;
+    onclose: () => void;
   } = $props();
+
+  let open = $state(true);
 
   const BASE_STEP_MS = 1800;
   const BASE_MOVE_MS = 500;
@@ -82,22 +86,8 @@
   }
 </script>
 
-<Card title={m.roulette_tierlist_timeline()} meta={m.roulette_tierlist_timeline_desc()}>
-  {#snippet action()}
-    {#if visible.length > 1}
-      <SegmentedControl
-        size="sm"
-        label={m.roulette_tierlist_speed()}
-        bind:value={speed}
-        options={[
-          { value: "0.5", label: "0.5×" },
-          { value: "1", label: "1×" },
-          { value: "2", label: "2×" },
-          { value: "4", label: "4×" },
-        ]}
-      />
-    {/if}
-  {/snippet}
+<Modal bind:open title={m.roulette_tierlist_timeline()} size="lg" {onclose}>
+  <p class="desc">{m.roulette_tierlist_timeline_desc()}</p>
 
   {#if !frame}
     <EmptyState
@@ -140,6 +130,20 @@
       <span class="author">
         {m.roulette_tierlist_change_by({ name: frame.author })} · {fmtWhen(frame.created_at)}
       </span>
+      {#if visible.length > 1}
+        <span class="grow"></span>
+        <SegmentedControl
+          size="sm"
+          label={m.roulette_tierlist_speed()}
+          bind:value={speed}
+          options={[
+            { value: "0.5", label: "0.5×" },
+            { value: "1", label: "1×" },
+            { value: "2", label: "2×" },
+            { value: "4", label: "4×" },
+          ]}
+        />
+      {/if}
     </div>
 
     <div class="rows">
@@ -185,15 +189,24 @@
       {/each}
     </div>
   {/if}
-</Card>
+</Modal>
 
 <style lang="sass">
+.desc
+  margin: 0 0 8px
+  font-family: var(--ss-font-mono)
+  font-size: var(--ss-size-xs, 12px)
+  letter-spacing: 0.04em
+  color: var(--ss-fg-faint)
+
 .controls
   display: flex
   align-items: center
   gap: 8px
   flex-wrap: wrap
   margin-bottom: 8px
+  .grow
+    flex: 1
 
 .counter
   font-family: var(--ss-font-mono)
