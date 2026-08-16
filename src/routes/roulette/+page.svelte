@@ -373,12 +373,12 @@
             <Button
               variant="primary"
               fullWidth
-              disabled={options.length < 2}
+              disabled={options.length === 0}
               loading={spin.spinning}
               loadingLabel={m.roulette_spinning()}
-              onclick={requestSpin}
+              onclick={() => (spin.previewOpen = true)}
             >
-              {spin.spinning ? m.roulette_spinning() : m.roulette_spin_wheel()}
+              {spin.spinning ? m.roulette_spinning() : m.roulette_open_wheel()}
             </Button>
             <p class="muted center">
               {options.length < 2 ? m.roulette_need_two() : m.roulette_spin_caption()}
@@ -391,7 +391,16 @@
     </aside>
   </div>
 
-  <WheelArea {options} {spin} {winner} ondetails={(media) => (detailsFor = media)} />
+  <WheelArea
+    {options}
+    {spin}
+    {winner}
+    {admin}
+    canSpin={options.length >= 2}
+    onspin={requestSpin}
+    ondeny={() => client?.deny()}
+    ondetails={(media) => (detailsFor = media)}
+  />
 
   {#if rulesOpen}
     <RulesModal onclose={() => (rulesOpen = false)} />

@@ -4,19 +4,16 @@
   import { tmdbImg } from "$lib/roulette/media";
   import type { Option } from "$lib/roulette/types";
 
+  // Rotation is applied by the parent to the wrapping HTML element (a cheap
+  // composited transform); rotating an inner SVG <g> forces the browser to
+  // re-rasterize the whole artwork every frame and made the spin laggy.
   let {
     options,
-    rotation = 0,
-    duration = 0,
     radius,
     apexHeight,
     winnerId = null,
   }: {
     options: Option[];
-    /** Cumulative clockwise rotation in degrees. */
-    rotation?: number;
-    /** Transition length in seconds; 0 snaps instantly. */
-    duration?: number;
     /** Wheel radius in px — the SVG is sized 1:1 with the viewport. */
     radius: number;
     /** Visible height of the arc at screen center; positions the labels. */
@@ -58,8 +55,9 @@
     return null;
   }
 
-  // Titles ride an arc near the rim; on the visible top of the wheel that
-  // reads left-to-right and upright, and it rotates with the wedges.
+  // Titles ride an arc near the rim; drawn counter-clockwise so they read
+  // left-to-right and upright on the visible BOTTOM of the wheel (the wheel
+  // hangs from the top of the screen), and they rotate with the wedges.
   const fontSize = $derived(Math.max(13, Math.min(24, radius * 0.032)));
   const labelR = $derived(
     radius - Math.max(fontSize + 10, Math.min(0.14 * radius, apexHeight * 0.42))
@@ -72,10 +70,12 @@
 
   function labelArc(i: number) {
     const half = labelHalfSpan();
-    const start = polar(mid(i) - half, labelR);
-    const end = polar(mid(i) + half, labelR);
+    // Reversed (sweep 0): classic bottom-of-badge arc so glyph tops point at
+    // the wheel center — upright for a wedge sitting at 6 o'clock.
+    const start = polar(mid(i) + half, labelR);
+    const end = polar(mid(i) - half, labelR);
     const largeArc = half > 90 ? 1 : 0;
-    return `M ${start.x} ${start.y} A ${labelR} ${labelR} 0 ${largeArc} 1 ${end.x} ${end.y}`;
+    return `M ${start.x} ${start.y} A ${labelR} ${labelR} 0 ${largeArc} 0 ${end.x} ${end.y}`;
   }
 
   const maxChars = $derived.by(() => {
@@ -118,14 +118,7 @@
       {/each}
     </defs>
 
-    <g
-      class="wheel"
-      style:transform="rotate({rotation}deg)"
-      style:transform-origin="{C}px {C}px"
-      style:transition={duration > 0
-        ? `transform ${duration}s cubic-bezier(0.12, 0.64, 0.08, 1)`
-        : "none"}
-    >
+    <g class="wheel">
       {#each options as option, i (option.id)}
         {@const art = wedgeArt(option)}
         {#if n === 1}
@@ -179,9 +172,6 @@
 <style lang="sass">
 svg
   display: block
-
-.wheel
-  transform-box: view-box
 
 .spoke
   stroke: rgb(255 255 255 / 0.28)

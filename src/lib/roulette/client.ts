@@ -40,6 +40,8 @@ export interface RouletteClient {
   setMaxPicks(value: number): void;
   spin(turns?: number): void;
   clearSpin(): void;
+  /** Admin-only: veto the winner AND retract the spin's history entry. */
+  deny(): void;
   editHistory(id: string, title: string, drawnAt: string): void;
   removeHistory(id: string): void;
   setPersonal(content: string): void;
@@ -124,6 +126,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     setMaxPicks: (value) => socket.emit("wheel:set_max", { value }),
     spin: (turns) => socket.emit("wheel:spin", { turns }),
     clearSpin: () => socket.emit("wheel:clear_spin"),
+    deny: () => socket.emit("wheel:deny"),
     editHistory: (id, title, drawn_at) =>
       socket.emit("history:edit", { id, title, drawn_at }),
     removeHistory: (id) => socket.emit("history:remove", { id }),

@@ -12,6 +12,9 @@ export class SpinController {
   // Fullscreen takeover: only for spins witnessed live (not for late joiners
   // who load an already-settled winner). Dismissing is local to this client.
   overlayDismissed = $state(true);
+  // Pre-spin stage: the wheel centered on screen with the SPIN button, opened
+  // locally from the wheel card. A real spin (ours or remote) replaces it.
+  previewOpen = $state(false);
 
   /** `undefined` until the first server snapshot — that one never animates. */
   lastSpunAt: string | null | undefined = undefined;
@@ -37,12 +40,15 @@ export class SpinController {
       return;
     }
     const segment = 360 / next.options.length;
-    const align = 360 - (index + 0.5) * segment;
+    // The wheel hangs from the top of the screen, so the winning wedge must
+    // rest at the wheel's 6 o'clock — the apex of the visible bottom arc.
+    const align = (540 - (index + 0.5) * segment) % 360;
 
     if (animate) {
       this.spinning = true;
       this.winnerId = null;
       this.overlayDismissed = false;
+      this.previewOpen = false;
       this.spinDuration = this.#spinSeconds;
       // Whole turns only — a fractional turn would rest the wheel offset from
       // the winner segment while the announcement names the true winner.
