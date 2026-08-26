@@ -156,13 +156,17 @@
   flex-direction: column
   gap: 12px
 
+// Three-zone row: title | centered nav | (empty) — the nav buttons sit at the
+// true middle of the row, mirroring the /roulette head.
 .head
-  display: flex
-  align-items: flex-end
-  justify-content: space-between
+  display: grid
+  grid-template-columns: 1fr auto 1fr
+  align-items: center
   gap: 24px
   margin-bottom: 4px
-  flex-wrap: wrap
+  @media (max-width: 720px)
+    grid-template-columns: 1fr
+    gap: 10px
   h1
     font-family: var(--ss-font-display)
     font-weight: 400
@@ -196,4 +200,7 @@
   gap: 6px
   align-items: center
   flex-wrap: wrap
+  justify-self: center
+  @media (max-width: 720px)
+    justify-self: start
 </style>

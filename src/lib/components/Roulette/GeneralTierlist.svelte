@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { EmptyState, Modal, Spinner } from "dssoca";
+  import { Button, EmptyState, Modal, Spinner, toast } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import TierRow from "./TierRow.svelte";
   import TierTile from "./TierTile.svelte";
   import {
     TIERS,
     TIER_COLORS,
+    exportTierlistJpg,
     ranksFor,
     type MediaKey,
     type TierlistState,
@@ -28,13 +29,45 @@
 
   const itemsByKey = $derived(new Map(tierState.items.map((i) => [i.key, i])));
   const listCount = $derived(Object.keys(tierState.submissions).length);
+
+  let exporting = $state(false);
+
+  async function exportJpg() {
+    exporting = true;
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      await exportTierlistJpg({
+        rows: TIERS.map((tier) => ({
+          tier,
+          items: tierState.general[tier].flatMap((key) => {
+            const item = itemsByKey.get(key);
+            return item ? [item] : [];
+          }),
+        })),
+        title: `${m.roulette_tierlist_title()} — ${m.roulette_tierlist_general()}`,
+        subtitle: `${m.roulette_tierlist_based_on({ count: listCount })} · passoca.dev/roulette · ${today}`,
+        filename: `tierlist-general-${today}.jpg`,
+      });
+    } catch {
+      toast.error(m.roulette_tierlist_export_failed());
+    } finally {
+      exporting = false;
+    }
+  }
 </script>
 
 <!-- Fullscreen, like the timeline: a whole tierlist wants the viewport. -->
 <Modal bind:open fullscreen title={m.roulette_tierlist_general()} {onclose}>
-  <p class="desc">
-    {m.roulette_tierlist_general_desc()} · {m.roulette_tierlist_based_on({ count: listCount })}
-  </p>
+  <div class="head">
+    <p class="desc">
+      {m.roulette_tierlist_general_desc()} · {m.roulette_tierlist_based_on({ count: listCount })}
+    </p>
+    {#if !loading && listCount > 0}
+      <Button size="sm" onclick={exportJpg} loading={exporting}>
+        {m.roulette_tierlist_export()}
+      </Button>
+    {/if}
+  </div>
 
   {#if loading}
     <div class="loading">
@@ -80,8 +113,15 @@
 </Modal>
 
 <style lang="sass">
-.desc
+.head
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 8px
   margin: 0 0 8px
+
+.desc
+  margin: 0
   font-family: var(--ss-font-mono)
   font-size: var(--ss-size-xs, 12px)
   letter-spacing: 0.04em

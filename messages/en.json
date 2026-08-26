@@ -231,6 +231,8 @@
   "roulette_tierlist_saving": "saving…",
   "roulette_tierlist_autosaved": "saved",
   "roulette_tierlist_autosave_hint": "saves as you drag",
+  "roulette_tierlist_export": "Export JPG",
+  "roulette_tierlist_export_failed": "export failed — try again",
   "roulette_tierlist_publish": "Update general tierlist",
   "roulette_tierlist_published": "general tierlist updated",
   "roulette_tierlist_timeline": "Timeline",

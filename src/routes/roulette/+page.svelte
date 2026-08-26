@@ -197,6 +197,11 @@
         · {connected ? m.roulette_live() : m.roulette_connecting()}
       </div>
     </div>
+    <div class="head-nav">
+      <Button size="md" onclick={() => goto("/roulette/tierlist")}>
+        {m.roulette_tierlist_link()}
+      </Button>
+    </div>
     <div class="head-actions">
       {#if name && !editingName}
         <span class="you">
@@ -214,9 +219,6 @@
           {m.roulette_settings()}
         </Button>
       {/if}
-      <Button size="md" onclick={() => goto("/roulette/tierlist")}>
-        {m.roulette_tierlist_link()}
-      </Button>
       <Button size="md" onclick={() => (rulesOpen = true)}>
         {m.roulette_rules()}
         {#snippet trailing()}<Kbd size="md">?</Kbd>{/snippet}
@@ -430,13 +432,16 @@
   padding: 16px 20px 48px
   background: var(--ss-bg)
 
+// Three-zone row: title | centered nav | identity + modals on the right.
 .head
-  display: flex
-  align-items: flex-end
-  justify-content: space-between
+  display: grid
+  grid-template-columns: 1fr auto 1fr
+  align-items: center
   gap: 24px
   margin-bottom: 12px
-  flex-wrap: wrap
+  @media (max-width: 860px)
+    grid-template-columns: 1fr
+    gap: 10px
   h1
     font-family: var(--ss-font-display)
     font-weight: 400
@@ -506,11 +511,19 @@
     outline: 1px solid var(--ss-accent)
     outline-offset: 1px
 
+.head-nav
+  justify-self: center
+  @media (max-width: 860px)
+    justify-self: start
+
 .head-actions
   display: flex
   gap: 6px
   align-items: center
   flex-wrap: wrap
+  justify-self: end
+  @media (max-width: 860px)
+    justify-self: start
 
 .you
   display: flex

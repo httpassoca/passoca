@@ -10,6 +10,7 @@
   import {
     TIERS,
     buildZones,
+    exportTierlistJpg,
     placementsFromZones,
     type DndTierItem,
     type MediaKey,
@@ -91,6 +92,25 @@
 
   onDestroy(() => flushSave());
 
+  let exporting = $state(false);
+
+  async function exportJpg() {
+    exporting = true;
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      await exportTierlistJpg({
+        rows: TIERS.map((tier) => ({ tier, items: zones[tier] })),
+        title: m.roulette_tierlist_personal({ name }),
+        subtitle: `passoca.dev/roulette · ${today}`,
+        filename: `tierlist-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${today}.jpg`,
+      });
+    } catch {
+      toast.error(m.roulette_tierlist_export_failed());
+    } finally {
+      exporting = false;
+    }
+  }
+
   function handleConsider(zone: TierName | "unranked", e: CustomEvent<DndEvent<DndTierItem>>) {
     dragging = true;
     zones[zone] = e.detail.items;
@@ -143,6 +163,9 @@
           {m.roulette_tierlist_autosave_hint()}
         {/if}
       </span>
+      <Button size="md" onclick={exportJpg} loading={exporting}>
+        {m.roulette_tierlist_export()}
+      </Button>
       <Button variant="primary" size="md" onclick={publish}>
         {m.roulette_tierlist_publish()}
       </Button>
