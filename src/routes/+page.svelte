@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Container, Link } from "dssoca";
+  import { Container, Link, Tooltip } from "dssoca";
   import AppSvg from "$lib/components/Base/AppSVG.svelte";
   import SpotifyMusic from "$lib/components/SpotifyMusic.svelte";
   import { books, games, socials, trips } from "$lib/data/misc";
@@ -76,14 +76,16 @@
   </p>
   <div class="flex flex-wrap gap-1 my-2 md:justify-between">
     {#each books as book (book.link)}
-      <a href={book.link} class="w-auto" target="_blank">
-        <img
-          loading="lazy"
-          src={`imgs/books/${book.img}`}
-          alt={`${book.title}-book_cover`}
-          class="h-32"
-        />
-      </a>
+      <Tooltip text={book.title}>
+        <a href={book.link} class="w-auto" target="_blank">
+          <img
+            loading="lazy"
+            src={`imgs/books/${book.img}`}
+            alt={`${book.title}-book_cover`}
+            class="h-32"
+          />
+        </a>
+      </Tooltip>
     {/each}
   </div>
   <p class="text-base">
