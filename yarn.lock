@@ -2576,10 +2576,10 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-dssoca@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/dssoca/-/dssoca-0.15.0.tgz#81735d7cd327d9cd241636a8c24f6811407e21f8"
-  integrity sha512-bZGzf5+O+gPiUK/yssz5w07HBHrU7HZBX8k0qa2goBI7v+fB67DzuGSFV9Ab/XEKjxvt95GjxQwVZ8aDHDQx3Q==
+dssoca@0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/dssoca/-/dssoca-0.16.0.tgz#42a99edff43bf1462fb314de5d7977bea42a77b3"
+  integrity sha512-XV+8UJpPDN0K1gD2tj1dV12cZhW/QgisrDd0q9RJNvtWidbKF0nDKxsCEAnFQvumzqyZmQBpXxnlG5CYwLTbqQ==
   dependencies:
     d3-array "^3.2.4"
     d3-scale "^4.0.2"
