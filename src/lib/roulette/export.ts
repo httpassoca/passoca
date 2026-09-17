@@ -274,6 +274,14 @@ export function tierlistMarkdown(opts: {
   return lines.join("\n");
 }
 
+/** Puts the Markdown on the clipboard; rejects when the browser refuses (no permission/insecure context). */
+export async function copyTierlistMarkdown(
+  opts: Parameters<typeof tierlistMarkdown>[0]
+): Promise<void> {
+  if (!navigator.clipboard?.writeText) throw new Error("clipboard unavailable");
+  await navigator.clipboard.writeText(tierlistMarkdown(opts));
+}
+
 /** Downloads the tierlist as a `.md` file — no rendering, so it never fails on posters. */
 export function exportTierlistMarkdown(
   opts: Parameters<typeof tierlistMarkdown>[0] & { filename: string }

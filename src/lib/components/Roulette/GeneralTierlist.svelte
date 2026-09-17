@@ -7,6 +7,7 @@
     TIERS,
     TIER_COLORS,
     exportTierlistJpg,
+    copyTierlistMarkdown,
     exportTierlistMarkdown,
     ranksFor,
     type MediaKey,
@@ -50,12 +51,16 @@
 
   function exportAs(format: string) {
     const { stem, ...spec } = exportSpec();
+    const md = { ...spec, emptyLabel: m.roulette_tierlist_empty_tier() };
     if (format === "md") {
-      exportTierlistMarkdown({
-        ...spec,
-        emptyLabel: m.roulette_tierlist_empty_tier(),
-        filename: `${stem}.md`,
-      });
+      exportTierlistMarkdown({ ...md, filename: `${stem}.md` });
+      return;
+    }
+    if (format === "copy") {
+      copyTierlistMarkdown(md).then(
+        () => toast.success(m.roulette_tierlist_copied()),
+        () => toast.error(m.roulette_tierlist_copy_failed())
+      );
       return;
     }
     // Rendering posters takes a moment — the toast doubles as the loading state.
@@ -69,6 +74,7 @@
   const exportItems = $derived([
     { id: "jpg", label: m.roulette_tierlist_export_jpg() },
     { id: "md", label: m.roulette_tierlist_export_md() },
+    { id: "copy", label: m.roulette_tierlist_export_copy() },
   ]);
 </script>
 
