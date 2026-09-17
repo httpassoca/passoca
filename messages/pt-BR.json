@@ -1,6 +1,5 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-
   "nav_home": "início",
   "nav_career": "carreira",
   "nav_projects": "projetos",
@@ -8,7 +7,6 @@
   "nav_notes": "notas",
   "nav_contact": "contato",
   "nav_search": "buscar",
-
   "search_title": "Buscar",
   "search_placeholder": "Busque posts, projetos, páginas…",
   "search_no_results": "Nenhum resultado para",
@@ -16,7 +14,6 @@
   "search_group_posts": "Posts",
   "search_group_projects": "Projetos",
   "search_hint": "↑↓ navegar · ↵ abrir · esc fechar",
-
   "shortcuts_title": "Atalhos de teclado",
   "shortcuts_group_nav": "Navegação",
   "shortcuts_go_home": "Ir para o início",
@@ -26,7 +23,6 @@
   "shortcuts_group_prefs": "Preferências",
   "shortcuts_language": "Mudar idioma",
   "shortcuts_theme": "Mudar tema",
-
   "home_title": "Oi, eu sou o Rafael Passoca.",
   "home_intro": "Como dev, eu adoro automatizar coisas e fazer elas trabalharem pra mim. Também acredito que aparência e praticidade são as melhores influências pra experiência do usuário. Isso é o que importa. E eu adoro fazer acontecer.",
   "home_resume": "Se você só quer meu currículo",
@@ -38,14 +34,11 @@
   "home_books": "Eu adoro ler. Aqui vão alguns dos meus livros favoritos. Você pode ver mais no meu perfil do goodreads.",
   "home_bike": "Eu também curto pedalar. Prefiro viagens longas — sem pressa.",
   "home_games": "Jogos, claro. Tenho alguns gameplays, mas hoje em dia não é algo que eu faço.",
-
   "blog_title": "Posts",
   "blog_subtitle": "Quando você tem algo a dizer, o silêncio é uma mentira.",
-
   "skills_title": "Habilidades",
   "career_work_title": "Trabalho",
   "career_education_title": "Educação",
-
   "career_ctw_1": "Desenhei e construí infraestrutura para uma aplicação de microfrontends em Angular dentro de um monorepo, usando micro-deployments.",
   "career_ctw_2": "Mantive 4 projetos internos, incluindo outro design system.",
   "career_ctw_3": "Desenvolvi e mantive um guia de padrões de Frontend para times da BMW.",
@@ -55,7 +48,6 @@
   "career_ctw_tools": "Jira, Bitbucket, Confluence, Windows, WSL, Docker",
   "career_ctw_stack_label": "Stack:",
   "career_ctw_stack": "Angular 8-17, React, Jasmine, Java (Spring / Quarkus), PostgreSQL, Jenkins, Kubernetes, Terraform, Ansible, Azure, NGINX",
-
   "career_jmv_1": "Mantive um projeto de gestão de plataforma EAD",
   "career_jmv_2": "Criei um projeto interno para gerenciar social stream multiplataforma",
   "career_jmv_3": "Aprendi TDD com Vue",
@@ -63,18 +55,14 @@
   "career_jmv_tools": "Gitlab, Linux e Docker",
   "career_jmv_stack_label": "Stack:",
   "career_jmv_stack": "Vue 2, PHP (Laravel), Node.js, Websocket, Jest.js, PostgreSQL",
-
   "career_spiry_1": "Desenvolvi o frontend de",
   "career_spiry_stack_label": "Stack:",
   "career_spiry_stack": "React, Next.js, PostgreSQL",
-
   "career_senai_1": "Aprendi lógica de programação com:",
-
   "career_uemg_1": "Engenharia de Computação",
   "career_uemg_2": "Estudar filosofia",
   "career_uemg_3": "Perceber que a faculdade só ficou boa no final de 3 anos",
   "career_uemg_4": "Sair e focar em outros trabalhos",
-
   "contact_title": "Sem vergonha! Me manda uma mensagem!",
   "contact_message": "Mensagem",
   "contact_name": "Nome",
@@ -88,19 +76,13 @@
   "contact_placeholder_message": "Que site maneiro!! Quer ganhar cem milhões de reais?",
   "contact_placeholder_name": "Como eu devo te chamar? Heisenberg?",
   "contact_placeholder_contact": "Seu melhor contato, tipo t.me/httpassoca ou me@passoca.dev",
-
   "notes_title": "Notas",
-
   "blog_back_posts": "posts",
   "blog_thanks": "Valeu por ler!",
-
   "spotify_now_listening": "Agora eu estou ouvindo:",
-
   "error_title": "Erro 🙃",
   "error_body": "Era pra isso não acontecer 😢 Se você está lendo isso, me manda uma mensagem em me@passoca.dev",
-
   "i18n_switch": "Trocar idioma",
-
   "roulette_title": "Roleta de filmes",
   "roulette_live": "ao vivo",
   "roulette_connecting": "conectando…",
@@ -145,7 +127,7 @@
   "roulette_remove_option": "Remover \"{text}\"",
   "roulette_picked_by": "escolhido por {name}",
   "roulette_spinning": "Girando…",
-  "roulette_spin": "Girar",
+  "roulette_spin": "GIRAR",
   "roulette_clear_result": "Limpar resultado",
   "roulette_need_two": "Precisa de pelo menos 2 opções para girar.",
   "roulette_wheel_empty": "A roleta está vazia",
@@ -156,6 +138,8 @@
   "roulette_max_toast": "Máximo de {max} na roleta por pessoa — remova uma primeiro.",
   "roulette_missing_api": "Falta a URL da API (VITE_API_URL).",
   "roulette_close": "Fechar",
+  "roulette_sound_on": "Ativar sons",
+  "roulette_sound_off": "Silenciar sons",
   "roulette_wheel_aria": "Roleta",
   "roulette_media_movie": "filme",
   "roulette_media_tv": "série",
@@ -203,11 +187,21 @@
   "roulette_user_deleted": "{name} removido",
   "roulette_settings_limit": "Limite de filmes por pessoa",
   "roulette_history_removed": "Removido do histórico",
-  "roulette_spin": "GIRAR",
   "roulette_deny": "Recusar",
   "roulette_wheel_play_hint": "dá uma girada de brincadeira — GIRAR decide de verdade",
   "roulette_spin_caption": "tela cheia em todos os aparelhos · vencedor → histórico",
   "roulette_history_admin_caption": "editar e excluir são só do admin",
+  "roulette_history_add": "Adicionar filme",
+  "roulette_history_add_desc": "Registre uma roleta do passado na mão — ela entra no histórico e na tierlist de todo mundo.",
+  "roulette_history_add_hint": "busque no TMDB, ou digite um título e aperte Enter",
+  "roulette_history_add_change": "trocar",
+  "roulette_history_add_tmdb": "do TMDB · título editável",
+  "roulette_history_add_freetext": "texto livre · sem pôster",
+  "roulette_history_add_author": "Escolhido por",
+  "roulette_history_add_author_hint": "opcional",
+  "roulette_history_add_submit": "Adicionar ao histórico",
+  "roulette_history_added": "{title} adicionado ao histórico",
+  "roulette_history_add_failed": "não deu pra adicionar ao histórico",
   "roulette_date_unknown": "data desconhecida",
   "roulette_tierlist_link": "Tierlist",
   "roulette_tierlist_title": "Tierlist",
@@ -231,7 +225,12 @@
   "roulette_tierlist_saving": "salvando…",
   "roulette_tierlist_autosaved": "salvo",
   "roulette_tierlist_autosave_hint": "salva enquanto você arrasta",
-  "roulette_tierlist_export": "Exportar JPG",
+  "roulette_tierlist_export": "Exportar",
+  "roulette_tierlist_export_jpg": "como JPG",
+  "roulette_tierlist_export_md": "como Markdown",
+  "roulette_tierlist_export_rendering": "renderizando…",
+  "roulette_tierlist_exported": "baixado",
+  "roulette_tierlist_empty_tier": "(vazio)",
   "roulette_tierlist_export_failed": "falha ao exportar — tente de novo",
   "roulette_tierlist_publish": "Atualizar tierlist geral",
   "roulette_tierlist_published": "tierlist geral atualizada",

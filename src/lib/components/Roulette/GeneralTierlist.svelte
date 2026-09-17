@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, EmptyState, Modal, Spinner, toast } from "dssoca";
+  import { EmptyState, Menu, Modal, Spinner, toast } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import TierRow from "./TierRow.svelte";
   import TierTile from "./TierTile.svelte";
@@ -7,6 +7,7 @@
     TIERS,
     TIER_COLORS,
     exportTierlistJpg,
+    exportTierlistMarkdown,
     ranksFor,
     type MediaKey,
     type TierlistState,
@@ -30,30 +31,45 @@
   const itemsByKey = $derived(new Map(tierState.items.map((i) => [i.key, i])));
   const listCount = $derived(Object.keys(tierState.submissions).length);
 
-  let exporting = $state(false);
-
-  async function exportJpg() {
-    exporting = true;
-    try {
-      const today = new Date().toISOString().slice(0, 10);
-      await exportTierlistJpg({
-        rows: TIERS.map((tier) => ({
-          tier,
-          items: tierState.general[tier].flatMap((key) => {
-            const item = itemsByKey.get(key);
-            return item ? [item] : [];
-          }),
-        })),
-        title: `${m.roulette_tierlist_title()} — ${m.roulette_tierlist_general()}`,
-        subtitle: `${m.roulette_tierlist_based_on({ count: listCount })} · passoca.dev/roulette · ${today}`,
-        filename: `tierlist-general-${today}.jpg`,
-      });
-    } catch {
-      toast.error(m.roulette_tierlist_export_failed());
-    } finally {
-      exporting = false;
-    }
+  // Same rows/title/filename stem for both formats — only the renderer differs.
+  function exportSpec() {
+    const today = new Date().toISOString().slice(0, 10);
+    return {
+      rows: TIERS.map((tier) => ({
+        tier,
+        items: tierState.general[tier].flatMap((key) => {
+          const item = itemsByKey.get(key);
+          return item ? [item] : [];
+        }),
+      })),
+      title: `${m.roulette_tierlist_title()} — ${m.roulette_tierlist_general()}`,
+      subtitle: `${m.roulette_tierlist_based_on({ count: listCount })} · passoca.dev/roulette · ${today}`,
+      stem: `tierlist-general-${today}`,
+    };
   }
+
+  function exportAs(format: string) {
+    const { stem, ...spec } = exportSpec();
+    if (format === "md") {
+      exportTierlistMarkdown({
+        ...spec,
+        emptyLabel: m.roulette_tierlist_empty_tier(),
+        filename: `${stem}.md`,
+      });
+      return;
+    }
+    // Rendering posters takes a moment — the toast doubles as the loading state.
+    void toast.promise(exportTierlistJpg({ ...spec, filename: `${stem}.jpg` }), {
+      loading: m.roulette_tierlist_export_rendering(),
+      success: m.roulette_tierlist_exported(),
+      error: m.roulette_tierlist_export_failed(),
+    });
+  }
+
+  const exportItems = $derived([
+    { id: "jpg", label: m.roulette_tierlist_export_jpg() },
+    { id: "md", label: m.roulette_tierlist_export_md() },
+  ]);
 </script>
 
 <!-- Fullscreen, like the timeline: a whole tierlist wants the viewport. -->
@@ -63,9 +79,9 @@
       {m.roulette_tierlist_general_desc()} · {m.roulette_tierlist_based_on({ count: listCount })}
     </p>
     {#if !loading && listCount > 0}
-      <Button size="sm" onclick={exportJpg} loading={exporting}>
-        {m.roulette_tierlist_export()}
-      </Button>
+      <Menu size="sm" items={exportItems} align="end" onSelect={exportAs}>
+        {m.roulette_tierlist_export()} ▾
+      </Menu>
     {/if}
   </div>
 

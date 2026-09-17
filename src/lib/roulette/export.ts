@@ -240,3 +240,44 @@ export async function exportTierlistJpg(opts: {
   if (!blob) throw new Error("jpeg encoding failed");
   triggerDownload(blob, filename);
 }
+
+/** Canonical TMDB page for a ranked film, when it came from TMDB. */
+function tmdbUrl(item: TierItem): string | null {
+  return item.media_type && item.tmdb_id
+    ? `https://www.themoviedb.org/${item.media_type}/${item.tmdb_id}`
+    : null;
+}
+
+/** Builds the Markdown document for a tierlist: one section per tier. */
+export function tierlistMarkdown(opts: {
+  rows: ExportRow[];
+  title: string;
+  subtitle: string;
+  emptyLabel: string;
+}): string {
+  const { rows, title, subtitle, emptyLabel } = opts;
+  const lines: string[] = [`# ${title}`, "", `_${subtitle}_`, ""];
+  for (const row of rows) {
+    lines.push(`## ${row.tier}`, "");
+    if (row.items.length === 0) {
+      lines.push(`_${emptyLabel}_`);
+    } else {
+      row.items.forEach((item, i) => {
+        const year = item.media_year ? ` (${item.media_year})` : "";
+        const url = tmdbUrl(item);
+        const label = url ? `[${item.title}](${url})` : item.title;
+        lines.push(`${i + 1}. ${label}${year}`);
+      });
+    }
+    lines.push("");
+  }
+  return lines.join("\n");
+}
+
+/** Downloads the tierlist as a `.md` file — no rendering, so it never fails on posters. */
+export function exportTierlistMarkdown(
+  opts: Parameters<typeof tierlistMarkdown>[0] & { filename: string }
+): void {
+  const blob = new Blob([tierlistMarkdown(opts)], { type: "text/markdown;charset=utf-8" });
+  triggerDownload(blob, opts.filename);
+}

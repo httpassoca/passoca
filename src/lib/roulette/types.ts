@@ -65,6 +65,15 @@ export type HistoryEntry = MediaRef & {
   created_at: string;
 };
 
+/** Admin form for registering a past roulette; `drawn_at: null` = unknown date. */
+export type HistoryAddInput = {
+  /** Empty with `media` set = let the server use the canonical TMDB title. */
+  title: string;
+  author: string | null;
+  drawn_at: string | null;
+  media: MediaPick | null;
+};
+
 export type Presence = { name: string; color: string | null };
 
 /** Server acknowledgement of an identify attempt. */

@@ -1,20 +1,30 @@
 <script lang="ts">
   import { m } from "$lib/paraglide/messages";
-  import type { HistoryEntry, MediaKey, RouletteClient } from "$lib/roulette";
+  import type { HistoryAddInput, HistoryEntry, MediaKey, RouletteClient } from "$lib/roulette";
   import { Button, Card, DateField, EmptyState, Input, toast } from "dssoca";
+  import HistoryAddModal from "./HistoryAddModal.svelte";
   import MediaPoster from "./MediaPoster.svelte";
 
   let {
     history,
     admin,
     client,
+    apiUrl = "",
+    mediaEnabled = false,
+    onadd = undefined,
     ondetails,
   }: {
     history: HistoryEntry[];
     admin: boolean;
     client: RouletteClient | null;
+    apiUrl?: string;
+    mediaEnabled?: boolean;
+    /** Admin: registers a past roulette (REST, password-verified). */
+    onadd?: (input: HistoryAddInput) => Promise<void>;
     ondetails: (media: MediaKey) => void;
   } = $props();
+
+  let addOpen = $state(false);
 
   // The history is its own full-width strip now, so it opens by default.
   let open = $state(true);
@@ -61,6 +71,11 @@
 
 <Card title={m.roulette_history()} meta={m.roulette_watched({ count: history.length })}>
   {#snippet action()}
+    {#if admin && onadd}
+      <Button size="md" onclick={() => (addOpen = true)}>
+        {m.roulette_history_add()}
+      </Button>
+    {/if}
     <Button
       variant="ghost"
       size="md"
@@ -153,6 +168,10 @@
     </p>
   {/if}
 </Card>
+
+{#if addOpen && onadd}
+  <HistoryAddModal {apiUrl} {mediaEnabled} {onadd} onclose={() => (addOpen = false)} />
+{/if}
 
 <style lang="sass">
 .grid

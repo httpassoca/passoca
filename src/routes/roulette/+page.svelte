@@ -15,6 +15,7 @@
   import SettingsModal from "$lib/components/Roulette/SettingsModal.svelte";
   import MediaPoster from "$lib/components/Roulette/MediaPoster.svelte";
   import {
+    addHistoryEntry,
     createRouletteClient,
     colorForName,
     fetchMediaStatus,
@@ -30,6 +31,7 @@
     type MediaPick,
     type Presence,
     type TierlistState,
+    type HistoryAddInput,
   } from "$lib/roulette";
 
   const SPIN_SECONDS = 4;
@@ -95,6 +97,13 @@
   function requestSpin() {
     if (options.length < 2 || spin.spinning || !client) return;
     client.spin();
+  }
+
+  // Admin-only REST insert (name + password, like the socket identify). The
+  // server broadcasts the new history, so nothing to patch locally.
+  async function addToHistory(input: HistoryAddInput) {
+    if (!API_URL) throw new Error(m.roulette_missing_api());
+    await addHistoryEntry(API_URL, { name, password: draftPassword }, input);
   }
 
   function setMax(value: number) {
@@ -381,7 +390,15 @@
   </div>
 
   <div class="history-row">
-    <HistoryCard {history} {admin} {client} ondetails={(media) => (detailsFor = media)} />
+    <HistoryCard
+      {history}
+      {admin}
+      {client}
+      apiUrl={API_URL ?? ""}
+      {mediaEnabled}
+      onadd={admin ? addToHistory : undefined}
+      ondetails={(media) => (detailsFor = media)}
+    />
   </div>
 
   <WheelArea

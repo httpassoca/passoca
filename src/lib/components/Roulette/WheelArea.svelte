@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { onDestroy, untrack } from "svelte";
   import { Button } from "dssoca";
   import confetti from "canvas-confetti";
   import { m } from "$lib/paraglide/messages";
   import Wheel from "./Wheel.svelte";
   import MediaPoster from "./MediaPoster.svelte";
   import { tmdbImg } from "$lib/roulette/media";
+  import { RouletteSound, SPIN_EASING } from "$lib/roulette";
   import type { MediaKey, Option, SpinController } from "$lib/roulette";
 
   let {
@@ -39,6 +41,20 @@
   //   the winner reveal.
   const expanded = $derived(spin.spinning || (!!winner && !spin.overlayDismissed));
   const overlayVisible = $derived(spin.previewOpen || expanded);
+
+  // Ratchet ticks + reveal fanfare, synthesised (no assets). The follower
+  // replays the CSS transition curve in JS so clicks line up with the wedge
+  // boundaries passing the needle. Mute is remembered per browser.
+  const sound = new RouletteSound();
+  const spinEasing = `cubic-bezier(${SPIN_EASING.join(", ")})`;
+
+  $effect(() => {
+    if (!spin.spinning) return;
+    untrack(() => sound.followSpin(spin.spinFrom, spin.rotation, spin.spinDuration, options.length));
+    return () => sound.stop();
+  });
+
+  onDestroy(() => sound.destroy());
 
   let vw = $state(1024);
   let vh = $state(768);
@@ -98,7 +114,9 @@
     dragAngle = a;
     dragAt = e.timeStamp;
     spin.spinDuration = 0;
+    const before = spin.rotation;
     spin.rotation += delta;
+    sound.nudge(before, spin.rotation, options.length);
   }
 
   function dragEnd() {
@@ -146,6 +164,7 @@
     ) {
       confettiFiredFor = spin.lastSpunAt;
       fireConfetti();
+      sound.fanfare();
     }
   });
 </script>
@@ -153,6 +172,7 @@
 <svelte:window
   bind:innerWidth={vw}
   bind:innerHeight={vh}
+  onpointerdown={() => sound.unlock()}
   onkeydown={(e) => {
     if (e.key === "Escape" && overlayVisible) dismiss();
   }}
@@ -190,7 +210,7 @@
       class="spin-layer"
       style:transform="rotate({spin.rotation}deg)"
       style:transition={spin.spinDuration > 0
-        ? `transform ${spin.spinDuration}s cubic-bezier(0.12, 0.64, 0.08, 1)`
+        ? `transform ${spin.spinDuration}s ${spinEasing}`
         : "none"}
     >
       <Wheel
@@ -210,6 +230,22 @@
     style:top="{hubY}px"
     aria-hidden="true"
   ></div>
+
+  <div class="sound-toggle">
+    <Button
+      variant="ghost"
+      size="md"
+      iconOnly
+      label={sound.muted ? m.roulette_sound_on() : m.roulette_sound_off()}
+      aria-pressed={!sound.muted}
+      onclick={() => {
+        sound.toggleMuted();
+        sound.unlock();
+      }}
+    >
+      {sound.muted ? "🔇" : "🔊"}
+    </Button>
+  </div>
 
   {#if spin.previewOpen && !expanded}
     <div class="idle-ui" style:top="{idleCenterY + idleD / 2 + 20}px">
@@ -346,6 +382,13 @@
     border-radius: 50%
     background: var(--ss-accent)
     border: 2px solid rgb(0 0 0 / 0.45)
+
+// Always reachable, above the reveal layer: muting mid-spin must work.
+.sound-toggle
+  position: absolute
+  top: 12px
+  right: 12px
+  z-index: 6
 
 .idle-ui
   position: absolute

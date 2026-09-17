@@ -4,4 +4,6 @@ export * from "./client";
 export * from "./media";
 export * from "./tierlist";
 export * from "./export";
-export { SpinController } from "./spin.svelte";
+export * from "./history";
+export { SpinController, SPIN_EASING } from "./spin.svelte";
+export { RouletteSound, cubicBezier } from "./sound.svelte";

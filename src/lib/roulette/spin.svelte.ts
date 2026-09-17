@@ -1,5 +1,8 @@
 import type { WheelState } from "./types";
 
+/** CSS `cubic-bezier` control points of the spin transition (shared with the sound follower). */
+export const SPIN_EASING = [0.12, 0.64, 0.08, 1] as const;
+
 /**
  * Drives the wheel's spin animation off the server's `spun_at` timestamp.
  * Rotation is cumulative so the CSS transition always spins forward.
@@ -18,6 +21,8 @@ export class SpinController {
 
   /** `undefined` until the first server snapshot — that one never animates. */
   lastSpunAt: string | null | undefined = undefined;
+  /** Rotation the current spin launched from (whole-turn normalized). */
+  spinFrom = 0;
 
   #spinSeconds: number;
   #settleTimer: ReturnType<typeof setTimeout> | undefined;
@@ -54,6 +59,7 @@ export class SpinController {
       // Whole turns only — a fractional turn would rest the wheel offset from
       // the winner segment while the announcement names the true winner.
       const turns = Math.max(3, Math.round(next.spin_turns ?? 4));
+      this.spinFrom = this.rotation;
       this.rotation = this.rotation - (this.rotation % 360) + 360 * turns + align;
       clearTimeout(this.#settleTimer);
       this.#settleTimer = setTimeout(() => {

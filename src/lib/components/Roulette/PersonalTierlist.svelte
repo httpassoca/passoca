@@ -2,7 +2,7 @@
   import { onDestroy } from "svelte";
   import { flip } from "svelte/animate";
   import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME, type DndEvent } from "svelte-dnd-action";
-  import { Button, Card, EmptyState, toast } from "dssoca";
+  import { Button, Card, EmptyState, Menu, toast } from "dssoca";
   import { goto } from "$app/navigation";
   import { m } from "$lib/paraglide/messages";
   import TierRow from "./TierRow.svelte";
@@ -11,6 +11,7 @@
     TIERS,
     buildZones,
     exportTierlistJpg,
+    exportTierlistMarkdown,
     placementsFromZones,
     type DndTierItem,
     type MediaKey,
@@ -92,24 +93,39 @@
 
   onDestroy(() => flushSave());
 
-  let exporting = $state(false);
-
-  async function exportJpg() {
-    exporting = true;
-    try {
-      const today = new Date().toISOString().slice(0, 10);
-      await exportTierlistJpg({
-        rows: TIERS.map((tier) => ({ tier, items: zones[tier] })),
-        title: m.roulette_tierlist_personal({ name }),
-        subtitle: `passoca.dev/roulette · ${today}`,
-        filename: `tierlist-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${today}.jpg`,
-      });
-    } catch {
-      toast.error(m.roulette_tierlist_export_failed());
-    } finally {
-      exporting = false;
-    }
+  // Same rows/title/filename stem for both formats — only the renderer differs.
+  function exportSpec() {
+    const today = new Date().toISOString().slice(0, 10);
+    return {
+      rows: TIERS.map((tier) => ({ tier, items: zones[tier] })),
+      title: m.roulette_tierlist_personal({ name }),
+      subtitle: `passoca.dev/roulette · ${today}`,
+      stem: `tierlist-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${today}`,
+    };
   }
+
+  function exportAs(format: string) {
+    const { stem, ...spec } = exportSpec();
+    if (format === "md") {
+      exportTierlistMarkdown({
+        ...spec,
+        emptyLabel: m.roulette_tierlist_empty_tier(),
+        filename: `${stem}.md`,
+      });
+      return;
+    }
+    // Rendering posters takes a moment — the toast doubles as the loading state.
+    void toast.promise(exportTierlistJpg({ ...spec, filename: `${stem}.jpg` }), {
+      loading: m.roulette_tierlist_export_rendering(),
+      success: m.roulette_tierlist_exported(),
+      error: m.roulette_tierlist_export_failed(),
+    });
+  }
+
+  const exportItems = $derived([
+    { id: "jpg", label: m.roulette_tierlist_export_jpg() },
+    { id: "md", label: m.roulette_tierlist_export_md() },
+  ]);
 
   function handleConsider(zone: TierName | "unranked", e: CustomEvent<DndEvent<DndTierItem>>) {
     dragging = true;
@@ -163,9 +179,9 @@
           {m.roulette_tierlist_autosave_hint()}
         {/if}
       </span>
-      <Button size="md" onclick={exportJpg} loading={exporting}>
-        {m.roulette_tierlist_export()}
-      </Button>
+      <Menu size="md" items={exportItems} align="end" onSelect={exportAs}>
+        {m.roulette_tierlist_export()} ▾
+      </Menu>
       <Button variant="primary" size="md" onclick={publish}>
         {m.roulette_tierlist_publish()}
       </Button>
