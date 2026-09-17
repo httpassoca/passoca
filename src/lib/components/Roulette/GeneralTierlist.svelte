@@ -7,8 +7,8 @@
     TIERS,
     TIER_COLORS,
     exportTierlistJpg,
-    copyTierlistMarkdown,
-    exportTierlistMarkdown,
+    copyTierlistText,
+    exportTierlistText,
     ranksFor,
     type MediaKey,
     type TierlistState,
@@ -51,13 +51,14 @@
 
   function exportAs(format: string) {
     const { stem, ...spec } = exportSpec();
-    const md = { ...spec, emptyLabel: m.roulette_tierlist_empty_tier() };
-    if (format === "md") {
-      exportTierlistMarkdown({ ...md, filename: `${stem}.md` });
+    const text = { ...spec, emptyLabel: m.roulette_tierlist_empty_tier() };
+    if (format === "md" || format === "txt") {
+      const kind = format === "md" ? "markdown" : "text";
+      exportTierlistText({ ...text, filename: `${stem}.${format}` }, kind);
       return;
     }
-    if (format === "copy") {
-      copyTierlistMarkdown(md).then(
+    if (format === "copy-md" || format === "copy-txt") {
+      copyTierlistText(text, format === "copy-md" ? "markdown" : "text").then(
         () => toast.success(m.roulette_tierlist_copied()),
         () => toast.error(m.roulette_tierlist_copy_failed())
       );
@@ -74,7 +75,9 @@
   const exportItems = $derived([
     { id: "jpg", label: m.roulette_tierlist_export_jpg() },
     { id: "md", label: m.roulette_tierlist_export_md() },
-    { id: "copy", label: m.roulette_tierlist_export_copy() },
+    { id: "txt", label: m.roulette_tierlist_export_txt() },
+    { id: "copy-md", label: m.roulette_tierlist_export_copy() },
+    { id: "copy-txt", label: m.roulette_tierlist_export_copy_txt() },
   ]);
 </script>
 

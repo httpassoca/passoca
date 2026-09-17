@@ -248,25 +248,34 @@ function tmdbUrl(item: TierItem): string | null {
     : null;
 }
 
-/** Builds the Markdown document for a tierlist: one section per tier. */
-export function tierlistMarkdown(opts: {
+export interface TextExportSpec {
   rows: ExportRow[];
   title: string;
   subtitle: string;
   emptyLabel: string;
-}): string {
+}
+
+/** Text flavours: Markdown (headings, links) or plain (same list, no syntax). */
+export type TextFormat = "markdown" | "text";
+
+/** One section per tier, numbered items with year — Markdown or plain text. */
+export function tierlistText(opts: TextExportSpec, format: TextFormat = "markdown"): string {
   const { rows, title, subtitle, emptyLabel } = opts;
-  const lines: string[] = [`# ${title}`, "", `_${subtitle}_`, ""];
+  const md = format === "markdown";
+  const lines: string[] = md
+    ? [`# ${title}`, "", `_${subtitle}_`, ""]
+    : [title, subtitle, ""];
   for (const row of rows) {
-    lines.push(`## ${row.tier}`, "");
+    lines.push(md ? `## ${row.tier}` : `${row.tier}:`);
+    if (md) lines.push("");
     if (row.items.length === 0) {
-      lines.push(`_${emptyLabel}_`);
+      lines.push(md ? `_${emptyLabel}_` : `  ${emptyLabel}`);
     } else {
       row.items.forEach((item, i) => {
         const year = item.media_year ? ` (${item.media_year})` : "";
         const url = tmdbUrl(item);
-        const label = url ? `[${item.title}](${url})` : item.title;
-        lines.push(`${i + 1}. ${label}${year}`);
+        const label = md && url ? `[${item.title}](${url})` : item.title;
+        lines.push(md ? `${i + 1}. ${label}${year}` : `  ${i + 1}. ${label}${year}`);
       });
     }
     lines.push("");
@@ -274,18 +283,18 @@ export function tierlistMarkdown(opts: {
   return lines.join("\n");
 }
 
-/** Puts the Markdown on the clipboard; rejects when the browser refuses (no permission/insecure context). */
-export async function copyTierlistMarkdown(
-  opts: Parameters<typeof tierlistMarkdown>[0]
-): Promise<void> {
+/** Puts the list on the clipboard; rejects when the browser refuses (no permission/insecure context). */
+export async function copyTierlistText(opts: TextExportSpec, format: TextFormat): Promise<void> {
   if (!navigator.clipboard?.writeText) throw new Error("clipboard unavailable");
-  await navigator.clipboard.writeText(tierlistMarkdown(opts));
+  await navigator.clipboard.writeText(tierlistText(opts, format));
 }
 
-/** Downloads the tierlist as a `.md` file — no rendering, so it never fails on posters. */
-export function exportTierlistMarkdown(
-  opts: Parameters<typeof tierlistMarkdown>[0] & { filename: string }
+/** Downloads the list as `.md` or `.txt` — no rendering, so it never fails on posters. */
+export function exportTierlistText(
+  opts: TextExportSpec & { filename: string },
+  format: TextFormat
 ): void {
-  const blob = new Blob([tierlistMarkdown(opts)], { type: "text/markdown;charset=utf-8" });
+  const mime = format === "markdown" ? "text/markdown" : "text/plain";
+  const blob = new Blob([tierlistText(opts, format)], { type: `${mime};charset=utf-8` });
   triggerDownload(blob, opts.filename);
 }
