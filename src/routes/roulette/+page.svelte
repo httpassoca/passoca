@@ -7,6 +7,7 @@
   import PersonalIdeas from "$lib/components/Roulette/PersonalIdeas.svelte";
   import JoinCard from "$lib/components/Roulette/JoinCard.svelte";
   import HistoryCard from "$lib/components/Roulette/HistoryCard.svelte";
+  import HistoryChart from "$lib/components/Roulette/HistoryChart.svelte";
   import OptionsList from "$lib/components/Roulette/OptionsList.svelte";
   import WheelArea from "$lib/components/Roulette/WheelArea.svelte";
   import MediaSearchInput from "$lib/components/Roulette/MediaSearchInput.svelte";
@@ -390,6 +391,11 @@
   </div>
 
   <div class="history-row">
+    <HistoryChart
+      {history}
+      general={tierState.general}
+      ondetails={(media) => (detailsFor = media)}
+    />
     <HistoryCard
       {history}
       {admin}
@@ -667,6 +673,9 @@
 
 .history-row
   margin-top: 12px
+  display: flex
+  flex-direction: column
+  gap: 12px
 
 .muted
   color: var(--ss-fg-muted)

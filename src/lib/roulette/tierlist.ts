@@ -1,4 +1,4 @@
-import type { TierItem, TierName, TierPlacement, TierlistState } from "./types";
+import type { HistoryEntry, TierItem, TierName, TierPlacement, TierlistState } from "./types";
 
 export const TIERS: TierName[] = ["S", "A", "B", "C", "D"];
 
@@ -57,4 +57,18 @@ export function ranksFor(
       const placement = submissions[name].find((p) => p.key === key);
       return placement ? [{ name, tier: placement.tier }] : [];
     });
+}
+
+/** The tierlist key of a history entry — mirrors the API's `keyForHistory`. */
+export function keyForHistory(h: HistoryEntry): string {
+  return h.media_type && h.tmdb_id ? `${h.media_type}:${h.tmdb_id}` : `h:${h.id}`;
+}
+
+/** Item key → its tier in the general list (unranked films are absent). */
+export function generalTiers(general: TierlistState["general"]): Map<string, TierName> {
+  const tiers = new Map<string, TierName>();
+  for (const tier of TIERS) {
+    for (const key of general[tier] ?? []) tiers.set(key, tier);
+  }
+  return tiers;
 }
