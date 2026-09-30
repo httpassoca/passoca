@@ -1,6 +1,6 @@
 import { getLocale } from "$lib/paraglide/runtime";
 import { normalizeBase } from "./client";
-import type { MediaDetailsData, MediaSummary, MediaType } from "./types";
+import type { MediaDetailsData, MediaSummary, MediaType, MediaWarningsData } from "./types";
 
 // TMDB image CDN — sizes used across the roulette UI.
 const IMG_BASE = "https://image.tmdb.org/t/p/";
@@ -48,5 +48,21 @@ export async function fetchMediaDetails(
     `${normalizeBase(apiUrl)}/roulette/media/${type}/${id}?lang=${mediaLang()}`
   );
   if (!res.ok) throw new Error("media details failed");
+  return res.json();
+}
+
+/**
+ * Does the Dog Die warnings for a title. Resolves `null` when the API has no
+ * DDD key (503) so callers hide the section; throws on any other failure.
+ * No `lang`: DDD topic names are English only.
+ */
+export async function fetchMediaWarnings(
+  apiUrl: string,
+  type: MediaType,
+  id: number
+): Promise<MediaWarningsData | null> {
+  const res = await fetch(`${normalizeBase(apiUrl)}/roulette/media/${type}/${id}/warnings`);
+  if (res.status === 503) return null;
+  if (!res.ok) throw new Error("media warnings failed");
   return res.json();
 }

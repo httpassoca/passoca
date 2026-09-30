@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Badge, Link, Modal, Spinner } from "dssoca";
+  import { Badge, Button, Link, Modal, Spinner } from "dssoca";
   import { m } from "$lib/paraglide/messages";
-  import { fetchMediaDetails } from "$lib/roulette";
-  import type { MediaDetailsData, MediaType } from "$lib/roulette";
+  import { fetchMediaDetails, fetchMediaWarnings } from "$lib/roulette";
+  import type { MediaDetailsData, MediaType, MediaWarningsData } from "$lib/roulette";
   import MediaPoster from "./MediaPoster.svelte";
 
   let {
@@ -36,6 +36,33 @@
       cancelled = true;
     };
   });
+
+  // Does the Dog Die warnings load independently so they never block the
+  // TMDB body. `undefined` = loading, `null` = API has no DDD key → hidden.
+  let warnings = $state<MediaWarningsData | null | undefined>(undefined);
+  let warningsFailed = $state(false);
+  // Spoiler guard: the list is hidden until the viewer asks for it.
+  let revealed = $state(false);
+
+  $effect(() => {
+    warnings = undefined;
+    warningsFailed = false;
+    revealed = false;
+    let cancelled = false;
+    fetchMediaWarnings(apiUrl, mediaType, tmdbId)
+      .then((w) => {
+        if (!cancelled) warnings = w;
+      })
+      .catch(() => {
+        if (!cancelled) warningsFailed = true;
+      });
+    return () => {
+      cancelled = true;
+    };
+  });
+
+  const present = $derived((warnings?.topics ?? []).filter((t) => t.yes > t.no));
+  const absent = $derived((warnings?.topics ?? []).filter((t) => t.yes <= t.no));
 </script>
 
 <Modal bind:open title={m.roulette_media_details()} size="lg" {onclose}>
@@ -76,6 +103,59 @@
         {/if}
         {#if details.overview}
           <p class="overview">{details.overview}</p>
+        {/if}
+        {#if warnings !== null}
+          <section class="warnings" aria-labelledby="ddd-title">
+            <h3 id="ddd-title" class="wt">{m.roulette_warnings_title()}</h3>
+            {#if warningsFailed}
+              <p class="wline">{m.roulette_warnings_error()}</p>
+            {:else if warnings === undefined}
+              <div class="wline"><Spinner label={m.roulette_media_loading()} size="sm" /></div>
+            {:else if !warnings.found}
+              <p class="wline">{m.roulette_warnings_notfound()}</p>
+            {:else if warnings.topics.length === 0}
+              <p class="wline">{m.roulette_warnings_none()}</p>
+            {:else if !revealed}
+              <div class="wrow">
+                <span class="wline">{m.roulette_warnings_count({ count: present.length })}</span>
+                <Button variant="ghost" size="sm" onclick={() => (revealed = true)}>
+                  {m.roulette_warnings_reveal()}
+                </Button>
+              </div>
+            {:else}
+              {#if present.length}
+                <ul class="chips">
+                  {#each present as t (t.topic_id)}
+                    <li class="chip">
+                      <Badge tone="caution">{t.name}</Badge>
+                      <span class="votes">{m.roulette_warnings_votes({ yes: t.yes, no: t.no })}</span>
+                    </li>
+                  {/each}
+                </ul>
+              {/if}
+              {#if absent.length}
+                <p class="wline">
+                  {m.roulette_warnings_absent({ list: absent.map((t) => t.name).join(", ") })}
+                </p>
+              {/if}
+              <div class="wrow">
+                {#if warnings.url}
+                  <Link href={warnings.url} external>{m.roulette_warnings_open()} ↗</Link>
+                {/if}
+                <Button variant="ghost" size="sm" onclick={() => (revealed = false)}>
+                  {m.roulette_warnings_hide()}
+                </Button>
+              </div>
+            {/if}
+            {#if !warningsFailed && warnings !== undefined}
+              <!-- Licence condition: exact phrase, visibly shown wherever DDD data appears. -->
+              <p class="powered">
+                <Link href="https://www.doesthedogdie.com" external>
+                  {m.roulette_warnings_powered()}
+                </Link>
+              </p>
+            {/if}
+          </section>
         {/if}
         <span class="tmdb">
           <Link
@@ -144,6 +224,58 @@
   font-size: 12.5px
   line-height: 1.7
   color: var(--ss-fg)
+
+.warnings
+  display: flex
+  flex-direction: column
+  gap: 6px
+  padding: 10px 12px
+  border: 1px solid var(--ss-line)
+  border-radius: var(--ss-radius-1)
+  background: var(--ss-bg-inset)
+
+.wt
+  margin: 0
+  font-family: var(--ss-font-mono)
+  font-size: 10.5px
+  font-weight: 400
+  color: var(--ss-fg-faint)
+  text-transform: uppercase
+  letter-spacing: 0.06em
+
+.wline
+  margin: 0
+  font-size: 12px
+  color: var(--ss-fg-muted)
+
+.wrow
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 4px 12px
+  font-size: 11.5px
+
+.chips
+  list-style: none
+  margin: 0
+  padding: 0
+  display: flex
+  flex-wrap: wrap
+  gap: 6px 12px
+
+.chip
+  display: inline-flex
+  align-items: center
+  gap: 6px
+
+.votes
+  font-family: var(--ss-font-mono)
+  font-size: 10.5px
+  color: var(--ss-fg-muted)
+
+.powered
+  margin: 0
+  font-size: 12px
 
 .tmdb
   width: fit-content

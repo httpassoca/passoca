@@ -41,6 +41,26 @@ export type MediaDetailsData = MediaSummary & {
   genres: string[];
 };
 
+/** One Does the Dog Die topic with its community vote totals. */
+export type MediaWarning = {
+  topic_id: number;
+  name: string;
+  category: string;
+  yes: number;
+  no: number;
+  comments: number;
+};
+
+/** Sexual-content warnings for a title, from the Does the Dog Die proxy. */
+export type MediaWarningsData = {
+  /** false when DDD has no entry for this title. */
+  found: boolean;
+  /** DDD page of the title. */
+  url: string | null;
+  /** Answered topics, most "yes" votes first. */
+  topics: MediaWarning[];
+};
+
 export type Option = MediaRef & {
   id: string;
   author: string;
