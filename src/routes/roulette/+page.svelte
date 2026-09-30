@@ -8,6 +8,7 @@
   import JoinCard from "$lib/components/Roulette/JoinCard.svelte";
   import HistoryCard from "$lib/components/Roulette/HistoryCard.svelte";
   import HistoryChart from "$lib/components/Roulette/HistoryChart.svelte";
+  import PickerChart from "$lib/components/Roulette/PickerChart.svelte";
   import OptionsList from "$lib/components/Roulette/OptionsList.svelte";
   import WheelArea from "$lib/components/Roulette/WheelArea.svelte";
   import MediaSearchInput from "$lib/components/Roulette/MediaSearchInput.svelte";
@@ -20,6 +21,7 @@
     createRouletteClient,
     colorForName,
     fetchMediaStatus,
+    knownUsers,
     SpinController,
     DEFAULT_WHEEL,
     DEFAULT_TIERLIST,
@@ -66,6 +68,10 @@
   const myOptionCount = $derived(options.filter((o) => o.author === name).length);
   // The admin curates the wheel and has no per-person limit.
   const atLimit = $derived(!admin && myOptionCount >= wheelState.max_picks);
+  // Names the admin can hand a film to when setting its picker.
+  const pickers = $derived(
+    knownUsers({ presence, submissions: tierState.submissions, options, history })
+  );
 
   // Spin animation state (driven by the server's spun_at timestamp).
   const spin = new SpinController(SPIN_SECONDS);
@@ -391,15 +397,21 @@
   </div>
 
   <div class="history-row">
-    <HistoryChart
-      {history}
-      general={tierState.general}
-      ondetails={(media) => (detailsFor = media)}
-    />
+    {#if history.length > 0}
+      <div class="charts">
+        <HistoryChart
+          {history}
+          general={tierState.general}
+          ondetails={(media) => (detailsFor = media)}
+        />
+        <PickerChart {history} general={tierState.general} />
+      </div>
+    {/if}
     <HistoryCard
       {history}
       {admin}
       {client}
+      {pickers}
       apiUrl={API_URL ?? ""}
       {mediaEnabled}
       onadd={admin ? addToHistory : undefined}
@@ -676,6 +688,14 @@
   display: flex
   flex-direction: column
   gap: 12px
+
+// Score over time | score per picker — the same 7/3 split as the row above.
+.charts
+  display: grid
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr)
+  gap: 12px
+  @media (max-width: 900px)
+    grid-template-columns: minmax(0, 1fr)
 
 .muted
   color: var(--ss-fg-muted)

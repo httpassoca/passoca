@@ -42,7 +42,8 @@ export interface RouletteClient {
   clearSpin(): void;
   /** Admin-only: veto the winner AND retract the spin's history entry. */
   deny(): void;
-  editHistory(id: string, title: string, drawnAt: string): void;
+  /** Admin-only. `drawnAt: null` = date unknown; `picker: null` = no picker. */
+  editHistory(id: string, title: string, drawnAt: string | null, picker: string | null): void;
   removeHistory(id: string): void;
   setPersonal(content: string): void;
   /** Saves my personal list; never moves the general one. */
@@ -132,8 +133,8 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     spin: (turns) => socket.emit("wheel:spin", { turns }),
     clearSpin: () => socket.emit("wheel:clear_spin"),
     deny: () => socket.emit("wheel:deny"),
-    editHistory: (id, title, drawn_at) =>
-      socket.emit("history:edit", { id, title, drawn_at }),
+    editHistory: (id, title, drawn_at, picker) =>
+      socket.emit("history:edit", { id, title, drawn_at, author: picker }),
     removeHistory: (id) => socket.emit("history:remove", { id }),
     setPersonal: (content) => socket.emit("personal:set", { content }),
     setTierlist: (placements) => socket.emit("tierlist:set", { placements }),

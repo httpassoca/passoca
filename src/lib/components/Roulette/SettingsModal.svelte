@@ -3,6 +3,7 @@
   import { m } from "$lib/paraglide/messages";
   import {
     colorForName,
+    knownUsers,
     type HistoryEntry,
     type Option,
     type Presence,
@@ -41,21 +42,7 @@
       new Map<string, number>()
     )
   );
-  // "Users" have no table server-side either — the list is the union of every
-  // place a name can appear: who's online, tierlist submitters, wheel pick
-  // authors and past winners.
-  const users = $derived(
-    [
-      ...new Set([
-        ...presence.map((p) => p.name),
-        ...Object.keys(submissions),
-        ...options.map((o) => o.author),
-        ...history.map((h) => h.author).filter((a): a is string => !!a),
-      ]),
-    ]
-      .filter(Boolean)
-      .sort((a, b) => a.localeCompare(b))
-  );
+  const users = $derived(knownUsers({ presence, submissions, options, history }));
 
   function metaFor(user: string): string {
     const n = pickCounts.get(user) ?? 0;

@@ -1,14 +1,16 @@
 <script lang="ts">
   import { m } from "$lib/paraglide/messages";
   import type { HistoryAddInput, HistoryEntry, MediaKey, RouletteClient } from "$lib/roulette";
-  import { Button, Card, DateField, EmptyState, Input, toast } from "dssoca";
+  import { Button, Card, DateField, EmptyState, Input, Switch, toast } from "dssoca";
   import HistoryAddModal from "./HistoryAddModal.svelte";
   import MediaPoster from "./MediaPoster.svelte";
+  import PickerField from "./PickerField.svelte";
 
   let {
     history,
     admin,
     client,
+    pickers,
     apiUrl = "",
     mediaEnabled = false,
     onadd = undefined,
@@ -17,6 +19,8 @@
     history: HistoryEntry[];
     admin: boolean;
     client: RouletteClient | null;
+    /** Known names, offered when the admin sets a film's picker. */
+    pickers: string[];
     apiUrl?: string;
     mediaEnabled?: boolean;
     /** Admin: registers a past roulette (REST, password-verified). */
@@ -31,16 +35,22 @@
   let editingId = $state<string | null>(null);
   let editTitle = $state("");
   let editDate = $state("");
+  let editDateUnknown = $state(false);
+  let editPicker = $state("");
 
   function startEdit(entry: HistoryEntry) {
     editingId = entry.id;
     editTitle = entry.title;
     editDate = entry.drawn_at.slice(0, 10);
+    editDateUnknown = !entry.drawn_at;
+    editPicker = entry.author ?? "";
   }
   function saveEdit() {
     if (!client || !editingId) return;
-    const iso = editDate ? new Date(editDate).toISOString() : new Date().toISOString();
-    client.editHistory(editingId, editTitle.trim(), iso);
+    // An unknown date stays unknown (`null`) — editing the picker of an
+    // imported roulette must not stamp today's date on it.
+    const iso = editDateUnknown || !editDate ? null : new Date(editDate).toISOString();
+    client.editHistory(editingId, editTitle.trim(), iso, editPicker.trim() || null);
     editingId = null;
   }
   function openDetails(entry: HistoryEntry) {
@@ -94,7 +104,15 @@
               <div class="grow">
                 <Input label={m.roulette_field_title()} maxlength={200} bind:value={editTitle} />
               </div>
-              <DateField label={m.roulette_field_date()} bind:value={editDate} />
+              <div class="grow">
+                <PickerField {pickers} bind:value={editPicker} />
+              </div>
+              <DateField
+                label={m.roulette_field_date()}
+                bind:value={editDate}
+                disabled={editDateUnknown}
+              />
+              <Switch label={m.roulette_date_unknown()} bind:checked={editDateUnknown} />
               <div class="acts">
                 <Button variant="primary" size="md" onclick={saveEdit}>
                   {m.roulette_save()}
@@ -170,7 +188,7 @@
 </Card>
 
 {#if addOpen && onadd}
-  <HistoryAddModal {apiUrl} {mediaEnabled} {onadd} onclose={() => (addOpen = false)} />
+  <HistoryAddModal {apiUrl} {mediaEnabled} {pickers} {onadd} onclose={() => (addOpen = false)} />
 {/if}
 
 <style lang="sass">
@@ -242,6 +260,7 @@
 
 .grow
   flex: 1
+  min-width: 160px
 
 .caption
   margin: 0

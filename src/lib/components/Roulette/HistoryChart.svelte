@@ -149,93 +149,103 @@
   });
 </script>
 
-{#if history.length > 0}
-  <Card title={m.roulette_chart_title()} meta={m.roulette_chart_desc()}>
-    {#if points.length === 0}
-      <EmptyState title={m.roulette_chart_empty()} message={m.roulette_chart_empty_msg()} />
-    {:else}
-      <div class="chart" role="group" aria-label={m.roulette_chart_title()}>
-        <div class="y" aria-hidden="true">
-          {#each TIERS as tier (tier)}
-            <span class="y-tick" style:height="{BAND}px">{tier}</span>
-          {/each}
-        </div>
+<Card title={m.roulette_chart_title()} meta={m.roulette_chart_desc()}>
+  {#if points.length === 0}
+    <EmptyState title={m.roulette_chart_empty()} message={m.roulette_chart_empty_msg()} />
+  {:else}
+    <div class="chart" role="group" aria-label={m.roulette_chart_title()}>
+      <div class="y" aria-hidden="true">
+        {#each TIERS as tier (tier)}
+          <span class="y-tick" style:height="{BAND}px">{tier}</span>
+        {/each}
+      </div>
 
-        <div class="plot" style:height="{BAND * TIERS.length}px" bind:clientWidth={plotW}>
-          {#each TIERS as tier (tier)}
-            <div class="band" style:height="{BAND}px"></div>
-          {/each}
-          <!-- Inset from the plot edges so the first/last film and their date
-               labels never hang over the axis. -->
-          <div class="field">
-            {#each ticks as tick (tick.x)}
-              <span class="v-line" style:left="{tick.x}%"></span>
-            {/each}
-            {#each points as p (p.entry.id)}
-              {@const entry = p.entry}
-              {@const label = `${entry.title} · ${m.roulette_chart_tier({ tier: p.tier })} · ${fmtDate(p.time)}`}
-              <!-- Declared in the loop so it closes over this film; Tooltip
-                   renders it as the tip's content (phrasing content only). -->
-              {#snippet tip()}
-                {#if entry.poster_path}
-                  <img
-                    class="tip-poster"
-                    src={tmdbImg(entry.poster_path, "w342")}
-                    alt=""
-                    loading="lazy"
-                  />
-                {/if}
-                <strong class="tip-title">{entry.title}</strong>
-                {#if entry.media_year}<span class="tip-year">({entry.media_year})</span>{/if}
-                <br />
-                <span class="tip-key" style:--tier-color={TIER_COLORS[p.tier]}></span>
-                <span class="tip-meta">
-                  {m.roulette_chart_tier({ tier: p.tier })} · {fmtDate(p.time)}
-                </span>
-              {/snippet}
-              <span
-                class="pt"
-                style:left="{p.x}%"
-                style:top="{p.y}px"
-                style:--tier-color={TIER_COLORS[p.tier]}
-              >
-                <Tooltip text={tip}>
-                  {#if entry.tmdb_id && entry.media_type}
-                    <button
-                      type="button"
-                      class="hit clickable"
-                      aria-label={label}
-                      onclick={() =>
-                        ondetails({ media_type: entry.media_type!, tmdb_id: entry.tmdb_id! })}
-                    >
-                      <span class="dot"></span>
-                    </button>
-                  {:else}
-                    <!-- svelte-ignore a11y_no_noninteractive_tabindex
-                         (focusable so the tooltip is reachable by keyboard; a
-                         free-text film has no details to open) -->
-                    <span class="hit" role="img" tabindex="0" aria-label={label}>
-                      <span class="dot"></span>
-                    </span>
-                  {/if}
-                </Tooltip>
-              </span>
-            {/each}
-          </div>
-        </div>
-
-        <div class="x" aria-hidden="true">
+      <div class="plot" style:height="{BAND * TIERS.length}px" bind:clientWidth={plotW}>
+        {#each TIERS as tier (tier)}
+          <div class="band" style:height="{BAND}px"></div>
+        {/each}
+        <!-- Inset from the plot edges so the first/last film and their date
+             labels never hang over the axis. -->
+        <div class="field">
           {#each ticks as tick (tick.x)}
-            <span class="x-tick" style:left="{tick.x}%">{tick.label}</span>
+            <span class="v-line" style:left="{tick.x}%"></span>
+          {/each}
+          {#each points as p (p.entry.id)}
+            {@const entry = p.entry}
+            {@const picked = entry.author ? m.roulette_picked_by({ name: entry.author }) : ""}
+            {@const label = [
+              entry.title,
+              m.roulette_chart_tier({ tier: p.tier }),
+              fmtDate(p.time),
+              picked,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+            <!-- Declared in the loop so it closes over this film; Tooltip
+                 renders it as the tip's content (phrasing content only). -->
+            {#snippet tip()}
+              {#if entry.poster_path}
+                <img
+                  class="tip-poster"
+                  src={tmdbImg(entry.poster_path, "w342")}
+                  alt=""
+                  loading="lazy"
+                />
+              {/if}
+              <strong class="tip-title">{entry.title}</strong>
+              {#if entry.media_year}<span class="tip-year">({entry.media_year})</span>{/if}
+              <br />
+              <span class="tip-key" style:--tier-color={TIER_COLORS[p.tier]}></span>
+              <span class="tip-meta">
+                {m.roulette_chart_tier({ tier: p.tier })} · {fmtDate(p.time)}
+              </span>
+              {#if picked}
+                <br />
+                <span class="tip-meta">{picked}</span>
+              {/if}
+            {/snippet}
+            <span
+              class="pt"
+              style:left="{p.x}%"
+              style:top="{p.y}px"
+              style:--tier-color={TIER_COLORS[p.tier]}
+            >
+              <Tooltip text={tip}>
+                {#if entry.tmdb_id && entry.media_type}
+                  <button
+                    type="button"
+                    class="hit clickable"
+                    aria-label={label}
+                    onclick={() =>
+                      ondetails({ media_type: entry.media_type!, tmdb_id: entry.tmdb_id! })}
+                  >
+                    <span class="dot"></span>
+                  </button>
+                {:else}
+                  <!-- svelte-ignore a11y_no_noninteractive_tabindex
+                       (focusable so the tooltip is reachable by keyboard; a
+                       free-text film has no details to open) -->
+                  <span class="hit" role="img" tabindex="0" aria-label={label}>
+                    <span class="dot"></span>
+                  </span>
+                {/if}
+              </Tooltip>
+            </span>
           {/each}
         </div>
       </div>
-    {/if}
-    {#if skipped > 0 && points.length > 0}
-      <p class="note">{m.roulette_chart_skipped({ count: skipped })}</p>
-    {/if}
-  </Card>
-{/if}
+
+      <div class="x" aria-hidden="true">
+        {#each ticks as tick (tick.x)}
+          <span class="x-tick" style:left="{tick.x}%">{tick.label}</span>
+        {/each}
+      </div>
+    </div>
+  {/if}
+  {#if skipped > 0 && points.length > 0}
+    <p class="note">{m.roulette_chart_skipped({ count: skipped })}</p>
+  {/if}
+</Card>
 
 <style lang="sass">
 // Horizontal room kept free on both sides of the plotted field.

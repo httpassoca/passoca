@@ -3,15 +3,19 @@
   import { m } from "$lib/paraglide/messages";
   import type { HistoryAddInput, MediaPick } from "$lib/roulette";
   import MediaSearchInput from "./MediaSearchInput.svelte";
+  import PickerField from "./PickerField.svelte";
 
   let {
     apiUrl,
     mediaEnabled,
+    pickers,
     onadd,
     onclose,
   }: {
     apiUrl: string;
     mediaEnabled: boolean;
+    /** Known names, offered for the film's picker. */
+    pickers: string[];
     /** Resolves once the server accepted the entry; rejects with a message. */
     onadd: (input: HistoryAddInput) => Promise<void>;
     onclose: () => void;
@@ -89,12 +93,7 @@
       </div>
     {/if}
 
-    <Input
-      label={m.roulette_history_add_author()}
-      placeholder={m.roulette_history_add_author_hint()}
-      maxlength={40}
-      bind:value={author}
-    />
+    <PickerField {pickers} bind:value={author} />
 
     <div class="date-row">
       <div class="grow">
