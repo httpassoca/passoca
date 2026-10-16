@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
   import { Badge, Button, Link, Modal, Spinner } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import { fetchMediaDetails, fetchMediaWarnings } from "$lib/roulette";
@@ -10,11 +11,14 @@
     mediaType,
     tmdbId,
     onclose,
+    children,
   }: {
     apiUrl: string;
     mediaType: MediaType;
     tmdbId: number;
     onclose: () => void;
+    /** Rendered under the film info (e.g. the group's comments). */
+    children?: Snippet;
   } = $props();
 
   let open = $state(true);
@@ -174,6 +178,9 @@
       <Spinner label={m.roulette_media_loading()} showLabel />
     </div>
   {/if}
+  {#if children}
+    <div class="extra">{@render children()}</div>
+  {/if}
 </Modal>
 
 <style lang="sass">
@@ -280,6 +287,11 @@
 .tmdb
   width: fit-content
   font-size: 11.5px
+
+.extra
+  margin-top: 16px
+  padding-top: 14px
+  border-top: 1px solid var(--ss-line)
 
 .status
   margin: 0

@@ -12,6 +12,7 @@
   import OptionsList from "$lib/components/Roulette/OptionsList.svelte";
   import WheelArea from "$lib/components/Roulette/WheelArea.svelte";
   import MediaSearchInput from "$lib/components/Roulette/MediaSearchInput.svelte";
+  import MediaComments from "$lib/components/Roulette/MediaComments.svelte";
   import MediaDetails from "$lib/components/Roulette/MediaDetails.svelte";
   import RulesModal from "$lib/components/Roulette/RulesModal.svelte";
   import SettingsModal from "$lib/components/Roulette/SettingsModal.svelte";
@@ -27,6 +28,7 @@
     DEFAULT_TIERLIST,
     NAME_KEY,
     PW_KEY,
+    type CommentsByMedia,
     type RouletteClient,
     type WheelState,
     type HistoryEntry,
@@ -46,6 +48,7 @@
   let history = $state<HistoryEntry[]>([]);
   let presence = $state<Presence[]>([]);
   let tierState = $state<TierlistState>({ ...DEFAULT_TIERLIST });
+  let comments = $state<CommentsByMedia>({});
   let loaded = $state(false);
 
   let name = $state("");
@@ -161,6 +164,7 @@
       c.history.subscribe((h) => (history = h)),
       c.presence.subscribe((p) => (presence = p)),
       c.tierlist.subscribe((t) => (tierState = t)),
+      c.comments.subscribe((cm) => (comments = cm)),
       c.identity.subscribe((id) => {
         if (!id) return;
         if (!id.ok) {
@@ -454,7 +458,16 @@
       mediaType={detailsFor.media_type}
       tmdbId={detailsFor.tmdb_id}
       onclose={() => (detailsFor = null)}
-    />
+    >
+      <MediaComments
+        {client}
+        media={detailsFor}
+        {name}
+        {admin}
+        {comments}
+        submissions={tierState.submissions}
+      />
+    </MediaDetails>
   {/if}
 </div>
 

@@ -61,6 +61,18 @@ export type MediaWarningsData = {
   topics: MediaWarning[];
 };
 
+/** A user's comment on a film, keyed like the tierlist (`movie:123`). */
+export type MediaComment = {
+  id: string;
+  media_key: string;
+  author: string;
+  body: string;
+  created_at: string;
+};
+
+/** Every film's comments, by media key, oldest first. */
+export type CommentsByMedia = Record<string, MediaComment[]>;
+
 export type Option = MediaRef & {
   id: string;
   author: string;

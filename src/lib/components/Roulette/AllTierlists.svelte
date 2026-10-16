@@ -14,10 +14,13 @@
   let {
     client,
     state: tierState,
+    admin,
     ondetails,
   }: {
     client: RouletteClient | null;
     state: TierlistState;
+    /** Server-confirmed admin — only they get the delete button. */
+    admin: boolean;
     ondetails: (media: MediaKey) => void;
   } = $props();
 
@@ -33,7 +36,10 @@
 </script>
 
 {#if items.length > 0}
-  <Card title={m.roulette_tierlist_all()} meta={m.roulette_tierlist_all_desc()}>
+  <Card
+    title={m.roulette_tierlist_all()}
+    meta={admin ? m.roulette_tierlist_all_desc_admin() : m.roulette_tierlist_all_desc()}
+  >
     <Accordion {items} multiple>
       {#snippet panel(item)}
         {@const zones = buildZones(tierState, item.id)}
@@ -51,15 +57,17 @@
               {/each}
             </TierRow>
           {/each}
-          <div class="actions">
-            <Button
-              variant="danger"
-              size="md"
-              onclick={() => client?.removeTierlist(item.id)}
-            >
-              {m.roulette_tierlist_delete({ name: item.id })}
-            </Button>
-          </div>
+          {#if admin}
+            <div class="actions">
+              <Button
+                variant="danger"
+                size="md"
+                onclick={() => client?.removeTierlist(item.id)}
+              >
+                {m.roulette_tierlist_delete({ name: item.id })}
+              </Button>
+            </div>
+          {/if}
         </div>
       {/snippet}
     </Accordion>

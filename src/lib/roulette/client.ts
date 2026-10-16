@@ -5,6 +5,7 @@ import { SocketIOProvider } from "y-socket.io";
 import {
   DEFAULT_TIERLIST,
   DEFAULT_WHEEL,
+  type CommentsByMedia,
   type HistoryEntry,
   type Identity,
   type MediaPick,
@@ -30,6 +31,8 @@ export interface RouletteClient {
   tierlist: Writable<TierlistState>;
   /** General-tierlist timeline frames, oldest first (incl. hidden ones). */
   tierlistSnapshots: Writable<TierlistSnapshot[]>;
+  /** Film comments by media key (`movie:123`), oldest first. */
+  comments: Writable<CommentsByMedia>;
   /** Shared Yjs doc + provider for the collaborative ideas editor (lazy). */
   readonly doc: Y.Doc;
   readonly provider: SocketIOProvider;
@@ -56,6 +59,10 @@ export interface RouletteClient {
   removeUser(name: string, wipe: boolean): void;
   /** Admin-only: hide a timeline frame from playback, or restore it. */
   setSnapshotHidden(id: string, hidden: boolean): void;
+  /** Comments as the identified name on the film with this media key. */
+  addComment(key: string, body: string): void;
+  /** Own comments only; the admin can remove any. */
+  removeComment(id: string): void;
 
   onError(cb: (message: string) => void): () => void;
   destroy(): void;
@@ -77,6 +84,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   const identity = writable<Identity | null>(null);
   const tierlist = writable<TierlistState>({ ...DEFAULT_TIERLIST });
   const tierlistSnapshots = writable<TierlistSnapshot[]>([]);
+  const comments = writable<CommentsByMedia>({});
   const errorCbs = new Set<(m: string) => void>();
 
   // Default transports (polling first, then upgrade to websocket): starting
@@ -95,6 +103,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
   socket.on("tierlist:snapshots", (s: TierlistSnapshot[]) =>
     tierlistSnapshots.set(Array.isArray(s) ? s : [])
   );
+  socket.on("comments", (c: CommentsByMedia) => comments.set(c && typeof c === "object" ? c : {}));
   socket.on("roulette:error", (m: string) => errorCbs.forEach((cb) => cb(m)));
 
   // Collaborative ideas document — created lazily so pages that never render
@@ -117,6 +126,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     identity,
     tierlist,
     tierlistSnapshots,
+    comments,
     get doc() {
       return ensureIdeas().doc;
     },
@@ -142,6 +152,8 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     removeTierlist: (name) => socket.emit("tierlist:remove", { name }),
     removeUser: (name, wipe) => socket.emit("user:remove", { name, wipe }),
     setSnapshotHidden: (id, hidden) => socket.emit("tierlist:snapshot_hide", { id, hidden }),
+    addComment: (key, body) => socket.emit("comment:add", { key, body }),
+    removeComment: (id) => socket.emit("comment:remove", { id }),
 
     onError: (cb) => {
       errorCbs.add(cb);

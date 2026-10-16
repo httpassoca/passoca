@@ -3,8 +3,9 @@
   import { Button, Toaster, toast } from "dssoca";
   import { goto } from "$app/navigation";
   import { m } from "$lib/paraglide/messages";
-  import AdminTierlists from "$lib/components/Roulette/AdminTierlists.svelte";
+  import AllTierlists from "$lib/components/Roulette/AllTierlists.svelte";
   import GeneralTierlist from "$lib/components/Roulette/GeneralTierlist.svelte";
+  import MediaComments from "$lib/components/Roulette/MediaComments.svelte";
   import MediaDetails from "$lib/components/Roulette/MediaDetails.svelte";
   import PersonalTierlist from "$lib/components/Roulette/PersonalTierlist.svelte";
   import TierlistTimeline from "$lib/components/Roulette/TierlistTimeline.svelte";
@@ -14,6 +15,7 @@
     DEFAULT_TIERLIST,
     NAME_KEY,
     PW_KEY,
+    type CommentsByMedia,
     type MediaKey,
     type RouletteClient,
     type TierlistSnapshot,
@@ -29,6 +31,7 @@
   let admin = $state(false);
   let detailsFor = $state<MediaKey | null>(null);
   let snapshots = $state<TierlistSnapshot[]>([]);
+  let comments = $state<CommentsByMedia>({});
   let generalOpen = $state(false);
   let timelineOpen = $state(false);
   let loaded = $state(false);
@@ -63,6 +66,7 @@
         loaded = true;
       }),
       c.tierlistSnapshots.subscribe((s) => (snapshots = s)),
+      c.comments.subscribe((cm) => (comments = cm)),
       c.identity.subscribe((id) => {
         if (!id) return;
         // Wrong admin password: treat as not identified; ranking stays locked.
@@ -106,9 +110,7 @@
     </div>
 
     <PersonalTierlist {client} state={tierState} {name} ondetails={(media) => (detailsFor = media)} />
-    {#if admin}
-      <AdminTierlists {client} state={tierState} ondetails={(media) => (detailsFor = media)} />
-    {/if}
+    <AllTierlists {client} state={tierState} {admin} ondetails={(media) => (detailsFor = media)} />
   </div>
 
   {#if generalOpen}
@@ -136,7 +138,16 @@
       mediaType={detailsFor.media_type}
       tmdbId={detailsFor.tmdb_id}
       onclose={() => (detailsFor = null)}
-    />
+    >
+      <MediaComments
+        {client}
+        media={detailsFor}
+        {name}
+        {admin}
+        {comments}
+        submissions={tierState.submissions}
+      />
+    </MediaDetails>
   {/if}
 </div>
 

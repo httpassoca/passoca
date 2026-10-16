@@ -1,4 +1,4 @@
-import type { HistoryEntry, TierItem, TierName, TierPlacement, TierlistState } from "./types";
+import type { HistoryEntry, MediaKey, TierItem, TierName, TierPlacement, TierlistState } from "./types";
 
 export const TIERS: TierName[] = ["S", "A", "B", "C", "D"];
 
@@ -57,6 +57,11 @@ export function ranksFor(
       const placement = submissions[name].find((p) => p.key === key);
       return placement ? [{ name, tier: placement.tier }] : [];
     });
+}
+
+/** The tierlist (and comments) key of a TMDB film. */
+export function keyForMedia(media: MediaKey): string {
+  return `${media.media_type}:${media.tmdb_id}`;
 }
 
 /** The tierlist key of a history entry — mirrors the API's `keyForHistory`. */
