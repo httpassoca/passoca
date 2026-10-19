@@ -37,7 +37,7 @@ const config = {
   ],
   extensions: [".svelte", ".md", ".svx"],
   kit: {
-    adapter: adapter({ runtime: "nodejs20.x" }),
+    adapter: adapter({ runtime: "nodejs24.x" }),
     // hydrate the <div id="svelte"> element in src/app.html
   },
 };
