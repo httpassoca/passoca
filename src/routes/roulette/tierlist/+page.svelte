@@ -16,6 +16,7 @@
     NAME_KEY,
     PW_KEY,
     type CommentsByMedia,
+    type HistoryEntry,
     type MediaKey,
     type RouletteClient,
     type TierlistSnapshot,
@@ -32,6 +33,7 @@
   let detailsFor = $state<MediaKey | null>(null);
   let snapshots = $state<TierlistSnapshot[]>([]);
   let comments = $state<CommentsByMedia>({});
+  let history = $state<HistoryEntry[]>([]);
   let generalOpen = $state(false);
   let timelineOpen = $state(false);
   let loaded = $state(false);
@@ -67,6 +69,7 @@
       }),
       c.tierlistSnapshots.subscribe((s) => (snapshots = s)),
       c.comments.subscribe((cm) => (comments = cm)),
+      c.history.subscribe((h) => (history = h)),
       c.identity.subscribe((id) => {
         if (!id) return;
         // Wrong admin password: treat as not identified; ranking stays locked.
@@ -146,6 +149,7 @@
         {admin}
         {comments}
         submissions={tierState.submissions}
+        {history}
       />
     </MediaDetails>
   {/if}

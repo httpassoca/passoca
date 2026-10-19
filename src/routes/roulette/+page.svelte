@@ -466,6 +466,7 @@
         {admin}
         {comments}
         submissions={tierState.submissions}
+        {history}
       />
     </MediaDetails>
   {/if}

@@ -61,6 +61,8 @@ export interface RouletteClient {
   setSnapshotHidden(id: string, hidden: boolean): void;
   /** Comments as the identified name on the film with this media key. */
   addComment(key: string, body: string): void;
+  /** Own comments only — the admin can delete but not reword. */
+  editComment(id: string, body: string): void;
   /** Own comments only; the admin can remove any. */
   removeComment(id: string): void;
 
@@ -153,6 +155,7 @@ export function createRouletteClient(apiUrl: string): RouletteClient {
     removeUser: (name, wipe) => socket.emit("user:remove", { name, wipe }),
     setSnapshotHidden: (id, hidden) => socket.emit("tierlist:snapshot_hide", { id, hidden }),
     addComment: (key, body) => socket.emit("comment:add", { key, body }),
+    editComment: (id, body) => socket.emit("comment:edit", { id, body }),
     removeComment: (id) => socket.emit("comment:remove", { id }),
 
     onError: (cb) => {

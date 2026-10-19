@@ -2,10 +2,13 @@
   import { Avatar, Badge, Button, Textarea } from "dssoca";
   import { m } from "$lib/paraglide/messages";
   import {
+    TIERS,
     TIER_COLORS,
+    keyForHistory,
     keyForMedia,
     ranksFor,
     type CommentsByMedia,
+    type HistoryEntry,
     type MediaKey,
     type RouletteClient,
     type TierlistState,
@@ -18,6 +21,7 @@
     admin,
     comments,
     submissions,
+    history,
   }: {
     client: RouletteClient | null;
     media: MediaKey;
@@ -27,14 +31,34 @@
     admin: boolean;
     comments: CommentsByMedia;
     submissions: TierlistState["submissions"];
+    /** Only films in the history (i.e. watched) take new comments. */
+    history: HistoryEntry[];
   } = $props();
 
   const key = $derived(keyForMedia(media));
   const list = $derived(comments[key] ?? []);
-  const ranks = $derived(ranksFor(key, submissions));
+  // Highest tier first; ranksFor's name order breaks ties.
+  const ranks = $derived(
+    ranksFor(key, submissions).sort((a, b) => TIERS.indexOf(a.tier) - TIERS.indexOf(b.tier))
+  );
+  const watched = $derived(history.some((h) => keyForHistory(h) === key));
   const tierOf = $derived(new Map(ranks.map((r) => [r.name, r.tier])));
 
   let draft = $state("");
+  let editingId = $state<string | null>(null);
+  let editDraft = $state("");
+
+  function startEdit(id: string, body: string) {
+    editingId = id;
+    editDraft = body;
+  }
+
+  function saveEdit() {
+    const body = editDraft.trim();
+    if (!body || !client || !editingId) return;
+    client.editComment(editingId, body);
+    editingId = null;
+  }
 
   function post() {
     const body = draft.trim();
@@ -47,6 +71,16 @@
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
       post();
+    }
+  }
+
+  function oneditkeydown(e: KeyboardEvent) {
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      saveEdit();
+    } else if (e.key === "Escape") {
+      e.stopPropagation();
+      editingId = null;
     }
   }
 
@@ -93,20 +127,52 @@
                 <Badge tone="neutral">{m.roulette_comments_ranked({ tier })}</Badge>
               {/if}
               <time class="when" datetime={c.created_at}>{fmt(c.created_at)}</time>
+              {#if c.edited_at}
+                <span class="when" title={fmt(c.edited_at)}>· {m.roulette_comments_edited()}</span>
+              {/if}
+              {#if c.author === name && editingId !== c.id}
+                <Button variant="ghost" size="sm" onclick={() => startEdit(c.id, c.body)}>
+                  {m.roulette_comments_edit()}
+                </Button>
+              {/if}
               {#if admin || c.author === name}
                 <Button variant="ghost" size="sm" onclick={() => client?.removeComment(c.id)}>
                   {m.roulette_comments_delete()}
                 </Button>
               {/if}
             </div>
-            <p class="body">{c.body}</p>
+            {#if editingId === c.id}
+              <div class="form">
+                <Textarea
+                  label={m.roulette_comments_label()}
+                  bind:value={editDraft}
+                  rows={2}
+                  autosize
+                  maxRows={8}
+                  maxlength={2000}
+                  onkeydown={oneditkeydown}
+                />
+                <div class="actions">
+                  <Button variant="ghost" size="md" onclick={() => (editingId = null)}>
+                    {m.roulette_comments_cancel()}
+                  </Button>
+                  <Button size="md" disabled={!editDraft.trim()} onclick={saveEdit}>
+                    {m.roulette_comments_save()}
+                  </Button>
+                </div>
+              </div>
+            {:else}
+              <p class="body">{c.body}</p>
+            {/if}
           </div>
         </li>
       {/each}
     </ul>
   {/if}
 
-  {#if name && client}
+  {#if !watched}
+    <p class="empty">{m.roulette_comments_unwatched()}</p>
+  {:else if name && client}
     <div class="form">
       <Textarea
         label={m.roulette_comments_label()}
@@ -157,6 +223,7 @@
   display: flex
   flex-wrap: wrap
   gap: 6px 14px
+  margin-bottom: 10px
 
 .rank
   display: inline-flex
@@ -236,4 +303,5 @@
 .actions
   display: flex
   justify-content: flex-end
+  gap: 6px
 </style>

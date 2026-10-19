@@ -68,6 +68,8 @@ export type MediaComment = {
   author: string;
   body: string;
   created_at: string;
+  /** Last edit time; null if never edited. */
+  edited_at: string | null;
 };
 
 /** Every film's comments, by media key, oldest first. */
